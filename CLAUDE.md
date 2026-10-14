@@ -10,9 +10,10 @@ Modo aventura de Eromash hecho en **Godot 4.7.2** (GDScript, renderer Forward+).
 
 ## Estructura
 
-- `escenas/` — escenas `.tscn`. La de arranque es `escenas/principal.tscn`.
-- `scripts/` — scripts `.gd`, con el mismo nombre que la escena que usan.
-- `assets/` — `modelos/` (`.glb`), `texturas/`, `audio/`, `marca/`.
+- `escenas/` — escenas `.tscn`. La de arranque es `escenas/principal.tscn`: arma todo el MVP por código desde `scripts/mundo/eldervald.gd`.
+- `scripts/` — `autoload/` (Juego, Calidad, Controles, Sonido, Captura), `mundo/`, `personajes/`, `interaccion/`, `interfaz/`, `pruebas/`. El mapa completo de archivos, los controles y qué es provisorio están en `docs/mvp.md`.
+- `assets/` — `modelos/` (`.glb`; `kit/` son los MegaKit de Quaternius en glTF), `texturas/`, `audio/`, `marca/`, `sombreadores/`, `interfaz/`.
+- `textos/textos.csv` — todos los textos ES/EN (se genera con `herramientas/textos.py`).
 - `herramientas/` — scripts de ayuda que se corren desde la línea de comandos.
 - `docs/` — diseño, historia, mapas y referencias.
 - `.godot/` es caché del editor: no se sube.
@@ -34,6 +35,7 @@ Nombre del juego: **EROMASH: Las Runas del Olvido** (ES) / **EROMASH: Whisper of
 | Misiones del MVP (cadena 1–7 de Eldervald), geografía, objetos, orden de construcción, qué queda afuera | `docs/misiones-principales-eldervald.md` (especificación, no contenido ya hecho) |
 | Historia completa y las 13 cinemáticas, con los cambios que mandan arriba de todo | `docs/historia-y-cinematicas.md` |
 | Cómo se mueve y se comporta el héroe, con los números del prototipo | `docs/personaje-heroe.md` |
+| Cómo está armado el MVP (archivos, controles, animaciones compartidas, provisorios, pruebas sin pantalla) | `docs/mvp.md` |
 | Mapas: mundo, Eldervald, regiones, Valdheim | `docs/mapas/` |
 | Referencias de Eromash (vistas, poses, Tripo) y de objetos a modelar | `docs/referencias/` |
 
@@ -62,6 +64,7 @@ Nombre del juego: **EROMASH: Las Runas del Olvido** (ES) / **EROMASH: Whisper of
 Godot 4.7.2 corre también en Linux sin pantalla, así que un cambio visual se puede revisar con una captura antes de darlo por hecho:
 
 - importar: `godot --headless --path . --import`
+- captura de una etapa del MVP: `herramientas/capturar.sh res://escenas/principal.tscn salida.png 45 1280 720 --guion=claro` (lista de guiones en `docs/mvp.md`; cada proceso usa ~3 GB, correr de a uno)
 - captura: `xvfb-run -a -s "-screen 0 1920x1080x24" godot --path . --rendering-driver vulkan --resolution 1920x1080 -- --captura=/ruta/salida` (Vulkan por software con `mesa-vulkan-drivers`; la escena lee `--captura` y guarda el cuadro con `get_viewport().get_texture().get_image().save_png(...)`).
 
 ## Trabajo en paralelo

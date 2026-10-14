@@ -15,6 +15,14 @@ config/description="Modo aventura de Eromash: mundo abierto 3D, fantasía nórdi
 run/main_scene="res://escenas/principal.tscn"
 config/features=PackedStringArray("4.7", "Forward Plus")
 
+[autoload]
+
+Calidad="*res://scripts/autoload/calidad.gd"
+Controles="*res://scripts/autoload/controles.gd"
+Juego="*res://scripts/autoload/juego.gd"
+Captura="*res://scripts/autoload/captura.gd"
+Sonido="*res://scripts/autoload/sonido.gd"
+
 [display]
 
 window/size/viewport_width=1920
@@ -24,3 +32,18 @@ window/size/mode=2
 [rendering]
 
 anti_aliasing/quality/msaa_3d=2
+
+[internationalization]
+
+locale/translations=PackedStringArray("res://textos/textos.es.translation", "res://textos/textos.en.translation")
+
+[shader_globals]
+
+pos_heroe={
+"type": "vec3",
+"value": Vector3(0, 0, 0)
+}
+pos_camara={
+"type": "vec3",
+"value": Vector3(0, 30, 30)
+}
