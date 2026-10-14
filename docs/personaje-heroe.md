@@ -1,0 +1,104 @@
+# Eromash: el personaje jugable
+
+Cómo se mueve y se comporta el héroe. Sale del prototipo anterior (three.js, `aventura/src/personaje/completo.js` del repo de la arena), que ya estaba ajustado a mano y probado: **en Godot se rehace igual**, con estos mismos números, salvo que Alejandro pida cambiarlos.
+
+## Modelo
+
+- Archivo: `assets/modelos/personaje/eromash-completo.glb` (hecho con Tripo y armado en Blender).
+- Esqueleto Mixamo de 65 huesos (en Godot: `mixamorig_Hips`, `mixamorig_HeadTop_End`, etc.).
+- Mallas: `eromash` (cuerpo), `espada`, `escudo`, `relleno`, y dos copias que **no se dibujan**: `espada_guardada` (cadera, un poco el muslo, como una vaina que cuelga) y `escudo_guardado` (espalda). Solo dicen dónde va cada arma cuando está guardada, cuadro a cuadro. Si traen el dato `ajuste` (matriz 4×4 en los extras del nodo, hecha en Blender) se usa esa transformación de la mano al lugar de guardado; si no, se calcula con cuatro vértices bien separados (mismo orden de vértices en las dos mallas) y se verifica con el resto.
+- Altura en el juego: 1,85 m. Escalar por las posiciones de reposo de los huesos (cabeza y punta del pie), no por la malla: en el archivo tienen escalas distintas.
+- Piezas sueltas de equipo para el sistema de armaduras: `assets/modelos/personaje/` (casco, capa, pechera, brazo, botas, espada, escudo).
+- El casco es **siempre la E oficial rotada, con las tres puntas arriba** (`assets/marca/casco-e.svg`). Nunca se pierde ni se deforma.
+
+### Animaciones del archivo (34)
+
+abrir_cofre, abrir_puerta, ataque, ataque2, beber, bloquear, bloqueo, caminar, caminar_armado, correr, correr_armado, descanso, descanso2, desenvainar, envainar, golpe, golpe2, golpe3, grito, guardia, guardia_mirar, guardia_mirar2, hechizo, levantar, levantar_armado, mecanismo, morir, palanca, patada, salto_armado, salto_libre, soltar_bloqueo, tomar, trepar.
+
+- **Se reproducen una vez** (no en bucle): ataque, ataque2, patada, bloquear, soltar_bloqueo, golpe/2/3, morir, grito, hechizo, envainar, desenvainar, guardia_mirar/2, descanso/2, salto_libre, salto_armado, trepar y todas las interacciones.
+- **Sin avance propio** (lo pone el juego): ataque, ataque2, patada, bloquear, golpe/2/3, grito, hechizo, envainar, desenvainar, los dos saltos y todas las interacciones. Se saca **solo el avance que la animación acumula de punta a punta**, sin recentrar la cadera: los golpes de Mixamo empiezan y terminan en la guardia, y recentrarlos hace que los pies se deslicen al volver.
+- **Caminar y correr**: se les saca el avance hacia adelante y la velocidad de reproducción se ajusta a la velocidad real (velocidad / velocidad natural del clip), entre 0,6× y 2,2×.
+- Al importar se pueden descartar las pistas de escala y posición que no cambian en todo el clip (Blender las exporta para los 65 huesos y son dos tercios de las pistas).
+
+## Dos modos
+
+- **ARMADO**: espada en la mano derecha y escudo en la izquierda. Quieto respira en guardia; a los 6 s mira a los costados (`guardia_mirar` o `guardia_mirar2` al azar); si sigue quieto 4 s más, envaina solo. Camina y corre en guardia (`caminar_armado`, `correr_armado`), ataca y bloquea.
+- **LIBRE**: espada colgada en la cadera izquierda y escudo en la espalda. Descansa con `descanso`/`descanso2` que rotan al azar (70 % de cambiar a la otra al terminar), camina y corre más suelto, e interactúa con el mundo.
+- Atacar o bloquear sin armas las saca primero (rápido); interactuar armado las guarda primero, salvo las interacciones que tienen variante armada (`levantar` → `levantar_armado`).
+- Tras atacar o bloquear hay **5 s de combate**: se queda en guardia sin mirar a los costados ni envainar.
+- Moverse corta el mirar a los costados.
+
+## Armas: envainar y desenvainar
+
+Las armas son mallas rígidas que pasan de la mano a su lugar de guardado con una transición corta (0,22 s) en el momento justo en que la mano llega a la vaina o a la espalda. Segundos del clip, medidos en Blender:
+
+| Clip | Escudo | Espada |
+|---|---|---|
+| envainar | 1,2 | 1,25 |
+| desenvainar | 0,31 | 0,5 |
+
+Cuando guarda o saca para hacer otra cosa (atacar, interactuar) va 1,5× más rápido.
+
+## Movimiento
+
+| Constante | Valor |
+|---|---|
+| Caminar | 2,4 m/s |
+| Correr (sprint) | 6,5 m/s |
+| Giro hacia donde camina | 12 (amortiguado) |
+| Gravedad | 24 m/s² |
+| Altura del salto | 1,3 m |
+| Aceleración | amortiguado a 10 |
+| Bloqueando | 0,3× de caminar |
+
+- Pasa a la animación de correr desde 3,2 m/s; por debajo de 0,35 m/s está quieto.
+- Si sale por un borde más alto que 0,45 m, cae con gravedad (usa el clip de salto desde la mitad del vuelo).
+
+## Salto
+
+El clip **sigue a la física**: no se reproduce solo, se lo pone en el segundo que corresponde según el tiempo en el aire.
+
+| Clip | Aire (del impulso al toque) | Suelo (amortiguar) | Duración del amortiguar |
+|---|---|---|---|
+| salto_libre | 0,38 → 1,08 | 1,08 → 1,67 | 0,45 s |
+| salto_armado | 0,17 → 0,79 | 0,79 → 0,96 | 0,2 s |
+
+En el aire: `tiempo = aire[0] + (t_aire / vuelo) × (aire[1] − aire[0])`, con `vuelo = 2·√(2·g·h) / g`. Al tocar el piso: recorre el tramo de suelo durante el amortiguar. Usa el clip armado o libre según el modo.
+
+## Ataque
+
+- Combo de dos golpes: `ataque` y, si se vuelve a atacar dentro de **1,2 s** de terminar el anterior, `ataque2`.
+- Velocidad de reproducción 1,15; se puede mover a **0,35×** mientras ataca; fundido 0,08 s.
+- Un clic durante el golpe queda pedido y encadena el siguiente al terminar.
+- Patada (prueba): se mueve a 0,2×.
+
+## Bloqueo
+
+- Mientras se mantiene el botón: `bloquear` (entrada), después `bloqueo` en bucle; al soltar, `soltar_bloqueo` (vuelve a la guardia dando el paso con el pie que retrocedió, sin arrastrarlo).
+- Se mueve a 0,3× de caminar.
+
+## Interacciones
+
+Se para frente al objeto (a la distancia que define el objeto), mirándolo, y queda quieto. Cada objeto dice qué animación usa y en qué segundo pasa lo suyo (se abre el cofre, baja la palanca…).
+
+Recorte de cada clip (segundos del archivo, sin la espera quieta de Mixamo):
+
+| Clip | Desde | Hasta | Velocidad |
+|---|---|---|---|
+| levantar | 0,79 | 4,13 | 2,4× |
+| levantar_armado | 0,79 | 4,13 | 2,4× |
+| tomar | 0,13 | 4,46 | 1× |
+| abrir_cofre | 0,71 | 4,04 | 1× |
+| abrir_puerta | 0,04 | 4,46 | 1× |
+| palanca | 0,71 | 4,71 | 1× |
+| mecanismo | 0,13 | 6,33 | 1× |
+| beber | 1,88 | 5,79 | 1× |
+
+**Trepar**: la animación sube el cuerpo entero; al terminar, la raíz se mueve a donde quedó la cadera (x, z) y a la altura de la repisa, y arranca el descanso **sin fundido** (la pose anterior está armada sobre la raíz de abajo).
+
+## Otros
+
+- Recibir golpe: `golpe`, `golpe2` o `golpe3` al azar, quieto, fundido 0,06.
+- Morir: `morir` con fundido 0,15; se queda tirado hasta revivir (vuelve a guardia o descanso con fundido 0,4).
+- `grito` y `hechizo`: quieto, sacan las armas si hace falta.
+- Mientras muere o trepa no se aceptan entradas; mientras está en el aire no ataca, ni bloquea ni interactúa.
