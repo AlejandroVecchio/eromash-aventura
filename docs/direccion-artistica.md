@@ -4,7 +4,7 @@ Fecha: 2026-10-14. Alcance: modo aventura, conceptos y mapas regionales. Documen
 
 ## Estado y autoridad
 
-Decisiones expresas del usuario: tono algo oscuro con referencias Diablo 3 y 4; estética animada con referencia Ni no Kuni II; Eldervald es un bosque denso con poca luz solar, hongos luminosos, faroles de camino y piedras rúnicas como fuentes importantes de iluminación. Se conserva la lectura clara del mapa y el detalle concentrado en lugares de interés.
+Decisiones expresas del usuario: tono algo oscuro con referencias Diablo 3 y 4; estética animada con referencia Ni no Kuni II; Eldervald es un bosque denso con poca luz solar, hongos luminosos, faroles de camino y piedras rúnicas como fuentes importantes de iluminación; la luz rúnica que emana (azul como color principal) es la firma visual del juego en todas las regiones, ver 5b. Se conserva la lectura clara del mapa y el detalle concentrado en lugares de interés.
 
 Las reglas visuales de este documento concretan esa dirección como base de trabajo. Los nombres de especies, su biología y el bestiario nuevo son propuestas de diseño pendientes de validación narrativa. No presentar esos elementos como mitología nórdica histórica ni como decisiones previas del usuario. La propuesta principal de población es humana; no cambiar la especie de personajes ya descritos sin acuerdo.
 
@@ -67,6 +67,43 @@ Paleta inicial orientativa para escenas, no reemplazo de UI: sombra azul verdosa
 
 Reglas de composición: ambiente dominante apagado, pocos focos narrativos, brillo máximo reservado a eventos importantes. No bañar cada escena en cyan y magenta. Las luces del ambiente no reemplazan códigos de ataques, parry, botín o rareza. Forma, animación e iconos complementan siempre al color.
 
+## 5b. Luz rúnica: el sello del juego
+
+Decisión de Alejandro (14/10/2026): el juego es una fantasía **orientada a las runas**. Las runas emanan luz de color, y esa luz es la firma visual de EROMASH: alguien que ve una captura tiene que reconocer el juego por ella. Se explota en todo el juego y en el diseño del mapa, no solo en Eldervald.
+
+**El azul rúnico es el color principal.** Base `#73D5DB` (la "runa fría" de la paleta), con núcleo casi blanco `#D8F6F7` y borde más profundo `#2F8FA0` para el halo. Es la luz de las runas sanas, de la magia de los antiguos guardianes y de todo lo que reconoce a Eromash.
+
+Cómo se ve:
+- **Emana, no solo brilla.** La luz sale de los surcos tallados y se derrama: ilumina la piedra alrededor, el suelo, el musgo, la niebla baja y a los personajes que pasan cerca. Un símbolo que brilla sin iluminar nada no alcanza.
+- **Respira.** Pulso lento y suave (no parpadeo). Motas de luz que suben despacio desde las runas fuertes. Al acercarse Eromash, la runa se aviva un poco: lo reconoce.
+- **Contraste de luces.** El mundo sigue oscuro y apagado. El azul rúnico es frío y mágico; el ámbar de faroles y refugios es cálido y humano. Esa pareja es la base de todas las escenas: la gente vive en el ámbar, lo antiguo habla en azul.
+- **Se lee a distancia.** Las runas son faros para orientarse: desde la cámara alta, un azul a lo lejos dice "ahí hay algo antiguo".
+
+Dónde aparece (explotar la fantasía en muchos aspectos):
+- **Mapa:** piedras rúnicas como hitos y faros de orientación; restos de una calzada antigua con runas que se encienden al pasar; ruinas, puentes, pedestales y santuarios con surcos de luz; caminos rúnicos que guían hacia lugares importantes.
+- **Escenario:** losas, menhires, columnas y dinteles tallados; agua que refleja la luz rúnica; raíces de lugares sagrados con vetas de luz.
+- **Personajes y criaturas:** guardianes (custodio, Ciervo Hueco) con núcleos y huecos de luz azul que se apagan al debilitarse; el azul que se escapa de una criatura es su vida.
+- **Objetos y herramientas:** la Lente del Eco, el Núcleo de la Linde, el sello del Santuario.
+- **Eromash:** cuando habla con una runa o usa algo rúnico, la luz lo toca a él. Sin cambiar el casco ni el diseño reconocible del héroe.
+- **Interfaz y efectos:** revelar con la lente, descubrir un lugar, guardar partida en una piedra, subir de nivel: todo pasa por el azul rúnico.
+
+**Otros colores rúnicos.** El azul es el principal; otros colores se suman cuando significan algo distinto, siempre con la misma forma de emanar. Propuesta inicial, a validar con Alejandro antes de usar cada uno:
+
+| Color | Base | Significa (propuesta) |
+|---|---|---|
+| Azul rúnico | `#73D5DB` | Runas sanas, magia antigua, guardianes, lo que reconoce a Eromash. **Principal.** |
+| Violeta | `#AC87C5` | Ataduras y lo que se le prendió al bosque (Ciervo Hueco, soportes del Claro). |
+| Verde fatuo | `#8FE3A1` | Fuego fatuo: la llama que consume las zarzas del santuario (contenido futuro). |
+| Ámbar rúnico | `#E9B765` | Runas de los pueblos: protección doméstica, faroles bendecidos. Comparte color con la luz de refugio. |
+| Rojo brasa | `#E0603C` | Reservado a Helheim y lo que viene de ahí. Usarlo poco. |
+
+Reglas técnicas:
+- En las imágenes de referencia y las texturas de Tripo, las zonas rúnicas van en **color claro y liso, sin brillo pintado**. La luz la pone Godot (material emisivo + luz local + partículas), así se controla, se anima y se ajusta por calidad.
+- La runa tiene que **iluminar de verdad** lo que la rodea: emisivo más una luz local (o luz precomputada en lo estático). El emisivo solo no ilumina el suelo.
+- Calidad baja conserva el color y una luz local simple; apaga motas, niebla iluminada y bloom. La runa se sigue leyendo sin efectos caros.
+- No reemplaza códigos de juego: un ataque, el parry o la rareza del botín no se marcan con azul rúnico.
+- Equilibrio: el azul es protagonista porque el resto es oscuro. No llenar la pantalla de azul ni encender todo a la vez; las runas débiles o apagadas también cuentan historia.
+
 ## 6. Habitantes: propuesta de población
 
 Población principal: humanos de cultura forestal, llamados provisionalmente elderianos por pertenencia a Eldervald. Es una identidad cultural, no una especie mágica. Mantiene coherencia con Eydis, Orm y Svanhild y permite viajeros de otros reinos.
@@ -110,7 +147,7 @@ Bestiario de trabajo, pendiente de validar:
 - Errante de Helheim (intruso): figura humana estrecha, ropa funeraria ajena al bosque, placas de hierro mate, rostro seco y pálido; marcha quebrada. Evitar detalles de vísceras como lectura principal.
 - Hilandera del duelo (intrusa): silueta alta con velo rasgado y manos largas; crea las ataduras espirituales en la propuesta narrativa. Introducir primero sus rastros y luego su presencia. No hacer que revele al parásito ni convertirla en segundo jefe obligatorio.
 
-Ciervo Hueco: jefe confirmado en la cadena de trabajo. Cuerpo enorme, cornamenta arquitectónica, pelaje ceniza con musgo seco, núcleo pétreo entre las astas. Hundimientos sugeridos por forma y sombra; raíces y ataduras sustituyen gore explícito. Debe conservar la dignidad de un antiguo protector. Embestida, preparación y exposición legibles; remitir a docs/jefes.md para reglas de combate, sin modificar aquí números ni comportamiento aprobado.
+Ciervo Hueco: jefe confirmado en la cadena de trabajo. Cuerpo enorme, cornamenta arquitectónica, pelaje ceniza con musgo seco, núcleo pétreo entre las astas (es el Núcleo de la Linde). Hundimientos sugeridos por forma y sombra, con luz azul rúnica espectral que emana desde el fondo de los huecos: es su vida que se escapa, y se apaga al caer; los hilos de las ataduras son violeta; raíces y ataduras sustituyen gore explícito. Debe conservar la dignidad de un antiguo protector. Embestida, preparación y exposición legibles; remitir a docs/jefes.md para reglas de combate, sin modificar aquí números ni comportamiento aprobado.
 
 Para el MVP recomendar tres enemigos comunes (lobo, custodio, errante) y el ciervo. Las otras criaturas quedan para expansión de contenido; no solicitar modelos o IA automáticamente. Diferenciar especie, rol y amenaza por silueta y animación antes que por color.
 

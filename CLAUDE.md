@@ -48,6 +48,7 @@ Nombre del juego: **EROMASH: Las Runas del Olvido** (ES) / **EROMASH: Whisper of
 
 ## Reglas de Alejandro
 
+- **La luz rúnica es la firma del juego**: fantasía orientada a las runas, que emanan luz de color (azul rúnico `#73D5DB` como principal; otros colores solo con significado). Se explota en el mapa, el escenario, las criaturas, los objetos y la interfaz. Reglas y colores en `docs/direccion-artistica.md`, sección 5b.
 - **La E nunca se pierde**: no se deforma, no se rompe, Eromash no se saca el casco. En la aventura tiene cuerpo completo.
 - **Usar primero el material que ya existe** (este repo, el de la arena, lo que Alejandro pasó) antes de inventar o generar algo nuevo.
 - **No adelantarse**: no construir lo que no se pidió ni se aprobó; si falta material, pedirlo. Para algo grande, acordar el plan antes.
