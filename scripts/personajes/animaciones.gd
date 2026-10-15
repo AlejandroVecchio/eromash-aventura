@@ -23,6 +23,8 @@ static func biblioteca_hero() -> AnimationLibrary:
 	_biblioteca = AnimationLibrary.new()
 	for nombre in ap.get_animation_list():
 		var a: Animation = ap.get_animation(nombre).duplicate(true)
+		if nombre == "caminar":
+			brazo_izquierdo_espejado(a)
 		if nombre in CAMINAN:
 			_velocidad_natural[nombre] = sacar_avance(a)
 			a.loop_mode = Animation.LOOP_LINEAR
@@ -127,6 +129,27 @@ static func _transform_relativo(hijo: Node3D, raiz: Node3D) -> Transform3D:
 			t = (p as Node3D).transform * t
 		p = p.get_parent()
 	return t
+
+
+## En el clip de caminar sin armas el brazo izquierdo se cruza adelante del cuerpo y la mano se mete en la
+## espada guardada. Se reemplaza por el brazo derecho espejado y corrido medio ciclo (los brazos van alternados).
+static func brazo_izquierdo_espejado(a: Animation) -> void:
+	for hueso in ["Shoulder", "UpperArm", "LowerArm", "Hand"]:
+		var der := a.find_track(NodePath("%GeneralSkeleton:Right" + hueso), Animation.TYPE_ROTATION_3D)
+		var izq := a.find_track(NodePath("%GeneralSkeleton:Left" + hueso), Animation.TYPE_ROTATION_3D)
+		if der < 0 or izq < 0:
+			continue
+		var tiempos: Array[float] = []
+		for i in a.track_get_key_count(der):
+			tiempos.append(a.track_get_key_time(der, i))
+		var claves: Array[Quaternion] = []
+		for t in tiempos:
+			var q := a.rotation_track_interpolate(der, fmod(t + a.length * 0.5, a.length))
+			claves.append(Quaternion(q.x, -q.y, -q.z, q.w))
+		for i in range(a.track_get_key_count(izq) - 1, -1, -1):
+			a.track_remove_key(izq, i)
+		for i in tiempos.size():
+			a.rotation_track_insert_key(izq, tiempos[i], claves[i])
 
 
 ## Saca el avance horizontal de la cadera de punta a punta y devuelve la velocidad natural del clip.

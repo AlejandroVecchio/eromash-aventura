@@ -99,8 +99,62 @@ func _cargar_modelo() -> void:
 	var metros_cadera := esq.motion_scale * modelo.scale.x
 	for n in Animaciones.CAMINAN:
 		_pasos_natural[n] = Animaciones.velocidad_natural(n) * metros_cadera
+	_arreglar_vaina(esq)
 	_armas(true)
 	anim.play("guardia")
+
+
+## La espada guardada viene pesada a medias entre la cadera y el muslo izquierdo, justo donde cuelga la mano:
+## al caminar sin armas la mano se metía en la empuñadura. Se la deja firme en la cadera y un poco más atrás
+## y afuera, como una vaina colgada del cinturón.
+const VAINA_ATRAS := 0.11   # m
+const VAINA_AFUERA := 0.05  # m
+
+
+func _arreglar_vaina(esq: Skeleton3D) -> void:
+	var mi := _mallas.get("espada_guardada") as MeshInstance3D
+	if mi == null or mi.skin == null or not (mi.mesh is ArrayMesh):
+		return
+	var cadera_bind := -1
+	for i in mi.skin.get_bind_count():
+		if mi.skin.get_bind_name(i) == &"Hips":
+			cadera_bind = i
+	var hips := esq.find_bone("Hips")
+	var pierna := esq.find_bone("LeftUpperLeg")
+	var pie := esq.find_bone("LeftFoot")
+	var dedos := esq.find_bone("LeftToes")
+	if cadera_bind < 0 or hips < 0 or pierna < 0 or pie < 0 or dedos < 0:
+		return
+	# direcciones en el espacio del esqueleto: afuera (de la cadera al muslo izquierdo) y atrás (contra los dedos)
+	var afuera := esq.get_bone_global_rest(pierna).origin - esq.get_bone_global_rest(hips).origin
+	var adelante := esq.get_bone_global_rest(dedos).origin - esq.get_bone_global_rest(pie).origin
+	afuera.y = 0.0
+	adelante.y = 0.0
+	if afuera.length() < 0.0001 or adelante.length() < 0.0001:
+		return
+	# unidades del esqueleto por metro del mundo (la malla está en el mismo espacio que el esqueleto)
+	var metro := 1.0 / maxf(esq.global_transform.basis.get_scale().x, 0.0001)
+	var corrida := (afuera.normalized() * VAINA_AFUERA - adelante.normalized() * VAINA_ATRAS) * metro
+	var vieja := mi.mesh as ArrayMesh
+	var nueva := ArrayMesh.new()
+	for sup in vieja.get_surface_count():
+		var a := vieja.surface_get_arrays(sup)
+		var v: PackedVector3Array = a[Mesh.ARRAY_VERTEX]
+		for i in v.size():
+			v[i] += corrida
+		a[Mesh.ARRAY_VERTEX] = v
+		var b: PackedInt32Array = a[Mesh.ARRAY_BONES]
+		var w: PackedFloat32Array = a[Mesh.ARRAY_WEIGHTS]
+		var por_vertice := b.size() / maxi(v.size(), 1)
+		for i in v.size():
+			for k in por_vertice:
+				b[i * por_vertice + k] = cadera_bind if k == 0 else 0
+				w[i * por_vertice + k] = 1.0 if k == 0 else 0.0
+		a[Mesh.ARRAY_BONES] = b
+		a[Mesh.ARRAY_WEIGHTS] = w
+		nueva.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, a, [], {}, Mesh.ARRAY_FLAG_USE_8_BONE_WEIGHTS if por_vertice == 8 else 0)
+		nueva.surface_set_material(sup, vieja.surface_get_material(sup))
+	mi.mesh = nueva
 
 
 ## Muestra las armas en la mano o guardadas (cadera y espalda).

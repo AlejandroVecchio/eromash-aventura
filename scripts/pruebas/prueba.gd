@@ -17,6 +17,7 @@ const ETAPAS := {
 	"salto": [0, [], "puesto", 0.6, 0.0],
 	"campamento": [0, [], "inicio", 0.5, 0.55],
 	"cerca": [0, [], "puesto", 0.6, -0.4],
+	"sin_armas": [0, [], "puesto", 2.0, -0.35],
 	"camara_baja": [0, [], "puesto", 2.4, 0.2],
 	"aserradero": [6, [], "aserradero", 0.8, 0.5],
 	"santuario": [6, [], "santuario", 1.1, 0.35],
@@ -76,6 +77,14 @@ static func preparar(mundo: Eldervald) -> void:
 		var c := Datos.m(350, 795) + Vector2(-9, 4)
 		mundo.heroe.global_position = Vector3(c.x, mundo.terreno.altura(c.x, c.y) + 0.5, c.y)
 		mundo.camara.global_position = mundo.heroe.global_position
+	if g == "sin_armas":
+		# Eromash con las armas guardadas, caminando: fotos a lo largo de un paso
+		mundo.heroe.armado = false
+		mundo.heroe._armas(false)
+		mundo.get_tree().create_timer(1.5).timeout.connect(func():
+			Input.action_press("mover_abajo")   # hacia la cámara: se ve de frente
+			for i in 6:
+				Captura.foto(Captura.salida.get_basename() + "_%d.png" % i, 4 + i * 3))
 	if g == "camara_baja":
 		mundo.camara._inclinar(-90.0)
 	if g == "claro" or g == "jefe":
