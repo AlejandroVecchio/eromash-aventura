@@ -47,7 +47,7 @@ Todos los humanoides (Eromash, Eydis, Orm, Svanhild, trabajadores, Errantes) com
 
 ## Qué es provisorio
 
-- **Ciervo Hueco**: armado con formas simples y el Núcleo real entre las astas. Si aparece `assets/modelos/enemigos/ciervo-hueco.glb`, se usa ese.
+- **Ciervo Hueco**: modelo de Tripo (`enemigos/ciervo-hueco.glb`) con los huecos azules de la textura encendidos como luz rúnica; patas, cabeza y cola animadas por código sobre su esqueleto hasta tener animaciones.
 - **Lente del Eco** (en mano) y **rueda del aserradero**: provisorios hechos por código.
 - Las cinemáticas son diálogos con fundido; no hay cámaras de cine todavía.
 - El mundo tarda en armarse (unos 20 s en una PC normal): falta optimizar el escenario y los NPC.
@@ -59,4 +59,4 @@ herramientas/revisar.sh                    # que compilen todos los scripts
 herramientas/capturar.sh res://escenas/principal.tscn salida.png 45 1280 720 --guion=claro --calidad=1
 ```
 
-Guiones: `inicio`, `puesto`, `sin_armas` (camina sin armas, de frente), `salto`, `cerca`, `carro`, `refugio`, `eikholt`, `casa`, `paso`, `claro`, `jefe` (pelea con el Ciervo ya empezada), `aserradero`, `santuario` (ponen la partida en ese punto) y `recorrido` (marca la cadena entera y saca una foto por misión). Cada proceso usa unos 3 GB: correr de a uno.
+Guiones: `inicio`, `puesto`, `sin_armas` (camina sin armas, de frente), `salto`, `cerca`, `carro`, `refugio`, `eikholt`, `casa`, `paso`, `claro`, `jefe` (pelea con el Ciervo ya empezada), `ciervo` (el Ciervo quieto, de cerca), `aserradero`, `santuario` (ponen la partida en ese punto) y `recorrido` (marca la cadena entera y saca una foto por misión). Cada proceso usa unos 3 GB: correr de a uno.

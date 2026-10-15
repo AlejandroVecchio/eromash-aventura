@@ -25,6 +25,7 @@ var _haz: MeshInstance3D
 var _entorno: Environment
 var _lugar_npc := {}
 var _avisado := {}
+var _reloj := 0.0   ## segundos de juego desde que se armó el mundo
 var _en_secuencia := false
 var _lugares_datos := Datos.lugares()   ## se arma una vez (antes se rearmaba el diccionario en cada cuadro)
 
@@ -551,6 +552,7 @@ func _giro_hacia(desde: Vector3, hacia: Vector3) -> float:
 
 
 func _process(dt: float) -> void:
+	_reloj += dt
 	if heroe == null:
 		return
 	for id in npcs:
@@ -603,9 +605,10 @@ func _zonas() -> void:
 
 
 func _avisar_una_vez(clave: String) -> void:
-	if _avisado.get(clave, 0.0) > Time.get_ticks_msec() / 1000.0:
+	# tiempo de juego, no de reloj: si el juego va lento el aviso no se repite de más
+	if _avisado.get(clave, -INF) > _reloj:
 		return
-	_avisado[clave] = Time.get_ticks_msec() / 1000.0 + 12.0
+	_avisado[clave] = _reloj + 12.0
 	hud.mostrar_mensaje(tr(clave))
 
 

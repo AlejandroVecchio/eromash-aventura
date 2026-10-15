@@ -18,6 +18,7 @@ const ETAPAS := {
 	"campamento": [0, [], "inicio", 0.5, 0.55],
 	"cerca": [0, [], "puesto", 0.6, -0.4],
 	"sin_armas": [0, [], "puesto", 2.0, -0.35],
+	"ciervo": [4, ["el01_acepto", "croquis_leido", "carro_visto", "orm_encontrado", "errantes_despejados", "piedra_puesta", "runa_refugio", "fragmento", "fragmento_entregado", "lente_prestada", "fragmento_examinado", "huella_patio", "lente", "eydis_paso", "pista_tablon", "pista_raiz", "pista_menhir", "eydis_claro"], "claro", 1.9, 0.12],
 	"camara_baja": [0, [], "puesto", 2.4, 0.2],
 	"aserradero": [6, [], "aserradero", 0.8, 0.5],
 	"santuario": [6, [], "santuario", 1.1, 0.35],
@@ -85,6 +86,11 @@ static func preparar(mundo: Eldervald) -> void:
 			Input.action_press("mover_abajo")   # hacia la cámara: se ve de frente
 			for i in 6:
 				Captura.foto(Captura.salida.get_basename() + "_%d.png" % i, 4 + i * 3))
+	if g == "ciervo":
+		# el Ciervo quieto en el Claro, visto de costado y de cerca (sin anclajes vistos: no se despierta)
+		mundo.heroe.global_position = mundo.ciervo.global_position + Vector3(7.5, 0.5, 2.0)
+		mundo.camara.global_position = mundo.ciervo.global_position + Vector3(3.5, 0, 1.0)
+		mundo.camara.objetivo = null
 	if g == "camara_baja":
 		mundo.camara._inclinar(-90.0)
 	if g == "claro" or g == "jefe":
