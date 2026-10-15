@@ -21,9 +21,11 @@ var particulas: GPUParticles3D
 var materiales: Array[ShaderMaterial] = []   ## materiales rúnicos de la malla, para avivarlos junto con la luz
 var _avivar := 0.0
 var _fase := randf() * TAU
+var _cerca := true   ## lo maneja el Activador: lejos de Eromash no late ni suelta motas
 
 
 func _ready() -> void:
+	add_to_group("despertable")
 	luz = OmniLight3D.new()
 	# Sobre el musgo verde el cian de la runa se ve verde: la luz que cae al piso va un poco más azul.
 	luz.light_color = Color(0.32, 0.66, 1.0) if color.is_equal_approx(AZUL) else color
@@ -77,12 +79,21 @@ func _crear_motas() -> void:
 	add_child(particulas)
 
 
+## La llama el Activador según la distancia a Eromash (ajuste "luces").
+func cercania(cerca: bool) -> void:
+	if cerca == _cerca:
+		return
+	_cerca = cerca
+	set_process(cerca)
+	_aplicar()
+
+
 func _aplicar() -> void:
 	if luz == null:
 		return
 	luz.visible = fuerza > 0.01
 	if particulas:
-		particulas.emitting = fuerza > 0.3 and Calidad.nivel >= Calidad.MEDIA
+		particulas.emitting = fuerza > 0.3 and Calidad.particulas_activas() and _cerca
 		particulas.amount = maxi(1, Calidad.cuantas(motas))
 	for m in materiales:
 		m.set_shader_parameter("fuerza", fuerza)

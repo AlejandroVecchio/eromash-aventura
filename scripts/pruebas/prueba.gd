@@ -16,6 +16,10 @@ const ETAPAS := {
 	"jefe": [4, ["el01_acepto", "croquis_leido", "carro_visto", "orm_encontrado", "errantes_despejados", "piedra_puesta", "runa_refugio", "fragmento", "fragmento_entregado", "lente_prestada", "fragmento_examinado", "huella_patio", "lente", "eydis_paso", "pista_tablon", "pista_raiz", "pista_menhir", "eydis_claro", "anclajes_vistos"], "claro", 0.0, 0.75],
 	"salto": [0, [], "puesto", 0.6, 0.0],
 	"campamento": [0, [], "inicio", 0.5, 0.55],
+	"cerca": [0, [], "puesto", 0.6, -0.4],
+	"sin_armas": [0, [], "puesto", 2.0, -0.35],
+	"ciervo": [4, ["el01_acepto", "croquis_leido", "carro_visto", "orm_encontrado", "errantes_despejados", "piedra_puesta", "runa_refugio", "fragmento", "fragmento_entregado", "lente_prestada", "fragmento_examinado", "huella_patio", "lente", "eydis_paso", "pista_tablon", "pista_raiz", "pista_menhir", "eydis_claro"], "claro", 1.9, 0.12],
+	"opciones": [0, [], "puesto", 0.6, 0.15],
 	"camara_baja": [0, [], "puesto", 2.4, 0.2],
 	"aserradero": [6, [], "aserradero", 0.8, 0.5],
 	"santuario": [6, [], "santuario", 1.1, 0.35],
@@ -47,6 +51,10 @@ static func _guion() -> String:
 ## Después de armar el mundo: ubica a Eromash y la cámara, y arranca lo que el guion pida.
 static func preparar(mundo: Eldervald) -> void:
 	var g := _guion()
+	if g == "rendimiento":
+		var m := Medicion.new(mundo)
+		mundo.add_child(m)
+		return
 	if g == "recorrido":
 		var r := Recorrido.new(mundo)
 		mundo.add_child(r)   # un nodo, para que viva mientras dura la prueba
@@ -75,6 +83,29 @@ static func preparar(mundo: Eldervald) -> void:
 		var c := Datos.m(350, 795) + Vector2(-9, 4)
 		mundo.heroe.global_position = Vector3(c.x, mundo.terreno.altura(c.x, c.y) + 0.5, c.y)
 		mundo.camara.global_position = mundo.heroe.global_position
+	if g == "sin_armas":
+		# Eromash con las armas guardadas, caminando: fotos a lo largo de un paso
+		mundo.heroe.armado = false
+		mundo.heroe._armas(false)
+		mundo.get_tree().create_timer(1.5).timeout.connect(func():
+			Input.action_press("mover_abajo")   # hacia la cámara: se ve de frente
+			for i in 6:
+				Captura.foto(Captura.salida.get_basename() + "_%d.png" % i, 4 + i * 3))
+	if g == "ciervo":
+		# el Ciervo quieto en el Claro, visto de costado y de cerca (sin anclajes vistos: no se despierta)
+		mundo.heroe.global_position = mundo.ciervo.global_position + Vector3(7.5, 0.5, 2.0)
+		mundo.camara.global_position = mundo.ciervo.global_position + Vector3(3.5, 0, 1.0)
+		mundo.camara.objetivo = null
+	if g == "opciones":
+		mundo.hud.abrir_video(null)
+		# cambios en vivo, como los haría el jugador: un ajuste suelto (Personalizado), Ultra, Bajo y vuelta a Alto
+		var t := mundo.get_tree()
+		t.create_timer(0.5).timeout.connect(func(): Calidad.poner_nivel("vision", 2))
+		t.create_timer(1.0).timeout.connect(func(): Calidad.poner_preset(Calidad.ULTRA))
+		t.create_timer(1.5).timeout.connect(func(): Calidad.poner_preset(Calidad.BAJO))
+		t.create_timer(2.0).timeout.connect(func():
+			Calidad.poner_preset(Calidad.ALTO)
+			print("OPCIONES preset=", Calidad.preset, " niveles=", Calidad.niveles.values()))
 	if g == "camara_baja":
 		mundo.camara._inclinar(-90.0)
 	if g == "claro" or g == "jefe":
@@ -125,3 +156,46 @@ class Recorrido extends Node:
 		Juego.marcar(o.hecho)
 		paso += 1
 		mundo.get_tree().create_timer(0.35).timeout.connect(_siguiente)
+
+
+## Recorre los lugares del MVP y anota lo que se dibuja en cada uno (llamadas, objetos, triángulos) y cuántas
+## entidades están despiertas. Sirve para comparar presets y cambios: los FPS reales se miden en la PC.
+class Medicion extends Node:
+	const LUGARES := ["puesto", "carro", "refugio", "eikholt", "svanhild_casa", "paso_sur", "claro_entrada", "aserradero", "santuario"]
+	const CUADROS := 8
+	var mundo: Eldervald
+	var i := -1
+	var n := 0
+	var datos: Array = []
+
+	func _init(m: Eldervald) -> void:
+		mundo = m
+
+	func _process(_dt: float) -> void:
+		n += 1
+		if n < CUADROS:
+			return
+		n = 0
+		if i >= 0:
+			var r := RenderingServer
+			var fila := [LUGARES[i],
+				r.get_rendering_info(RenderingServer.RENDERING_INFO_TOTAL_DRAW_CALLS_IN_FRAME),
+				r.get_rendering_info(RenderingServer.RENDERING_INFO_TOTAL_OBJECTS_IN_FRAME),
+				r.get_rendering_info(RenderingServer.RENDERING_INFO_TOTAL_PRIMITIVES_IN_FRAME),
+				mundo.activador.despiertos()]
+			datos.append(fila)
+			print("MEDICION ", fila)
+		i += 1
+		if i >= LUGARES.size():
+			var maximo := [0, 0, 0, 0]
+			var suma := [0, 0, 0, 0]
+			for f in datos:
+				for k in 4:
+					maximo[k] = maxi(maximo[k], f[k + 1])
+					suma[k] += f[k + 1]
+			print("MEDICION_TOTAL preset=", Calidad.preset, " max=", maximo, " promedio=", suma.map(func(x): return x / datos.size()))
+			set_process(false)
+			return
+		var p: Vector3 = mundo.escenario.puntos[LUGARES[i]]
+		mundo.heroe.global_position = p + Vector3(1.5, 0.5, 2.5)
+		mundo.camara.global_position = mundo.heroe.global_position

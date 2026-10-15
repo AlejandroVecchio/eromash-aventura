@@ -52,11 +52,17 @@ var _expuesto := 0.0
 var _fase_anim := 0.0
 var _partes := {}
 var _heridas: Array[StandardMaterial3D] = []
+var _luz: LuzRunica
+var _esq: Skeleton3D
+var _huesos := {}
+var _reposo := {}
+var _cabeza_baja := 0.0
 
 
 func _ready() -> void:
 	add_to_group("enemigo")
 	add_to_group("jefe")
+	add_to_group("despertable")
 	collision_layer = 4
 	collision_mask = 1
 	var f := CollisionShape3D.new()
@@ -71,13 +77,89 @@ func _ready() -> void:
 		modelo = load(MODELO).instantiate()
 		add_child(modelo)
 		Animaciones.ajustar_largo(modelo, 5.0)
+		_preparar_modelo()
 	else:
 		modelo = _provisional()
 		add_child(modelo)
 	casa = global_position
 
 
-# ---------- modelo provisional (hasta tener el de Tripo) ----------
+# ---------- modelo de Tripo ----------
+
+## Los huecos pintados en azul de la textura emanan luz rúnica; una luz adentro del pecho la tira al piso.
+## Las patas, la cabeza y la cola se mueven por código sobre el esqueleto (no trae animaciones).
+func _preparar_modelo() -> void:
+	_luz = LuzRunica.new()
+	_luz.alcance = 9.0
+	_luz.energia = 2.6
+	_luz.motas = 30
+	add_child(_luz)
+	_luz.position = Vector3(0, 2.3, 0)   # en el pecho
+	# el azul pintado de la textura (medido) con tolerancia corta: con más, los reflejos claros del pelaje
+	# también brillaban y el ciervo se veía blanco
+	_luz.encender_modelo(modelo, Color(0.21, 0.53, 0.7), 0.1, 3.0)
+	var esqs := modelo.find_children("*", "Skeleton3D", true, false)
+	if esqs.is_empty():
+		return
+	_esq = esqs[0]
+	var nombres := {
+		"del_i": "tripo__0_Left_Limb_0", "del_d": "tripo__0_Right_Limb_0",
+		"tra_i": "tripo__1_Left_Limb_0", "tra_d": "tripo__1_Right_Limb_0",
+		"rod_del_i": "tripo__0_Left_Limb_1", "rod_del_d": "tripo__0_Right_Limb_1",
+		"rod_tra_i": "tripo__1_Left_Limb_1", "rod_tra_d": "tripo__1_Right_Limb_1",
+		"cuello": "tripo__Head_1", "cabeza": "tripo__Head_2", "cola": "bone_29",
+	}
+	for k in nombres:
+		var i := _esq.find_bone(nombres[k])
+		_huesos[k] = i
+		if i >= 0:
+			_reposo[i] = _esq.get_bone_rest(i).basis.get_rotation_quaternion()
+
+
+func _girar_hueso(nombre: String, eje_global: Vector3, ang: float) -> void:
+	var i: int = _huesos.get(nombre, -1)
+	if _esq == null or not _reposo.has(i):
+		return
+	var p := _esq.get_bone_parent(i)
+	var padre := _esq.get_bone_global_rest(p).basis.get_rotation_quaternion() if p >= 0 else Quaternion.IDENTITY
+	var eje_local := (padre.inverse() * eje_global).normalized()
+	_esq.set_bone_pose_rotation(i, Quaternion(eje_local, ang) * _reposo[i])
+
+
+func _animar_modelo(dt: float) -> void:
+	var rapidez := Vector2(velocity.x, velocity.z).length()
+	_fase_anim += dt * (1.5 + rapidez * 0.5)
+	var paso := clampf(rapidez / 3.0, 0.0, 1.0)
+	if _estado == "golpe" and _ataque == "embestida":
+		paso = 1.0
+	var s := sin(_fase_anim * 2.0)
+	var lat := Vector3.RIGHT
+	_girar_hueso("del_i", lat, s * 0.45 * paso)
+	_girar_hueso("tra_d", lat, s * 0.45 * paso)
+	_girar_hueso("del_d", lat, -s * 0.45 * paso)
+	_girar_hueso("tra_i", lat, -s * 0.45 * paso)
+	_girar_hueso("rod_del_i", lat, maxf(0.0, -s) * 0.5 * paso)
+	_girar_hueso("rod_del_d", lat, maxf(0.0, s) * 0.5 * paso)
+	_girar_hueso("rod_tra_i", lat, -maxf(0.0, s) * 0.5 * paso)
+	_girar_hueso("rod_tra_d", lat, -maxf(0.0, -s) * 0.5 * paso)
+	_girar_hueso("cola", Vector3.UP, sin(_fase_anim * 0.8) * 0.2)
+	# la cabeza anuncia cada ataque: baja para embestir, barre de lado, se levanta antes del pisotón
+	var baja := 0.0
+	var lado := 0.0
+	if _estado == "aviso":
+		var f := clampf(_t / 0.6, 0.0, 1.0)
+		match _ataque:
+			"embestida": baja = 0.45 * f
+			"barrido": lado = sin(_t * 3.0) * 0.35
+			"pisoton": baja = -0.3 * f
+			"raices": baja = 0.25 * f
+	_cabeza_baja = lerpf(_cabeza_baja, baja, 1.0 - exp(-8.0 * dt))
+	_girar_hueso("cuello", lat, _cabeza_baja)
+	_girar_hueso("cabeza", Vector3.UP, lado)
+	modelo.position.y = absf(s) * 0.05 * paso
+
+
+# ---------- modelo provisional (si falta el de Tripo) ----------
 
 ## Un ciervo armado con formas simples, con el Núcleo de la Linde entre las astas y los huecos de luz azul.
 func _provisional() -> Node3D:
@@ -272,6 +354,9 @@ func recibir_golpe(dano: float, _origen: Vector3) -> void:
 
 
 func _parpadeo() -> void:
+	if _luz:
+		_luz.fuerza = 1.8
+		get_tree().create_timer(0.12).timeout.connect(func(): if _luz and not derrotado: _luz.fuerza = 1.0)
 	for m in _heridas:
 		m.emission_energy_multiplier = 7.0
 	get_tree().create_timer(0.12).timeout.connect(func():
@@ -292,6 +377,8 @@ func _caer() -> void:
 		t.parallel().tween_property(m, "emission_energy_multiplier", 0.0, 3.0)
 	if _partes.has("luz"):
 		t.parallel().tween_property(_partes.luz, "light_energy", 0.0, 3.0)
+	if _luz:
+		t.parallel().tween_property(_luz, "fuerza", 0.15, 3.0)
 	Sonido.tocar("jefe")
 	vencido.emit()
 
@@ -445,7 +532,12 @@ func _fin_golpe(contra_soporte := false) -> void:
 # ---------- animación del provisional ----------
 
 func _animar(dt: float) -> void:
-	if not _partes.has("del_i") or derrotado:
+	if derrotado:
+		return
+	if _esq:
+		_animar_modelo(dt)
+		return
+	if not _partes.has("del_i"):
 		return
 	var rapidez := Vector2(velocity.x, velocity.z).length()
 	_fase_anim += dt * (1.5 + rapidez * 0.6)
@@ -467,3 +559,8 @@ func _animar(dt: float) -> void:
 		modelo.rotation.x = lerpf(modelo.rotation.x, 0.0, 1.0 - exp(-6.0 * dt))
 		cab.rotation.y = lerpf(cab.rotation.y, 0.0, 1.0 - exp(-6.0 * dt))
 	cab.rotation.x = lerpf(cab.rotation.x, baja, 1.0 - exp(-8.0 * dt))
+
+
+## En plena pelea no se duerme aunque Eromash se aleje (la pelea se reinicia sola si se va del Claro).
+func seguir_despierto() -> bool:
+	return activo

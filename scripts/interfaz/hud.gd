@@ -56,7 +56,7 @@ var _negro: ColorRect
 var _flecha: Label
 var _minimapa: Minimapa
 var _fps: Label
-var _opciones_calidad: OptionButton
+var _video: OpcionesVideo
 var _opciones_idioma: OptionButton
 
 
@@ -76,6 +76,8 @@ func _ready() -> void:
 	_armar_pausa(raiz)
 	_armar_fin(raiz)
 	_armar_titulo(raiz)
+	_video = OpcionesVideo.new(load(FUENTE_TITULO))
+	raiz.add_child(_video)
 	_negro = ColorRect.new()
 	_negro.color = Color(0, 0, 0, 0)
 	_negro.set_anchors_preset(Control.PRESET_FULL_RECT)
@@ -169,9 +171,9 @@ func _armar_juego(raiz: Control) -> void:
 	_fps.anchor_right = 1.0
 	_fps.anchor_top = 1.0
 	_fps.anchor_bottom = 1.0
-	_fps.offset_left = -160
+	_fps.offset_left = -560
 	_fps.offset_right = -30
-	_fps.offset_top = -50
+	_fps.offset_top = -76
 	_fps.offset_bottom = -24
 	_fps.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	_fps.visible = false
@@ -315,7 +317,14 @@ func _process(dt: float) -> void:
 		_dlg_texto.visible_characters = int(_dlg_t * 55.0) if _dlg_t * 55.0 < total else -1
 	_flecha_objetivo()
 	if _fps.visible:
-		_fps.text = tr("fps") % Engine.get_frames_per_second()
+		var r := RenderingServer
+		var tri := r.get_rendering_info(RenderingServer.RENDERING_INFO_TOTAL_PRIMITIVES_IN_FRAME)
+		var act := get_tree().get_first_node_in_group("activador") as Activador
+		_fps.text = (tr("fps") % [Engine.get_frames_per_second(), dt * 1000.0]) + "\n" + tr("fps_detalle") % [
+			r.get_rendering_info(RenderingServer.RENDERING_INFO_TOTAL_DRAW_CALLS_IN_FRAME),
+			r.get_rendering_info(RenderingServer.RENDERING_INFO_TOTAL_OBJECTS_IN_FRAME),
+			"%.2f M" % (tri / 1000000.0) if tri >= 1000000 else "%d k" % (tri / 1000),
+			act.despiertos() if act else 0]
 
 
 func _flecha_objetivo() -> void:
@@ -565,12 +574,12 @@ func _armar_pausa(raiz: Control) -> void:
 		["pausa_salir", func(): get_tree().quit()],
 	])
 	var opciones := _pausa.find_child("Botones", true, false) as VBoxContainer
-	_opciones_calidad = OptionButton.new()
-	for k in ["calidad_baja", "calidad_media", "calidad_alta"]:
-		_opciones_calidad.add_item(tr(k))
-	_opciones_calidad.selected = Calidad.nivel
-	_opciones_calidad.item_selected.connect(func(i): Calidad.poner_nivel(i))
-	opciones.add_child(_opciones_calidad)
+	var video := Button.new()
+	video.name = "Video"
+	video.text = tr("menu_video")
+	video.set_meta("clave", "menu_video")
+	video.pressed.connect(func(): abrir_video(video))
+	opciones.add_child(video)
 	_opciones_idioma = OptionButton.new()
 	_opciones_idioma.add_item("Español")
 	_opciones_idioma.add_item("English")
@@ -617,9 +626,7 @@ func _refrescar_textos() -> void:
 				(n as Button).text = tr(n.get_meta("clave"))
 			elif n is Label:
 				(n as Label).text = tr(n.get_meta("clave"))
-	_opciones_calidad.set_item_text(0, tr("calidad_baja"))
-	_opciones_calidad.set_item_text(1, tr("calidad_media"))
-	_opciones_calidad.set_item_text(2, tr("calidad_alta"))
+	_video.refrescar()
 	_actualizar_objetivo()
 
 
@@ -633,6 +640,20 @@ func abrir_pausa() -> void:
 	en_menu = true
 	get_tree().paused = true
 	(_pausa.find_child("Botones", true, false).get_child(1) as Button).grab_focus()
+
+
+## Abre Opciones → Video; al cerrarlo vuelve el foco al botón que lo abrió (para jugar con mando).
+func abrir_video(desde: Control) -> void:
+	_video.abrir()
+	if not _video.cerrado.is_connected(_video_cerrado):
+		_video.cerrado.connect(_video_cerrado)
+	_video.set_meta("desde", desde)
+
+
+func _video_cerrado() -> void:
+	var desde: Control = _video.get_meta("desde", null)
+	if desde and desde.is_visible_in_tree():
+		desde.grab_focus()
 
 
 func cerrar_pausa() -> void:
@@ -673,7 +694,7 @@ func _armar_titulo(raiz: Control) -> void:
 	var caja := CenterContainer.new()
 	caja.add_child(botones)
 	v.add_child(caja)
-	for b in [["titulo_continuar", func(): _empezar(false)], ["titulo_nueva", func(): _empezar(true)], ["pausa_salir", func(): get_tree().quit()]]:
+	for b in [["titulo_continuar", func(): _empezar(false)], ["titulo_nueva", func(): _empezar(true)], ["menu_video", func(): abrir_video(_titulo.find_child("menu_video", true, false))], ["pausa_salir", func(): get_tree().quit()]]:
 		var bt := Button.new()
 		bt.text = tr(b[0])
 		bt.set_meta("clave", b[0])
@@ -734,6 +755,8 @@ func fundido(a_negro: bool, dur := 0.6) -> Tween:
 
 
 func _unhandled_input(ev: InputEvent) -> void:
+	if _video.visible:
+		return
 	if en_dialogo and (ev.is_action_pressed("interactuar") or ev.is_action_pressed("atacar") or ev.is_action_pressed("saltar") or ev.is_action_pressed("ui_accept")):
 		get_viewport().set_input_as_handled()
 		_avanzar_dialogo()

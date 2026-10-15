@@ -25,6 +25,9 @@ var _haz: MeshInstance3D
 var _entorno: Environment
 var _lugar_npc := {}
 var _avisado := {}
+var _reloj := 0.0
+var _luna: DirectionalLight3D
+var activador: Activador   ## segundos de juego desde que se armó el mundo
 var _en_secuencia := false
 var _lugares_datos := Datos.lugares()   ## se arma una vez (antes se rearmaba el diccionario en cada cuadro)
 
@@ -68,6 +71,11 @@ func _ready() -> void:
 	Juego.fin_demo.connect(func(): get_tree().create_timer(1.0).timeout.connect(hud.mostrar_fin))
 	heroe.murio.connect(_heroe_murio)
 	_estado_cambio()
+	activador = Activador.new()
+	activador.name = "Activador"
+	add_child(activador)
+	_aplicar_calidad()
+	Calidad.cambio.connect(_aplicar_calidad)
 	Sonido.ambiente()
 	if Captura.activo():
 		Prueba.preparar(self)
@@ -110,8 +118,6 @@ func _ambiente() -> void:
 	_entorno.ssao_enabled = true
 	_entorno.adjustment_enabled = true
 	_entorno.adjustment_saturation = 0.92
-	Calidad.aplicar(_entorno)
-	Calidad.cambio.connect(func(): Calidad.aplicar(_entorno))
 	we.environment = _entorno
 	add_child(we)
 	var sol := DirectionalLight3D.new()
@@ -122,6 +128,26 @@ func _ambiente() -> void:
 	sol.shadow_enabled = true
 	sol.directional_shadow_max_distance = 80.0
 	add_child(sol)
+	_luna = sol
+
+
+## Opciones → Video aplicadas al mundo: ambiente, sombra de la luna, distancias de dibujo y luces que se
+## apagan con la distancia (con un fundido, para que no se vea el corte).
+func _aplicar_calidad() -> void:
+	Calidad.aplicar(_entorno)
+	Calidad.aplicar_luna(_luna)
+	Escenario.aplicar_rangos(get_tree())
+	if camara and camara.cam:
+		camara.cam.far = maxf(180.0, 420.0 * Calidad.factor_vision())
+	var hasta := Calidad.distancia_luces()
+	for n in find_children("*", "Light3D", true, false):
+		if n is DirectionalLight3D:
+			continue
+		var l := n as Light3D
+		l.distance_fade_enabled = true
+		l.distance_fade_begin = hasta
+		l.distance_fade_length = 8.0
+		l.distance_fade_shadow = hasta * 0.6
 
 
 # ---------- personajes ----------
@@ -551,6 +577,7 @@ func _giro_hacia(desde: Vector3, hacia: Vector3) -> float:
 
 
 func _process(dt: float) -> void:
+	_reloj += dt
 	if heroe == null:
 		return
 	for id in npcs:
@@ -603,9 +630,10 @@ func _zonas() -> void:
 
 
 func _avisar_una_vez(clave: String) -> void:
-	if _avisado.get(clave, 0.0) > Time.get_ticks_msec() / 1000.0:
+	# tiempo de juego, no de reloj: si el juego va lento el aviso no se repite de más
+	if _avisado.get(clave, -INF) > _reloj:
 		return
-	_avisado[clave] = Time.get_ticks_msec() / 1000.0 + 12.0
+	_avisado[clave] = _reloj + 12.0
 	hud.mostrar_mensaje(tr(clave))
 
 

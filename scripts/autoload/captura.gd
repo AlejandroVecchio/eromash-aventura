@@ -23,7 +23,7 @@ func _ready() -> void:
 		elif a.begins_with("--guion="):
 			guion = a.get_slice("=", 1)
 		elif a.begins_with("--calidad="):
-			Calidad.nivel = int(a.get_slice("=", 1))
+			Calidad.poner_preset(int(a.get_slice("=", 1)))   # 0 Bajo, 1 Medio, 2 Alto, 3 Ultra
 	if escena == ProjectSettings.get_setting("application/run/main_scene"):
 		escena = ""
 	if escena != "":

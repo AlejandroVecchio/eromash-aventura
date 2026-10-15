@@ -24,6 +24,7 @@ var _terreno: Terreno
 
 func _ready() -> void:
 	add_to_group("npc")
+	add_to_group("despertable")
 	modelo = load(modelo_ruta).instantiate()
 	add_child(modelo)
 	Animaciones.mirar_adelante(modelo)
@@ -160,3 +161,8 @@ func ubicar(pos: Vector3, giro: float) -> void:
 	_mirar_a = giro
 	_destino = Vector3.INF
 	_pose()
+
+
+## El Activador no lo duerme mientras camina a algún lado (si no, no llegaría nunca).
+func seguir_despierto() -> bool:
+	return _destino != Vector3.INF

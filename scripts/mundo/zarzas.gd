@@ -9,6 +9,7 @@ var _onda := 0.0
 
 func _ready() -> void:
 	add_to_group("enemigo")  # recibe los golpes de Eromash para reaccionar (no tiene vida)
+	add_to_group("despertable")
 	var rng := RandomNumberGenerator.new()
 	rng.seed = 77
 	for i in 26:

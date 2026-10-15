@@ -10,6 +10,9 @@ var foco: Node3D
 
 const CERCA := {"dist": 9.0, "incl": 40.0}
 const LEJOS := {"dist": 26.0, "incl": 60.0}
+## Con la rueda se puede seguir acercando por debajo de CERCA (zoom negativo) hasta ver a Eromash de cerca.
+const MUY_CERCA := {"dist": 3.4, "incl": 24.0}
+const ZOOM_MIN := -0.4
 const SUAVE_SEGUIR := 6.0
 const SUAVE_CAMARA := 10.0
 const GIRO_TECLAS := 1.8 # rad/s
@@ -47,9 +50,9 @@ func _unhandled_input(ev: InputEvent) -> void:
 	if ev is InputEventMouseButton:
 		var b := ev as InputEventMouseButton
 		if b.button_index == MOUSE_BUTTON_WHEEL_UP and b.pressed:
-			zoom_obj = clampf(zoom_obj - 0.07, 0.0, 1.0)
+			zoom_obj = clampf(zoom_obj - 0.07, ZOOM_MIN, 1.0)
 		elif b.button_index == MOUSE_BUTTON_WHEEL_DOWN and b.pressed:
-			zoom_obj = clampf(zoom_obj + 0.07, 0.0, 1.0)
+			zoom_obj = clampf(zoom_obj + 0.07, ZOOM_MIN, 1.0)
 		elif b.button_index == MOUSE_BUTTON_MIDDLE or b.button_index == MOUSE_BUTTON_RIGHT:
 			arrastrando = b.pressed
 			# mientras se arrastra, el puntero queda quieto y oculto: el giro no se corta en el borde de la pantalla
@@ -85,23 +88,32 @@ func _process(dt: float) -> void:
 		RenderingServer.global_shader_parameter_set("pos_heroe", objetivo.global_position)
 
 
+## Distancia (x) e inclinación en grados (y) para un zoom: de MUY_CERCA (ZOOM_MIN) a CERCA (0) y a LEJOS (1).
+func _perfil(z: float) -> Vector2:
+	if z < 0.0:
+		var t := clampf(z / ZOOM_MIN, 0.0, 1.0)
+		return Vector2(lerpf(CERCA.dist, MUY_CERCA.dist, t), lerpf(CERCA.incl, MUY_CERCA.incl, t))
+	return Vector2(lerpf(CERCA.dist, LEJOS.dist, z), lerpf(CERCA.incl, LEJOS.incl, z))
+
+
 func _incl_base() -> float:
-	return lerpf(CERCA.incl, LEJOS.incl, zoom)
+	return _perfil(zoom).y
 
 
 ## Sube o baja la cámara (grados); el tope es casi paralela al piso y casi vertical.
 func _inclinar(grados: float) -> void:
-	var base := lerpf(CERCA.incl, LEJOS.incl, zoom_obj)
+	var base := _perfil(zoom_obj).y
 	ajuste_incl_obj = clampf(ajuste_incl_obj + grados, INCL_MIN - base, INCL_MAX - base)
 
 
 func _aplicar() -> void:
-	var dist := lerpf(CERCA.dist, LEJOS.dist, zoom)
+	var dist := _perfil(zoom).x
 	var grados := clampf(_incl_base() + ajuste_incl, INCL_MIN, INCL_MAX)
 	var incl := deg_to_rad(grados)
 	# baja: mira a la altura de los hombros, como detrás del héroe
 	var bajo := 1.0 - clampf((grados - INCL_MIN) / 25.0, 0.0, 1.0)
-	var mira := global_position + Vector3(0, lerpf(0.9, 1.7, bajo), 0)
+	var cerca := clampf(zoom / ZOOM_MIN, 0.0, 1.0)   # de cerca se mira al pecho, no a la cintura
+	var mira := global_position + Vector3(0, lerpf(lerpf(0.9, 1.3, cerca), 1.7, bajo), 0)
 	var deseada := mira + Vector3(sin(giro) * cos(incl), sin(incl), cos(giro) * cos(incl)) * dist
 	cam.global_position = _sin_atravesar_piso(mira, deseada)
 	var sacudida := Vector3(randf_range(-1, 1), randf_range(-1, 1), randf_range(-1, 1)) * temblor * 0.25
