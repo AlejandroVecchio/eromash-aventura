@@ -50,6 +50,17 @@ func _process(dt: float) -> void:
 			print("CAPTURA ", f[1])
 			_fotos.erase(f)
 	if _n == cuadros:
+		_informe()
 		get_viewport().get_texture().get_image().save_png(salida)
 		print("CAPTURA ", salida)
 		get_tree().quit()
+
+
+## Lo que costó el último cuadro: para comparar antes y después de un cambio de rendimiento.
+func _informe() -> void:
+	var r := RenderingServer
+	print("RENDIMIENTO llamadas=", r.get_rendering_info(RenderingServer.RENDERING_INFO_TOTAL_DRAW_CALLS_IN_FRAME),
+		" objetos=", r.get_rendering_info(RenderingServer.RENDERING_INFO_TOTAL_OBJECTS_IN_FRAME),
+		" triangulos=", r.get_rendering_info(RenderingServer.RENDERING_INFO_TOTAL_PRIMITIVES_IN_FRAME),
+		" luces=", get_tree().root.find_children("*", "Light3D", true, false).size(),
+		" nodos=", get_tree().get_node_count())

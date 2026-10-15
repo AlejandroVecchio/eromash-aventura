@@ -32,6 +32,11 @@ const CHICOS := [
 	["Pebble_Round_1", 0.6, 1.4, 0.0, Color(0.8, 0.82, 0.8), 1500, 0.0],
 ]
 
+const TILE := 32.0              ## lado de cada parcela de vegetación (m)
+const LEJOS_CHICO := 55.0       ## pasto, helechos, hongos, piedritas: hasta dónde se dibujan
+const LEJOS_ARBUSTO := 95.0
+const LEJOS_ARBOL := 190.0
+
 var _terreno: Terreno
 var _rng := RandomNumberGenerator.new()
 var _colision: StaticBody3D
@@ -116,6 +121,14 @@ func _sembrar_chicos(c: Array) -> void:
 		var e := _rng.randf_range(c[1], c[2])
 		ts.append(Transform3D(Basis(Vector3.UP, _rng.randf() * TAU).scaled(Vector3.ONE * e), Vector3(p.x, _terreno.altura(p.x, p.y) - 0.05, p.y)))
 	_multimesh(c[0], ts, c[3], c[4], c[3] > 0.0)
+	# las rocas son sólidas: una envolvente convexa por roca (las piedritas chicas no)
+	if str(c[0]).begins_with("Rock_"):
+		var forma := (_malla(c[0]).mesh as Mesh).create_convex_shape(true, true)
+		for t in ts:
+			var f := CollisionShape3D.new()
+			f.shape = forma
+			f.transform = t
+			_colision.add_child(f)
 
 
 ## Grupos de hongos de rocío: chicos, azul verdosos, con brillo tenue (bosque sano). Sin luz propia: solo emisión.
@@ -168,6 +181,13 @@ func _malla(nombre: String) -> Dictionary:
 	return r
 
 
+func _es_chico(nombre: String) -> bool:
+	for p in ["Grass", "Fern", "Pebble", "Mushroom", "Plant"]:
+		if nombre.begins_with(p):
+			return true
+	return false
+
+
 func _multimesh(nombre: String, ts: Array, viento: float, tinte: Color, ocultable: bool) -> MultiMeshInstance3D:
 	if ts.is_empty():
 		return null
@@ -188,14 +208,34 @@ func _multimesh(nombre: String, ts: Array, viento: float, tinte: Color, ocultabl
 		sm.set_shader_parameter("viento", viento if hojas else 0.0)
 		sm.set_shader_parameter("ocultable", ocultable)
 		mesh.surface_set_material(s, sm)
-	var mm := MultiMesh.new()
-	mm.transform_format = MultiMesh.TRANSFORM_3D
-	mm.mesh = mesh
-	mm.instance_count = ts.size()
-	for i in ts.size():
-		mm.set_instance_transform(i, ts[i])
-	var mi := MultiMeshInstance3D.new()
-	mi.name = nombre
-	mi.multimesh = mm
-	add_child(mi)
-	return mi
+	# Por parcelas de TILE m: así la cámara solo dibuja (y la luna solo proyecta sombra de) lo que está cerca.
+	# Con una sola MultiMesh por especie se dibujaba el bosque entero en cada cuadro.
+	var parcelas := {}
+	for t in ts:
+		var k := Vector2i(floori((t as Transform3D).origin.x / TILE), floori((t as Transform3D).origin.z / TILE))
+		if not parcelas.has(k):
+			parcelas[k] = []
+		parcelas[k].append(t)
+	var chico := _es_chico(nombre)
+	var hasta := LEJOS_CHICO if chico else (LEJOS_ARBUSTO if nombre.begins_with("Bush") or nombre.begins_with("Rock") else LEJOS_ARBOL)
+	var primera: MultiMeshInstance3D = null
+	for k in parcelas:
+		var lista: Array = parcelas[k]
+		var mm := MultiMesh.new()
+		mm.transform_format = MultiMesh.TRANSFORM_3D
+		mm.mesh = mesh
+		mm.instance_count = lista.size()
+		for i in lista.size():
+			mm.set_instance_transform(i, lista[i])
+		var mi := MultiMeshInstance3D.new()
+		mi.name = "%s_%d_%d" % [nombre, k.x, k.y]
+		mi.multimesh = mm
+		mi.visibility_range_end = hasta
+		mi.visibility_range_end_margin = hasta * 0.15
+		# lo chico no proyecta sombra (no se nota y era lo más caro de la sombra de la luna)
+		if chico:
+			mi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		add_child(mi)
+		if primera == null:
+			primera = mi
+	return primera

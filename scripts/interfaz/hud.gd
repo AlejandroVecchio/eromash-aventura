@@ -48,6 +48,8 @@ var _titulo: Control
 var _fin: Control
 var _negro: ColorRect
 var _flecha: Label
+var _minimapa: Minimapa
+var _fps: Label
 var _opciones_calidad: OptionButton
 var _opciones_idioma: OptionButton
 
@@ -146,6 +148,26 @@ func _etiqueta(padre: Node, tam := 22, color := CREMA, titulo := false) -> Label
 # ---------- en juego ----------
 
 func _armar_juego(raiz: Control) -> void:
+	_minimapa = Minimapa.new()
+	_minimapa.anchor_left = 1.0
+	_minimapa.anchor_right = 1.0
+	_minimapa.offset_left = -Minimapa.LADO - 30
+	_minimapa.offset_right = -30
+	_minimapa.offset_top = 30
+	_minimapa.offset_bottom = 30 + Minimapa.LADO
+	raiz.add_child(_minimapa)
+	# contador de cuadros por segundo (F3), abajo a la derecha
+	_fps = _etiqueta(raiz, 18, AZUL)
+	_fps.anchor_left = 1.0
+	_fps.anchor_right = 1.0
+	_fps.anchor_top = 1.0
+	_fps.anchor_bottom = 1.0
+	_fps.offset_left = -160
+	_fps.offset_right = -30
+	_fps.offset_top = -50
+	_fps.offset_bottom = -24
+	_fps.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	_fps.visible = false
 	var obj := VBoxContainer.new()
 	obj.position = Vector2(36, 30)
 	obj.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -196,6 +218,8 @@ func _armar_juego(raiz: Control) -> void:
 func conectar_heroe(h: Heroe, c: Camara) -> void:
 	heroe = h
 	camara = c
+	_minimapa.heroe = h
+	_minimapa.camara = c
 	h.salud_cambio.connect(func(v, m):
 		_salud.max_value = m
 		_salud.value = v)
@@ -247,6 +271,8 @@ func _process(dt: float) -> void:
 		var total := tr(_dlg_lineas[_dlg_i][1]).length() if _dlg_i < _dlg_lineas.size() else 0
 		_dlg_texto.visible_characters = int(_dlg_t * 55.0) if _dlg_t * 55.0 < total else -1
 	_flecha_objetivo()
+	if _fps.visible:
+		_fps.text = tr("fps") % Engine.get_frames_per_second()
 
 
 func _flecha_objetivo() -> void:
@@ -668,6 +694,10 @@ func _unhandled_input(ev: InputEvent) -> void:
 	if en_dialogo and (ev.is_action_pressed("interactuar") or ev.is_action_pressed("atacar") or ev.is_action_pressed("saltar") or ev.is_action_pressed("ui_accept")):
 		get_viewport().set_input_as_handled()
 		_avanzar_dialogo()
+		return
+	if ev.is_action_pressed("ver_fps"):
+		_fps.visible = not _fps.visible
+		get_viewport().set_input_as_handled()
 		return
 	if ev.is_action_pressed("pausa"):
 		if _pausa.visible:

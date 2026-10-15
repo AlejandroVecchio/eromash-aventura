@@ -13,9 +13,11 @@ const TECLAS := {
 	"lente": [KEY_R],
 	"envainar": [KEY_X],
 	"diario": [KEY_J, KEY_TAB],
+	"bloquear": [KEY_CTRL],
 	"camara_izquierda": [KEY_Q],
 	"camara_derecha": [KEY_E],
 	"pausa": [KEY_ESCAPE],
+	"ver_fps": [KEY_F3],
 }
 
 const BOTONES_MANDO := {
@@ -31,6 +33,8 @@ const BOTONES_MANDO := {
 }
 
 const EJES_MANDO := [
+	["camara_arriba", JOY_AXIS_RIGHT_Y, -1.0],
+	["camara_abajo", JOY_AXIS_RIGHT_Y, 1.0],
 	["mover_izquierda", JOY_AXIS_LEFT_X, -1.0],
 	["mover_derecha", JOY_AXIS_LEFT_X, 1.0],
 	["mover_arriba", JOY_AXIS_LEFT_Y, -1.0],
@@ -50,7 +54,6 @@ func _ready() -> void:
 			ev.physical_keycode = tecla
 			InputMap.action_add_event(accion, ev)
 	_boton_mouse("atacar", MOUSE_BUTTON_LEFT)
-	_boton_mouse("bloquear", MOUSE_BUTTON_RIGHT)
 	for accion in BOTONES_MANDO:
 		_asegurar(accion)
 		for b in BOTONES_MANDO[accion]:

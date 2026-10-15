@@ -31,7 +31,7 @@ window/size/mode=2
 
 [rendering]
 
-anti_aliasing/quality/msaa_3d=2
+anti_aliasing/quality/msaa_3d=1
 
 [internationalization]
 

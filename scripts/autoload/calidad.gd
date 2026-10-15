@@ -65,4 +65,8 @@ func aplicar(env: Environment) -> void:
 	env.glow_enabled = nivel >= MEDIA
 	env.volumetric_fog_enabled = nivel == ALTA
 	env.ssao_enabled = nivel == ALTA
+	# suavizado de bordes: MSAA 2x en alta, FXAA (barato) en media, nada en baja
+	var vp := get_viewport()
+	vp.msaa_3d = Viewport.MSAA_2X if nivel == ALTA else Viewport.MSAA_DISABLED
+	vp.screen_space_aa = Viewport.SCREEN_SPACE_AA_FXAA if nivel == MEDIA else Viewport.SCREEN_SPACE_AA_DISABLED
 	env.fog_enabled = true

@@ -4,8 +4,8 @@ extends Node3D
 ## las misiones EL-01 a EL-07, y lleva la lógica de la cadena (docs/misiones-principales-eldervald.md).
 
 const NPCS := {
-	"eydis": {"modelo": "res://assets/modelos/npc/eydis.glb", "alto": 1.72, "arma": "res://assets/modelos/armas/lanza-eydis.glb", "largo": 2.0},
-	"orm": {"modelo": "res://assets/modelos/npc/orm.glb", "alto": 1.78, "arma": "res://assets/modelos/armas/hacha-orm.glb", "largo": 0.8},
+	"eydis": {"modelo": "res://assets/modelos/npc/eydis.glb", "alto": 1.72, "arma": "res://assets/modelos/armas/lanza-eydis.glb", "largo": 1.85, "grosor": 0.55},
+	"orm": {"modelo": "res://assets/modelos/npc/orm.glb", "alto": 1.78, "arma": "res://assets/modelos/armas/hacha-orm.glb", "largo": 0.8, "grosor": 1.0},
 	"svanhild": {"modelo": "res://assets/modelos/npc/svanhild.glb", "alto": 1.82, "arma": "", "largo": 0.0},
 }
 
@@ -26,6 +26,7 @@ var _entorno: Environment
 var _lugar_npc := {}
 var _avisado := {}
 var _en_secuencia := false
+var _lugares_datos := Datos.lugares()   ## se arma una vez (antes se rearmaba el diccionario en cada cuadro)
 
 
 func _ready() -> void:
@@ -135,6 +136,7 @@ func _npcs() -> void:
 		n.altura = d.alto
 		n.arma_ruta = d.arma
 		n.arma_largo = d.largo
+		n.arma_grosor = d.get("grosor", 1.0)
 		add_child(n)
 		npcs[id] = n
 	var poses := ["descanso", "descanso2", "mecanismo", "levantar"]
@@ -595,7 +597,7 @@ func _zonas() -> void:
 			hud.mostrar_fin()
 	# lugares descubiertos
 	for k in ["puesto", "refugio", "eikholt", "casa_lindes", "paso", "claro", "aserradero", "santuario", "brunvik", "skarnholt", "tumulo", "caravana", "torre"]:
-		var L: Dictionary = Datos.lugares()[k]
+		var L: Dictionary = _lugares_datos[k]
 		if Vector2(h.x, h.z).distance_to(L.p) < L.r + 6.0:
 			Juego.descubrir(k)
 

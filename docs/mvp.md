@@ -8,12 +8,13 @@ Esqueleto jugable de la cadena EL-01 a EL-07 (`docs/misiones-principales-elderva
 |---|---|---|
 | Moverse / correr | WASD o flechas / Shift | stick izquierdo / L3 |
 | Saltar (esquiva todo aviso del piso) | Espacio | A |
-| Atacar / bloquear | clic izquierdo / clic derecho | X o RT / LB o LT |
+| Atacar / bloquear | clic izquierdo / Ctrl izquierdo | X o RT / LB o LT |
 | Interactuar / hablar | F | Y |
 | Lente del Eco | R | RB |
 | Envainar | X | B |
 | Diario con el croquis | J o Tab | Back |
-| Girar cámara | Q / E o arrastrar con la rueda | stick derecho |
+| Girar e inclinar la cámara (hasta quedar paralela al héroe) | mantener clic derecho (o la rueda) y mover el mouse; Q / E | stick derecho |
+| Contador de FPS | F3 | — |
 | Pausa (guardar, calidad, idioma) | Esc | Start |
 
 Las acciones están en `scripts/autoload/controles.gd`; el código nunca lee teclas sueltas.

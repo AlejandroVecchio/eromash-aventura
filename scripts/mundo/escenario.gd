@@ -41,6 +41,8 @@ func armar(t: Terreno) -> void:
 	_santuario()
 	_siluetas()
 	_faroles_y_runas()
+	for n in _solidos:
+		solido(n)
 
 
 # ---------- ayudas ----------
@@ -50,6 +52,10 @@ func suelo(p: Vector2, alto := 0.0) -> Vector3:
 
 
 ## Pone un modelo. `tam`: alto (o largo si `por_largo`). Devuelve el nodo.
+var _formas := {}   ## malla → forma convexa, para no recalcularla
+var _solidos: Array[Node3D] = []
+
+
 func poner(ruta: String, p: Vector2, giro_grados := 0.0, tam := 0.0, por_largo := false, padre: Node = null, alto := 0.0) -> Node3D:
 	var n: Node3D = load(ruta).instantiate()
 	var cont := Node3D.new()
@@ -62,7 +68,72 @@ func poner(ruta: String, p: Vector2, giro_grados := 0.0, tam := 0.0, por_largo :
 			Animaciones.ajustar_largo(n, tam)
 		else:
 			Animaciones.ajustar_altura(n, tam)
+	if not _queda_fijo(ruta):
+		_despejar_camino(cont, _huella(cont))
+	# piedras y troncos caídos: sólidos, con su forma (se arma al final, cuando ya tienen su escala definitiva)
+	if "Rock_" in ruta or "tronco-hongos" in ruta:
+		_solidos.append(cont)
 	return cont
+
+
+## Cosas que van en un lugar exacto (las usa una misión o se apoyan sobre otra pieza): no se corren del camino.
+const FIJOS := ["pedestal", "losa", "santuario-entrada", "Chimney", "nucleo", "fragmento", "mesa-examen", "roble", "Lantern", "Rope", "Bucket", "Fence"]
+
+
+func _queda_fijo(ruta: String) -> bool:
+	for f in FIJOS:
+		if f in ruta:
+			return true
+	return false
+
+
+## Radio en el piso de lo que ocupa un nodo, con su escala.
+func _huella(n: Node3D) -> float:
+	var caja := AABB()
+	var primera := true
+	for mi in n.find_children("*", "MeshInstance3D", true, false):
+		var m := mi as MeshInstance3D
+		if m.mesh == null:
+			continue
+		var c := m.global_transform * m.get_aabb()
+		caja = c if primera else caja.merge(c)
+		primera = false
+	return 0.0 if primera else maxf(caja.size.x, caja.size.z) * 0.42
+
+
+## Si algo pisa un camino, lo corre hacia afuera (por el lado más cercano) hasta dejarlo libre.
+func _despejar_camino(n: Node3D, radio: float) -> void:
+	if radio <= 0.0:
+		return
+	var p := Vector2(n.global_position.x, n.global_position.z)
+	var libre := radio + 0.6
+	if terreno.dist_camino(p) >= libre:
+		return
+	var alto := n.global_position.y - terreno.altura(p.x, p.y)
+	for i in 60:
+		var d := terreno.dist_camino(p)
+		if d >= libre:
+			break
+		var g := Vector2(terreno.dist_camino(p + Vector2(0.3, 0)) - terreno.dist_camino(p - Vector2(0.3, 0)),
+			terreno.dist_camino(p + Vector2(0, 0.3)) - terreno.dist_camino(p - Vector2(0, 0.3)))
+		if g.length() < 0.0001:
+			g = Vector2(1, 0)
+		p += g.normalized() * 0.4
+	n.global_position = suelo(p, alto)
+
+
+## Colisión con la forma real (envolvente convexa) de cada malla del modelo, ya ubicado y escalado.
+func solido(nodo: Node3D) -> void:
+	for mi in nodo.find_children("*", "MeshInstance3D", true, false):
+		var m := mi as MeshInstance3D
+		if m.mesh == null:
+			continue
+		if not _formas.has(m.mesh):
+			_formas[m.mesh] = m.mesh.create_convex_shape(true, true)
+		var f := CollisionShape3D.new()
+		f.shape = _formas[m.mesh]
+		_cuerpos.add_child(f)
+		f.global_transform = m.global_transform
 
 
 func caja_colision(centro: Vector3, tam: Vector3, giro := 0.0) -> void:
@@ -115,7 +186,7 @@ func farol(p: Vector2, giro := 0.0) -> void:
 	l.light_color = LuzRunica.AMBAR
 	l.omni_range = 9.0
 	l.light_energy = 1.8
-	l.shadow_enabled = Calidad.sombras_chicas()
+	l.shadow_enabled = false   # las sombras de luces puntuales re-dibujan todo alrededor en cada cuadro
 	add_child(l)
 	l.global_position = n.global_position + Vector3(0, 2.6, 0)
 
@@ -126,6 +197,7 @@ func casa(p: Vector2, giro: float, ancho := 6, fondo := 6, ladrillo := false, te
 	add_child(raiz)
 	raiz.global_position = suelo(p, -0.1)
 	raiz.rotation.y = deg_to_rad(giro)
+	_despejar_camino(raiz, maxf(ancho, fondo) * 0.62)
 	var pared := "Wall_UnevenBrick_Straight" if ladrillo else "Wall_Plaster_Straight"
 	var ventana := "Wall_Plaster_Window_Wide_Round"
 	var hx := ancho * 0.5
@@ -186,12 +258,15 @@ func casa(p: Vector2, giro: float, ancho := 6, fondo := 6, ladrillo := false, te
 ## Valla de madera entre dos puntos.
 func valla(a: Vector2, b: Vector2) -> void:
 	var n := int(a.distance_to(b) / 2.0)
+	var giro := -atan2(b.y - a.y, b.x - a.x)
 	for k in n:
 		var p := a.lerp(b, (k + 0.5) / n)
-		var v := poner(KIT_ALDEA + "Prop_WoodenFence_Single.gltf", p, rad_to_deg(-atan2(b.y - a.y, b.x - a.x)))
+		# donde la valla cruza un camino queda una abertura
+		if terreno.dist_camino(p) < 1.4:
+			continue
+		var v := poner(KIT_ALDEA + "Prop_WoodenFence_Single.gltf", p, rad_to_deg(giro))
 		v.scale = Vector3.ONE * 1.1
-	var medio := (a + b) * 0.5
-	caja_colision(suelo(medio), Vector3(a.distance_to(b), 1.0, 0.25), -atan2(b.y - a.y, b.x - a.x))
+		caja_colision(suelo(p), Vector3(a.distance_to(b) / n, 1.0, 0.25), giro)
 
 
 func tablas(centro: Vector3, tam: Vector3, giro := 0.0, padre: Node = null) -> MeshInstance3D:
@@ -221,8 +296,8 @@ func _puesto() -> void:
 	poner(KIT_OBJ + "Workbench.gltf", c + Vector2(1, -8), 15.0)
 	poner(KIT_OBJ + "Crate_Wooden.gltf", c + Vector2(-2, -10), 30.0)
 	poner(KIT_OBJ + "Barrel.gltf", c + Vector2(3, -10))
-	poner(M + "escenario/cobertizo-refugio.glb", c + Vector2(-11, 5), 70.0, 4.5, true)
-	caja_colision(suelo(c + Vector2(-11, 5)), Vector3(4.0, 2.5, 3.0), deg_to_rad(70))
+	var cob := poner(M + "escenario/cobertizo-refugio.glb", c + Vector2(-11, 5), 70.0, 4.5, true)
+	caja_colision(cob.global_position, Vector3(4.0, 2.5, 3.0), deg_to_rad(70))
 	puntos["eydis_puesto"] = suelo(c + Vector2(2, -4))
 	piedra_runica(c + Vector2(12, 6), 200.0, 2.2)
 
@@ -231,7 +306,7 @@ func _carro() -> void:
 	var c := Datos.m(612, 400)
 	var n := poner(M + "objetos/carro-volcado.glb", c + Vector2(4, 0), 110.0, 3.6, true)
 	n.rotation.z = deg_to_rad(12)
-	caja_colision(suelo(c + Vector2(4, 0)), Vector3(3.4, 1.6, 2.2), deg_to_rad(110))
+	caja_colision(n.global_position, Vector3(3.4, 1.6, 2.2), deg_to_rad(110))
 	poner(KIT_OBJ + "Crate_Wooden.gltf", c + Vector2(1.5, 2.5), 50.0).rotation.z = 0.4
 	poner(KIT_OBJ + "Barrel.gltf", c + Vector2(6, 3), 0.0).rotation.x = PI / 2
 	poner(KIT_OBJ + "Rope_1.gltf", c + Vector2(2, -1.5))

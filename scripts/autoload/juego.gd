@@ -71,6 +71,7 @@ var lugares_vistos: Array = []
 var salud := 100.0
 var posicion := Vector3.INF
 var cargada := false
+var niebla := PackedByteArray()   ## minimapa: un byte por celda de 2 m (255 = sin explorar)
 var saltar_titulo := false     ## después de "Nueva partida" la escena se recarga sin volver al título
 
 
@@ -190,6 +191,8 @@ func guardar() -> void:
 		"diario": diario,
 		"lugares_vistos": lugares_vistos,
 		"salud": salud,
+		"niebla": Marshalls.raw_to_base64(niebla.compress(FileAccess.COMPRESSION_DEFLATE)) if not niebla.is_empty() else "",
+		"niebla_largo": niebla.size(),
 		"posicion": [posicion.x, posicion.y, posicion.z] if posicion != Vector3.INF else [],
 	}
 	var f := FileAccess.open(ARCHIVO, FileAccess.WRITE)
@@ -208,6 +211,9 @@ func cargar() -> bool:
 	diario = datos.get("diario", [])
 	lugares_vistos = datos.get("lugares_vistos", [])
 	salud = float(datos.get("salud", 100.0))
+	niebla = PackedByteArray()
+	if str(datos.get("niebla", "")) != "":
+		niebla = Marshalls.base64_to_raw(datos.niebla).decompress(int(datos.get("niebla_largo", 0)), FileAccess.COMPRESSION_DEFLATE)
 	var p: Array = datos.get("posicion", [])
 	posicion = Vector3(p[0], p[1], p[2]) if p.size() == 3 else Vector3.INF
 	cargada = true
@@ -224,6 +230,7 @@ func nueva_partida() -> void:
 	diario = []
 	lugares_vistos = []
 	salud = 100.0
+	niebla = PackedByteArray()
 	posicion = Vector3.INF
 	cargada = false
 	if not de_prueba and FileAccess.file_exists(ARCHIVO):

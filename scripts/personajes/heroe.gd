@@ -405,14 +405,16 @@ func _animar(dt: float) -> void:
 		var s: Dictionary = SALTO[_salto_clip]
 		if anim.current_animation != _salto_clip:
 			anim.play(_salto_clip, 0.08)
-		anim.speed_scale = 0.0
+		# el clip lo maneja la altura del salto (seek), pero sin frenar el reproductor: con velocidad 0 la mezcla
+		# de entrada tampoco avanza y el cuerpo quedaba duro en la pose anterior
+		anim.speed_scale = 1.0
 		var t: float
 		if en_aire:
 			t = s.aire[0] + clampf(_t_aire / _vuelo(), 0.0, 1.0) * (s.aire[1] - s.aire[0])
 		else:
 			_aterrizaje -= dt
 			t = s.suelo[0] + (1.0 - maxf(_aterrizaje, 0.0) / s.amortiguar) * (s.suelo[1] - s.suelo[0])
-		anim.seek(t, true)
+		anim.seek(t, false)
 		return
 	anim.speed_scale = 1.0
 	if bloqueando and _accion.get("nombre", "") != "bloquear":

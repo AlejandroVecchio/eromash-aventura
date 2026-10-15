@@ -14,6 +14,9 @@ const ETAPAS := {
 	"paso": [3, ["el01_acepto", "croquis_leido", "carro_visto", "orm_encontrado", "errantes_despejados", "piedra_puesta", "runa_refugio", "fragmento", "fragmento_entregado", "lente_prestada", "fragmento_examinado", "huella_patio", "lente"], "paso_sur", 0.4, 0.4],
 	"claro": [4, ["el01_acepto", "croquis_leido", "carro_visto", "orm_encontrado", "errantes_despejados", "piedra_puesta", "runa_refugio", "fragmento", "fragmento_entregado", "lente_prestada", "fragmento_examinado", "huella_patio", "lente", "eydis_paso", "pista_tablon", "pista_raiz", "pista_menhir", "eydis_claro", "anclajes_vistos"], "claro_entrada", -1.2, 0.6],
 	"jefe": [4, ["el01_acepto", "croquis_leido", "carro_visto", "orm_encontrado", "errantes_despejados", "piedra_puesta", "runa_refugio", "fragmento", "fragmento_entregado", "lente_prestada", "fragmento_examinado", "huella_patio", "lente", "eydis_paso", "pista_tablon", "pista_raiz", "pista_menhir", "eydis_claro", "anclajes_vistos"], "claro", 0.0, 0.75],
+	"salto": [0, [], "puesto", 0.6, 0.0],
+	"campamento": [0, [], "inicio", 0.5, 0.55],
+	"camara_baja": [0, [], "puesto", 2.4, 0.2],
 	"aserradero": [6, [], "aserradero", 0.8, 0.5],
 	"santuario": [6, [], "santuario", 1.1, 0.35],
 }
@@ -60,6 +63,20 @@ static func preparar(mundo: Eldervald) -> void:
 	mundo.camara.giro_obj = e[3]
 	mundo.camara.zoom = e[4]
 	mundo.camara.zoom_obj = e[4]
+	if g == "salto":
+		# un salto, con fotos en distintos momentos (despegue, arriba, bajando, aterrizaje)
+		mundo.get_tree().create_timer(2.0).timeout.connect(func():
+			Input.action_press("saltar")
+			mundo.get_tree().create_timer(0.1).timeout.connect(func(): Input.action_release("saltar"))
+			for i in 5:
+				Captura.foto(Captura.salida.get_basename() + "_%d.png" % i, 1 + i * 2))
+	if g == "campamento":
+		# el cobertizo y la palisada del Puesto, donde la valla cortaba el camino
+		var c := Datos.m(350, 795) + Vector2(-9, 4)
+		mundo.heroe.global_position = Vector3(c.x, mundo.terreno.altura(c.x, c.y) + 0.5, c.y)
+		mundo.camara.global_position = mundo.heroe.global_position
+	if g == "camara_baja":
+		mundo.camara._inclinar(-90.0)
 	if g == "claro" or g == "jefe":
 		mundo.ciervo.mostrar_ataduras()
 	if g == "jefe":

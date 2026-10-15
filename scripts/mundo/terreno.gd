@@ -207,6 +207,7 @@ func _malla(colores: PackedColorArray, losas: PackedVector2Array) -> void:
 
 func _colision() -> void:
 	var cuerpo := StaticBody3D.new()
+	cuerpo.collision_layer = 1 | 8   # 8 = solo el piso: la cámara lo usa para no meterse abajo
 	cuerpo.name = "ColisionSuelo"
 	var forma := CollisionShape3D.new()
 	# HeightMapShape3D va centrado y con 1 m entre muestras (escalarlo no se lleva bien con la física):
