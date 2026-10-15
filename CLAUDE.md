@@ -62,6 +62,27 @@ Nombre del juego: **EROMASH: Las Runas del Olvido** (ES) / **EROMASH: Whisper of
 - **Rendimiento desde el principio**: todo lo que se agrega al mundo entra en una distancia de dibujo y, si tiene vida propia (enemigos, criaturas, cofres animados), en el grupo `despertable` del Activador. Reglas y topes de triángulos en `docs/mvp.md`, sección Rendimiento.
 - Lo que se entrega para mirar (capturas, comparaciones) va como imagen o página HTML cuando corresponde.
 
+## El juego de la arena como referencia
+
+El repo de la arena (`AlejandroVecchio/eromash-juego`, rama `compartido`) está en la PC en `C:/eromash-juego`. `.claude/settings.json` le da acceso de lectura a Claude Code (`additionalDirectories`); en una sesión en la nube se agrega como segundo repo. Se usa **solo para leer y traer material**: nada de lo que se haga acá se escribe en ese repo (tiene sus propias reglas y hilos).
+
+Lo que más sirve de ahí:
+
+| Para | Dónde |
+|---|---|
+| Reglas fijas de los jefes (aviso exacto en el piso, tope del 35 %, saltar evita todo, nunca 3 veces el mismo ataque) y el molde para pedir uno | `docs/jefes.md` |
+| Enemigos élite, quemadura, veneno y frío | `docs/elites.md` |
+| Botín, objetos y rarezas | `docs/botin.md` |
+| Todas las mecánicas del juego (lista para Steam) | `docs/mecanicas.md` |
+| Rumbo del proyecto (PC primero, Steam, celular a futuro) | `docs/rumbo.md` |
+| Contexto general de Eromash para una IA | `docs/eromash-contexto-ia.md` |
+| Cómo está armado el juego de la arena | `docs/traspaso.md` |
+| Audio con créditos, textos y equipo | `juego/audio/`, `juego/js/textos/`, `juego/js/equipo/` |
+| El prototipo de la aventura en three.js (cámara, héroe, casco) | `aventura/` |
+| Originales de Tripo y packs MegaKit | `output/`, `aventura/fuentes/` |
+
+Lo que se trae se copia a este repo anotando de dónde viene (y su línea en el `CREDITOS.md` si es de terceros).
+
 ## Sesiones en la nube (sin la PC)
 
 Godot 4.7.2 corre también en Linux sin pantalla, así que un cambio visual se puede revisar con una captura antes de darlo por hecho:
