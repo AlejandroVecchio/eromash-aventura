@@ -25,6 +25,12 @@ var _tema: Theme
 var _objetivo_titulo: Label
 var _objetivo_texto: Label
 var _salud: ProgressBar
+var _stamina: ProgressBar
+var _stamina_texto: Label
+var _salud_texto: Label
+var _ayuda_combate: Label
+var _stamina_objetivo := 100.0
+var _stamina_alerta := 0.0
 var _cartel: Label
 var _mensajes: VBoxContainer
 var _dialogo: PanelContainer
@@ -83,6 +89,7 @@ func _ready() -> void:
 			mostrar_mensaje(tr(c)))
 	Juego.dialogo.connect(abrir_dialogo)
 	Calidad.cambio.connect(_actualizar_objetivo)
+	Controles.dispositivo_cambio.connect(_actualizar_objetivo)
 	_actualizar_objetivo()
 
 
@@ -182,11 +189,12 @@ func _armar_juego(raiz: Control) -> void:
 	# salud
 	var sal := VBoxContainer.new()
 	sal.set_anchors_preset(Control.PRESET_BOTTOM_LEFT)
-	sal.position = Vector2(36, -86)
+	sal.position = Vector2(36, -164)
 	sal.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	raiz.add_child(sal)
 	var nombre := _etiqueta(sal, 18, CREMA, true)
 	nombre.text = "EROMASH"
+	_salud_texto = _etiqueta(sal, 15, CREMA)
 	_salud = ProgressBar.new()
 	_salud.custom_minimum_size = Vector2(320, 18)
 	_salud.show_percentage = false
@@ -195,6 +203,16 @@ func _armar_juego(raiz: Control) -> void:
 	lleno.set_corner_radius_all(2)
 	_salud.add_theme_stylebox_override("fill", lleno)
 	sal.add_child(_salud)
+	_stamina_texto = _etiqueta(sal, 15, AMBAR)
+	_stamina = ProgressBar.new()
+	_stamina.custom_minimum_size = Vector2(320, 12)
+	_stamina.show_percentage = false
+	var energia := StyleBoxFlat.new()
+	energia.bg_color = AMBAR
+	energia.set_corner_radius_all(2)
+	_stamina.add_theme_stylebox_override("fill", energia)
+	sal.add_child(_stamina)
+	_ayuda_combate = _etiqueta(sal, 14, Color(CREMA, 0.75))
 	# cartel de interacción
 	_cartel = _etiqueta(raiz, 26, CREMA)
 	_cartel.set_anchors_preset(Control.PRESET_CENTER_BOTTOM)
@@ -222,10 +240,20 @@ func conectar_heroe(h: Heroe, c: Camara) -> void:
 	_minimapa.camara = c
 	h.salud_cambio.connect(func(v, m):
 		_salud.max_value = m
-		_salud.value = v)
+		_salud.value = v
+		_salud_texto.text = tr("combate_salud") % [ceili(v), int(m)])
+	h.stamina_cambio.connect(func(v, m):
+		_stamina.max_value = m
+		_stamina_objetivo = v
+		_actualizar_recursos())
+	h.esquiva_sin_stamina.connect(func(): _stamina_alerta = 0.6)
 	h.cerca_cambio.connect(_mostrar_cartel)
 	_salud.max_value = Heroe.SALUD_MAX
 	_salud.value = h.salud
+	_stamina.max_value = h.estadisticas.stamina_maxima
+	_stamina.value = h.stamina
+	_stamina_objetivo = h.stamina
+	_actualizar_recursos()
 
 
 func _mostrar_cartel(n: Node) -> void:
@@ -248,6 +276,15 @@ func _actualizar_objetivo() -> void:
 		_objetivo_texto.text = tr(o.get("texto", ""))
 	var teclas := _objetivo_titulo.get_parent().get_node("Teclas") as Label
 	teclas.text = tr("ayuda_teclas") % [Controles.tecla("interactuar"), Controles.tecla("lente"), Controles.tecla("diario")]
+	_actualizar_recursos()
+
+
+func _actualizar_recursos() -> void:
+	if heroe == null:
+		return
+	_salud_texto.text = tr("combate_salud") % [ceili(heroe.salud), int(Heroe.SALUD_MAX)]
+	_stamina_texto.text = tr("combate_stamina") % [floori(heroe.stamina), int(heroe.estadisticas.stamina_maxima)]
+	_ayuda_combate.text = tr("combate_ayuda") % [Controles.tecla("esquivar"), Controles.tecla("saltar")]
 
 
 func mostrar_mensaje(texto: String, color := AMBAR) -> void:
@@ -266,6 +303,12 @@ func mostrar_mensaje(texto: String, color := AMBAR) -> void:
 
 
 func _process(dt: float) -> void:
+	if heroe and not get_tree().paused:
+		_stamina_alerta = maxf(0.0, _stamina_alerta - dt)
+		_stamina.value = move_toward(_stamina.value, _stamina_objetivo, dt * 220.0)
+		var sin_energia := heroe.stamina < heroe.estadisticas.costo_esquiva
+		_stamina.modulate = Color(1, 0.45, 0.3) if _stamina_alerta > 0.0 else (Color(0.7, 0.7, 0.7) if sin_energia else Color.WHITE)
+		_ayuda_combate.text = tr("combate_sin_stamina") if _stamina_alerta > 0.0 else tr("combate_ayuda") % [Controles.tecla("esquivar"), Controles.tecla("saltar")]
 	if en_dialogo:
 		_dlg_t += dt
 		var total := tr(_dlg_lineas[_dlg_i][1]).length() if _dlg_i < _dlg_lineas.size() else 0

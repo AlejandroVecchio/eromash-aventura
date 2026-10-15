@@ -409,7 +409,7 @@ func _golpe_inicio(heroe: Heroe) -> void:
 	if _ataque in ["pisoton", "barrido", "raices"]:
 		for a in _avisos:
 			if is_instance_valid(a) and a.contiene(heroe.global_position):
-				heroe.recibir_dano(minf(ATAQUES[_ataque].dano, Heroe.SALUD_MAX * 0.35), global_position)
+				heroe.recibir_dano(minf(ATAQUES[_ataque].dano, Heroe.SALUD_MAX * 0.35), global_position, true)
 				break
 		_limpiar_avisos()
 		if cam and cam.get_parent() is Camara:
@@ -420,7 +420,7 @@ func _embestida_choques(heroe: Heroe) -> void:
 	if not _golpeo:
 		var d := heroe.global_position - global_position
 		d.y = 0.0
-		if d.length() < 2.6 and not heroe.en_aire:
+		if d.length() < 2.6:
 			heroe.recibir_dano(minf(ATAQUES.embestida.dano, Heroe.SALUD_MAX * 0.35), global_position)
 			_golpeo = true
 	for s in soportes:

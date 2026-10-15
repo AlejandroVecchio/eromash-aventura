@@ -1,4 +1,13 @@
 keys,es,en
+combate_salud,Vida  %d / %d,Health  %d / %d
+combate_stamina,Resistencia  %d / %d,Stamina  %d / %d
+combate_ayuda,[%s] esquivar · [%s] saltar,[%s] evade · [%s] jump
+combate_sin_stamina,Necesitás más resistencia para esquivar,You need more stamina to evade
+prueba_combate_titulo,Práctica de combate,Combat practice
+prueba_combate_instrucciones,"Probá ataques, bloqueo y esquiva contra los errantes.
+[V] cambiar velocidad de ataque · [T] reiniciar encuentro","Try attacks, blocking and evasion against the wanderers.
+[V] change attack speed · [T] reset encounter"
+prueba_combate_velocidad,Velocidad de ataque ×%.2f,Attack speed ×%.2f
 juego_subtitulo,Las Runas del Olvido,Whisper of the Runes
 titulo_continuar,Continuar,Continue
 titulo_nueva,Nueva partida,New game

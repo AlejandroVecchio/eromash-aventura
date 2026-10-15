@@ -80,7 +80,7 @@ var de_prueba := false   ## capturas sin pantalla: no se lee ni se pisa la parti
 
 func _ready() -> void:
 	for a in OS.get_cmdline_user_args():
-		if a.begins_with("--captura="):
+		if a.begins_with("--captura=") or a == "--pruebas-combate" or a == "--practica-combate":
 			de_prueba = true
 	if not de_prueba:
 		cargar()

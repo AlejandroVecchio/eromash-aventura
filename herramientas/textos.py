@@ -4,6 +4,13 @@ T = {}
 def t(k, es, en): T[k] = (es, en)
 
 # --- interfaz general ---
+t("combate_salud", "Vida  %d / %d", "Health  %d / %d")
+t("combate_stamina", "Resistencia  %d / %d", "Stamina  %d / %d")
+t("combate_ayuda", "[%s] esquivar · [%s] saltar", "[%s] evade · [%s] jump")
+t("combate_sin_stamina", "Necesitás más resistencia para esquivar", "You need more stamina to evade")
+t("prueba_combate_titulo", "Práctica de combate", "Combat practice")
+t("prueba_combate_instrucciones", "Probá ataques, bloqueo y esquiva contra los errantes.\n[V] cambiar velocidad de ataque · [T] reiniciar encuentro", "Try attacks, blocking and evasion against the wanderers.\n[V] change attack speed · [T] reset encounter")
+t("prueba_combate_velocidad", "Velocidad de ataque ×%.2f", "Attack speed ×%.2f")
 t("juego_subtitulo", "Las Runas del Olvido", "Whisper of the Runes")
 t("titulo_continuar", "Continuar", "Continue")
 t("titulo_nueva", "Nueva partida", "New game")

@@ -2,6 +2,8 @@
 
 Cómo se mueve y se comporta el héroe. Sale del prototipo anterior (three.js, `aventura/src/personaje/completo.js` del repo de la arena), que ya estaba ajustado a mano y probado: **en Godot se rehace igual**, con estos mismos números, salvo que Alejandro pida cambiarlos.
 
+Actualización autorizada del 15/10/2026: combate con esquiva, resistencia, cancelaciones y velocidad de ataque por estadísticas. Las secciones de combate de este documento incluyen ese cambio. Detalles, pruebas y animaciones pendientes en `docs/combate.md`.
+
 ## Modelo
 
 - Archivo: `assets/modelos/personaje/eromash-completo.glb` (hecho con Tripo y armado en Blender).
@@ -69,13 +71,30 @@ En el aire: `tiempo = aire[0] + (t_aire / vuelo) × (aire[1] − aire[0])`, con 
 
 - Combo de dos golpes: `ataque` y, si se vuelve a atacar dentro de **1,2 s** de terminar el anterior, `ataque2`.
 - Velocidad de reproducción 1,15; se puede mover a **0,35×** mientras ataca; fundido 0,08 s.
-- Un clic durante el golpe queda pedido y encadena el siguiente al terminar.
+- Velocidad efectiva: `1,15 × estadisticas.velocidad_ataque`. El multiplicador se fija al comenzar cada golpe; el impacto sigue el tiempo del clip. No acelera esquiva, caminar ni interacciones.
+- Un clic tiene memoria de 0,22 s. En recuperación permite encadenar al alcanzar el 72 % del clip, sin esperar todo el final. Los clics demasiado tempranos caducan.
+- Esquivar cancela preparación y recuperación. Entre `momento − 0,06` y `momento + 0,07` del clip hay compromiso; la entrada de esquiva puede esperar hasta 0,22 s a que abra la ventana.
+- Cancelar borra eventos de daño y combo pendientes. El bloqueo puede cortar recuperación después de `momento + 0,07`.
+- Un golpe recibido sin bloquear interrumpe el ataque y reproduce una reacción corta de 0,42 s. Las interacciones de misión conservan sus eventos.
+- Los impactos respetan alcance, arco frontal, desnivel máximo de 2,5 m y obstáculos sólidos.
 - Patada (prueba): se mueve a 0,2×.
 
 ## Bloqueo
 
 - Mientras se mantiene el botón: `bloquear` (entrada), después `bloqueo` en bucle; al soltar, `soltar_bloqueo` (vuelve a la guardia dando el paso con el pie que retrocedió, sin arrastrarlo).
 - Se mueve a 0,3× de caminar.
+- Atacar sale del bloqueo; mantener el botón permite volver al escudo durante la recuperación del ataque.
+
+## Esquiva y resistencia
+
+- Alt en teclado; B en mando. Envainar en mando pasa a R3 (en teclado sigue X).
+- Movimiento relativo a la cámara; sin dirección retrocede. Conserva orientación y normaliza diagonales.
+- Distancia de 3 m en 0,4 s, con impulso inicial y frenado. Usa `move_and_slide`, colisiones con escenario y enemigos, y sigue pendientes. Salir de un borde termina la esquiva y activa caída.
+- Invulnerabilidad entre 0,06 y 0,26 s de la esquiva base. El inicio y la recuperación son vulnerables. Pausa de 0,12 s al terminar; no puede cancelarse a sí misma ni iniciarse en el aire, muerto o en diálogo.
+- Resistencia máxima 100; costo 30; regeneración 28/s después de 0,75 s desde el gasto. No regenera durante esquiva, bloqueo, muerte o diálogo. En esta entrega atacar y correr no consumen resistencia.
+- Se repone al revivir o cargar una escena; todavía no se persiste como estadística de inventario. Se muestra en el HUD y avisa al intentar esquivar sin suficiente resistencia.
+- Valores editables en `assets/datos/combate_heroe.tres`. El héroe duplica el recurso al entrar, para que las mejoras no modifiquen otros personajes.
+- Animación provisional: aprovecha `bloquear`/`caminar`, con descenso e inclinación suaves. No es una animación definitiva de paso lateral o rodada. Los GLB direccionales previstos en `docs/combate.md` la reemplazan al iniciar.
 
 ## Interacciones
 
@@ -102,3 +121,4 @@ Recorte de cada clip (segundos del archivo, sin la espera quieta de Mixamo):
 - Morir: `morir` con fundido 0,15; se queda tirado hasta revivir (vuelve a guardia o descanso con fundido 0,4).
 - `grito` y `hechizo`: quieto, sacan las armas si hace falta.
 - Mientras muere o trepa no se aceptan entradas; mientras está en el aire no ataca, ni bloquea ni interactúa.
+- El salto evita los ataques del MVP marcados como rasantes; ya no concede inmunidad universal por estar en el aire. La embestida del ciervo se evade por desplazamiento o por la ventana de esquiva.

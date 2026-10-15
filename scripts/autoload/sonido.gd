@@ -4,6 +4,7 @@ extends Node
 
 const SFX := "res://assets/audio/sfx/"
 const EFECTOS := {
+	"esquiva": ["aire-corto"],
 	"golpe": ["hoja", "metal"],
 	"bloqueo": ["metal", "clavada"],
 	"herido": ["aire-corto"],
@@ -27,6 +28,8 @@ var _ambiente: AudioStreamPlayer
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
+	if DisplayServer.get_name() == "headless":
+		return
 	for i in 8:
 		var p := AudioStreamPlayer.new()
 		p.bus = "Master"
@@ -48,7 +51,7 @@ func _cargar(archivo: String) -> AudioStream:
 
 
 func tocar(nombre: String, volumen_db := 0.0) -> void:
-	if not EFECTOS.has(nombre):
+	if _canales.is_empty() or not EFECTOS.has(nombre):
 		return
 	var s := _cargar(EFECTOS[nombre].pick_random())
 	if s == null:
@@ -66,6 +69,8 @@ func tocar(nombre: String, volumen_db := 0.0) -> void:
 
 ## Fondo del bosque en bucle.
 func ambiente(encender := true) -> void:
+	if _ambiente == null:
+		return
 	if not encender:
 		_ambiente.stop()
 		return

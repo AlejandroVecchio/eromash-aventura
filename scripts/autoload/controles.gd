@@ -2,6 +2,17 @@ extends Node
 ## Registra las acciones del juego (teclado, mouse y mando). El código usa siempre acciones, nunca teclas sueltas:
 ## cambiar un control o sumar uno nuevo se hace solo acá.
 
+signal dispositivo_cambio
+
+var usando_mando := false
+
+const NOMBRES_BOTONES := {
+	JOY_BUTTON_A: "A", JOY_BUTTON_B: "B", JOY_BUTTON_X: "X", JOY_BUTTON_Y: "Y",
+	JOY_BUTTON_LEFT_SHOULDER: "LB", JOY_BUTTON_RIGHT_SHOULDER: "RB",
+	JOY_BUTTON_LEFT_STICK: "L3", JOY_BUTTON_RIGHT_STICK: "R3",
+	JOY_BUTTON_BACK: "Back", JOY_BUTTON_START: "Start",
+}
+
 const TECLAS := {
 	"mover_izquierda": [KEY_A, KEY_LEFT],
 	"mover_derecha": [KEY_D, KEY_RIGHT],
@@ -9,6 +20,7 @@ const TECLAS := {
 	"mover_abajo": [KEY_S, KEY_DOWN],
 	"correr": [KEY_SHIFT],
 	"saltar": [KEY_SPACE],
+	"esquivar": [KEY_ALT],
 	"interactuar": [KEY_F],
 	"lente": [KEY_R],
 	"envainar": [KEY_X],
@@ -24,7 +36,8 @@ const BOTONES_MANDO := {
 	"saltar": [JOY_BUTTON_A],
 	"atacar": [JOY_BUTTON_X],
 	"interactuar": [JOY_BUTTON_Y],
-	"envainar": [JOY_BUTTON_B],
+	"esquivar": [JOY_BUTTON_B],
+	"envainar": [JOY_BUTTON_RIGHT_STICK],
 	"lente": [JOY_BUTTON_RIGHT_SHOULDER],
 	"bloquear": [JOY_BUTTON_LEFT_SHOULDER],
 	"correr": [JOY_BUTTON_LEFT_STICK],
@@ -82,9 +95,24 @@ func _boton_mouse(accion: String, boton: MouseButton) -> void:
 
 ## Texto corto de la tecla de una acción para los carteles ("F", "R"…).
 func tecla(accion: String) -> String:
+	if usando_mando:
+		for ev in InputMap.action_get_events(accion):
+			if ev is InputEventJoypadButton:
+				return NOMBRES_BOTONES.get((ev as InputEventJoypadButton).button_index, "?")
 	for ev in InputMap.action_get_events(accion):
 		if ev is InputEventKey:
 			return OS.get_keycode_string((ev as InputEventKey).physical_keycode)
 		if ev is InputEventMouseButton:
 			return tr("tecla_clic_izq") if (ev as InputEventMouseButton).button_index == MOUSE_BUTTON_LEFT else tr("tecla_clic_der")
 	return "?"
+
+
+func _input(ev: InputEvent) -> void:
+	var mando := usando_mando
+	if ev is InputEventJoypadButton or (ev is InputEventJoypadMotion and absf((ev as InputEventJoypadMotion).axis_value) > 0.3):
+		mando = true
+	elif ev is InputEventKey or ev is InputEventMouseButton:
+		mando = false
+	if mando != usando_mando:
+		usando_mando = mando
+		dispositivo_cambio.emit()

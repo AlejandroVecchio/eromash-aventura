@@ -30,6 +30,7 @@ static func biblioteca_hero() -> AnimationLibrary:
 			a.loop_mode = Animation.LOOP_LINEAR
 		else:
 			quitar_deriva(a)
+			a.loop_mode = Animation.LOOP_NONE
 		_biblioteca.add_animation(nombre, a)
 	escena.free()
 	return _biblioteca
@@ -46,6 +47,31 @@ static func dar_animaciones(ap: AnimationPlayer) -> void:
 	if ap.has_animation_library(""):
 		ap.remove_animation_library("")
 	ap.add_animation_library("", biblioteca_hero())
+
+
+## Biblioteca exclusiva del jugador; al llegar los GLB retargeteados se usan sin cambiar el combate.
+## Cada GLB debe traer un solo clip, con el mapa-humano.tres del resto del proyecto.
+static func agregar_esquivas(ap: AnimationPlayer) -> void:
+	var biblioteca := AnimationLibrary.new()
+	for direccion in ["adelante", "atras", "izquierda", "derecha"]:
+		var ruta: String = "res://assets/modelos/animaciones/esquiva_%s.glb" % direccion
+		if not ResourceLoader.exists(ruta):
+			continue
+		var escena: Node = load(ruta).instantiate()
+		var reproductores := escena.find_children("*", "AnimationPlayer", true, false)
+		if not reproductores.is_empty():
+			var origen := reproductores[0] as AnimationPlayer
+			var nombres := Array(origen.get_animation_list()).filter(func(n): return n != "RESET")
+			if nombres.size() == 1:
+				var clip: Animation = origen.get_animation(nombres[0]).duplicate(true)
+				sacar_avance(clip)
+				clip.loop_mode = Animation.LOOP_NONE
+				biblioteca.add_animation(direccion, clip)
+			else:
+				push_warning("La esquiva necesita un solo clip: " + ruta)
+		escena.free()
+	if not biblioteca.get_animation_list().is_empty():
+		ap.add_animation_library("evasiones", biblioteca)
 
 
 ## Busca el AnimationPlayer de un modelo o le crea uno.

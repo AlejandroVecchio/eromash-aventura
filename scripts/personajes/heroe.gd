@@ -1,11 +1,14 @@
 class_name Heroe
 extends CharacterBody3D
 ## Eromash. Se mueve y se comporta como en el prototipo (docs/personaje-heroe.md): modos ARMADO y LIBRE,
-## combo de dos golpes, bloqueo mantenido, salto que sigue a la física, envainar solo, interacciones y la Lente.
+## Combo, cancelaciones, esquiva con resistencia, bloqueo, salto, interacciones y Lente del Eco.
 
 signal murio
 signal salud_cambio(valor: float, maximo: float)
 signal cerca_cambio(interactuable: Node)
+signal stamina_cambio(valor: float, maximo: float)
+signal esquiva_sin_stamina
+signal esquiva_empezo
 
 const MODELO := "res://assets/modelos/personaje/eromash-completo.glb"
 const ALTURA := 1.85
@@ -34,8 +37,13 @@ const RECORTES := {
 ## daño de cada golpe y en qué parte del clip pega (0..1)
 const GOLPES := {"ataque": {"dano": 22.0, "momento": 0.42}, "ataque2": {"dano": 30.0, "momento": 0.4}}
 const ALCANCE := 2.4
+const MEMORIA_ENTRADA := 0.22
+const FIN_COMBO := 0.72
+const INVULNERABLE_DESDE := 0.06
+const INVULNERABLE_HASTA := 0.26
 
 @export var camara: Camara
+@export var estadisticas: EstadisticasCombate = preload("res://assets/datos/combate_heroe.tres")
 
 var modelo: Node3D
 var anim: AnimationPlayer
@@ -53,7 +61,22 @@ var _quieto := 0.0
 var _miro := false
 var _desde_golpe := 99.0
 var _ultimo_golpe := ""
-var _pedido_golpe := false
+var _pedido_golpe := 0.0
+var _pedido_esquiva := 0.0
+var _direccion_pedida := Vector3.ZERO
+var stamina := 100.0
+var esquivando := false
+var _esquiva_t := 0.0
+var _esquiva_duracion := 0.4
+var _esquiva_distancia := 3.0
+var _esquiva_pausa := 0.0
+var _direccion_esquiva := Vector3.ZERO
+var _espera_stamina := 0.0
+var _aviso_stamina := 0.0
+var _accion_id := 0
+var _modelo_posicion := Vector3.ZERO
+var _modelo_rotacion := Vector3.ZERO
+var _esquiva_provisional := true
 var _t_aire := 0.0
 var _aterrizaje := 0.0
 var _salto_clip := "salto_armado"
@@ -67,7 +90,7 @@ var _lente_espera := 0.0
 func _ready() -> void:
 	add_to_group("heroe")
 	collision_layer = 2
-	collision_mask = 1
+	collision_mask = 1 | 4
 	floor_max_angle = deg_to_rad(48)
 	floor_snap_length = 0.6
 	var forma := CollisionShape3D.new()
@@ -78,6 +101,9 @@ func _ready() -> void:
 	forma.position.y = 0.9
 	add_child(forma)
 	_cargar_modelo()
+	estadisticas = estadisticas.duplicate() if estadisticas else EstadisticasCombate.new()
+	stamina = estadisticas.stamina_maxima
+	stamina_cambio.emit(stamina, estadisticas.stamina_maxima)
 	salud = Juego.salud
 	salud_cambio.emit(salud, SALUD_MAX)
 
@@ -88,8 +114,12 @@ func _cargar_modelo() -> void:
 	add_child(modelo)
 	Animaciones.mirar_adelante(modelo)
 	Animaciones.ajustar_altura(modelo, ALTURA)
+	_modelo_posicion = modelo.position
+	_modelo_rotacion = modelo.rotation
 	anim = Animaciones.reproductor(modelo)
+	anim.callback_mode_process = AnimationMixer.ANIMATION_CALLBACK_MODE_PROCESS_PHYSICS
 	Animaciones.dar_animaciones(anim)
+	Animaciones.agregar_esquivas(anim)
 	anim.playback_default_blend_time = 0.18
 	for n in ["espada", "escudo", "espada_guardada", "escudo_guardado"]:
 		var m := modelo.find_child(n, true, false)
@@ -125,11 +155,12 @@ func _hacer(nombre: String, mover := 0.0, escala := 1.0, fundido := 0.12, al_ter
 			al_terminar.call()
 		return
 	var a := anim.get_animation(nombre)
-	a.loop_mode = Animation.LOOP_NONE
 	var fin := a.length if hasta < 0.0 else hasta
+	anim.speed_scale = 1.0
 	anim.play(nombre, fundido, escala)
 	anim.seek(desde, true)
-	_accion = {"nombre": nombre, "mover": mover, "fin": fin, "al_terminar": al_terminar, "eventos": eventos, "hechos": []}
+	_accion_id += 1
+	_accion = {"id": _accion_id, "nombre": nombre, "mover": mover, "fin": fin, "al_terminar": al_terminar, "eventos": eventos, "hechos": []}
 
 
 func _terminar_accion() -> void:
@@ -173,6 +204,7 @@ func _desenvainar(luego := Callable(), rapido := false) -> void:
 
 
 func _atacar() -> void:
+	bloqueando = false
 	if not armado:
 		_desenvainar(_atacar, true)
 		return
@@ -180,11 +212,107 @@ func _atacar() -> void:
 	_ultimo_golpe = golpe
 	_combate = COMBATE
 	var momento: float = GOLPES[golpe].momento * anim.get_animation(golpe).length
-	_hacer(golpe, 0.35, VEL_ATAQUE, 0.08, func():
+	_hacer(golpe, 0.35, VEL_ATAQUE * estadisticas.multiplicador_ataque(), 0.08, func():
 		_desde_golpe = 0.0
-		if _pedido_golpe:
-			_pedido_golpe = false
+		if _pedido_golpe > 0.0:
+			_pedido_golpe = 0.0
 			_atacar(), [[momento, func(): _pegar(GOLPES[golpe].dano)]])
+	# La velocidad se fija al comenzar cada golpe; cambiar equipo no mueve un impacto en curso.
+	_accion["velocidad"] = VEL_ATAQUE * estadisticas.multiplicador_ataque()
+
+
+func atacando() -> bool:
+	return _accion.get("nombre", "") in GOLPES
+
+
+func progreso_ataque() -> float:
+	if not atacando():
+		return 0.0
+	return anim.current_animation_position / anim.get_animation(_accion.nombre).length
+
+
+## Preparación cancelable; el arco del impacto conserva un compromiso breve.
+func puede_cancelar_ataque() -> bool:
+	if not atacando():
+		return false
+	var impacto: float = GOLPES[_accion.nombre].momento
+	var p := progreso_ataque()
+	return p < impacto - 0.06 or p >= impacto + 0.07
+
+
+## Cancelar no ejecuta el callback de finalización ni los eventos pendientes.
+func _cancelar_combate() -> void:
+	_accion = {}
+	_pedido_golpe = 0.0
+	_pedido_esquiva = 0.0
+	bloqueando = false
+	esquivando = false
+	_ultimo_golpe = ""
+	_desde_golpe = COMBO
+	anim.speed_scale = 1.0
+	modelo.position = _modelo_posicion
+	modelo.rotation = _modelo_rotacion
+
+
+func intentar_esquiva(direccion: Vector3) -> bool:
+	if muerto or bloqueado or en_aire or not is_on_floor() or esquivando or _esquiva_pausa > 0.0:
+		return false
+	var nombre: String = _accion.get("nombre", "")
+	if not _accion.is_empty() and not puede_cancelar_ataque() and nombre not in ["bloquear", "soltar_bloqueo", "guardia_mirar", "guardia_mirar2"]:
+		return false
+	if stamina + 0.001 < estadisticas.costo_esquiva:
+		_pedido_esquiva = 0.0
+		if _aviso_stamina <= 0.0:
+			_aviso_stamina = 0.6
+			esquiva_sin_stamina.emit()
+		return false
+	_cancelar_combate()
+	stamina = maxf(0.0, stamina - estadisticas.costo_esquiva)
+	stamina_cambio.emit(stamina, estadisticas.stamina_maxima)
+	_espera_stamina = estadisticas.espera_regeneracion
+	_esquiva_duracion = maxf(0.25, estadisticas.duracion_esquiva)
+	_esquiva_distancia = maxf(0.0, estadisticas.distancia_esquiva)
+	_direccion_esquiva = Vector3(direccion.x, 0, direccion.z).normalized()
+	if _direccion_esquiva.length_squared() < 0.01:
+		_direccion_esquiva = -global_transform.basis.z.normalized()
+	_esquiva_t = 0.0
+	esquivando = true
+	_combate = COMBATE
+	_quieto = 0.0
+	_aterrizaje = 0.0
+	var local := global_transform.basis.inverse() * _direccion_esquiva
+	var direccion_clip := "adelante" if local.z >= 0.0 else "atras"
+	if absf(local.x) > absf(local.z):
+		direccion_clip = "derecha" if local.x > 0.0 else "izquierda"
+	var clip := "evasiones/" + direccion_clip
+	_esquiva_provisional = not anim.has_animation(clip)
+	if _esquiva_provisional:
+		# Sustituto temporal: paso protegido del bloqueo, con inclinación y descenso suaves.
+		clip = "bloquear" if armado else "caminar"
+	var largo := anim.get_animation(clip).length
+	if _esquiva_provisional:
+		largo = minf(largo, 0.55)
+	_hacer(clip, 0.0, largo / _esquiva_duracion, 0.06, Callable(), [], 0.0, largo)
+	Sonido.tocar("esquiva", -4.0)
+	esquiva_empezo.emit()
+	return true
+
+
+func invulnerable() -> bool:
+	# Ventana relativa a la duración: aumentar velocidad de ataque no acelera la esquiva.
+	var t := _esquiva_t / maxf(0.001, _esquiva_duracion) * 0.4
+	return esquivando and t >= INVULNERABLE_DESDE and t < INVULNERABLE_HASTA
+
+
+func _actualizar_stamina(dt: float) -> void:
+	var anterior := stamina
+	stamina = clampf(stamina, 0.0, maxf(1.0, estadisticas.stamina_maxima))
+	var recuperacion := maxf(0.0, dt - _espera_stamina)
+	_espera_stamina = maxf(0.0, _espera_stamina - dt)
+	if not esquivando and not muerto and not bloqueado and not bloqueando:
+		stamina = minf(estadisticas.stamina_maxima, stamina + estadisticas.regeneracion_stamina * recuperacion)
+	if not is_equal_approx(anterior, stamina):
+		stamina_cambio.emit(stamina, estadisticas.stamina_maxima)
 
 
 ## Golpea a los enemigos que están adelante, al alcance.
@@ -196,11 +324,16 @@ func _pegar(dano: float) -> void:
 		if n == null or not n.has_method("recibir_golpe"):
 			continue
 		var d := n.global_position - global_position
+		if absf(d.y) > 2.5:
+			continue
 		d.y = 0.0
 		var alcance := ALCANCE + float(n.get("radio") if n.get("radio") != null else 0.5)
 		if d.length() > alcance:
 			continue
 		if d.length() > 0.6 and adelante.angle_to(d.normalized()) > deg_to_rad(75):
+			continue
+		var rayo := PhysicsRayQueryParameters3D.create(global_position + Vector3.UP, n.global_position + Vector3.UP, 1, [get_rid()])
+		if not get_world_3d().direct_space_state.intersect_ray(rayo).is_empty():
 			continue
 		n.recibir_golpe(dano, global_position)
 		golpeo = true
@@ -231,10 +364,10 @@ func interactuar_con(objeto: Node, anim_nombre: String, momento: float, al: Call
 
 # ---------- daño ----------
 
-func recibir_dano(cantidad: float, origen: Vector3) -> bool:
+func recibir_dano(cantidad: float, origen: Vector3, evitable_saltando := false) -> bool:
 	if muerto or bloqueado:
 		return false
-	if en_aire:
+	if invulnerable() or (en_aire and evitable_saltando):
 		return false
 	var d := origen - global_position
 	d.y = 0.0
@@ -247,11 +380,14 @@ func recibir_dano(cantidad: float, origen: Vector3) -> bool:
 		Sonido.tocar("herido")
 		if camara:
 			camara.sacudir(0.4)
-		if _accion.is_empty() or not str(_accion.get("nombre", "")).begins_with("ataque"):
-			_hacer(["golpe", "golpe2", "golpe3"].pick_random(), 0.0, 1.0, 0.06)
+		# Un golpe recibido interrumpe combate; una interacción narrativa conserva su evento.
+		if _accion.is_empty() or atacando() or esquivando or _accion.get("nombre", "") in ["bloquear", "soltar_bloqueo", "golpe", "golpe2", "golpe3", "guardia_mirar", "guardia_mirar2"]:
+			_cancelar_combate()
+			_hacer(["golpe", "golpe2", "golpe3"].pick_random(), 0.0, 1.0, 0.06, Callable(), [], 0.0, 0.42)
 	salud = maxf(0.0, salud - cantidad)
 	_sin_dano = 0.0
 	_combate = COMBATE
+	Juego.salud = salud
 	salud_cambio.emit(salud, SALUD_MAX)
 	if salud <= 0.0:
 		_morir()
@@ -259,6 +395,7 @@ func recibir_dano(cantidad: float, origen: Vector3) -> bool:
 
 
 func _morir() -> void:
+	_cancelar_combate()
 	muerto = true
 	bloqueando = false
 	_accion = {}
@@ -267,12 +404,20 @@ func _morir() -> void:
 
 
 func revivir(pos: Vector3) -> void:
+	_cancelar_combate()
 	muerto = false
+	en_aire = false
+	_aterrizaje = 0.0
+	_esquiva_pausa = 0.0
+	_espera_stamina = 0.0
+	stamina = estadisticas.stamina_maxima
+	stamina_cambio.emit(stamina, estadisticas.stamina_maxima)
 	salud = SALUD_MAX
 	Juego.salud = salud
 	global_position = pos
 	velocity = Vector3.ZERO
 	_accion = {}
+	_armas(armado)
 	anim.play("guardia" if armado else "descanso", 0.3)
 	salud_cambio.emit(salud, SALUD_MAX)
 
@@ -284,32 +429,91 @@ func desbloquear_luego() -> void:
 
 func curar(cantidad: float) -> void:
 	salud = minf(SALUD_MAX, salud + cantidad)
+	Juego.salud = salud
 	salud_cambio.emit(salud, SALUD_MAX)
 
 
 # ---------- bucle ----------
 
+func _actualizar_accion() -> void:
+	if _accion.is_empty() or esquivando:
+		return
+	var id: int = _accion.id
+	if anim.current_animation != _accion.nombre:
+		_accion = {}
+		return
+	var t := anim.current_animation_position
+	var evs: Array = _accion.eventos
+	for i in evs.size():
+		if not (i in _accion.hechos) and t >= evs[i][0]:
+			_accion.hechos.append(i)
+			(evs[i][1] as Callable).call()
+			if _accion.get("id", -1) != id:
+				return
+	if atacando() and progreso_ataque() >= FIN_COMBO and _pedido_golpe > 0.0:
+		_terminar_accion()
+	elif t >= _accion.fin - 0.01 or not anim.is_playing():
+		_terminar_accion()
+
+
+func _mover_esquiva(dt: float) -> void:
+	var desde := clampf(_esquiva_t / _esquiva_duracion, 0.0, 1.0)
+	_esquiva_t = minf(_esquiva_t + dt, _esquiva_duracion)
+	var hasta := _esquiva_t / _esquiva_duracion
+	# Integra la curva por intervalo: la distancia no depende de los FPS.
+	var distancia := ((1.0 - desde) * (1.0 - desde) - (1.0 - hasta) * (1.0 - hasta)) * _esquiva_distancia
+	velocity.x = _direccion_esquiva.x * distancia / maxf(dt, 0.001)
+	velocity.z = _direccion_esquiva.z * distancia / maxf(dt, 0.001)
+	velocity.y = -1.0 if is_on_floor() else velocity.y - GRAVEDAD * dt
+	move_and_slide()
+	if _esquiva_t >= _esquiva_duracion or not is_on_floor():
+		esquivando = false
+		_accion = {}
+		_esquiva_pausa = estadisticas.pausa_esquiva
+		velocity.x = 0.0
+		velocity.z = 0.0
+		modelo.position = _modelo_posicion
+		modelo.rotation = _modelo_rotacion
+		anim.play("guardia" if armado else "descanso", 0.1)
+		if not is_on_floor():
+			en_aire = true
+			_t_aire = _vuelo() * 0.5
+			_salto_clip = "salto_armado" if armado else "salto_libre"
+
+
 func _physics_process(dt: float) -> void:
+	_pedido_golpe = maxf(0.0, _pedido_golpe - dt)
+	_pedido_esquiva = maxf(0.0, _pedido_esquiva - dt)
+	_esquiva_pausa = maxf(0.0, _esquiva_pausa - dt)
+	_aviso_stamina = maxf(0.0, _aviso_stamina - dt)
+	if bloqueado or muerto:
+		_pedido_golpe = 0.0
+		_pedido_esquiva = 0.0
+		if atacando() or esquivando:
+			_cancelar_combate()
+		bloqueando = false
 	var entrada := Vector2.ZERO
 	var pide_correr := false
 	var pide := {}
 	if not bloqueado and not muerto:
 		entrada = Input.get_vector("mover_izquierda", "mover_derecha", "mover_arriba", "mover_abajo")
 		pide_correr = Input.is_action_pressed("correr")
-		for a in ["atacar", "saltar", "envainar", "interactuar", "lente"]:
+		for a in ["atacar", "esquivar", "saltar", "envainar", "interactuar", "lente"]:
 			pide[a] = Input.is_action_just_pressed(a)
 		pide["bloquear"] = Input.is_action_pressed("bloquear")
 
-	# la acción en curso: eventos y final
-	if not _accion.is_empty():
-		var t := anim.current_animation_position
-		var evs: Array = _accion.eventos
-		for i in evs.size():
-			if not (i in _accion.hechos) and t >= evs[i][0]:
-				_accion.hechos.append(i)
-				(evs[i][1] as Callable).call()
-		if anim.current_animation != _accion.nombre or t >= _accion.fin - 0.03 or not anim.is_playing():
-			_terminar_accion()
+	var dir := Vector3(entrada.x, 0.0, entrada.y)
+	if camara:
+		dir = camara.a_mundo(entrada)
+	if pide.get("atacar", false) and not bloqueado and not muerto and not en_aire:
+		_pedido_golpe = MEMORIA_ENTRADA
+	if pide.get("esquivar", false):
+		_pedido_esquiva = MEMORIA_ENTRADA
+		_direccion_pedida = dir
+	# Defensa antes de procesar impactos: cancelar la preparación elimina el golpe.
+	if _pedido_esquiva > 0.0:
+		intentar_esquiva(_direccion_pedida)
+	_actualizar_accion()
 	if _accion.is_empty():
 		_desde_golpe += dt
 	_combate = maxf(0.0, _combate - dt)
@@ -317,12 +521,18 @@ func _physics_process(dt: float) -> void:
 	if _sin_dano > 6.0 and salud < SALUD_MAX and not muerto:
 		curar(4.0 * dt)
 	_lente_espera = maxf(0.0, _lente_espera - dt)
+	_actualizar_stamina(dt)
+	if esquivando:
+		_mover_esquiva(dt)
+		Juego.posicion = global_position
+		_animar(dt)
+		_buscar_cerca()
+		return
 
-	var libre := (_accion.is_empty() or str(_accion.nombre).begins_with("guardia_mirar")) and not muerto
-	if not muerto and not en_aire:
-		if pide.get("atacar", false) and (_accion.get("nombre", "") in ["ataque", "ataque2"]):
-			_pedido_golpe = true
-		elif pide.get("atacar", false) and libre:
+	var libre := (_accion.is_empty() or str(_accion.nombre).begins_with("guardia_mirar")) and not muerto and not bloqueado
+	if not muerto and not bloqueado and not en_aire:
+		if _pedido_golpe > 0.0 and libre and _pedido_esquiva <= 0.0:
+			_pedido_golpe = 0.0
 			_atacar()
 		elif pide.get("envainar", false) and libre:
 			if armado:
@@ -335,7 +545,9 @@ func _physics_process(dt: float) -> void:
 			_usar_lente()
 
 	# bloquear mientras se mantiene
-	if pide.get("bloquear", false) and not en_aire and (_accion.is_empty() or str(_accion.nombre).begins_with("guardia_mirar")):
+	if pide.get("bloquear", false) and atacando() and progreso_ataque() >= GOLPES[_accion.nombre].momento + 0.07:
+		_cancelar_combate()
+	if pide.get("bloquear", false) and not bloqueado and not muerto and not en_aire and (_accion.is_empty() or str(_accion.nombre).begins_with("guardia_mirar")):
 		if not armado:
 			_desenvainar(Callable(), true)
 		elif not bloqueando:
@@ -348,16 +560,13 @@ func _physics_process(dt: float) -> void:
 			_hacer("soltar_bloqueo", 0.3, 1.0, 0.06)
 
 	# movimiento
-	var dir := Vector3(entrada.x, 0.0, entrada.y)
-	if camara:
-		dir = camara.a_mundo(entrada)
 	var fuerza := entrada.length()
 	var tope := VEL_SPRINT if pide_correr else VEL
 	if bloqueando:
 		tope = VEL * 0.3
 	if not _accion.is_empty():
 		tope *= float(_accion.mover)
-	if muerto:
+	if muerto or bloqueado:
 		tope = 0.0
 	var objetivo := dir.normalized() * tope * minf(1.0, fuerza * 1.2) if fuerza > 0.1 else Vector3.ZERO
 	var k := 1.0 - exp(-10.0 * dt)
@@ -372,7 +581,8 @@ func _physics_process(dt: float) -> void:
 		if en_aire and velocity.y <= 0.0:
 			en_aire = false
 			_aterrizaje = SALTO[_salto_clip].amortiguar
-		if pide.get("saltar", false) and _accion.is_empty() and not muerto:
+		if pide.get("saltar", false) and _accion.is_empty() and not muerto and not bloqueado:
+			bloqueando = false
 			en_aire = true
 			velocity.y = sqrt(2.0 * GRAVEDAD * ALTURA_SALTO)
 			_t_aire = 0.0
@@ -400,6 +610,14 @@ func _vuelo() -> float:
 func _animar(dt: float) -> void:
 	var rapidez := Vector2(velocity.x, velocity.z).length()
 	if muerto:
+		return
+	if esquivando:
+		if not _esquiva_provisional:
+			return
+		var arco := sin(PI * _esquiva_t / _esquiva_duracion)
+		var local := global_transform.basis.inverse() * _direccion_esquiva
+		modelo.position = _modelo_posicion + Vector3(0, -0.12 * arco, 0)
+		modelo.rotation = _modelo_rotacion + Vector3(local.z * 0.13, 0, -local.x * 0.15) * arco
 		return
 	if (en_aire or _aterrizaje > 0.0) and _accion.is_empty():
 		var s: Dictionary = SALTO[_salto_clip]

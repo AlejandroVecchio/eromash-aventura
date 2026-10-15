@@ -208,7 +208,7 @@ func _empezar_aviso() -> void:
 
 func _golpe(heroe: Heroe) -> void:
 	if is_instance_valid(_aviso) and _aviso.contiene(heroe.global_position) and not heroe.muerto:
-		heroe.recibir_dano(datos.dano, global_position)
+		heroe.recibir_dano(datos.dano, global_position, true)
 	_quitar_aviso()
 	_estado = "expuesto"
 	_t = 0.0
