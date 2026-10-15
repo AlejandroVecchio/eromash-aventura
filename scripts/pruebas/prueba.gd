@@ -16,6 +16,7 @@ const ETAPAS := {
 	"jefe": [4, ["el01_acepto", "croquis_leido", "carro_visto", "orm_encontrado", "errantes_despejados", "piedra_puesta", "runa_refugio", "fragmento", "fragmento_entregado", "lente_prestada", "fragmento_examinado", "huella_patio", "lente", "eydis_paso", "pista_tablon", "pista_raiz", "pista_menhir", "eydis_claro", "anclajes_vistos"], "claro", 0.0, 0.75],
 	"salto": [0, [], "puesto", 0.6, 0.0],
 	"campamento": [0, [], "inicio", 0.5, 0.55],
+	"cerca": [0, [], "puesto", 0.6, -0.4],
 	"camara_baja": [0, [], "puesto", 2.4, 0.2],
 	"aserradero": [6, [], "aserradero", 0.8, 0.5],
 	"santuario": [6, [], "santuario", 1.1, 0.35],
