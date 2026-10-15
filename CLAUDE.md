@@ -36,6 +36,7 @@ Nombre del juego: **EROMASH: Las Runas del Olvido** (ES) / **EROMASH: Whisper of
 | Historia completa y las 13 cinemáticas, con los cambios que mandan arriba de todo | `docs/historia-y-cinematicas.md` |
 | Cómo se mueve y se comporta el héroe, con los números del prototipo | `docs/personaje-heroe.md` |
 | Cómo está armado el MVP (archivos, controles, animaciones compartidas, provisorios, pruebas sin pantalla) | `docs/mvp.md` |
+| Qué assets usa el mundo (árboles, rocas, muros, techos, suelos, modelos propios) y cómo sumar uno | `docs/assets.md` (actualizarlo cuando se suma o deja de usar un asset) |
 | Mapas: mundo, Eldervald, regiones, Valdheim | `docs/mapas/` |
 | Referencias de Eromash (vistas, poses, Tripo) y de objetos a modelar | `docs/referencias/` |
 
