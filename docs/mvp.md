@@ -45,7 +45,7 @@ El HUD muestra vida y resistencia, con pistas que cambian entre teclado y mando.
 
 Todos los humanoides (Eromash, Eydis, Orm, Svanhild, trabajadores, Errantes) comparten esqueleto: al importar, cada `.glb` se reasigna al perfil humanoide de Godot con `assets/modelos/mapa-humano.tres`, y por eso usan las animaciones del héroe. Para sumar un pack de animaciones nuevo alcanza con importarlo con el mismo mapa de huesos y agregarlo en `Animaciones.dar_animaciones()`.
 
-- El lobo se anima por código (patas, cola, cuello) hasta que tenga sus propias animaciones; el esqueleto de las patas traseras todavía tiene pesos rotos.
+- El lobo se anima por código (patas, cola, cuello) hasta que tenga sus propias animaciones; sus pesos se rehicieron en Blender (`herramientas/blender/lobo_pesos.py`).
 - El Custodio no tiene esqueleto: se inclina entero.
 
 ## Qué es provisorio

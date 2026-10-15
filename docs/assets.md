@@ -5,7 +5,7 @@ Lista de todo lo que usa el mundo hoy, por tipo, con dónde está y para qué se
 ## Cómo sumar algo nuevo
 
 1. **Elegí la pieza.** Los packs completos de Quaternius (Fantasy Props, Medieval Village, Stylized Nature) están en `C:/eromash-juego/aventura/fuentes/`. Del zip se copia solo la pieza que se va a usar, en glTF (`.gltf` + `.bin`), a la carpeta de su tipo dentro de `modelos/kit/`. Las texturas van al lado y se comparten entre piezas del mismo pack.
-2. **Modelos propios** (Tripo o Blender) en `.glb`, en la carpeta que corresponda: `modelos/escenario/`, `modelos/objetos/`, `modelos/npc/`, `modelos/enemigos/` o `modelos/armas/`. Nombre en español, en minúsculas y con guiones (`cofre-runico.glb`).
+2. **Modelos propios** (Tripo o Blender) en `.glb`. Los originales de Tripo están en `C:/eromash-juego/output/` (Objetos, Enemigos, Personajes, Texturas); se copian al repo con nombre en español, en la carpeta que corresponda: `modelos/escenario/`, `modelos/objetos/`, `modelos/npc/`, `modelos/enemigos/` o `modelos/armas/`. Nombre en español, en minúsculas y con guiones (`cofre-runico.glb`).
 3. **Créditos.** Cada pieza de terceros suma su línea en el `CREDITOS.md` de su carpeta, en el mismo commit.
 4. **Ponerla en el mapa.** Hoy cada cosa se ubica por código en `scripts/mundo/escenario.gd` (pedímelo con el lugar). Cuando esté la escena editable con marcadores, se va a poder soltar en el editor.
 
