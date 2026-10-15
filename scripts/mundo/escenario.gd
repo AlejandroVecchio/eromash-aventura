@@ -68,8 +68,12 @@ func poner(ruta: String, p: Vector2, giro_grados := 0.0, tam := 0.0, por_largo :
 			Animaciones.ajustar_largo(n, tam)
 		else:
 			Animaciones.ajustar_altura(n, tam)
+	var huella := _huella(cont)
 	if not _queda_fijo(ruta):
-		_despejar_camino(cont, _huella(cont))
+		_despejar_camino(cont, huella)
+	# distancia de dibujo según el tamaño (los hitos se ven siempre; ver HITOS)
+	if not _es_hito(ruta):
+		rango(cont, 60.0 if huella < 0.8 else (110.0 if huella < 2.5 else 200.0))
 	# piedras y troncos caídos: sólidos, con su forma (se arma al final, cuando ya tienen su escala definitiva)
 	if "Rock_" in ruta or "tronco-hongos" in ruta:
 		_solidos.append(cont)
@@ -77,6 +81,37 @@ func poner(ruta: String, p: Vector2, giro_grados := 0.0, tam := 0.0, por_largo :
 
 
 ## Cosas que van en un lugar exacto (las usa una misión o se apoyan sobre otra pieza): no se corren del camino.
+## Lo que se ve de lejos y orienta: nunca se deja de dibujar.
+const HITOS := ["roble", "santuario-entrada", "pedestal", "piedra-runica"]
+
+
+func _es_hito(ruta: String) -> bool:
+	for h in HITOS:
+		if h in ruta:
+			return true
+	return false
+
+
+## Le pone a todas las mallas de `n` una distancia de dibujo base (m); el ajuste "Distancia de visión" la escala.
+func rango(n: Node, base: float) -> void:
+	for g in n.find_children("*", "GeometryInstance3D", true, false):
+		g.set_meta("rango_base", base)
+		g.add_to_group("rango_vision")
+	if n is GeometryInstance3D:
+		n.set_meta("rango_base", base)
+		n.add_to_group("rango_vision")
+
+
+## Aplica la distancia de visión a todo lo registrado con `rango()` (se llama al armar y al cambiar opciones).
+static func aplicar_rangos(arbol: SceneTree) -> void:
+	var f := Calidad.factor_vision()
+	for g in arbol.get_nodes_in_group("rango_vision"):
+		var gi := g as GeometryInstance3D
+		var base: float = gi.get_meta("rango_base", 0.0)
+		gi.visibility_range_end = base * f if base > 0.0 else 0.0
+		gi.visibility_range_end_margin = base * f * 0.1
+
+
 const FIJOS := ["pedestal", "losa", "santuario-entrada", "Chimney", "nucleo", "fragmento", "mesa-examen", "roble", "Lantern", "Rope", "Bucket", "Fence"]
 
 
@@ -252,6 +287,14 @@ func casa(p: Vector2, giro: float, ancho := 6, fondo := 6, ladrillo := false, te
 		luz.position = Vector3(0, 1.8, 0)
 		raiz.add_child(luz)
 	caja_colision(raiz.global_position, Vector3(ancho + 0.4, 3.2, fondo + 0.4), raiz.rotation.y)
+	rango(raiz, 200.0)
+	# lo que queda detrás de una casa no se dibuja (oclusión)
+	var oc := OccluderInstance3D.new()
+	var caja := BoxOccluder3D.new()
+	caja.size = Vector3(ancho - 0.4, 2.8, fondo - 0.4)
+	oc.occluder = caja
+	oc.position.y = 1.5
+	raiz.add_child(oc)
 	return raiz
 
 

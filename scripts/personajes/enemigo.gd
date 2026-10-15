@@ -44,6 +44,7 @@ var _base_y := 0.0
 
 func _ready() -> void:
 	add_to_group("enemigo")
+	add_to_group("despertable")
 	datos = TIPOS[tipo]
 	vida = datos.vida
 	radio = datos.radio

@@ -62,6 +62,7 @@ var _cabeza_baja := 0.0
 func _ready() -> void:
 	add_to_group("enemigo")
 	add_to_group("jefe")
+	add_to_group("despertable")
 	collision_layer = 4
 	collision_mask = 1
 	var f := CollisionShape3D.new()
@@ -558,3 +559,8 @@ func _animar(dt: float) -> void:
 		modelo.rotation.x = lerpf(modelo.rotation.x, 0.0, 1.0 - exp(-6.0 * dt))
 		cab.rotation.y = lerpf(cab.rotation.y, 0.0, 1.0 - exp(-6.0 * dt))
 	cab.rotation.x = lerpf(cab.rotation.x, baja, 1.0 - exp(-8.0 * dt))
+
+
+## En plena pelea no se duerme aunque Eromash se aleje (la pelea se reinicia sola si se va del Claro).
+func seguir_despierto() -> bool:
+	return activo

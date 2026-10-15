@@ -32,6 +32,7 @@ const CHICOS := [
 	["Pebble_Round_1", 0.6, 1.4, 0.0, Color(0.8, 0.82, 0.8), 1500, 0.0],
 ]
 
+const VEG_MAX := 1.3            ## en Ultra hay 30 % más de vegetación chica que en Alto
 const TILE := 32.0              ## lado de cada parcela de vegetación (m)
 const LEJOS_CHICO := 55.0       ## pasto, helechos, hongos, piedritas: hasta dónde se dibujan
 const LEJOS_ARBUSTO := 95.0
@@ -41,6 +42,7 @@ var _terreno: Terreno
 var _rng := RandomNumberGenerator.new()
 var _colision: StaticBody3D
 var _cache_mallas := {}
+var _parcelas: Array[MultiMeshInstance3D] = []
 
 
 func armar(terreno: Terreno) -> void:
@@ -54,6 +56,22 @@ func armar(terreno: Terreno) -> void:
 	for c in CHICOS:
 		_sembrar_chicos(c)
 	_hongos_de_rocio()
+	aplicar_calidad()
+	Calidad.cambio.connect(aplicar_calidad)
+
+
+## Distancias de dibujo y densidad según Opciones → Video (se aplica en vivo).
+func aplicar_calidad() -> void:
+	var f := Calidad.factor_vision()
+	var frac := Calidad.fraccion_vegetacion()
+	var pasto := Calidad.distancia_pasto()
+	for mi in _parcelas:
+		var chico: bool = mi.get_meta("chico")
+		var hasta: float = pasto if chico else float(mi.get_meta("rango_base")) * f
+		mi.visibility_range_end = hasta
+		mi.visibility_range_end_margin = hasta * 0.15
+		if chico:
+			mi.multimesh.visible_instance_count = maxi(0, roundi(mi.multimesh.instance_count * frac))
 
 
 ## Puede ir un árbol acá: lejos de caminos, agua, quebrada y lugares.
@@ -103,7 +121,8 @@ func _sembrar_arboles() -> void:
 
 
 func _sembrar_chicos(c: Array) -> void:
-	var n := Calidad.cuantas(c[5])
+	# lo chico se siembra con el máximo (Ultra) y se muestra la parte que pide "Densidad de vegetación"
+	var n: int = roundi(c[5] * VEG_MAX) if _es_chico(c[0]) else c[5]
 	var ts: Array = []
 	var intentos := 0
 	while ts.size() < n and intentos < n * 4:
@@ -134,7 +153,7 @@ func _sembrar_chicos(c: Array) -> void:
 ## Grupos de hongos de rocío: chicos, azul verdosos, con brillo tenue (bosque sano). Sin luz propia: solo emisión.
 func _hongos_de_rocio() -> void:
 	var ts: Array = []
-	for i in Calidad.cuantas(160):
+	for i in roundi(160 * VEG_MAX):
 		var p := Vector2(_rng.randf_range(-Datos.ANCHO * 0.45, Datos.ANCHO * 0.45), _rng.randf_range(-Datos.ALTO * 0.45, Datos.ALTO * 0.45))
 		var dc := _terreno.dist_camino(p)
 		if dc < 2.0 or dc > 9.0 or _terreno.dist_agua(p) < 1.0:
@@ -230,8 +249,9 @@ func _multimesh(nombre: String, ts: Array, viento: float, tinte: Color, ocultabl
 		var mi := MultiMeshInstance3D.new()
 		mi.name = "%s_%d_%d" % [nombre, k.x, k.y]
 		mi.multimesh = mm
-		mi.visibility_range_end = hasta
-		mi.visibility_range_end_margin = hasta * 0.15
+		mi.set_meta("chico", chico)
+		mi.set_meta("rango_base", hasta)
+		_parcelas.append(mi)
 		# lo chico no proyecta sombra (no se nota y era lo más caro de la sombra de la luna)
 		if chico:
 			mi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF

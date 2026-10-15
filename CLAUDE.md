@@ -57,7 +57,8 @@ Nombre del juego: **EROMASH: Las Runas del Olvido** (ES) / **EROMASH: Whisper of
 - **No adelantarse**: no construir lo que no se pidió ni se aprobó; si falta material, pedirlo. Para algo grande, acordar el plan antes.
 - **Bilingüe ES/EN**: todo texto visible va con su traducción (archivo de textos + `tr()`), nunca suelto en el código.
 - **PC primero** (Steam): el código usa acciones del InputMap, nunca teclas sueltas; teclado + mouse y mando.
-- Todo efecto caro (partículas, niebla, muchas luces con sombra) tiene que poder apagarse desde la calidad gráfica.
+- Todo efecto caro (partículas, niebla, muchas luces con sombra) tiene que colgarse de un ajuste de Opciones → Video (`scripts/autoload/calidad.gd`, 1 a 10).
+- **Rendimiento desde el principio**: todo lo que se agrega al mundo entra en una distancia de dibujo y, si tiene vida propia (enemigos, criaturas, cofres animados), en el grupo `despertable` del Activador. Reglas y topes de triángulos en `docs/mvp.md`, sección Rendimiento.
 - Lo que se entrega para mirar (capturas, comparaciones) va como imagen o página HTML cuando corresponde.
 
 ## Sesiones en la nube (sin la PC)
