@@ -9,8 +9,28 @@ extends RefCounted
 const HERO := "res://assets/modelos/personaje/eromash-completo.glb"
 const CAMINAN := ["caminar", "correr", "caminar_armado", "correr_armado"]
 
+## Banco de animaciones: Universal Animation Library de Quaternius (CC0), `assets/modelos/animaciones/ual/`.
+## Está en T y con otro giro de esqueleto, así que se pasa a cada modelo con `Retarget` y queda en la biblioteca
+## `ual` del reproductor (se pide como "ual/Walk"). Qué trae y cómo sumar más: `docs/banco-animaciones.md`.
+const UAL := "res://assets/modelos/animaciones/ual/UAL1_Standard.glb"
+## Metros por segundo que avanza cada clip de paso del pack (medido en la versión con movimiento de raíz) para
+## un cuerpo de 1,83 m (el maniquí). `velocidad_ual()` lo escala a la altura de cada personaje.
+const UAL_VELOCIDAD := {"Walk": 0.97, "Walk_Formal": 0.97, "Jog_Fwd": 5.36, "Sprint": 8.25, "Crouch_Fwd": 0.75, "Swim_Fwd": 2.18}
+const UAL_ALTURA := 1.83
+## Clips del pack que se pasan a cada personaje (el resto de los 44 se pide sumando su nombre; ver docs/banco-animaciones.md).
+const UAL_NPC := ["Idle", "Idle_Talking", "Walk", "Hit_Chest", "Hit_Head", "Death01", "Interact"]
+const UAL_HEROE := ["Idle", "Idle_Talking", "Walk", "Jog_Fwd", "Sprint", "Jump_Start", "Jump", "Jump_Land", "Roll", "Sword_Attack", "Sword_Idle", "Hit_Chest", "Hit_Head", "Death01", "Interact", "PickUp_Table", "Crouch_Idle", "Crouch_Fwd"]
+
 static var _biblioteca: AnimationLibrary
 static var _velocidad_natural := {}
+static var _ual_escena: Node
+static var _ual_esqueleto: Skeleton3D
+static var _ual_clips := {}
+static var _ual_bibliotecas := {}   ## ruta del modelo → AnimationLibrary ya pasada a su esqueleto
+static var _ual_retargets := {}     ## ruta del modelo → Retarget del pack a ese esqueleto
+static var _heroe_escena: Node
+static var _heroe_esqueleto: Skeleton3D
+static var _heroe_clips := {}       ## "ruta del modelo|clip" → clip del héroe ya pasado a ese esqueleto
 
 
 ## Las 34 animaciones del héroe, preparadas: caminar y correr sin avance propio (lo pone el juego),
@@ -34,7 +54,8 @@ static func biblioteca_hero() -> AnimationLibrary:
 			quitar_deriva(a)
 			a.loop_mode = Animation.LOOP_NONE
 		_biblioteca.add_animation(nombre, a)
-	escena.free()
+	_heroe_escena = escena          # se queda en memoria: su esqueleto es el origen de `agregar_heroe`
+	_heroe_esqueleto = escena.find_children("*", "Skeleton3D", true, false)[0]
 	return _biblioteca
 
 
@@ -45,10 +66,130 @@ static func velocidad_natural(nombre: String) -> float:
 
 
 ## Le da a `ap` las animaciones del héroe. Sirven tal cual para cualquier modelo humano importado con el mapa.
-static func dar_animaciones(ap: AnimationPlayer) -> void:
+## Con `modelo` también le da la biblioteca `ual` (el banco de Quaternius pasado a su esqueleto) con los clips
+## pedidos (por defecto UAL_NPC): cada clip pasado cuesta unos 7 ms al cargar, así que cada personaje pide los suyos.
+static func dar_animaciones(ap: AnimationPlayer, modelo: Node3D = null, clips: Array = UAL_NPC) -> void:
 	if ap.has_animation_library(""):
 		ap.remove_animation_library("")
 	ap.add_animation_library("", biblioteca_hero())
+	if modelo:
+		if ap.has_animation_library("ual"):
+			ap.remove_animation_library("ual")
+		ap.add_animation_library("ual", biblioteca_ual(modelo, clips))
+
+
+## Los clips pedidos del pack UAL pasados al esqueleto de `modelo`. Se hacen una vez por modelo (los NPC iguales
+## comparten la biblioteca) y se van sumando si después se piden más.
+static func biblioteca_ual(modelo: Node3D, clips: Array = UAL_NPC) -> AnimationLibrary:
+	var clave := modelo.scene_file_path
+	var biblioteca: AnimationLibrary = _ual_bibliotecas.get(clave) if clave != "" else null
+	if biblioteca == null:
+		biblioteca = AnimationLibrary.new()
+		if clave != "":
+			_ual_bibliotecas[clave] = biblioteca
+	var faltan := clips.filter(func(c): return not biblioteca.has_animation(c))
+	if faltan.is_empty():
+		return biblioteca
+	_cargar_ual()
+	var retarget: Retarget = _ual_retargets.get(clave) if clave != "" else null
+	if retarget == null:
+		var esqs := modelo.find_children("*", "Skeleton3D", true, false)
+		if esqs.is_empty():
+			return biblioteca
+		retarget = Retarget.crear(_ual_esqueleto, esqs[0])
+		if clave != "":
+			_ual_retargets[clave] = retarget
+	for nombre in faltan:
+		if _ual_clips.has(nombre):
+			biblioteca.add_animation(nombre, retarget.convertir(_ual_clips[nombre]))
+		else:
+			push_warning("Animaciones: el pack UAL no tiene el clip " + String(nombre))
+	return biblioteca
+
+
+static func _cargar_ual() -> void:
+	if _ual_escena:
+		return
+	_ual_escena = load(UAL).instantiate()
+	_ual_esqueleto = _ual_escena.find_children("*", "Skeleton3D", true, false)[0]
+	var ap: AnimationPlayer = _ual_escena.find_children("*", "AnimationPlayer", true, false)[0]
+	for nombre in ap.get_animation_list():
+		if nombre != "RESET":
+			_ual_clips[nombre] = ap.get_animation(nombre)
+
+
+## Pasa clips del héroe (los propios, de Mixamo) al esqueleto de otro modelo: quedan en la biblioteca `heroe`
+## ("heroe/mecanismo"). Un clip del héroe tal cual en un NPC rota sus brazos desde la pose de reposo del héroe.
+static func agregar_heroe(ap: AnimationPlayer, modelo: Node3D, nombres: Array) -> void:
+	biblioteca_hero()
+	var esqs := modelo.find_children("*", "Skeleton3D", true, false)
+	if esqs.is_empty():
+		return
+	var biblioteca: AnimationLibrary
+	if ap.has_animation_library("heroe"):
+		biblioteca = ap.get_animation_library("heroe")
+	else:
+		biblioteca = AnimationLibrary.new()
+		ap.add_animation_library("heroe", biblioteca)
+	var retarget: Retarget = null
+	for nombre in nombres:
+		if biblioteca.has_animation(nombre) or not _biblioteca.has_animation(nombre):
+			continue
+		var clave := modelo.scene_file_path + "|" + String(nombre)
+		var clip: Animation = _heroe_clips.get(clave)
+		if clip == null:
+			if retarget == null:
+				retarget = Retarget.crear(_heroe_esqueleto, esqs[0])
+			clip = retarget.convertir(_biblioteca.get_animation(nombre))
+			if modelo.scene_file_path != "":
+				_heroe_clips[clave] = clip
+		biblioteca.add_animation(nombre, clip)
+
+
+## Biblioteca propia del héroe: las del héroe más los golpes nuevos del combo, sin tocar la compartida con los NPC.
+## Combo (Heroe.COMBO_ORDEN): ataque → ataque2 → ataque3 (estocada del pack) → ataque4 (patada).
+static func preparar_heroe(ap: AnimationPlayer, modelo: Node3D) -> void:
+	dar_animaciones(ap, modelo, UAL_HEROE)
+	var propia := AnimationLibrary.new()
+	var compartida := biblioteca_hero()
+	for nombre in compartida.get_animation_list():
+		propia.add_animation(nombre, compartida.get_animation(nombre))
+	var golpe := (ap.get_animation_library("ual") as AnimationLibrary).get_animation("Sword_Attack").duplicate(true) as Animation
+	quitar_deriva(golpe)
+	golpe.loop_mode = Animation.LOOP_NONE
+	propia.add_animation("ataque3", golpe)
+	propia.add_animation("ataque4", compartida.get_animation("patada").duplicate(true))
+	ap.remove_animation_library("")
+	ap.add_animation_library("", propia)
+
+
+## Metros por segundo a los que avanza un clip de paso del pack en un personaje de esa altura.
+static func velocidad_ual(clip: String, altura: float) -> float:
+	return float(UAL_VELOCIDAD.get(clip, 1.0)) * altura / UAL_ALTURA
+
+
+## Conserva la espada y el cuerpo del ataque; el brazo izquierdo mantiene la postura de escudo.
+## Se crean copias exclusivas del héroe, sin cambiar los clips compartidos por los NPC.
+static func agregar_ataques_guardia(ap: AnimationPlayer) -> void:
+	var biblioteca := AnimationLibrary.new()
+	var bloqueo := ap.get_animation("bloqueo")
+	for nombre in ["ataque", "ataque2", "ataque3", "ataque4"]:
+		var clip := ap.get_animation(nombre).duplicate(true) as Animation
+		for pista in clip.get_track_count():
+			var ruta := clip.track_get_path(pista)
+			var hueso := String(ruta.get_subname(0)) if ruta.get_subname_count() > 0 else ""
+			if not hueso.begins_with("Left") or hueso in ["LeftUpperLeg", "LeftLowerLeg", "LeftFoot", "LeftToes"]:
+				continue
+			if clip.track_get_type(pista) != Animation.TYPE_ROTATION_3D:
+				continue
+			var origen := bloqueo.find_track(ruta, Animation.TYPE_ROTATION_3D)
+			if origen < 0:
+				continue
+			var pose := bloqueo.rotation_track_interpolate(origen, 0.1)
+			for clave in clip.track_get_key_count(pista):
+				clip.track_set_key_value(pista, clave, pose)
+		biblioteca.add_animation(nombre, clip)
+	ap.add_animation_library("protegidos", biblioteca)
 
 
 ## Biblioteca exclusiva del jugador; al llegar los GLB retargeteados se usan sin cambiar el combate.

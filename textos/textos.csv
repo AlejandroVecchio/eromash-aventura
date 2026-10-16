@@ -3,6 +3,8 @@ combate_salud,Vida  %d / %d,Health  %d / %d
 combate_stamina,Resistencia  %d / %d,Stamina  %d / %d
 combate_ayuda,[%s] esquivar · [%s] saltar,[%s] evade · [%s] jump
 combate_sin_stamina,Necesitás más resistencia para esquivar,You need more stamina to evade
+combate_sin_stamina_ataque,Necesitás más resistencia para atacar,You need more stamina to attack
+combate_guardia_agotada,Sin resistencia: soltá la guardia para volver a levantarla,Out of stamina: release guard before raising it again
 prueba_combate_titulo,Práctica de combate,Combat practice
 prueba_combate_instrucciones,"Probá ataques, bloqueo y esquiva contra los errantes.
 [V] cambiar velocidad de ataque · [T] reiniciar encuentro","Try attacks, blocking and evasion against the wanderers.
@@ -241,3 +243,81 @@ dlg_svanhild_calco_2,Entonces voy a volver.,Then I'll come back.
 dlg_svanhild_final,"Guardé el calco con los registros. Cuando vuelvas de Eldrakar, lo abrimos juntos.","I've filed the rubbing with the records. When you come back from Eldrakar, we'll open it together."
 dlg_salida_norte,Primero quiero saber qué es esa llamada. El norte puede esperar.,First I want to know what that call is. The north can wait.
 dlg_zarzas,No ceden. Ni un poco.,They won't give. Not an inch.
+inv_titulo,Equipo e inventario,Equipment and inventory
+inv_cerrar,Cerrar,Close
+inv_equipo,EL PORTADOR DE LAS RUNAS,BEARER OF THE RUNES
+inv_bolsa,Bolsa,Bag
+inv_casco,Casco,Helmet
+inv_hombros,Hombros,Shoulders
+inv_pechera,Pechera,Chest
+inv_capa,Capa,Cloak
+inv_brazales,Brazales,Bracers
+inv_guantes,Guantes,Gloves
+inv_arma,Arma,Weapon
+inv_amuleto,Amuleto,Amulet
+inv_cinturon,Cinturón,Belt
+inv_piernas,Piernas,Legs
+inv_botas,Botas,Boots
+inv_anillo_1,Anillo I,Ring I
+inv_anillo_2,Anillo II,Ring II
+inv_escudo,Escudo,Shield
+inv_alejar,−,−
+inv_acercar,+,+
+inv_restablecer,Restablecer,Reset
+inv_visor_ayuda,Izquierdo: girar · rueda: zoom al rostro · derecho: recorrer el cuerpo,Left drag: rotate · wheel: zoom to face · right drag: pan
+inv_modelo_actual,Modelo 3D actual. Las variantes comparten apariencia hasta separar las piezas.,Current 3D model. Variants share an appearance until the meshes are separated.
+inv_buscar,Buscar en la bolsa…,Search the bag…
+inv_todo,Todo,All
+inv_armaduras,Armaduras,Armour
+inv_armas,Armas,Weapons
+inv_amuletos,Amuletos,Amulets
+inv_consumibles,Consumibles,Consumables
+inv_orden_tipo,Ordenar: tipo,Sort: type
+inv_orden_nombre,Ordenar: nombre,Sort: name
+inv_elegir,Seleccioná una pieza para compararla,Select an item to compare
+inv_equipar,Equipar,Equip
+inv_quitar,Quitar,Unequip
+inv_usar,Usar,Use
+inv_bolsa_ayuda,Un clic selecciona · derecho/doble clic equipa o quita · arrastrar a ranura o bolsa,Click selects · right/double-click equips or removes · drag to a slot or bag
+inv_vacia,Ranura vacía,Empty slot
+inv_consumible,Consumible,Consumable
+inv_pocion_vida,Vida,Health
+inv_pocion_resistencia,Resistencia,Stamina
+inv_capacidad,%d / %d casillas · lo equipado no ocupa bolsa,%d / %d slots · equipped gear takes no bag space
+inv_puesto,Equipado en el personaje,Equipped on character
+inv_guardado,En la bolsa · sin equipar,In the bag · not equipped
+inv_pocion_efecto,Restaura 40 puntos · recarga compartida: 5 s,Restores 40 points · shared cooldown: 5 s
+inv_comparar,"Daño del primer golpe: %.1f → %.1f
+Velocidad: ×%.2f → ×%.2f   ·   Armadura adicional: %.0f → %.0f","First hit damage: %.1f → %.1f
+Attack speed: ×%.2f → ×%.2f   ·   Additional armour: %.0f → %.0f"
+inv_no_quitar,No se puede quitar: casco fijo o bolsa llena.,Cannot remove: fixed helmet or full bag.
+hud_region,ELDERVALD · Las Runas del Olvido,ELDERVALD · Whisper of the Runes
+hud_plegar,Misiones · mostrar/ocultar,Quests · show/hide
+hud_futuro,Habilidad futura · aún no disponible,Future ability · not available yet
+hud_atacar,Ataque,Attack
+hud_bloquear,Guardia,Guard
+hud_esquivar,Esquiva,Dodge
+hud_lente,Lente del Eco,Echo Lens
+hud_cambiar_barra,Clic derecho: cambiar posición en la barra,Right-click: change action bar position
+hud_pocion_vida,Vida,Health
+hud_pocion_resistencia,Resistencia,Stamina
+hud_pocion_usada,Poción usada,Potion used
+pieza_pocion_vida,Poción de vida,Health potion
+pieza_pocion_resistencia,Poción de resistencia,Stamina potion
+pieza_casco_base,Casco de Eromash,Eromash’s helmet
+pieza_hombros_base,Hombreras de Eromash,Eromash’s shoulders
+pieza_pechera_base,Pechera de Eromash,Eromash’s chestguard
+pieza_capa_base,Capa de Eromash,Eromash’s cloak
+pieza_brazales_base,Brazales de Eromash,Eromash’s bracers
+pieza_guantes_base,Guantes de Eromash,Eromash’s gloves
+pieza_cinturon_base,Cinturón de Eromash,Eromash’s belt
+pieza_piernas_base,Protección de piernas,Leg protection
+pieza_botas_base,Botas de Eromash,Eromash’s boots
+pieza_espada_base,Espada de Eromash,Eromash’s sword
+pieza_escudo_base,Escudo de Eromash,Eromash’s shield
+pieza_espada_caminante,Espada del Caminante,Wayfarer Sword
+pieza_pechera_linde,Pechera de la Linde,Boundary Chestguard
+pieza_botas_senda,Botas del Guardasendas,Pathwarden Boots
+pieza_amuleto_linde,Amuleto de la Linde,Boundary Amulet
+inv_girar_izq,‹,‹
+inv_girar_der,›,›

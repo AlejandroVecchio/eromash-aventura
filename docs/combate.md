@@ -24,7 +24,11 @@ Si se pide esquiva dentro de ese tramo, el pedido vive 0,22 s y se ejecuta al ab
 
 Para encadenar, el segundo clic también tiene memoria de 0,22 s. Puede iniciar el siguiente golpe al 72 % del clip, eliminando parte de la espera al final. Un clic muy temprano caduca: no se acumulan varios golpes que salgan solos después. La alternancia sigue siendo ataque → ataque2 → ataque. Al terminar un golpe se conserva la ventana de 1,2 s del combo original.
 
-Bloquear puede cortar recuperación después del tramo comprometido. Atacar sale de la postura de bloqueo; si se mantiene el escudo, se vuelve a bloquear en recuperación. El bloqueo sigue reduciendo 80 % del daño frontal y no consume resistencia en esta entrega.
+Una pulsación nueva de bloqueo corta el ataque inmediatamente, incluso durante preparación o impacto pendiente, y protege desde ese cuadro. La entrada visual del escudo dura 0,12 s y la salida 0,10 s. Atacar puede interrumpir ambas transiciones. Al atacar desde guardia sostenida se usa una variante que conserva el brazo izquierdo del bloqueo y la espada/cuerpo del ataque original: no se corta el golpe para repetir levantar escudo. Mantiene la reducción del 80 % del daño frontal y vuelve directamente al bucle de bloqueo. Un ataque normal durante el que se mantiene bloqueo puede regresar antes a la defensa después de `momento + 0,01` del clip.
+
+El ataque normal cuesta 12 de resistencia y el protegido, 20, cobrados una sola vez al iniciar cada golpe. La guardia sostenida consume además 8/s, incluso durante los ataques protegidos. Sin resistencia suficiente el ataque se rechaza con un aviso; no se transforma un ataque protegido en uno normal sin permiso del jugador. Cancelar no devuelve lo gastado. Si se agota la resistencia, la guardia cae y exige soltar el botón antes de levantarla otra vez; un golpe ya pagado puede continuar sin protección. Soltar bloqueo durante un ataque conserva el tiempo de la espada, sin reinicio ni cobro adicional.
+
+Corrección posterior a la prueba de Alejandro: el final natural de `desenvainar` conserva su continuación aunque Godot vacíe `current_animation`; se comprueba `assigned_animation` para distinguir ese final de un cambio de clip. Un clic vuelve a sacar las armas y atacar. Para entrar en combate, desenvainar usa 2,2× y termina en el segundo 0,58 del clip, una vez que ambas armas están en la mano (unos 0,27 s reales). Ataque/bloqueo pueden interrumpir el guardado automático o manual; las secuencias de misión conservan sus eventos.
 
 ## Estadísticas editables
 
@@ -33,19 +37,22 @@ Recurso: `assets/datos/combate_heroe.tres`. Se puede abrir en el inspector de Go
 - `velocidad_ataque`: multiplicador, base 1,0; rango efectivo 0,5–2,5. Velocidad final del clip: 1,15 × multiplicador. Un bono futuro de +20 % corresponde a 1,2. El valor se toma al comenzar cada golpe; cambiarlo durante un ataque afecta el siguiente.
 - `stamina_maxima`: 100.
 - `regeneracion_stamina`: 28 puntos/s.
-- `espera_regeneracion`: 0,75 s desde el último gasto. No recupera durante esquiva, bloqueo, muerte o diálogo.
+- `espera_regeneracion`: 0,75 s desde el último gasto. No recupera durante ataque, esquiva, bloqueo, muerte o diálogo.
 - `costo_esquiva`: 30. Permite tres esquivas seguidas con la reserva llena.
+- `costo_ataque`: 12 por golpe, incluidos los que no alcanzan un enemigo.
+- `costo_ataque_guardia`: 20 por golpe protegido; siempre se aplica al menos un punto más que el ataque normal.
+- `consumo_guardia`: 8 puntos/s mientras protege, también durante el ataque protegido.
 - `distancia_esquiva`: 3 m. Las diagonales recorren la misma distancia.
 - `duracion_esquiva`: 0,4 s.
 - `pausa_esquiva`: 0,12 s entre terminar una esquiva e iniciar la siguiente.
 
 La ventana invulnerable base va de 0,06 a 0,26 s. Cambiar la duración de esquiva conserva sus proporciones: inicio a 15 %, final a 65 %. La velocidad de ataque no afecta este reloj. El movimiento usa una curva de impulso y frenado integrada por intervalos, comprobada con física a 30, 60 y 120 Hz. No teletransporta: choca con paredes y enemigos. Sigue pendientes y pasa a caída si abandona el suelo.
 
-Atacar, correr y bloquear aún no gastan resistencia; no hay maná ni inventario nuevos. La resistencia se repone al iniciar una escena y al revivir. El guardado conserva el formato anterior; se corrigió la actualización de salud del autoload al recibir daño o curarse.
+Correr no consume resistencia en esta entrega; el inventario y las pociones están descritos en `docs/interfaz-aventura.md`; todavía no hay maná ni hechizos adicionales. La resistencia se repone al iniciar una escena y al revivir. El guardado conserva el formato anterior; se corrigió la actualización de salud del autoload al recibir daño o curarse.
 
 ## Animación actual y reemplazo
 
-El personaje y los ataques son los originales. La esquiva provisional usa parte de `bloquear` cuando está armado y de `caminar` cuando está libre, más una inclinación y descenso suaves del modelo. Es funcional para probar tiempos y colisiones, pero todavía puede mostrar deslizamiento de pies. No se usó Blender ni se alteró el GLB base.
+El personaje y los ataques son los originales. Las variantes protegidas se crean en una biblioteca exclusiva del héroe (`protegidos`), copiando las rotaciones del brazo izquierdo de `bloqueo` sin modificar los clips usados por NPC. La esquiva provisional usa parte de `bloquear` cuando está armado y de `caminar` cuando está libre, más una inclinación y descenso suaves del modelo. Es funcional para probar tiempos y colisiones, pero todavía puede mostrar deslizamiento de pies. No se usó Blender ni se alteró el GLB base.
 
 Está preparado el cargador de clips definitivos, exclusivo del héroe. Al iniciar busca:
 
@@ -95,7 +102,7 @@ Adobe describe búsqueda, previsualización, ajuste y descarga sobre un personaj
 
 ## Verificación realizada
 
-Pruebas de integración en `scripts/pruebas/prueba_combate.gd`, con modelo, AnimationPlayer, física, entradas y HUD reales: 71 comprobaciones aprobadas. Cubren tiempos de impacto a 0,5×/1×/1,5×/2,5×, daño único, combo, cancelación, caducidad de entradas, resistencia, invulnerabilidad, paredes, desnivel, dirección de cámara, diagonales, pendientes, caída, 30/60/120 Hz, enemigo real, pausa, interacciones de misión, reemplazo por clip definitivo, ES/EN y eventos de teclado/mando. Las entradas de mando son sintéticas; no se probó un mando físico.
+Pruebas de integración en `scripts/pruebas/prueba_combate.gd`, con modelo, AnimationPlayer, física, entradas y HUD reales: 116 comprobaciones aprobadas. Cubren tiempos de impacto a 0,5×/1×/1,5×/2,5×, daño único, combo, cancelación, caducidad de entradas, resistencia, invulnerabilidad, paredes, desnivel, dirección de cámara, diagonales, pendientes, caída, 30/60/120 Hz, enemigo real, pausa, interacciones de misión, reemplazo por clip definitivo, ES/EN y eventos de teclado/mando. Incluyen volver a atacar después de envainar, clics repetidos, final natural del clip y transiciones inmediatas ataque/escudo. Las entradas de mando son sintéticas; no se probó un mando físico.
 
 ```powershell
 & C:/Godot/Godot_v4.7.2-stable_win64_console.exe --headless --path . res://escenas/prueba_combate.tscn --fixed-fps 60 -- --pruebas-combate

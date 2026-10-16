@@ -43,6 +43,7 @@ El HUD muestra vida y resistencia, con pistas que cambian entre teclado y mando.
 
 ## Animaciones
 
+- **Banco de animaciones** (`docs/banco-animaciones.md`): 44 clips humanos de Quaternius (CC0) pasados al esqueleto de cada personaje con `scripts/personajes/retarget.gd` y disponibles como `ual/<Nombre>`. Eromash camina, corre, descansa y salta con ellos, el combo suma estocada y patada, los NPC descansan, caminan y gesticulan al hablar y el Errante camina, recibe golpes y muere con ellos.
 Todos los humanoides (Eromash, Eydis, Orm, Svanhild, trabajadores, Errantes) comparten esqueleto: al importar, cada `.glb` se reasigna al perfil humanoide de Godot con `assets/modelos/mapa-humano.tres`, y por eso usan las animaciones del héroe. Para sumar un pack de animaciones nuevo alcanza con importarlo con el mismo mapa de huesos y agregarlo en `Animaciones.dar_animaciones()`.
 
 - El lobo se anima por código (patas, cola, cuello) hasta que tenga sus propias animaciones; sus pesos se rehicieron en Blender (`herramientas/blender/lobo_pesos.py`).
@@ -86,4 +87,8 @@ herramientas/revisar.sh                    # que compilen todos los scripts
 herramientas/capturar.sh res://escenas/principal.tscn salida.png 45 1280 720 --guion=claro --calidad=1
 ```
 
-Guiones: `inicio`, `puesto`, `sin_armas` (camina sin armas, de frente), `salto`, `cerca`, `carro`, `refugio`, `eikholt`, `casa`, `paso`, `claro`, `jefe` (pelea con el Ciervo ya empezada), `ciervo` (el Ciervo quieto, de cerca), `aserradero`, `santuario`, `opciones` (el menú de video abierto), `rendimiento` (ponen la partida en ese punto) y `recorrido` (marca la cadena entera y saca una foto por misión). Cada proceso usa unos 3 GB: correr de a uno.
+Guiones: `inicio`, `puesto`, `sin_armas` (camina sin armas, de frente), `sin_armas_correr` (lo mismo corriendo), `salto`, `cerca`, `carro`, `refugio`, `eikholt`, `casa`, `paso`, `claro`, `jefe` (pelea con el Ciervo ya empezada), `ciervo` (el Ciervo quieto, de cerca), `aserradero`, `santuario`, `opciones` (el menú de video abierto), `rendimiento` (ponen la partida en ese punto) y `recorrido` (marca la cadena entera y saca una foto por misión). Cada proceso usa unos 3 GB: correr de a uno.
+
+## UI, bolsa y equipo (16/10/2026)
+
+Integrados en Godot: HUD de acciones, recursos, pociones y misiones; bolsa persistente con comparación y equipo por ranuras; visor 3D con giro y zoom. Controles, valores iniciales, alcance visual y pruebas en docs/interfaz-aventura.md. I/B abre la bolsa, Esc la cierra; 1/2 usa pociones. Los objetos de misión no ocupan capacidad de equipo. No hay maná ni hechizos nuevos.

@@ -31,6 +31,7 @@ var _salud_texto: Label
 var _ayuda_combate: Label
 var _stamina_objetivo := 100.0
 var _stamina_alerta := 0.0
+var _stamina_alerta_clave := "combate_sin_stamina"
 var _cartel: Label
 var _mensajes: VBoxContainer
 var _dialogo: PanelContainer
@@ -58,6 +59,7 @@ var _minimapa: Minimapa
 var _fps: Label
 var _video: OpcionesVideo
 var _opciones_idioma: OptionButton
+var interfaz: InterfazAventura
 
 
 func _ready() -> void:
@@ -93,11 +95,15 @@ func _ready() -> void:
 	Calidad.cambio.connect(_actualizar_objetivo)
 	Controles.dispositivo_cambio.connect(_actualizar_objetivo)
 	_actualizar_objetivo()
+	interfaz = InterfazAventura.new()
+	interfaz.hud = self
+	raiz.add_child(interfaz)
 
 
 func _crear_tema() -> Theme:
 	var t := Theme.new()
 	var f := load(FUENTE_TEXTO) as FontFile
+	f.fallbacks = [load("res://assets/marca/fuentes/NotoSansRunic.woff2")]
 	t.default_font = f
 	t.default_font_size = 22
 	t.set_color("font_color", "Label", CREMA)
@@ -248,7 +254,9 @@ func conectar_heroe(h: Heroe, c: Camara) -> void:
 		_stamina.max_value = m
 		_stamina_objetivo = v
 		_actualizar_recursos())
-	h.esquiva_sin_stamina.connect(func(): _stamina_alerta = 0.6)
+	h.stamina_insuficiente.connect(func(clave: String):
+		_stamina_alerta = 0.6
+		_stamina_alerta_clave = clave)
 	h.cerca_cambio.connect(_mostrar_cartel)
 	_salud.max_value = Heroe.SALUD_MAX
 	_salud.value = h.salud
@@ -308,9 +316,9 @@ func _process(dt: float) -> void:
 	if heroe and not get_tree().paused:
 		_stamina_alerta = maxf(0.0, _stamina_alerta - dt)
 		_stamina.value = move_toward(_stamina.value, _stamina_objetivo, dt * 220.0)
-		var sin_energia := heroe.stamina < heroe.estadisticas.costo_esquiva
+		var sin_energia := heroe.stamina < minf(heroe.estadisticas.costo_esquiva, heroe.estadisticas.costo_ataque)
 		_stamina.modulate = Color(1, 0.45, 0.3) if _stamina_alerta > 0.0 else (Color(0.7, 0.7, 0.7) if sin_energia else Color.WHITE)
-		_ayuda_combate.text = tr("combate_sin_stamina") if _stamina_alerta > 0.0 else tr("combate_ayuda") % [Controles.tecla("esquivar"), Controles.tecla("saltar")]
+		_ayuda_combate.text = tr(_stamina_alerta_clave) if _stamina_alerta > 0.0 else tr("combate_ayuda") % [Controles.tecla("esquivar"), Controles.tecla("saltar")]
 	if en_dialogo:
 		_dlg_t += dt
 		var total := tr(_dlg_lineas[_dlg_i][1]).length() if _dlg_i < _dlg_lineas.size() else 0
@@ -389,6 +397,7 @@ func abrir_dialogo(id: String) -> void:
 func _mostrar_linea() -> void:
 	var l: Array = _dlg_lineas[_dlg_i]
 	var quien: String = l[0]
+	Juego.hablante.emit(quien)
 	_dlg_nombre.text = tr("nombre_" + quien)
 	_dlg_nombre.add_theme_color_override("font_color", AZUL if quien == "runa" else AMBAR)
 	_dlg_texto.text = tr(l[1])
@@ -407,6 +416,7 @@ func _avanzar_dialogo() -> void:
 		return
 	en_dialogo = false
 	_dialogo.visible = false
+	Juego.hablante.emit("")
 	if heroe:
 		heroe.desbloquear_luego()
 	var id := _dlg_id
@@ -627,6 +637,8 @@ func _refrescar_textos() -> void:
 			elif n is Label:
 				(n as Label).text = tr(n.get_meta("clave"))
 	_video.refrescar()
+	if interfaz:
+		interfaz.refrescar()
 	_actualizar_objetivo()
 
 

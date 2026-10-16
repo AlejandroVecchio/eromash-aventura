@@ -124,3 +124,16 @@ La piedra de las pendientes usa la textura de rocas del kit (`kit/naturaleza/Roc
 ## Hecho por código (sin archivo)
 
 Agua de los ríos, zarzas violetas del Santuario, ataduras del Ciervo, avisos del piso, marcas de la Lente, rueda del aserradero y Lente del Eco en la mano.
+
+## Animaciones (Quaternius, Universal Animation Library · `modelos/animaciones/ual/`)
+
+| Archivo | Para qué |
+|---|---|
+| `UAL1_Standard.glb` | Banco de 44 animaciones humanas (CC0). Se pasan al esqueleto de cada personaje con `Retarget`; caminar/correr/descansar sin armas, salto, estocada del combo, hablar y reposo de los NPC, golpes y muerte del Errante |
+| `mapa-ual.tres` | Mapa de huesos del pack al perfil humanoide (lo genera `herramientas/crear_mapa_ual.gd`) |
+
+Qué trae cada clip y cómo usarlo: `docs/banco-animaciones.md`. Créditos: `modelos/animaciones/ual/CREDITOS.md`.
+
+## Interfaz de aventura (16/10/2026)
+
+assets/interfaz/equipo/ contiene miniaturas renderizadas de los seis modelos propios ya existentes (pechera, brazo, botas, capa, espada y escudo). Las genera herramientas/capturar_catalogo_interfaz.gd; no son modelos nuevos ni assets de terceros. assets/interfaz/vegvisir.svg es la reinterpretación vectorial propia de la maqueta, con su investigación en docs/referencias/interfaz-runica.html. docs/interfaz-aventura.md describe los usos y limitaciones.

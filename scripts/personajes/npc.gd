@@ -6,7 +6,7 @@ extends Node3D
 @export var id := "eydis"
 @export var modelo_ruta := ""
 @export var altura := 1.75
-@export var pose := "descanso"        ## animación cuando está quieto
+@export var pose := "ual/Idle"        ## animación cuando está quieto ("heroe/…" = clip propio del héroe pasado a su esqueleto)
 @export var pose_momento := -1.0     ## si >= 0, la pose queda congelada en ese segundo (herido sentado)
 @export var habla := true
 @export var arma_ruta := ""           ## arma o herramienta en la mano derecha
@@ -20,6 +20,9 @@ var _destino := Vector3.INF
 var _al_llegar := Callable()
 var _mirar_a := 0.0
 var _terreno: Terreno
+var _hablando := false
+
+const VEL_CAMINAR := 1.6   ## m/s al caminar hasta un punto
 
 
 func _ready() -> void:
@@ -30,8 +33,11 @@ func _ready() -> void:
 	Animaciones.mirar_adelante(modelo)
 	Animaciones.ajustar_altura(modelo, altura)
 	anim = Animaciones.reproductor(modelo)
-	Animaciones.dar_animaciones(anim)
+	Animaciones.dar_animaciones(anim, modelo)
+	if pose.begins_with("heroe/"):
+		Animaciones.agregar_heroe(anim, modelo, [pose.get_slice("/", 1)])
 	_pose()
+	Juego.hablante.connect(_hablante)
 	if arma_ruta != "":
 		_poner_arma()
 	if habla:
@@ -44,14 +50,31 @@ func _ready() -> void:
 	_mirar_a = rotation.y
 
 
-func _pose() -> void:
+func _pose(desde_el_azar := true) -> void:
 	if not anim.has_animation(pose):
 		return
+	anim.speed_scale = 1.0
 	anim.get_animation(pose).loop_mode = Animation.LOOP_LINEAR if pose_momento < 0.0 else Animation.LOOP_NONE
 	anim.play(pose, 0.3)
-	anim.seek(randf() * anim.current_animation_length if pose_momento < 0.0 else pose_momento, true)
+	if desde_el_azar or pose_momento >= 0.0:
+		anim.seek(randf() * anim.current_animation_length if pose_momento < 0.0 else pose_momento, true)
 	if pose_momento >= 0.0:
 		anim.pause()
+
+
+## Gesticula mientras dice una línea del diálogo (solo el que habla, y solo si Eromash está cerca: hay varios
+## trabajadores con el mismo id).
+func _hablante(quien: String) -> void:
+	if _destino != Vector3.INF or pose_momento >= 0.0 or not anim.has_animation("ual/Idle_Talking"):
+		return
+	var h := get_tree().get_first_node_in_group("heroe") as Node3D
+	var cerca := h != null and h.global_position.distance_to(global_position) < 7.0
+	if quien == id and cerca and not _hablando:
+		_hablando = true
+		anim.play("ual/Idle_Talking", 0.35)
+	elif (quien != id or not cerca) and _hablando:
+		_hablando = false
+		_pose(false)
 
 
 ## Arma o herramienta en la mano derecha (lanza de Eydis, hacha de Orm).
@@ -125,7 +148,12 @@ func caminar_a(destino: Vector3, terreno: Terreno, al_llegar := Callable()) -> v
 	_destino = destino
 	_terreno = terreno
 	_al_llegar = al_llegar
-	anim.play("caminar", 0.25)
+	_hablando = false
+	if anim.has_animation("ual/Walk"):
+		anim.play("ual/Walk", 0.25)
+		anim.speed_scale = VEL_CAMINAR / Animaciones.velocidad_ual("Walk", altura)
+	else:
+		anim.play("caminar", 0.25)
 
 
 func _process(dt: float) -> void:
@@ -138,7 +166,7 @@ func _process(dt: float) -> void:
 			if _al_llegar.is_valid():
 				_al_llegar.call()
 			return
-		var paso := d.normalized() * minf(1.6 * dt, d.length())
+		var paso := d.normalized() * minf(VEL_CAMINAR * dt, d.length())
 		global_position += paso
 		if _terreno:
 			global_position.y = _terreno.altura(global_position.x, global_position.z)

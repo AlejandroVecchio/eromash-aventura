@@ -64,6 +64,8 @@ func _ready() -> void:
 		_crear_enemigos()
 		if Captura.guion == "esquiva":
 			_foto_esquiva.call_deferred()
+		elif Captura.guion == "guardia":
+			_foto_guardia.call_deferred()
 
 
 func _registrar_accion(nombre: String, tecla: Key) -> void:
@@ -235,6 +237,18 @@ func _probar() -> void:
 	_comprobar(heroe._accion.get("nombre", "") == "ataque2", "combo enlaza al 72 % del primer clip")
 	await _cuadros(110)
 	_comprobar(blanco.impactos == 2 and is_equal_approx(blanco.dano_total, 52.0), "combo de dos golpes sin impactos duplicados")
+	# Combo largo: tajo → ataque2 → estocada del pack → patada.
+	await _reiniciar()
+	await _pulsar("atacar")
+	var vistos: Array[String] = []
+	for i in 3:
+		await _hasta_progreso(0.65)
+		await _pulsar("atacar")
+		await _cuadros(12)
+		vistos.append(String(heroe._accion.get("golpe", "")))
+	_comprobar(vistos == ["ataque2", "ataque3", "ataque4"], "combo largo enlaza ataque2, estocada y patada en orden")
+	await _cuadros(140)
+	_comprobar(blanco.impactos == 4 and is_equal_approx(blanco.dano_total, 112.0), "los cuatro golpes del combo pegan una vez cada uno")
 	# Ventana defensiva: preparación vulnerable, centro invulnerable, final vulnerable.
 	await _reiniciar()
 	_comprobar(heroe.intentar_esquiva(Vector3.LEFT), "arranca esquiva desde el suelo")
@@ -483,6 +497,167 @@ func _probar() -> void:
 	tecla.keycode = KEY_ALT
 	tecla.pressed = false
 	Input.parse_input_event(tecla)
+	# Regresión: volver a combatir después de guardar ambas armas.
+	await _reiniciar()
+	heroe._envainar()
+	await _cuadros(145)
+	_comprobar(not heroe.armado and not heroe._mallas.espada.visible and not heroe._mallas.escudo.visible, "envainar guarda las dos armas")
+	await _pulsar("atacar")
+	await _cuadros(160)
+	_comprobar(heroe.armado and blanco.impactos == 1 and heroe._mallas.espada.visible and heroe._mallas.escudo.visible, "un clic desenvaina y completa un ataque")
+	await _reiniciar()
+	heroe.armado = false
+	heroe._armas(false)
+	var final_manual := {"hecho": false}
+	heroe._desenvainar(func(): final_manual.hecho = true)
+	await _cuadros(100)
+	_comprobar(heroe.armado and final_manual.hecho, "final natural de desenvainar ejecuta su continuación")
+	await _reiniciar()
+	heroe.armado = false
+	heroe._armas(false)
+	for i in 8:
+		await _pulsar("atacar")
+		await _cuadros(4)
+	await _cuadros(140)
+	_comprobar(heroe.armado and blanco.impactos >= 1 and heroe._accion.get("nombre", "") != "desenvainar", "clics repetidos no reinician ni traban desenvainar")
+	# El escudo puede cortar ataques desde la preparación y el arco del impacto.
+	for progreso in [0.10, 0.38, 0.60]:
+		await _reiniciar()
+		await _pulsar("atacar")
+		await _hasta_progreso(progreso)
+		var impactos_antes := blanco.impactos
+		Input.action_press("bloquear")
+		await _cuadros(1)
+		_comprobar(heroe.bloqueando and not heroe.atacando(), "escudo responde en un cuadro al %.0f %% del ataque" % (progreso * 100))
+		var salud_antes := heroe.salud
+		heroe.recibir_dano(10, Vector3(0, 0, 2))
+		_comprobar(is_equal_approx(heroe.salud, salud_antes - 2.0), "escudo protege desde el comienzo de la transición")
+		await _cuadros(9)
+		_comprobar(heroe.anim.current_animation == "bloqueo" and blanco.impactos == impactos_antes, "entrada del escudo completa en 0,12 s sin golpe residual")
+		Input.action_release("bloquear")
+		await _cuadros(8)
+		_comprobar(not heroe.bloqueando and heroe._accion.is_empty(), "soltar el escudo completa en 0,10 s")
+	# Invertir la defensa también responde, incluso durante la entrada/salida del escudo.
+	await _reiniciar()
+	Input.action_press("bloquear")
+	await _cuadros(2)
+	await _pulsar("atacar")
+	_comprobar(heroe.atacando() and heroe.bloqueando, "atacar interrumpe la entrada del escudo y conserva protección")
+	await _cuadros(45)
+	_comprobar(blanco.impactos == 1 and heroe.bloqueando, "mantener escudo conserva protección después del impacto")
+	Input.action_release("bloquear")
+	await _cuadros(2)
+	await _pulsar("atacar")
+	_comprobar(heroe.atacando(), "atacar interrumpe la salida del escudo")
+	await _reiniciar()
+	heroe.armado = false
+	heroe._armas(false)
+	Input.action_press("bloquear")
+	await _cuadros(21)
+	_comprobar(heroe.armado and heroe.bloqueando and heroe._mallas.espada.visible and heroe._mallas.escudo.visible, "desde armas guardadas prepara defensa en menos de 0,35 s")
+	Input.action_release("bloquear")
+	await _reiniciar()
+	heroe._envainar()
+	await _cuadros(20)
+	await _pulsar("atacar")
+	await _cuadros(80)
+	_comprobar(heroe.armado and blanco.impactos == 1, "ataque interrumpe envainado manual y alcanza al enemigo")
+	await _reiniciar()
+	var evento_guardado := {"hecho": false}
+	heroe._envainar(func(): evento_guardado.hecho = true)
+	await _cuadros(20)
+	await _pulsar("atacar")
+	await _cuadros(140)
+	_comprobar(evento_guardado.hecho and blanco.impactos == 0, "envainado de misión conserva su continuación sin ataques colados")
+	# Costos de combate y guardia sostenida: se cobran una sola vez por acción.
+	await _reiniciar()
+	await _pulsar("atacar")
+	_comprobar(is_equal_approx(heroe.stamina, 88.0), "ataque normal cobra 12 de resistencia al comenzar")
+	await _cuadros(40)
+	_comprobar(is_equal_approx(heroe.stamina, 88.0) and blanco.impactos == 1, "impacto no vuelve a cobrar ni regenera durante el ataque")
+	await _reiniciar()
+	heroe.stamina = 11.0
+	await _pulsar("atacar")
+	_comprobar(not heroe.atacando() and hud._stamina_alerta_clave == "combate_sin_stamina_ataque", "resistencia insuficiente impide ataque y explica el motivo")
+	await _cuadros(100)
+	_comprobar(blanco.impactos == 0, "regenerar no dispara ataques rechazados previamente")
+	await _reiniciar()
+	Input.action_press("bloquear")
+	await _cuadros(60)
+	_comprobar(absf(heroe.stamina - 92.0) < 0.2, "mantener guardia gasta ocho puntos por segundo")
+	var energia_guardia := heroe.stamina
+	await _pulsar("atacar")
+	_comprobar(absf(energia_guardia - heroe.stamina - 20.0 - 8.0 / 60.0) < 0.03, "ataque desde guardia cobra 20 más el mantenimiento de ese cuadro")
+	_comprobar(heroe.anim.current_animation == "protegidos/ataque" and heroe.bloqueando, "sale directamente de guardia a ataque protegido")
+	await _hasta_progreso(0.65)
+	_comprobar(heroe.atacando() and heroe.anim.current_animation == "protegidos/ataque", "mantener escudo no recorta el ataque para volver a levantarlo")
+	var salud_guardia := heroe.salud
+	heroe.recibir_dano(10, heroe.position + Vector3(0, 0, 2))
+	_comprobar(is_equal_approx(heroe.salud, salud_guardia - 2.0) and heroe.atacando(), "ataque protegido conserva bloqueo frontal sin perder su animación")
+	await _pulsar("atacar")
+	await _cuadros(12)
+	_comprobar(heroe.anim.current_animation == "protegidos/ataque2" and heroe.bloqueando, "combo protegido encadena directamente al segundo golpe")
+	await _cuadros(100)
+	_comprobar(blanco.impactos == 2 and heroe.anim.current_animation == "bloqueo", "combo vuelve a la guardia sin repetir levantar escudo")
+	Input.action_release("bloquear")
+	# Soltar la guardia durante un ataque no reinicia la espada ni devuelve el costo pagado.
+	await _reiniciar()
+	Input.action_press("bloquear")
+	await _cuadros(10)
+	await _pulsar("atacar")
+	await _cuadros(10)
+	var tiempo_espada := heroe.anim.current_animation_position
+	var energia_antes_soltar := heroe.stamina
+	Input.action_release("bloquear")
+	await _cuadros(2)
+	_comprobar(heroe.atacando() and not heroe.bloqueando and heroe.anim.current_animation == "ataque" and heroe.anim.current_animation_position > tiempo_espada, "soltar guardia conserva el progreso de la espada")
+	_comprobar(heroe.stamina <= energia_antes_soltar + 0.001, "soltar guardia no devuelve el costo del ataque protegido")
+	await _cuadros(100)
+	_comprobar(blanco.impactos == 1, "cambiar de ataque protegido a normal no duplica el impacto")
+	# Agotamiento: baja el escudo y exige soltar el botón antes de reactivarlo.
+	await _reiniciar()
+	heroe.stamina = 1.0
+	Input.action_press("bloquear")
+	await _cuadros(15)
+	_comprobar(not heroe.bloqueando and heroe._guardia_agotada and heroe.stamina == 0.0, "agotar resistencia baja la guardia")
+	await _cuadros(120)
+	_comprobar(not heroe.bloqueando and heroe.stamina > 20.0, "mantener botón al agotarse no produce subidas y bajadas automáticas")
+	Input.action_release("bloquear")
+	await _cuadros(2)
+	Input.action_press("bloquear")
+	await _cuadros(2)
+	_comprobar(heroe.bloqueando and not heroe._guardia_agotada, "soltar y pulsar permite recuperar la guardia")
+	Input.action_release("bloquear")
+	await _reiniciar()
+	Input.action_press("bloquear")
+	await _cuadros(10)
+	heroe.stamina = 19.0
+	await _pulsar("atacar")
+	_comprobar(not heroe.atacando() and heroe.bloqueando, "sin costo protegido suficiente no sustituye el golpe por uno normal")
+	Input.action_release("bloquear")
+	await _reiniciar()
+	Input.action_press("bloquear")
+	await _cuadros(10)
+	heroe.stamina = 20.4
+	await _pulsar("atacar")
+	await _cuadros(6)
+	_comprobar(heroe.atacando() and not heroe.bloqueando and heroe._guardia_agotada, "agotarse durante ataque elimina protección y conserva el golpe ya pagado")
+	await _cuadros(80)
+	_comprobar(blanco.impactos == 1, "ataque pagado termina una sola vez después de agotar la guardia")
+	Input.action_release("bloquear")
+	await _reiniciar()
+	await _pulsar("atacar")
+	await _cuadros(3)
+	heroe.intentar_esquiva(Vector3.LEFT)
+	_comprobar(is_equal_approx(heroe.stamina, 58.0), "cancelar conserva los 12 gastados y cobra 30 por esquiva")
+	# Las variantes dejan los clips originales del héroe/NPC intactos.
+	var original := heroe.anim.get_animation("ataque")
+	var protegido := heroe.anim.get_animation("protegidos/ataque")
+	var mano := NodePath("%GeneralSkeleton:LeftUpperArm")
+	var pista_original := original.find_track(mano, Animation.TYPE_ROTATION_3D)
+	var pista_protegida := protegido.find_track(mano, Animation.TYPE_ROTATION_3D)
+	_comprobar(not original.rotation_track_interpolate(pista_original, 0.1).is_equal_approx(original.rotation_track_interpolate(pista_original, 0.7)), "el clip original conserva movimiento del brazo izquierdo")
+	_comprobar(protegido.rotation_track_interpolate(pista_protegida, 0.1).is_equal_approx(protegido.rotation_track_interpolate(pista_protegida, 0.7)), "el clip protegido mantiene el brazo del escudo")
 	print("RESULTADO COMBATE: %d comprobaciones, %d fallos" % [_comprobaciones, _fallos])
 	for canal in Sonido._canales:
 		canal.stop()
@@ -497,3 +672,12 @@ func _foto_esquiva() -> void:
 	for e in enemigos:
 		e.activo = false
 	heroe.intentar_esquiva(Vector3.RIGHT)
+
+
+func _foto_guardia() -> void:
+	await _cuadros(15)
+	for e in enemigos:
+		e.activo = false
+	Input.action_press("bloquear")
+	await _cuadros(12)
+	await _pulsar("atacar")

@@ -165,7 +165,7 @@ func _npcs() -> void:
 		n.arma_grosor = d.get("grosor", 1.0)
 		add_child(n)
 		npcs[id] = n
-	var poses := ["descanso", "descanso2", "mecanismo", "levantar"]
+	var poses := ["ual/Idle", "ual/Idle_Talking", "heroe/mecanismo", "heroe/levantar"]
 	for i in 4:
 		var t := NPC.new()
 		t.id = "herido" if i == 3 else "trabajador"

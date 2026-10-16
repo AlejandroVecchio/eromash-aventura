@@ -25,7 +25,7 @@ abrir_cofre, abrir_puerta, ataque, ataque2, beber, bloquear, bloqueo, caminar, c
 ## Dos modos
 
 - **ARMADO**: espada en la mano derecha y escudo en la izquierda. Quieto respira en guardia; a los 6 s mira a los costados (`guardia_mirar` o `guardia_mirar2` al azar); si sigue quieto 4 s más, envaina solo. Camina y corre en guardia (`caminar_armado`, `correr_armado`), ataca y bloquea.
-- **LIBRE**: espada colgada en la cadera izquierda y escudo en la espalda. Descansa con `descanso`/`descanso2` que rotan al azar (70 % de cambiar a la otra al terminar), camina y corre más suelto, e interactúa con el mundo.
+- **LIBRE**: espada colgada en la cadera izquierda y escudo en la espalda. Descansa con el idle del banco (`ual/Idle`; cada 8–14 s hace uno de los `descanso`/`descanso2` largos propios y vuelve), camina con `ual/Walk`, corre con `ual/Jog_Fwd` (con el arreglo del brazo izquierdo ya innecesario: el banco está pasado al esqueleto de Eromash con `Retarget`) e interactúa con el mundo.
 - Atacar o bloquear sin armas las saca primero (rápido); interactuar armado las guarda primero, salvo las interacciones que tienen variante armada (`levantar` → `levantar_armado`).
 - Tras atacar o bloquear hay **5 s de combate**: se queda en guardia sin mirar a los costados ni envainar.
 - Moverse corta el mirar a los costados.
@@ -40,6 +40,8 @@ Las armas son mallas rígidas que pasan de la mano a su lugar de guardado con un
 | desenvainar | 0,31 | 0,5 |
 
 Cuando guarda o saca para hacer otra cosa (atacar, interactuar) va 1,5× más rápido.
+
+Excepción para entrar en combate: desenvainar para atacar/bloquear va a 2,2× y termina en 0,58 s del clip (unos 0,27 s reales), después del cambio de ambas armas. Un clic conserva la orden de atacar hasta completar esa transición. El guardado manual/automático puede interrumpirse con ataque o bloqueo; el de una interacción de misión se conserva.
 
 ## Movimiento
 
@@ -58,23 +60,24 @@ Cuando guarda o saca para hacer otra cosa (atacar, interactuar) va 1,5× más r�
 
 ## Salto
 
-El clip **sigue a la física**: no se reproduce solo, se lo pone en el segundo que corresponde según el tiempo en el aire.
+Usa el banco de animaciones (`docs/banco-animaciones.md`), igual armado que libre. Cada tramo se reproduce solo (ya no se persigue la física con `seek`):
 
-| Clip | Aire (del impulso al toque) | Suelo (amortiguar) | Duración del amortiguar |
-|---|---|---|---|
-| salto_libre | 0,38 → 1,08 | 1,08 → 1,67 | 0,45 s |
-| salto_armado | 0,17 → 0,79 | 0,79 → 0,96 | 0,2 s |
+| Momento | Clip | Detalle |
+|---|---|---|
+| Despegue y ascenso | `ual/Jump_Start` | los primeros 0,5 s de vuelo (los pies ya están arriba a los 0,1 s del clip) |
+| En el aire | `ual/Jump` (bucle) | también al caer de un borde, sin despegue |
+| Aterrizaje | `ual/Jump_Land` | 0,45 s de aterrizaje recorriendo 0,8 s del clip (cadera abajo y recuperación) |
 
-En el aire: `tiempo = aire[0] + (t_aire / vuelo) × (aire[1] − aire[0])`, con `vuelo = 2·√(2·g·h) / g`. Al tocar el piso: recorre el tramo de suelo durante el amortiguar. Usa el clip armado o libre según el modo.
+Constantes en `heroe.gd` (`SALTO_*`). El vuelo dura `2·√(2·g·h) / g` = 0,66 s con g = 24 y h = 1,3 m.
 
 ## Ataque
 
-- Combo de dos golpes: `ataque` y, si se vuelve a atacar dentro de **1,2 s** de terminar el anterior, `ataque2`.
-- Velocidad de reproducción 1,15; se puede mover a **0,35×** mientras ataca; fundido 0,08 s.
+- Combo de **cuatro golpes** (`COMBO_ORDEN` en `heroe.gd`): `ataque` (tajo desde arriba, 22), `ataque2` (30), `ataque3` (estocada rápida del pack, `Sword_Attack`, 34, pega al 0,26 del clip) y `ataque4` (patada, 26, pega al 0,41). Cada uno sale si se vuelve a atacar dentro de **1,2 s** de terminar el anterior; después del último vuelve a empezar. Cada golpe tiene su variante con el escudo en alto (`protegidos/…`). El momento de impacto de un golpe nuevo se mide con `herramientas/medir_golpe.gd`.
+- Velocidad de reproducción 1,15; se puede mover a **0,35×** mientras ataca; fundido 0,06 s.
 - Velocidad efectiva: `1,15 × estadisticas.velocidad_ataque`. El multiplicador se fija al comenzar cada golpe; el impacto sigue el tiempo del clip. No acelera esquiva, caminar ni interacciones.
 - Un clic tiene memoria de 0,22 s. En recuperación permite encadenar al alcanzar el 72 % del clip, sin esperar todo el final. Los clics demasiado tempranos caducan.
 - Esquivar cancela preparación y recuperación. Entre `momento − 0,06` y `momento + 0,07` del clip hay compromiso; la entrada de esquiva puede esperar hasta 0,22 s a que abra la ventana.
-- Cancelar borra eventos de daño y combo pendientes. El bloqueo puede cortar recuperación después de `momento + 0,07`.
+- Cancelar borra eventos de daño y combo pendientes. Una pulsación nueva de bloqueo corta el ataque en cualquier fase. Atacar desde guardia sostenida conserva el escudo y completa el golpe, sin repetir levantar guardia. En un ataque normal, mantener bloqueo vuelve al escudo después de `momento + 0,01`.
 - Un golpe recibido sin bloquear interrumpe el ataque y reproduce una reacción corta de 0,42 s. Las interacciones de misión conservan sus eventos.
 - Los impactos respetan alcance, arco frontal, desnivel máximo de 2,5 m y obstáculos sólidos.
 - Patada (prueba): se mueve a 0,2×.
@@ -83,7 +86,10 @@ En el aire: `tiempo = aire[0] + (t_aire / vuelo) × (aire[1] − aire[0])`, con 
 
 - Mientras se mantiene el botón: `bloquear` (entrada), después `bloqueo` en bucle; al soltar, `soltar_bloqueo` (vuelve a la guardia dando el paso con el pie que retrocedió, sin arrastrarlo).
 - Se mueve a 0,3× de caminar.
-- Atacar sale del bloqueo; mantener el botón permite volver al escudo durante la recuperación del ataque.
+- Atacar desde bloqueo usa variantes `protegidos/ataque` y `protegidos/ataque2`: brazo izquierdo en guardia, espada y cuerpo con el ataque original. Conserva defensa frontal y vuelve directamente al bucle de bloqueo. Soltar guardia cambia al clip normal en el mismo segundo, sin reiniciar el golpe.
+- Sostener guardia consume 8 de resistencia/s. Ataque normal cuesta 12; protegido, 20 más el mantenimiento continuo. Se cobran al comenzar, también si el golpe falla o se cancela. Sin suficiente resistencia el ataque no empieza.
+- Al agotarse la resistencia, baja el escudo y hay que soltar el botón antes de volver a levantarlo. Un ataque ya pagado continúa sin protección.
+- La defensa protege desde que se acepta la entrada. La animación de levantar escudo dura 0,12 s; bajarlo, 0,10 s. Atacar puede interrumpir tanto entrada como salida.
 
 ## Esquiva y resistencia
 
@@ -91,7 +97,7 @@ En el aire: `tiempo = aire[0] + (t_aire / vuelo) × (aire[1] − aire[0])`, con 
 - Movimiento relativo a la cámara; sin dirección retrocede. Conserva orientación y normaliza diagonales.
 - Distancia de 3 m en 0,4 s, con impulso inicial y frenado. Usa `move_and_slide`, colisiones con escenario y enemigos, y sigue pendientes. Salir de un borde termina la esquiva y activa caída.
 - Invulnerabilidad entre 0,06 y 0,26 s de la esquiva base. El inicio y la recuperación son vulnerables. Pausa de 0,12 s al terminar; no puede cancelarse a sí misma ni iniciarse en el aire, muerto o en diálogo.
-- Resistencia máxima 100; costo 30; regeneración 28/s después de 0,75 s desde el gasto. No regenera durante esquiva, bloqueo, muerte o diálogo. En esta entrega atacar y correr no consumen resistencia.
+- Resistencia máxima 100; esquiva cuesta 30; regeneración 28/s después de 0,75 s desde el gasto. No regenera durante ataque, esquiva, bloqueo, muerte o diálogo. Correr no consume resistencia en esta entrega.
 - Se repone al revivir o cargar una escena; todavía no se persiste como estadística de inventario. Se muestra en el HUD y avisa al intentar esquivar sin suficiente resistencia.
 - Valores editables en `assets/datos/combate_heroe.tres`. El héroe duplica el recurso al entrar, para que las mejoras no modifiquen otros personajes.
 - Animación provisional: aprovecha `bloquear`/`caminar`, con descenso e inclinación suaves. No es una animación definitiva de paso lateral o rodada. Los GLB direccionales previstos en `docs/combate.md` la reemplazan al iniciar.

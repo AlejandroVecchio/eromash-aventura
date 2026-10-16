@@ -25,6 +25,9 @@ const TECLAS := {
 	"lente": [KEY_R],
 	"envainar": [KEY_X],
 	"diario": [KEY_J, KEY_TAB],
+	"inventario": [KEY_I, KEY_B],
+	"pocion_vida": [KEY_1],
+	"pocion_resistencia": [KEY_2],
 	"bloquear": [KEY_CTRL],
 	"camara_izquierda": [KEY_Q],
 	"camara_derecha": [KEY_E],
@@ -43,6 +46,9 @@ const BOTONES_MANDO := {
 	"correr": [JOY_BUTTON_LEFT_STICK],
 	"diario": [JOY_BUTTON_BACK],
 	"pausa": [JOY_BUTTON_START],
+	"inventario": [JOY_BUTTON_DPAD_DOWN],
+	"pocion_vida": [JOY_BUTTON_DPAD_UP],
+	"pocion_resistencia": [JOY_BUTTON_DPAD_LEFT],
 }
 
 const EJES_MANDO := [

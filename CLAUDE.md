@@ -37,12 +37,13 @@ Nombre del juego: **EROMASH: Las Runas del Olvido** (ES) / **EROMASH: Whisper of
 | Cómo se mueve y se comporta el héroe, con los números del prototipo | `docs/personaje-heroe.md` |
 | Cómo está armado el MVP (archivos, controles, animaciones compartidas, provisorios, pruebas sin pantalla) | `docs/mvp.md` |
 | Qué assets usa el mundo (árboles, rocas, muros, techos, suelos, modelos propios) y cómo sumar uno | `docs/assets.md` (actualizarlo cuando se suma o deja de usar un asset) |
+| **Animaciones humanas**: banco de 44 clips (Universal Animation Library, CC0) ya conectado, cómo pasarlos a cada esqueleto y qué clip sirve para qué | `docs/banco-animaciones.md` (**mirar acá antes de pedir o hacer una animación**) |
 | Decisiones abiertas y trabajo propuesto que espera el visto bueno de Alejandro | `docs/pendientes.md` (leer antes de empezar algo nuevo) |
 | Mapas: mundo, Eldervald, regiones, Valdheim | `docs/mapas/` |
 | Referencias de Eromash (vistas, poses, Tripo) y de objetos a modelar | `docs/referencias/` |
 
 - `docs/` tiene `.gdignore`: Godot no importa las imágenes de referencia.
-- La E oficial es la del casco: la E rotada con las tres puntas hacia arriba. Trazado en `assets/marca/e.svg`, casco de frente en `assets/marca/casco-e.svg` y la construcción 3D del prototipo en `docs/referencias/casco-e.js`.
+- **La E como logo nunca va acostada** (corrección de Alejandro, 15/10/2026): en encabezados, botones y marcas de interfaz usar `assets/marca/e.svg` de pie, sin rotarla. La representación frontal del casco, con sus tres puntas hacia arriba, es otro uso: `assets/marca/casco-e.svg`; no sustituye al logo de interfaz. Construcción 3D del prototipo en `docs/referencias/casco-e.js`.
 - `assets/marca/`: logotipo (EROMASH con el casco detrás), fuentes del juego (Eromash Display/Text y Noto Sans Runic, con licencia).
 - Los modelos del personaje y su equipo están en `assets/modelos/personaje/`. Godot extrae las texturas de cada `.glb` al lado; los `.import` se suben. Para ver qué trae un `.glb` (nodos, huesos, animaciones, mallas): `--headless --path . -s herramientas/inspeccionar.gd -- res://ruta/al.glb`.
 - Texturas de suelo de Eldervald en `assets/texturas/suelo/`; efectos de sonido CC0 en `assets/audio/sfx/`. **Cada asset de terceros suma su línea en el `CREDITOS.md` de su carpeta** en el mismo commit.
@@ -55,6 +56,7 @@ Nombre del juego: **EROMASH: Las Runas del Olvido** (ES) / **EROMASH: Whisper of
 - **La luz rúnica es la firma del juego**: fantasía orientada a las runas, que emanan luz de color (azul rúnico `#73D5DB` como principal; otros colores solo con significado). Se explota en el mapa, el escenario, las criaturas, los objetos y la interfaz. Reglas y colores en `docs/direccion-artistica.md`, sección 5b.
 - **La E nunca se pierde**: no se deforma, no se rompe, Eromash no se saca el casco. En la aventura tiene cuerpo completo.
 - **Usar primero el material que ya existe** (este repo, el de la arena, lo que Alejandro pasó) antes de inventar o generar algo nuevo.
+- **UI y equipo** (Alejandro, 15/10/2026): armadura equipable por partes con una distribución familiar como Diablo/WoW. Lo equipado no ocupa casillas en la mochila: equipar retira la pieza y devuelve la reemplazada; quitar devuelve la pieza a la mochila. La interfaz vive en el mismo mundo visual que el juego; runas predominantes y trazos finos y delicados. Las imágenes de objetos se renderizan desde sus modelos 3D; los dibujos de pechera/espada/martillo solo pueden ilustrar categorías generales, no las piezas del inventario.
 - **No adelantarse**: no construir lo que no se pidió ni se aprobó; si falta material, pedirlo. Para algo grande, acordar el plan antes.
 - **Bilingüe ES/EN**: todo texto visible va con su traducción (archivo de textos + `tr()`), nunca suelto en el código.
 - **PC primero** (Steam): el código usa acciones del InputMap, nunca teclas sueltas; teclado + mouse y mando.

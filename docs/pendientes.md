@@ -15,8 +15,7 @@ Lo que se propuso o quedó a medio camino y espera el visto bueno de Alejandro. 
 ## Chicos, ofrecidos
 
 - **Núcleo de la Linde entre las astas del Ciervo** durante la pelea (el modelo de Tripo no lo trae; hoy aparece en el piso al vencerlo).
-- **Correr sin armas**: revisar si el brazo izquierdo tiene el mismo problema que tenía caminar (se arregló espejando el brazo derecho en `Animaciones.brazo_izquierdo_espejado`).
-- **Animaciones por grupo** (aldeanos y trabajadores, Eydis y Orm, Errantes, lobo, Ciervo): se arman juntos; cada pack se importa con `assets/modelos/mapa-humano.tres` y sirve a todo el grupo humano.
+- **Animaciones que faltan**: lobo y Ciervo siguen animándose por código; las esquivas direccionales esperan clips (el `Roll` del banco, `docs/banco-animaciones.md`, sirve para la esquiva hacia adelante). Eydis, Orm y Svanhild tienen el reposo y el gesto de hablar genéricos del banco: si quieren algo propio (Eydis vigilando, Svanhild con conjuro de runas) hay clips en el banco.
 
 ## Para medir en la PC
 

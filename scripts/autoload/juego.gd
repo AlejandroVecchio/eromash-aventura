@@ -5,6 +5,7 @@ extends Node
 signal cambio_estado          ## cambió la misión, el objetivo o una bandera
 signal mensaje(clave: String) ## un aviso corto en pantalla
 signal dialogo(id: String)    ## pedir que la interfaz muestre un diálogo
+signal hablante(quien: String)  ## quién dice la línea que se muestra ("" al cerrar el diálogo): el NPC gesticula
 signal fin_demo                ## se completó la cadena: mostrar la pantalla de cierre
 
 const ARCHIVO := "user://partida.json"
@@ -62,6 +63,8 @@ const REAPARECER := {
 	"EL-01": "puesto", "EL-02": "refugio", "EL-03": "eikholt", "EL-04": "paso_sur",
 	"EL-05": "claro_entrada", "EL-06": "paso_sur", "EL-07": "aserradero", "fin": "eikholt",
 }
+
+var inventario := DatosEquipo.new()
 
 var mision := 0          ## índice en MISIONES; MISIONES.size() = cadena completa
 var banderas := {}
@@ -185,7 +188,8 @@ func guardar() -> void:
 	if de_prueba:
 		return
 	var datos := {
-		"version": 1,
+		"version": 2,
+		"inventario": inventario.serializar(),
 		"mision": mision,
 		"banderas": banderas,
 		"diario": diario,
@@ -216,6 +220,8 @@ func cargar() -> bool:
 		niebla = Marshalls.base64_to_raw(datos.niebla).decompress(int(datos.get("niebla_largo", 0)), FileAccess.COMPRESSION_DEFLATE)
 	var p: Array = datos.get("posicion", [])
 	posicion = Vector3(p[0], p[1], p[2]) if p.size() == 3 else Vector3.INF
+	var equipo_guardado: Variant = datos.get("inventario", {})
+	inventario.cargar(equipo_guardado if equipo_guardado is Dictionary else {})
 	cargada = true
 	return true
 
@@ -225,6 +231,7 @@ func hay_partida() -> bool:
 
 
 func nueva_partida() -> void:
+	inventario.reiniciar()
 	mision = 0
 	banderas = {}
 	diario = []

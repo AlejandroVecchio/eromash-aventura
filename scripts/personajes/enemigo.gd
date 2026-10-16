@@ -67,8 +67,9 @@ func _ready() -> void:
 		Animaciones.mirar_adelante(modelo)
 		Animaciones.ajustar_altura(modelo, datos.alto)
 		anim = Animaciones.reproductor(modelo)
-		Animaciones.dar_animaciones(anim)
-		anim.play("guardia")
+		Animaciones.dar_animaciones(anim, modelo)
+		Animaciones.agregar_heroe(anim, modelo, ["ataque"])
+		anim.play("ual/Idle")
 	elif datos.anima == "lobo":
 		Animaciones.ajustar_largo(modelo, datos.largo)
 		_preparar_lobo()
@@ -95,7 +96,7 @@ func recibir_golpe(dano: float, origen: Vector3) -> void:
 	if vida <= 0.0:
 		_morir()
 	elif anim and _estado in ["persigue", "expuesto"]:
-		anim.play(["golpe", "golpe2", "golpe3"].pick_random(), 0.05)
+		anim.play(["ual/Hit_Chest", "ual/Hit_Head"].pick_random(), 0.05)
 
 
 func _morir() -> void:
@@ -105,7 +106,7 @@ func _morir() -> void:
 	collision_layer = 0
 	remove_from_group("enemigo")
 	if anim:
-		anim.play("morir", 0.1)
+		anim.play("ual/Death01", 0.1)
 	murio.emit(self)
 	var t := create_tween()
 	t.tween_interval(2.2)
@@ -204,7 +205,7 @@ func _empezar_aviso() -> void:
 	_aviso.duracion = datos.aviso
 	add_child(_aviso)
 	if anim:
-		anim.play("ataque", 0.1, 0.9)
+		anim.play("heroe/ataque", 0.1, 0.9)
 
 
 func _golpe(heroe: Heroe) -> void:
@@ -221,12 +222,13 @@ func _animar(dt: float, rapidez: float) -> void:
 	_fase += dt * (2.0 + rapidez * 2.2)
 	match datos.anima:
 		"humano":
-			if _estado in ["aviso"] or anim.current_animation in ["ataque", "golpe", "golpe2", "golpe3"] and anim.is_playing():
+			if _estado in ["aviso"] or anim.current_animation in ["heroe/ataque", "ual/Hit_Chest", "ual/Hit_Head"] and anim.is_playing():
 				return
-			var n := "caminar" if rapidez > 0.3 else "guardia"
+			var n := "ual/Walk" if rapidez > 0.3 else "ual/Idle"
 			if anim.current_animation != n:
 				anim.play(n, 0.2)
-			anim.speed_scale = 0.75 if n == "caminar" else 1.0
+			# el paso sigue la velocidad real (mismo criterio que el héroe)
+			anim.speed_scale = clampf(rapidez / Animaciones.velocidad_ual("Walk", datos.alto), 0.6, 2.5) if n == "ual/Walk" else 1.0
 		"lobo":
 			_animar_lobo(rapidez)
 		_:
