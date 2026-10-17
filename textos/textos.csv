@@ -77,6 +77,7 @@ admin_ayuda,[%s] subir · [%s] bajar · [%s] más rápido,[%s] up · [%s] down �
 fps,%d FPS · %.1f ms,%d FPS · %.1f ms
 fps_detalle,%d llamadas · %d objetos · %s triángulos · %d despiertos,%d draw calls · %d objects · %s triangles · %d awake
 dialogo_seguir,seguir,continue
+cine_saltar,Mantené [%s] para saltar,Hold [%s] to skip
 diario_titulo,Diario,Journal
 diario_entradas,Anotado,Notes
 diario_nuevo,Diario actualizado,Journal updated

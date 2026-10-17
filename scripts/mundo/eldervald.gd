@@ -361,11 +361,7 @@ func _interacciones() -> void:
 			(N.nucleo_pedestal as Node3D).visible = true
 			Juego.marcar("nucleo_puesto"), "tomar", 2.0)
 	_interactuable(P.pedestal + Vector3(0, 0.8, 0), "accion_contactar", func(): return Juego.en("EL-06") and Juego.tiene("nucleo_puesto") and not Juego.tiene("runa_paso"),
-		func(_h):
-			var l: LuzRunica = N.luz_pedestal
-			create_tween().tween_property(l, "fuerza", 1.0, 1.5)
-			Sonido.tocar("runa")
-			Juego.pedir_dialogo("runa_paso"))
+		func(_h): _cine_nucleo())
 	# EL-07: el sello del Santuario
 	var sello: Vector3 = P.sello
 	_revelable(sello, func(): return Juego.en("EL-07") and Juego.tiene("santuario_llegada") and not Juego.tiene("sello_visto"),
@@ -445,12 +441,128 @@ func _reparar_puente() -> void:
 	var t := hud.fundido(true, 0.8)
 	t.tween_callback(func():
 		_puente_reparado(true)
+		_cine_puente())
+
+
+# ---------- cinemáticas (sistema en scripts/mundo/cinematica.gd) ----------
+
+## EL-06: Eromash pone la mano sobre el Núcleo ya colocado. La runa del pedestal despierta, la luz corre por el
+## suelo hasta el puente roto y por el camino del sur, Eydis la mira pasar y Eromash lo dice en voz alta.
+## Es el equivalente en el MVP de «La red enterrada» (cinemática 3 de la guía).
+func _cine_nucleo() -> void:
+	var N: Dictionary = escenario.nodos
+	var P: Dictionary = escenario.puntos
+	var ped: Vector3 = P.pedestal
+	var luz: LuzRunica = N.luz_pedestal
+	var puente: Vector3 = P.puente
+	var al_puente := _plano_xz(puente - ped)            # hacia el puente
+	var al_sur := _plano_xz(P.paso_sur - ped)           # de donde viene Eromash
+	var lado := al_puente.cross(Vector3.UP).normalized()
+	var arriba := Vector3.UP
+	# puesta en escena: Eromash frente al pedestal, Eydis un poco atrás y al costado
+	var h_pos := _suelo(ped + al_sur * 1.7)
+	heroe.global_position = h_pos + Vector3(0, 0.05, 0)
+	heroe.velocity = Vector3.ZERO
+	_mirar(heroe, ped)
+	var eydis: NPC = npcs.eydis
+	var e_pos := _suelo(ped + al_sur * 3.4 + lado * 2.6)
+	eydis.ubicar(e_pos, _giro_hacia(e_pos, ped))
+	var nuc := ped + arriba * 1.05
+
+	var c := Cinematica.new()
+	# 1 · plano detalle: el Núcleo en el pedestal y la mano de Eromash
+	# (del lado del puente, contra Eromash: se ve el Núcleo y detrás llega su mano y el casco)
+	c.plano(4.6, ped + lado * 1.7 + al_puente * 0.9 + arriba * 1.45, nuc, ped + lado * 1.15 + al_puente * 0.75 + arriba * 1.3, nuc + arriba * 0.05, 36.0)
+	# las motas de la luz son cuadraditos que de tan cerca se ven grandes: se apagan durante la cinemática
+	if luz.particulas:
+		luz.particulas.visible = false
+		c.termino.connect(func(): luz.particulas.visible = true)
+	c.al(0.3, func(): heroe.interactuar_con(N.pedestal, "tomar", 0.0, func(): pass))
+	c.al(1.3, func():
+		Sonido.tocar("runa")
+		create_tween().tween_property(luz, "fuerza", 1.0, 2.4))
+	c.al(4.5, func(): luz.fuerza = 1.0, true)
+	# 2 · plano general alto: la luz corre bajo la hierba hacia el puente y por el camino
+	c.plano(6.2, ped - al_puente * 7.0 + lado * 5.0 + arriba * 7.5, ped + al_puente * 5.0,
+		ped - al_puente * 4.0 + lado * 2.5 + arriba * 15.0, ped.lerp(puente, 0.55), 52.0)
+	c.al(4.9, func():
+		Sonido.tocar("revelar")
+		_onda([ped, _suelo(ped.lerp(puente, 0.5)), puente + arriba * 0.1], 8.5)
+		_onda([ped, P.paso_sur, _suelo(P.paso_sur + al_sur * 12.0)], 10.0))
+	# 3 · plano medio de Eydis: ve pasar la luz
+	var e_ojos := e_pos + arriba * 1.55
+	var hacia_ped := _plano_xz(ped - e_pos)
+	var e_lado := hacia_ped.cross(Vector3.UP).normalized()
+	c.plano(3.6, e_ojos + hacia_ped * 2.3 - e_lado * 0.7 + arriba * 0.05, e_ojos, e_ojos + hacia_ped * 1.9 - e_lado * 0.55, e_ojos - arriba * 0.05, 38.0)
+	# 4 · sobre el hombro de Eromash, mirando el puente: lo dice
+	var h_ojos := h_pos + arriba * 1.8
+	c.plano(5.2, h_ojos - al_puente * 2.3 + lado * 0.75 + arriba * 0.25, puente + arriba * 1.0,
+		h_ojos - al_puente * 1.9 + lado * 0.6 + arriba * 0.2, puente + arriba * 1.2, 44.0)
+	c.al(14.4, func(): _mirar(heroe, puente))
+	c.linea(14.9, "eromash", "dlg_runa_paso", 4.0)
+	c.al(c.duracion() - 0.1, func():
+		luz.fuerza = 1.0
+		Juego.marcar("runa_paso"), true)
+	_en_secuencia = true
+	c.termino.connect(func(): _en_secuencia = false)
+	c.reproducir(self, camara, hud, heroe)
+
+
+## EL-06: el puente terminado. Después del fundido de la obra, un plano general del puente nuevo y uno a ras de
+## los tablones; al volver el control, Eydis pregunta si va a durar.
+func _cine_puente() -> void:
+	var P: Dictionary = escenario.puntos
+	var puente: Vector3 = P.puente
+	var ped: Vector3 = P.pedestal
+	var largo := _plano_xz(puente - ped)
+	var lado := largo.cross(Vector3.UP).normalized()
+	var arriba := Vector3.UP
+	var c := Cinematica.new()
+	c.entrar_de_negro = true
+	# 1 · plano general desde la quebrada: el puente entero, con la runa encendida en la cabecera
+	c.plano(5.0, puente + lado * 16.0 - largo * 6.0 + arriba * 4.0, puente,
+		puente + lado * 13.0 - largo * 2.0 + arriba * 6.0, puente + largo * 2.0, 50.0)
+	# 2 · a ras de los tablones nuevos, avanzando hacia el norte
+	c.plano(4.0, puente - largo * 6.0 + arriba * 1.2 + lado * 0.4, puente + largo * 8.0 + arriba * 1.0,
+		puente - largo * 2.0 + arriba * 1.1 + lado * 0.3, puente + largo * 10.0 + arriba * 1.0, 48.0)
+	c.termino.connect(func():
+		hud.fundido(false, 0.0)
+		_en_secuencia = false
 		hud.mostrar_mensaje(tr("puente_listo"))
 		Juego.pedir_dialogo.call_deferred("eydis_marca"))
-	t.tween_interval(1.2)
-	t.tween_callback(func():
-		hud.fundido(false, 1.0)
-		_en_secuencia = false)
+	c.reproducir(self, camara, hud, heroe)
+
+
+func _onda(puntos: Array, velocidad: float) -> void:
+	var o := OndaRunica.new()
+	# cada tramo se parte cada ~2 m y se apoya en el terreno (o sigue la altura del puente si va por encima)
+	var pts := PackedVector3Array()
+	for i in puntos.size():
+		var b: Vector3 = puntos[i]
+		if i == 0:
+			pts.append(b)
+			continue
+		var a: Vector3 = puntos[i - 1]
+		var n := maxi(1, ceili(a.distance_to(b) / 2.0))
+		for k in range(1, n + 1):
+			var q := a.lerp(b, float(k) / n)
+			pts.append(Vector3(q.x, maxf(terreno.altura(q.x, q.z), q.y), q.z))
+	o.camino = pts
+	o.velocidad = velocidad
+	add_child(o)
+
+
+func _plano_xz(v: Vector3) -> Vector3:
+	v.y = 0.0
+	return v.normalized() if v.length() > 0.001 else Vector3.FORWARD
+
+
+func _suelo(p: Vector3) -> Vector3:
+	return Vector3(p.x, terreno.altura(p.x, p.z), p.z)
+
+
+func _mirar(n: Node3D, hacia: Vector3) -> void:
+	n.rotation.y = _giro_hacia(n.global_position, hacia)
 
 
 func _puente_reparado(si: bool) -> void:

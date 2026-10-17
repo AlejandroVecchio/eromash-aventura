@@ -80,6 +80,7 @@ t("admin_ayuda", "[%s] subir · [%s] bajar · [%s] más rápido", "[%s] up · [%
 t("fps", "%d FPS · %.1f ms", "%d FPS · %.1f ms")
 t("fps_detalle", "%d llamadas · %d objetos · %s triángulos · %d despiertos", "%d draw calls · %d objects · %s triangles · %d awake")
 t("dialogo_seguir", "seguir", "continue")
+t("cine_saltar", "Mantené [%s] para saltar", "Hold [%s] to skip")
 t("diario_titulo", "Diario", "Journal")
 t("diario_entradas", "Anotado", "Notes")
 t("diario_nuevo", "Diario actualizado", "Journal updated")

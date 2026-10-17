@@ -56,9 +56,21 @@ Todos los humanoides (Eromash, Eydis, Orm, Svanhild, trabajadores, Errantes) com
 
 - **Ciervo Hueco**: modelo de Tripo (`enemigos/ciervo-hueco.glb`) con los huecos azules de la textura encendidos como luz rúnica; patas, cabeza y cola animadas por código sobre su esqueleto hasta tener animaciones.
 - **Lente del Eco** (en mano) y **rueda del aserradero**: provisorios hechos por código.
-- Las cinemáticas son diálogos con fundido; no hay cámaras de cine todavía.
+- Cinemáticas: ya hay sistema propio (ver Cinemáticas, abajo) y un piloto en EL-06; el resto de los momentos narrativos siguen siendo diálogos con fundido.
 - La esquiva ya tiene física, costo y cancelaciones; su animación usa un paso provisional hasta recibir los cuatro clips direccionales de Mixamo (`docs/combate.md`).
 - El mundo tarda en armarse (unos 20 s en una PC normal): falta optimizar el escenario y los NPC.
+
+## Cinemáticas
+
+Se hacen con el motor, con los mismos modelos y la misma luz del juego (nada de video pregrabado): así el casco con la E es siempre el modelo real, los subtítulos salen de `textos.csv` y la cinemática empieza y termina dentro de la partida.
+
+- Sistema: `scripts/mundo/cinematica.gd` (`Cinematica`). Una cinemática es una lista de planos (la cámara viaja de un punto a otro mirando de un punto a otro, con corte seco entre planos), subtítulos (`linea`) y sucesos en el tiempo (`al`). Pone franjas de cine, esconde el HUD, bloquea a Eromash y al final la cámara vuelve sola a la del juego.
+- Saltar: mantener «interactuar» (F / Y). Los sucesos marcados como estado (banderas, luces que quedan encendidas) se aplican igual, así saltar nunca deja la partida a medias.
+- `scripts/mundo/onda_runica.gd` (`OndaRunica`): luz rúnica que corre por el suelo siguiendo un camino.
+- Piloto (EL-06, equivalente en el MVP de «La red enterrada», cinemática 3 de la guía): `_cine_nucleo()` en `eldervald.gd` al contactar la runa del pedestal (Núcleo que despierta → la luz corre hasta el puente y por el camino → Eydis la mira → Eromash: «La runa del Paso vuelve a sostener el camino») y `_cine_puente()` después de hablar con Orm (el puente nuevo en dos planos y vuelta al diálogo de Eydis).
+- Para mirarlas jugando, sin llegar hasta EL-06: correr el juego con `--ver=cine_nucleo` o `--ver=cine_puente` (arma la partida en ese punto, no lee ni pisa la partida guardada). En el editor: Depurar → Personalizar instancias de ejecución → Argumentos de la ejecución principal. Desde PowerShell: `& C:/Godot/Godot_v4.7.2-stable_win64.exe --path C:/eromash-aventura -- --ver=cine_nucleo`.
+- Para revisar sin pantalla: guiones `cine_nucleo` y `cine_puente` (sacan fotos a lo largo de la cinemática). Conviene correrlos con `--fixed-fps 10` antes de `--`, para que el tiempo avance parejo aunque el render vaya lento.
+- Una cinemática nueva: una función `_cine_<nombre>()` que arma la `Cinematica` con los planos de la guía (`docs/historia-y-cinematicas.md`), con posiciones calculadas desde `escenario.puntos`, y se llama desde la interacción o el diálogo que la dispara.
 
 ## Rendimiento y opciones de video
 

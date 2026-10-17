@@ -25,6 +25,9 @@ const ETAPAS := {
 	"camara_baja": [0, [], "puesto", 2.4, 0.2],
 	"aserradero": [6, [], "aserradero", 0.8, 0.5],
 	"santuario": [6, [], "santuario", 1.1, 0.35],
+	# cinemáticas de EL-06 (fotos a lo largo de cada una)
+	"cine_nucleo": [5, ["vuelta_paso", "nucleo_puesto"], "pedestal", 0.4, 0.4],
+	"cine_puente": [5, ["vuelta_paso", "nucleo_puesto", "runa_paso"], "orm_puente", 0.4, 0.4],
 }
 
 
@@ -40,8 +43,8 @@ static func preparar_estado() -> void:
 	Juego.mision = e[0]
 	for b in e[1]:
 		Juego.banderas[b] = true
-	if e[0] >= 6:
-		for m in Juego.MISIONES.slice(0, 6):
+	if e[0] >= 5:
+		for m in Juego.MISIONES.slice(0, e[0]):
 			for o in m.objetivos:
 				Juego.banderas[o.hecho] = true
 
@@ -127,6 +130,14 @@ static func preparar(mundo: Eldervald) -> void:
 		t.create_timer(2.0).timeout.connect(func():
 			Calidad.poner_preset(Calidad.ALTO)
 			print("OPCIONES preset=", Calidad.preset, " niveles=", Calidad.niveles.values()))
+	if g == "cine_nucleo" or g == "cine_puente":
+		var t := mundo.get_tree()
+		var momentos: Array = [1.0, 3.0, 6.0, 9.5, 12.5, 16.5, 19.5, 21.0] if g == "cine_nucleo" else [0.5, 2.0, 4.5, 7.0, 9.5, 10.6]
+		t.create_timer(1.5).timeout.connect(func():
+			(mundo._cine_nucleo if g == "cine_nucleo" else mundo._reparar_puente).call()
+			var espera := 0.0 if g == "cine_nucleo" else 0.8
+			for i in momentos.size():
+				t.create_timer(espera + momentos[i]).timeout.connect(func(): Captura.foto(Captura.salida.get_basename() + "_%d.png" % i, 1)))
 	if g == "camara_baja":
 		mundo.camara._inclinar(-90.0)
 	if g == "claro" or g == "jefe":
