@@ -9,3 +9,6 @@ builds/
 .DS_Store
 Thumbs.db
 desktop.ini
+
+# respaldos automáticos de Blender
+*.blend1

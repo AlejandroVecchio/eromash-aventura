@@ -57,6 +57,7 @@ var _negro: ColorRect
 var _flecha: Label
 var _minimapa: Minimapa
 var _fps: Label
+var _admin: Label
 var _video: OpcionesVideo
 var _opciones_idioma: OptionButton
 var interfaz: InterfazAventura
@@ -183,6 +184,14 @@ func _armar_juego(raiz: Control) -> void:
 	_fps.offset_bottom = -24
 	_fps.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	_fps.visible = false
+	_admin = _etiqueta(raiz, 18, AMBAR, true)
+	_admin.set_anchors_preset(Control.PRESET_CENTER_TOP)
+	_admin.offset_left = -460
+	_admin.offset_right = 460
+	_admin.offset_top = 16
+	_admin.offset_bottom = 48
+	_admin.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_admin.visible = false
 	var obj := VBoxContainer.new()
 	obj.position = Vector2(36, 30)
 	obj.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -319,6 +328,12 @@ func _process(dt: float) -> void:
 		var sin_energia := heroe.stamina < minf(heroe.estadisticas.costo_esquiva, heroe.estadisticas.costo_ataque)
 		_stamina.modulate = Color(1, 0.45, 0.3) if _stamina_alerta > 0.0 else (Color(0.7, 0.7, 0.7) if sin_energia else Color.WHITE)
 		_ayuda_combate.text = tr(_stamina_alerta_clave) if _stamina_alerta > 0.0 else tr("combate_ayuda") % [Controles.tecla("esquivar"), Controles.tecla("saltar")]
+		if heroe.admin:
+			_ayuda_combate.text = tr("admin_ayuda") % [Controles.tecla("saltar"), Controles.tecla("bloquear"), Controles.tecla("correr")]
+	if _admin:
+		_admin.visible = heroe != null and heroe.admin
+		if _admin.visible:
+			_admin.text = tr("admin_marca") % Controles.tecla("modo_admin")
 	if en_dialogo:
 		_dlg_t += dt
 		var total := tr(_dlg_lineas[_dlg_i][1]).length() if _dlg_i < _dlg_lineas.size() else 0

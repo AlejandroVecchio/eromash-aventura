@@ -1,0 +1,183 @@
+{
+  "caras_originales_conservadas": 46107,
+  "errores_pesos_piezas": 0,
+  "clips": [
+    {
+      "nombre": "abrir_cofre",
+      "cuadros": 3,
+      "error_maximo_local": 0.0
+    },
+    {
+      "nombre": "abrir_puerta",
+      "cuadros": 3,
+      "error_maximo_local": 0.0
+    },
+    {
+      "nombre": "ataque",
+      "cuadros": 3,
+      "error_maximo_local": 0.0
+    },
+    {
+      "nombre": "ataque2",
+      "cuadros": 3,
+      "error_maximo_local": 0.0
+    },
+    {
+      "nombre": "beber",
+      "cuadros": 3,
+      "error_maximo_local": 0.0
+    },
+    {
+      "nombre": "bloquear",
+      "cuadros": 3,
+      "error_maximo_local": 0.0
+    },
+    {
+      "nombre": "bloqueo",
+      "cuadros": 3,
+      "error_maximo_local": 0.0
+    },
+    {
+      "nombre": "caminar",
+      "cuadros": 3,
+      "error_maximo_local": 0.0
+    },
+    {
+      "nombre": "caminar_armado",
+      "cuadros": 3,
+      "error_maximo_local": 0.0
+    },
+    {
+      "nombre": "correr",
+      "cuadros": 3,
+      "error_maximo_local": 0.0
+    },
+    {
+      "nombre": "correr_armado",
+      "cuadros": 3,
+      "error_maximo_local": 0.0
+    },
+    {
+      "nombre": "descanso",
+      "cuadros": 3,
+      "error_maximo_local": 0.0
+    },
+    {
+      "nombre": "descanso2",
+      "cuadros": 3,
+      "error_maximo_local": 0.0
+    },
+    {
+      "nombre": "desenvainar",
+      "cuadros": 3,
+      "error_maximo_local": 0.0
+    },
+    {
+      "nombre": "envainar",
+      "cuadros": 3,
+      "error_maximo_local": 0.0
+    },
+    {
+      "nombre": "golpe",
+      "cuadros": 3,
+      "error_maximo_local": 0.0
+    },
+    {
+      "nombre": "golpe2",
+      "cuadros": 3,
+      "error_maximo_local": 0.0
+    },
+    {
+      "nombre": "golpe3",
+      "cuadros": 3,
+      "error_maximo_local": 0.0
+    },
+    {
+      "nombre": "grito",
+      "cuadros": 3,
+      "error_maximo_local": 0.0
+    },
+    {
+      "nombre": "guardia",
+      "cuadros": 3,
+      "error_maximo_local": 0.0
+    },
+    {
+      "nombre": "guardia_mirar",
+      "cuadros": 3,
+      "error_maximo_local": 0.0
+    },
+    {
+      "nombre": "guardia_mirar2",
+      "cuadros": 3,
+      "error_maximo_local": 0.0
+    },
+    {
+      "nombre": "hechizo",
+      "cuadros": 3,
+      "error_maximo_local": 0.0
+    },
+    {
+      "nombre": "levantar",
+      "cuadros": 3,
+      "error_maximo_local": 0.0
+    },
+    {
+      "nombre": "levantar_armado",
+      "cuadros": 3,
+      "error_maximo_local": 0.0
+    },
+    {
+      "nombre": "mecanismo",
+      "cuadros": 3,
+      "error_maximo_local": 0.0
+    },
+    {
+      "nombre": "morir",
+      "cuadros": 3,
+      "error_maximo_local": 0.0
+    },
+    {
+      "nombre": "palanca",
+      "cuadros": 3,
+      "error_maximo_local": 0.0
+    },
+    {
+      "nombre": "patada",
+      "cuadros": 3,
+      "error_maximo_local": 0.0
+    },
+    {
+      "nombre": "salto_armado",
+      "cuadros": 3,
+      "error_maximo_local": 0.0
+    },
+    {
+      "nombre": "salto_libre",
+      "cuadros": 3,
+      "error_maximo_local": 0.0
+    },
+    {
+      "nombre": "soltar_bloqueo",
+      "cuadros": 3,
+      "error_maximo_local": 0.0
+    },
+    {
+      "nombre": "tomar",
+      "cuadros": 3,
+      "error_maximo_local": 0.0
+    },
+    {
+      "nombre": "trepar",
+      "cuadros": 3,
+      "error_maximo_local": 0.0
+    }
+  ],
+  "base_sin_pesos": {
+    "casco_fijo": 0,
+    "manos_base": 0,
+    "calzado_base": 0,
+    "torso_base_cerrado": 0,
+    "pantalon_base": 0
+  }
+}

@@ -25,7 +25,7 @@ abrir_cofre, abrir_puerta, ataque, ataque2, beber, bloquear, bloqueo, caminar, c
 ## Dos modos
 
 - **ARMADO**: espada en la mano derecha y escudo en la izquierda. Quieto respira en guardia; a los 6 s mira a los costados (`guardia_mirar` o `guardia_mirar2` al azar); si sigue quieto 4 s más, envaina solo. Camina y corre en guardia (`caminar_armado`, `correr_armado`), ataca y bloquea.
-- **LIBRE**: espada colgada en la cadera izquierda y escudo en la espalda. Descansa con el idle del banco (`ual/Idle`; cada 8–14 s hace uno de los `descanso`/`descanso2` largos propios y vuelve), camina con `ual/Walk`, corre con `ual/Jog_Fwd` (con el arreglo del brazo izquierdo ya innecesario: el banco está pasado al esqueleto de Eromash con `Retarget`) e interactúa con el mundo.
+- **LIBRE**: espada colgada en la cadera izquierda y escudo en la espalda. Descansa con `descanso`/`descanso2`, que rotan al azar (70 % de cambiar a la otra al terminar; el `Idle` del banco se probó y se descartó: sacaba el pecho y los omóplatos), camina con `meshy/Caminar` (caminata hecha por Meshy sobre el propio modelo; el `Walk` del banco se veía encogido y enojado), corre con su `correr` propio de siempre (Alejandro lo prefirió al `Jog_Fwd` del banco) e interactúa con el mundo.
 - Atacar o bloquear sin armas las saca primero (rápido); interactuar armado las guarda primero, salvo las interacciones que tienen variante armada (`levantar` → `levantar_armado`).
 - Tras atacar o bloquear hay **5 s de combate**: se queda en guardia sin mirar a los costados ni envainar.
 - Moverse corta el mirar a los costados.
@@ -47,15 +47,19 @@ Excepción para entrar en combate: desenvainar para atacar/bloquear va a 2,2× y
 
 | Constante | Valor |
 |---|---|
-| Caminar | 2,4 m/s |
-| Correr (sprint) | 6,5 m/s |
+| Caminar (`/` alterna; en el mando, palanca por debajo de 0,6) | 2,4 m/s |
+| Trotar (por defecto) | 4,5 m/s |
+| Sprint (Shift o apretar el analógico) | 7,0 m/s (armado: 5,5 con `correr_armado`; armado tampoco trota: camina a 2,4) |
 | Giro hacia donde camina | 12 (amortiguado) |
 | Gravedad | 24 m/s² |
 | Altura del salto | 1,3 m |
 | Aceleración | amortiguado a 10 |
 | Bloqueando | 0,3× de caminar |
 
-- Pasa a la animación de correr desde 3,2 m/s; por debajo de 0,35 m/s está quieto.
+- **Tres ritmos** (`Heroe.Ritmo`): caminar, trotar (por defecto) y sprint. Sin armas usan `meshy/Caminar`, el `correr` propio de siempre (trote activo pero relajado) y `ual/Sprint` del banco; con armas en mano **no hay trote**: camina con `caminar_armado` a 2,4 m/s (aunque no se pida caminar) y sprinta con `correr_armado` a 5,5 m/s (antes 6,5: Alejandro lo pidió más lento).
+- La animación sigue al ritmo pedido pero nunca va por delante de la velocidad real (al arrancar, frenar o chocar con algo no corre en el lugar). Por debajo de 0,35 m/s está quieto.
+- **`/`**: alterna caminar. Es Shift+7 en teclados latinoamericanos y españoles, así que el Shift que se mantiene al escribirlo no cuenta como sprint hasta que se suelta. Acción `caminar` en `controles.gd` (se dispara por el carácter `/` en `_input`).
+- **Mando**: la palanca por debajo de 0,6 camina a la velocidad que marca la palanca; por encima trota a velocidad fija; apretar el analógico (L3) sprinta.
 - Si sale por un borde más alto que 0,45 m, cae con gravedad (usa el clip de salto desde la mitad del vuelo).
 
 ## Salto
@@ -72,7 +76,7 @@ Constantes en `heroe.gd` (`SALTO_*`). El vuelo dura `2·√(2·g·h) / g` = 0,66
 
 ## Ataque
 
-- Combo de **cuatro golpes** (`COMBO_ORDEN` en `heroe.gd`): `ataque` (tajo desde arriba, 22), `ataque2` (30), `ataque3` (estocada rápida del pack, `Sword_Attack`, 34, pega al 0,26 del clip) y `ataque4` (patada, 26, pega al 0,41). Cada uno sale si se vuelve a atacar dentro de **1,2 s** de terminar el anterior; después del último vuelve a empezar. Cada golpe tiene su variante con el escudo en alto (`protegidos/…`). El momento de impacto de un golpe nuevo se mide con `herramientas/medir_golpe.gd`.
+- Combo de dos golpes (`COMBO_ORDEN` en `heroe.gd`): `ataque` y, si se vuelve a atacar dentro de **1,2 s** de terminar el anterior, `ataque2`. Se probó un combo de cuatro (con una estocada del banco y una patada) y se descartó. Para sumar un golpe: agregarlo a `GOLPES` y a `COMBO_ORDEN`; el momento de impacto se mide con `herramientas/medir_golpe.gd`.
 - Velocidad de reproducción 1,15; se puede mover a **0,35×** mientras ataca; fundido 0,06 s.
 - Velocidad efectiva: `1,15 × estadisticas.velocidad_ataque`. El multiplicador se fija al comenzar cada golpe; el impacto sigue el tiempo del clip. No acelera esquiva, caminar ni interacciones.
 - Un clic tiene memoria de 0,22 s. En recuperación permite encadenar al alcanzar el 72 % del clip, sin esperar todo el final. Los clics demasiado tempranos caducan.

@@ -6,7 +6,9 @@ Esqueleto jugable de la cadena EL-01 a EL-07 (`docs/misiones-principales-elderva
 
 | Acción | Teclado y mouse | Mando |
 |---|---|---|
-| Moverse / correr | WASD o flechas / Shift | stick izquierdo / L3 |
+| Moverse (por defecto **trota**) | WASD o flechas | stick izquierdo (palanca apenas inclinada: camina) |
+| Sprint (carrera de verdad) | mantener Shift | apretar el analógico (L3) |
+| Alternar caminar | `/` (como en WoW; por carácter, no por tecla física, así sirve en cualquier distribución de teclado) | — |
 | Saltar (esquiva todo aviso del piso) | Espacio | A |
 | Esquivar (dirección de movimiento; quieto retrocede) | Alt | B |
 | Atacar / bloquear | clic izquierdo / Ctrl izquierdo | X o RT / LB o LT |
@@ -16,6 +18,7 @@ Esqueleto jugable de la cadena EL-01 a EL-07 (`docs/misiones-principales-elderva
 | Diario con el croquis | J o Tab | Back |
 | Girar e inclinar la cámara (hasta quedar paralela al héroe) | mantener clic derecho (o la rueda) y mover el mouse; Q / E | stick derecho |
 | Contador de FPS y de lo que se dibuja | F3 | — |
+| Modo admin (volar, atravesar el mundo, sin daño; para cazar bugs) | F10. WASD se mueve, Espacio sube, Ctrl baja, Shift acelera. Apagarlo dentro de una malla empuja al héroe para salir | — |
 | Pausa (guardar, calidad, idioma) | Esc | Start |
 
 Las acciones están en `scripts/autoload/controles.gd`; el código nunca lee teclas sueltas.
@@ -43,7 +46,7 @@ El HUD muestra vida y resistencia, con pistas que cambian entre teclado y mando.
 
 ## Animaciones
 
-- **Banco de animaciones** (`docs/banco-animaciones.md`): 44 clips humanos de Quaternius (CC0) pasados al esqueleto de cada personaje con `scripts/personajes/retarget.gd` y disponibles como `ual/<Nombre>`. Eromash camina, corre, descansa y salta con ellos, el combo suma estocada y patada, los NPC descansan, caminan y gesticulan al hablar y el Errante camina, recibe golpes y muere con ellos.
+- **Banco de animaciones** (`docs/banco-animaciones.md`): 44 clips humanos de Quaternius (CC0) pasados al esqueleto de cada personaje con `scripts/personajes/retarget.gd` y disponibles como `ual/<Nombre>`. Eromash descansa y salta con ellos (camina con una caminata hecha por Meshy sobre su propio modelo, `assets/modelos/animaciones/meshy/`), el combo suma estocada y patada, los NPC descansan, caminan y gesticulan al hablar y el Errante camina, recibe golpes y muere con ellos.
 Todos los humanoides (Eromash, Eydis, Orm, Svanhild, trabajadores, Errantes) comparten esqueleto: al importar, cada `.glb` se reasigna al perfil humanoide de Godot con `assets/modelos/mapa-humano.tres`, y por eso usan las animaciones del héroe. Para sumar un pack de animaciones nuevo alcanza con importarlo con el mismo mapa de huesos y agregarlo en `Animaciones.dar_animaciones()`.
 
 - El lobo se anima por código (patas, cola, cuello) hasta que tenga sus propias animaciones; sus pesos se rehicieron en Blender (`herramientas/blender/lobo_pesos.py`).

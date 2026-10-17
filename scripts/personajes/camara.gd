@@ -29,6 +29,7 @@ var pausada := false
 var temblor := 0.0
 var ajuste_incl := 0.0       ## grados que el jugador sube o baja la cámara sobre la inclinación del zoom
 var ajuste_incl_obj := 0.0
+var atravesar_terreno := false   ## modo admin: la cámara sigue al héroe aunque esté dentro del piso
 
 var cam: Camera3D
 
@@ -123,7 +124,7 @@ func _aplicar() -> void:
 ## Si entre el héroe y la cámara hay piso (una loma, la orilla de la quebrada), la cámara se acerca hasta
 ## quedar por encima; nunca queda debajo del terreno.
 func _sin_atravesar_piso(desde: Vector3, hasta: Vector3) -> Vector3:
-	if not is_inside_tree():
+	if atravesar_terreno or not is_inside_tree():
 		return hasta
 	var espacio := get_world_3d().direct_space_state
 	var q := PhysicsRayQueryParameters3D.create(desde, hasta, MASCARA_PISO)

@@ -13,8 +13,14 @@ signal stamina_insuficiente(clave: String)
 
 const MODELO := "res://assets/modelos/personaje/eromash-completo.glb"
 const ALTURA := 1.85
-const VEL := 2.4
-const VEL_SPRINT := 6.5
+const VEL := 2.4            ## caminar (alternar con "/", o la palanca apenas inclinada)
+const VEL_TROTE := 4.5      ## ritmo normal: trote activo pero relajado
+const VEL_SPRINT := 7.0     ## Shift o apretar el analógico: carrera de verdad
+const VEL_SPRINT_ARMADO := 5.5  ## con espada y escudo en la mano: como antes (camina a VEL, sprinta a esto)
+const VEL_ADMIN := 16.0         ## modo admin: vuelo para revisar bugs
+const VEL_ADMIN_RAPIDO := 42.0  ## lo mismo, con Shift
+const UMBRAL_CAMINAR := 0.6 ## en el mando, una palanca por debajo de esto camina
+enum Ritmo { CAMINAR, TROTE, SPRINT }
 const GIRO := 12.0
 const GRAVEDAD := 24.0
 const ALTURA_SALTO := 1.3
@@ -30,10 +36,10 @@ const SALIDA_ESCUDO := 0.10
 const SALUD_MAX := 100.0
 const CAMBIO := {"envainar": {"escudo": 1.2, "espada": 1.25}, "desenvainar": {"escudo": 0.31, "espada": 0.5}}
 ## Banco de animaciones del pack UAL (docs/banco-animaciones.md). Camina, corre y descansa sin armas con él.
-const CAMINAR_LIBRE := "ual/Walk"
-const CORRER_LIBRE := "ual/Jog_Fwd"
-const DESCANSO_LIBRE := "ual/Idle"
-const VARIANTES_DESCANSO := ["descanso", "descanso2"]   ## de vez en cuando, uno de los propios (largos)
+const CAMINAR_LIBRE := "meshy/Caminar"   # caminata hecha por Meshy sobre el modelo de Eromash (docs/banco-animaciones.md)
+const TROTAR_LIBRE := "correr"               # el correr propio de siempre: trote activo pero relajado
+const SPRINT_LIBRE := "ual/Sprint"          # carrera de verdad (banco de animaciones)
+const DESCANSO_LIBRE := "descanso"   # reposo sin armas: el de siempre (el Idle del banco se descartó: sacaba el pecho y los omóplatos)
 const PASO_MAX := 2.5                                    ## velocidad máxima de reproducción de un clip de paso
 ## Salto: despegue → bucle en el aire → aterrizaje. Cada tramo se reproduce solo (no se persigue con seek).
 const SALTO_INICIO := "ual/Jump_Start"
@@ -50,10 +56,8 @@ const RECORTES := {
 ## daño de cada golpe y en qué parte del clip pega (0..1)
 const GOLPES := {
 	"ataque": {"dano": 22.0, "momento": 0.42}, "ataque2": {"dano": 30.0, "momento": 0.4},
-	"ataque3": {"dano": 34.0, "momento": 0.26},   # estocada rápida del pack (pico de la mano a los 0,40 s)
-	"ataque4": {"dano": 26.0, "momento": 0.41},   # patada, remate del combo (el pie pega a los 0,5 s)
 }
-const COMBO_ORDEN := ["ataque", "ataque2", "ataque3", "ataque4"]
+const COMBO_ORDEN := ["ataque", "ataque2"]   # combo de dos golpes, como siempre (se probó uno de cuatro con estocada y patada, y se descartó)
 const ALCANCE := 2.4
 const MEMORIA_ENTRADA := 0.22
 const FIN_COMBO := 0.72
@@ -100,7 +104,10 @@ var _t_aire := 0.0
 var _aterrizaje := 0.0
 var _salto_iniciado := false  ## el salto empezó con un impulso (si no, es una caída desde un borde)
 var _descanso := ""
-var _espera_variante := 0.0
+var admin := false             ## F10: vuela, no choca y no recibe daño (F8 lo usa Godot para frenar la partida)
+var _caminando_fijo := false   ## "/" alterna caminar (como en WoW)
+var _sin_sprint_hasta_soltar := false
+var _ritmo := Ritmo.TROTE
 var _sin_dano := 0.0
 var _mallas := {}
 var _pasos_natural := {}
@@ -157,8 +164,8 @@ func _cargar_modelo() -> void:
 	var metros_cadera := esq.motion_scale * modelo.scale.x
 	for n in Animaciones.CAMINAN:
 		_pasos_natural[n] = Animaciones.velocidad_natural(n) * metros_cadera
-	for n in [CAMINAR_LIBRE, CORRER_LIBRE]:
-		_pasos_natural[n] = Animaciones.velocidad_ual(String(n).get_slice("/", 1), ALTURA)
+	_pasos_natural[CAMINAR_LIBRE] = Animaciones.MESHY_VELOCIDAD_CAMINAR * ALTURA / 1.85
+	_pasos_natural[SPRINT_LIBRE] = Animaciones.velocidad_ual("Sprint", ALTURA)
 	_arreglar_vaina(esq)
 	_armas(true)
 	anim.play("guardia")
@@ -522,7 +529,7 @@ func interactuar_con(objeto: Node, anim_nombre: String, momento: float, al: Call
 # ---------- daño ----------
 
 func recibir_dano(cantidad: float, origen: Vector3, evitable_saltando := false) -> bool:
-	if muerto or bloqueado:
+	if admin or muerto or bloqueado:
 		return false
 	if invulnerable() or (en_aire and evitable_saltando):
 		return false
@@ -643,6 +650,11 @@ func _mover_esquiva(dt: float) -> void:
 
 
 func _physics_process(dt: float) -> void:
+	if Input.is_action_just_pressed("modo_admin"):
+		_alternar_admin()
+	if admin:
+		_volar_admin(dt)
+		return
 	_pedido_golpe = maxf(0.0, _pedido_golpe - dt)
 	_pedido_esquiva = maxf(0.0, _pedido_esquiva - dt)
 	_esquiva_pausa = maxf(0.0, _esquiva_pausa - dt)
@@ -659,6 +671,12 @@ func _physics_process(dt: float) -> void:
 	if not bloqueado and not muerto:
 		entrada = Input.get_vector("mover_izquierda", "mover_derecha", "mover_arriba", "mover_abajo")
 		pide_correr = Input.is_action_pressed("correr")
+		if Input.is_action_just_pressed("caminar"):
+			_caminando_fijo = not _caminando_fijo
+			_sin_sprint_hasta_soltar = pide_correr   # "/" es Shift+7 en muchos teclados: ese Shift no cuenta como sprint
+		if not pide_correr:
+			_sin_sprint_hasta_soltar = false
+		pide_correr = pide_correr and not _sin_sprint_hasta_soltar
 		for a in ["atacar", "esquivar", "saltar", "envainar", "interactuar", "lente"]:
 			pide[a] = Input.is_action_just_pressed(a) or _pedidos_ui.get(a, false)
 			if not _pedidos_ui.is_empty():
@@ -733,14 +751,26 @@ func _physics_process(dt: float) -> void:
 
 	# movimiento
 	var fuerza := entrada.length()
-	var tope := VEL_SPRINT if pide_correr else VEL
+	# ritmo: Shift (o apretar el analógico) = sprint; "/" o la palanca apenas inclinada = caminar; si no, trote
+	if pide_correr:
+		_ritmo = Ritmo.SPRINT
+	elif _caminando_fijo or fuerza < UMBRAL_CAMINAR:
+		_ritmo = Ritmo.CAMINAR
+	else:
+		_ritmo = Ritmo.TROTE
+	var tope: float = [VEL, VEL_TROTE, VEL_SPRINT][_ritmo]
+	if armado:
+		# desenvainado no hay trote: camina como siempre y sprinta con su carrera de siempre
+		tope = VEL_SPRINT_ARMADO if _ritmo == Ritmo.SPRINT else VEL
 	if bloqueando:
 		tope = VEL * 0.3
 	if not _accion.is_empty():
 		tope *= float(_accion.mover)
 	if muerto or bloqueado:
 		tope = 0.0
-	var objetivo := dir.normalized() * tope * minf(1.0, fuerza * 1.2) if fuerza > 0.1 else Vector3.ZERO
+	# al caminar la velocidad sigue a la palanca; trote y sprint van a su velocidad
+	var proporcion := minf(1.0, fuerza * 1.2) if _ritmo == Ritmo.CAMINAR else 1.0
+	var objetivo := dir.normalized() * tope * proporcion if fuerza > 0.1 else Vector3.ZERO
 	var k := 1.0 - exp(-10.0 * dt)
 	velocity.x = lerpf(velocity.x, objetivo.x, k)
 	velocity.z = lerpf(velocity.z, objetivo.z, k)
@@ -770,6 +800,60 @@ func _physics_process(dt: float) -> void:
 	move_and_slide()
 	if global_position.y < -30.0:
 		global_position = Juego.punto_seguro()
+	Juego.posicion = global_position
+	_animar(dt)
+	_buscar_cerca()
+
+
+func _alternar_admin() -> void:
+	admin = not admin
+	velocity = Vector3.ZERO
+	if admin:
+		_cancelar_combate()
+		collision_layer = 0
+		collision_mask = 0
+		floor_snap_length = 0.0
+		motion_mode = MOTION_MODE_FLOATING
+		en_aire = false
+		_aterrizaje = 0.0
+	else:
+		collision_layer = 2
+		collision_mask = 1 | 4
+		floor_snap_length = 0.6
+		motion_mode = MOTION_MODE_GROUNDED
+		en_aire = true
+		_salto_iniciado = false
+		_t_aire = _vuelo() * 0.5
+	if camara:
+		camara.atravesar_terreno = admin
+	Juego.mensaje.emit("admin_on" if admin else "admin_off")
+
+
+## Vuelo libre para revisar el mapa: WASD en el plano de la cámara, Espacio sube, Ctrl baja, Shift acelera.
+## No choca con el mundo ni con los enemigos. Al apagarlo hay que estar en un lugar libre: si se apaga dentro
+## de una malla, el cuerpo se empuja para salir.
+func _volar_admin(dt: float) -> void:
+	var entrada := Input.get_vector("mover_izquierda", "mover_derecha", "mover_arriba", "mover_abajo")
+	var horizontal := camara.a_mundo(entrada) if camara else Vector3(entrada.x, 0.0, entrada.y)
+	var vertical := Input.get_action_strength("saltar") - Input.get_action_strength("bloquear")
+	_ritmo = Ritmo.SPRINT if Input.is_action_pressed("correr") else Ritmo.TROTE
+	var dir := horizontal.normalized() if horizontal.length() > 0.1 else Vector3.ZERO
+	dir.y = vertical
+	if horizontal.length() > 0.1:
+		rotation.y = lerp_angle(rotation.y, atan2(horizontal.x, horizontal.z), minf(1.0, GIRO * dt))
+	if _accion.is_empty() and not bloqueado and not muerto:
+		if Input.is_action_just_pressed("interactuar") and cerca and cerca.has_method("usar"):
+			cerca.usar(self)
+		elif Input.is_action_just_pressed("lente"):
+			_usar_lente()
+	_actualizar_accion()
+	# una interacción se queda en el lugar; si no, el vuelo sigue
+	if _accion.is_empty():
+		var vel := VEL_ADMIN_RAPIDO if _ritmo == Ritmo.SPRINT else VEL_ADMIN
+		velocity = dir.normalized() * vel if dir.length() > 0.01 else Vector3.ZERO
+	else:
+		velocity = Vector3.ZERO
+	move_and_slide()
 	Juego.posicion = global_position
 	_animar(dt)
 	_buscar_cerca()
@@ -817,11 +901,19 @@ func _animar(dt: float) -> void:
 	if rapidez > 0.35:
 		_quieto = 0.0
 		_miro = false
-		var corre := rapidez >= 3.2
-		var nombre := ("correr_armado" if corre else "caminar_armado") if armado else (CORRER_LIBRE if corre else CAMINAR_LIBRE)
+		# el clip sigue al ritmo pedido, sin pasarse de la velocidad real (al arrancar o frenar contra algo no corre en el lugar)
+		var por_velocidad := Ritmo.CAMINAR if rapidez < (VEL + VEL_TROTE) * 0.5 else (Ritmo.TROTE if rapidez < (VEL_TROTE + VEL_SPRINT) * 0.5 else Ritmo.SPRINT)
+		if armado:   # desenvainado solo hay caminar y sprint: el corte está a mitad de camino entre los dos
+			por_velocidad = Ritmo.CAMINAR if rapidez < (VEL + VEL_SPRINT_ARMADO) * 0.5 else Ritmo.SPRINT
+		var ritmo: int = mini(_ritmo, por_velocidad)
+		var nombre: String
+		if armado:
+			nombre = "correr_armado" if ritmo == Ritmo.SPRINT else "caminar_armado"
+		else:
+			nombre = [CAMINAR_LIBRE, TROTAR_LIBRE, SPRINT_LIBRE][ritmo]
 		if anim.current_animation != nombre:
 			anim.play(nombre, 0.2)
-		anim.speed_scale = clampf(rapidez / maxf(0.1, _pasos_natural.get(nombre, rapidez)), 0.6, 2.2 if armado else PASO_MAX)
+		anim.speed_scale = clampf(rapidez / maxf(0.1, _pasos_natural.get(nombre, rapidez)), 0.6, PASO_MAX if nombre.begins_with("ual/") or nombre.begins_with("meshy/") else 2.2)
 		_descanso = ""
 	elif armado:
 		_quieto += get_physics_process_delta_time()
@@ -839,20 +931,10 @@ func _animar(dt: float) -> void:
 		elif anim.current_animation != "guardia":
 			anim.play("guardia", 0.3)
 	else:
-		# En reposo respira con el idle del banco; cada tanto hace uno de los largos propios y vuelve.
-		if _descanso in VARIANTES_DESCANSO and anim.current_animation == _descanso and anim.current_animation_position >= anim.current_animation_length - 0.05:
-			_descanso = ""
-		if _descanso == "":
-			_descanso = DESCANSO_LIBRE
-			_espera_variante = randf_range(8.0, 14.0)
-			anim.play(DESCANSO_LIBRE, 0.5)
-		elif _descanso == DESCANSO_LIBRE:
-			_espera_variante -= dt
-			if _espera_variante <= 0.0:
-				_descanso = VARIANTES_DESCANSO.pick_random()
-				anim.play(_descanso, 0.6)
-			elif anim.current_animation != DESCANSO_LIBRE:
-				anim.play(DESCANSO_LIBRE, 0.4)
+		# Reposo de siempre: `descanso` y `descanso2` rotan al azar (70 % de cambiar a la otra al terminar)
+		if _descanso == "" or (anim.current_animation == _descanso and anim.current_animation_position >= anim.current_animation_length - 0.05):
+			_descanso = ["descanso", "descanso2"].pick_random()
+			anim.play(_descanso, 0.6)
 		elif anim.current_animation != _descanso:
 			anim.play(_descanso, 0.5)
 
