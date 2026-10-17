@@ -7,6 +7,7 @@ var escena := ""
 var salida := ""
 var cuadros := 30
 var guion := ""
+var ver := false   ## --ver=: arma el guion para mirarlo jugando (no captura ni cierra)
 var _n := 0
 var _fotos: Array = []   ## [[cuadro, ruta]] capturas intermedias pedidas por un guion
 
@@ -22,6 +23,10 @@ func _ready() -> void:
 			cuadros = int(a.get_slice("=", 1))
 		elif a.begins_with("--guion="):
 			guion = a.get_slice("=", 1)
+		elif a.begins_with("--ver="):
+			# para mirar un guion jugando, con pantalla y sin capturar ni cerrar (ej. --ver=cine_nucleo)
+			guion = a.get_slice("=", 1)
+			ver = true
 		elif a.begins_with("--calidad="):
 			Calidad.poner_preset(int(a.get_slice("=", 1)))   # 0 Bajo, 1 Medio, 2 Alto, 3 Ultra
 	if escena == ProjectSettings.get_setting("application/run/main_scene"):
@@ -32,7 +37,7 @@ func _ready() -> void:
 
 
 func activo() -> bool:
-	return salida != ""
+	return salida != "" or ver
 
 
 ## Pide una captura extra en el cuadro actual + `despues` cuadros.
