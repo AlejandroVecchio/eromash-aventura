@@ -9,6 +9,10 @@ const NPCS := {
 	"svanhild": {"modelo": "res://assets/modelos/npc/svanhild.glb", "alto": 1.82, "arma": "", "largo": 0.0},
 }
 
+## Con preload y no por nombre de clase: así funcionan aunque Godot todavía no haya registrado las clases nuevas.
+const CINEMATICA := preload("res://scripts/mundo/cinematica.gd")
+const ONDA_RUNICA := preload("res://scripts/mundo/onda_runica.gd")
+
 var terreno: Terreno
 var escenario: Escenario
 var heroe: Heroe
@@ -469,7 +473,7 @@ func _cine_nucleo() -> void:
 	eydis.ubicar(e_pos, _giro_hacia(e_pos, ped))
 	var nuc := ped + arriba * 1.05
 
-	var c := Cinematica.new()
+	var c := CINEMATICA.new()
 	# 1 · plano detalle: el Núcleo en el pedestal y la mano de Eromash
 	# (del lado del puente, contra Eromash: se ve el Núcleo y detrás llega su mano y el casco)
 	c.plano(4.6, ped + lado * 1.7 + al_puente * 0.9 + arriba * 1.45, nuc, ped + lado * 1.15 + al_puente * 0.75 + arriba * 1.3, nuc + arriba * 0.05, 36.0)
@@ -517,7 +521,7 @@ func _cine_puente() -> void:
 	var largo := _plano_xz(puente - ped)
 	var lado := largo.cross(Vector3.UP).normalized()
 	var arriba := Vector3.UP
-	var c := Cinematica.new()
+	var c := CINEMATICA.new()
 	c.entrar_de_negro = true
 	# 1 · plano general desde la quebrada: el puente entero, con la runa encendida en la cabecera
 	c.plano(5.0, puente + lado * 16.0 - largo * 6.0 + arriba * 4.0, puente,
@@ -534,7 +538,7 @@ func _cine_puente() -> void:
 
 
 func _onda(puntos: Array, velocidad: float) -> void:
-	var o := OndaRunica.new()
+	var o := ONDA_RUNICA.new()
 	# cada tramo se parte cada ~2 m y se apoya en el terreno (o sigue la altura del puente si va por encima)
 	var pts := PackedVector3Array()
 	for i in puntos.size():
