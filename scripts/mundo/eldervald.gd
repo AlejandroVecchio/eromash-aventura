@@ -257,13 +257,16 @@ func _ubicar_heroe() -> void:
 func _empezar(nueva: bool) -> void:
 	if nueva:
 		Juego.nueva_partida()
-		Juego.saltar_titulo = true
-		get_tree().reload_current_scene.call_deferred()
+		# partida nueva: el prólogo de nuevo y después (cuando esté) la cinemática 2, la Arena y el trato con el rey;
+		# al terminar se rearma el mundo desde el principio
+		_cine_prologo(func():
+			Juego.saltar_titulo = true
+			get_tree().reload_current_scene.call_deferred())
 		return
 	_estado_cambio()
 
 
-## Cinemática 1, «El susurro de las raíces» (prólogo): 2.5D sobre pergamino, se ve al abrir el juego, antes de la
+## Cinemática 1, «El susurro de las raíces» (prólogo): 2.5D sobre pergamino, se ve al abrir el juego (antes de la
 ## pantalla de título. Tapa el mundo mientras dura; `al_terminar` corre al final o al saltarla.
 func _cine_prologo(al_terminar: Callable) -> void:
 	hud.visible = false
