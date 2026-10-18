@@ -69,6 +69,21 @@ Se hacen con el motor, con los mismos modelos y la misma luz del juego (nada de 
 - Para revisar sin pantalla: guiones `cine_nucleo` y `cine_puente` (sacan fotos a lo largo de la cinemática). Conviene correrlos con `--fixed-fps 10` antes de `--`, para que el tiempo avance parejo aunque el render vaya lento.
 - Una cinemática nueva: una función `_cine_<nombre>()` que arma la `Cinematica` con los planos de la guía (`docs/historia-y-cinematicas.md`), con posiciones calculadas desde `escenario.puntos`, y se llama desde la interacción o el diálogo que la dispara.
 
+### Cinemáticas 2.5D (libro ilustrado)
+
+La cinemática 1, «El susurro de las raíces», no usa el mundo 3D: son ilustraciones en capas sobre pergamino, al estilo de un libro de leyendas (referencia: el prólogo de RuneScape: Dragonwilds). Se aprobó con previsualizaciones el 18/10/2026.
+
+- Cuándo: al elegir «Nueva partida» (`_empezar` → `_cine_prologo` en `eldervald.gd`). Al terminar o al saltarla se rearma el mundo desde el principio.
+- Sistema: `scripts/mundo/cinematica_25d.gd` (`Cinematica25D`). Los datos de cada cinemática van en su propio archivo: `scripts/mundo/cine_prologo.gd`. Todo se dibuja a 1920×1080 en un SubViewport y se muestra escalado; mientras dura, el mundo 3D no se dibuja.
+- Cada plano se arma en su propio SubViewport con tres capas (`fondo`, `medio`, `frente`). La cámara recorre la imagen entre claves (punto de mira en uv + zoom) y cada capa la sigue con `k` (zoom extra) y `m` (cuánto exagera el recorrido): así lo cercano se mueve más que lo lejano. Nunca se ve el borde de una imagen.
+- Revelado boceto → color (`assets/sombreadores/cine/revelado.gdshader`): el boceto sale de la misma imagen a color (bordes y zonas oscuras), así las líneas no tiemblan. Por capa: `r0`/`rd` (cuándo empieza y cuánto tarda), `o` (desde dónde), `umbral` (color pleno solo en una parte; 0,543 ≈ 60 %, el resto en aguada), `intensidad` (cuánto color; 0,8 por defecto, 0,5 en la mano y el guardián). También: `ond` (ramas que se mecen), `der` (cielo que fluye), `runa` (las runas azules brillan, fallan y se apagan), `fuego` (ventanas y faroles laten), `avance`, `vaiven`, `sube`.
+- Transiciones (`transicion.gdshader`), una por cambio de plano en `pases`: 1 acuarela que florece desde un punto, 2 la cámara recorre la página de una ilustración a la otra, 3 destello rúnico, 4 barrido, 5 cierre (vuelve al papel y se hunde en tinta oscura). La apertura arranca de la página vacía.
+- Encima de todo: bordes aguados en tramos del perímetro, pergamino fijo (multiplica), polvo (Opciones → Video → Partículas) y bruma (desde Efectos de ambiente 3).
+- Textos: `cine_prologo_01`…`12` y `nombre_guardian` en `textos.csv`. Voces: `assets/audio/voces/<clave>-es.mp3` / `-en.mp3`, por los buses `Narrador` (más grave, sala grande) y `Guardian` (sala chica). Se regeneran con `herramientas/voces/generar.mjs --prologo`, que lee la tabla de `output/Cinematica 1/subtitulos.md`.
+- Capas: `assets/cinematicas/prologo/pNN_<capa>.png` (medio y frente con transparencia). Saltar: mantener «interactuar».
+- Mirarla jugando: `--ver=cine_prologo`. Sin pantalla: guion `cine_prologo` con `--fixed-fps 30` y unos 2500 cuadros (saca 15 fotos, en los planos y en cada transición).
+- Un plano nuevo: tres PNG `pNN_fondo/medio/frente`, una entrada en `planos` (duración, claves de cámara, capas, líneas `[clave, quién, entra, dura]`) y una en `pases` para su transición de salida.
+
 ## Rendimiento y opciones de video
 
 El juego se piensa para rendir desde el principio: de cerca se ve todo con detalle y lo lejano casi no cuesta.

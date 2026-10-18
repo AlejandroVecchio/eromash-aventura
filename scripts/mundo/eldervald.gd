@@ -12,6 +12,8 @@ const NPCS := {
 ## Con preload y no por nombre de clase: así funcionan aunque Godot todavía no haya registrado las clases nuevas.
 const CINEMATICA := preload("res://scripts/mundo/cinematica.gd")
 const ONDA_RUNICA := preload("res://scripts/mundo/onda_runica.gd")
+const CINEMATICA_25D := preload("res://scripts/mundo/cinematica_25d.gd")
+const CINE_PROLOGO := preload("res://scripts/mundo/cine_prologo.gd")
 
 var terreno: Terreno
 var escenario: Escenario
@@ -254,10 +256,22 @@ func _ubicar_heroe() -> void:
 func _empezar(nueva: bool) -> void:
 	if nueva:
 		Juego.nueva_partida()
-		Juego.saltar_titulo = true
-		get_tree().reload_current_scene.call_deferred()
+		# la cinemática 1 (prólogo) abre la partida; después se rearma el mundo desde el principio
+		_cine_prologo(func():
+			Juego.saltar_titulo = true
+			get_tree().reload_current_scene.call_deferred())
 		return
 	_estado_cambio()
+
+
+## Cinemática 1, «El susurro de las raíces»: 2.5D sobre pergamino, tapa el mundo mientras dura.
+func _cine_prologo(al_terminar: Callable) -> void:
+	hud.visible = false
+	heroe.bloqueado = true
+	Sonido.ambiente(false)
+	var c := CINEMATICA_25D.new(CINE_PROLOGO.datos())
+	c.termino.connect(al_terminar)
+	c.reproducir(self)
 
 
 # ---------- interacciones de las misiones ----------

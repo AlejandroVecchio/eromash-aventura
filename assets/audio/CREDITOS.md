@@ -27,3 +27,13 @@ Sin modificar salvo el nombre / Unmodified except for the file name.
 El resto del audio del modo arena (pasos, tela, desenvainar, música RPG Orchestral Essentials, etc.) está en el repo del juego de la arena, `juego/audio/`, con sus créditos en `juego/audio/CREDITOS.md`. Se trae acá solo lo que se use, con su línea en esta tabla.
 
 Regla: **cada sonido nuevo suma su línea acá en el mismo commit** (archivo, original, paquete, autor, licencia y si se modificó).
+
+## Voces / Voices (`voces/`)
+
+Voces sintéticas de **ElevenLabs** (modelo `eleven_v4`, mp3 44,1 kHz 128 kbps), generadas el 18/10/2026 con `herramientas/voces/generar.mjs --prologo` a partir de la tabla de subtítulos de la cinemática 1. Voces premade de la cuenta: Narrador → «Brian» (`nPczCjzI2devNBz1zQrb`), Guardián → «Bill» (`pqHfZKP75CvOlQylNhV4`). El tratamiento (más grave, sala) lo aplica el juego en vivo con los buses `Narrador` y `Guardian`.
+
+| Archivo | Texto |
+|---|---|
+| `voces/cine_prologo_01-es.mp3` … `cine_prologo_12-en.mp3` | Líneas `cine_prologo_01` a `cine_prologo_12` de `textos/textos.csv`, en español (`-es`) y en inglés (`-en`) |
+
+**Provisorias:** se generaron con el plan gratuito de ElevenLabs, que no permite uso comercial y pide atribución. Antes de publicar el juego hay que regenerarlas con un plan pago (mismo script, mismas claves).

@@ -108,6 +108,21 @@ t("nombre_eromash", "Eromash", "Eromash")
 t("nombre_runa", "Runa", "Rune")
 t("nombre_trabajador", "Trabajador", "Worker")
 t("nombre_ciervo", "El Ciervo Hueco", "The Hollow Stag")
+t("nombre_guardian", "Guardián", "Guardian")
+
+# --- cinemática 1: El susurro de las raíces (prólogo, 2.5D) ---
+t("cine_prologo_01", "Desde antes de la memoria, Yggdrasil sostiene los nueve mundos.", "Since before memory, Yggdrasil has held up the nine worlds.")
+t("cine_prologo_02", "Sus raíces corren bajo las tierras de los hombres, y las runas talladas en la piedra guardan sus caminos.", "Its roots run beneath the lands of men, and runes carved in stone guard their roads.")
+t("cine_prologo_03", "Su copa sigue verde. Nadie mira lo que pasa en sus raíces.", "Its crown is still green. No one looks at what stirs in its roots.")
+t("cine_prologo_04", "Durante siglos, los guardianes mantuvieron viva esa luz.", "For centuries, the guardians kept that light alive.")
+t("cine_prologo_05", "Pero ahora, al pie del Fresno, las runas parpadean… y se apagan, una tras otra.", "But now, at the foot of the Ash, the runes flicker… and go dark, one after another.")
+t("cine_prologo_06", "La savia corre…", "The sap still flows…")
+t("cine_prologo_07", "…pero las piedras han olvidado su lenguaje.", "…but the stones have forgotten their tongue.")
+t("cine_prologo_08", "Nadie sabe qué las está silenciando.", "No one knows what is silencing them.")
+t("cine_prologo_09", "A muchas millas de allí, en los bosques de Eldervald, la tierra se quiebra.", "Many miles away, in the forests of Eldervald, the earth breaks open.")
+t("cine_prologo_10", "Criaturas de ceniza salen de los caminos y rondan las piedras apagadas.", "Creatures of ash crawl out of the roads and circle the darkened stones.")
+t("cine_prologo_11", "Los asentamientos cierran sus puertas. Y lo que dormía bajo los caminos de los hombres… despierta.", "The settlements bar their doors. And what slept beneath the roads of men… awakens.")
+t("cine_prologo_12", "Lejos de allí, en la fosa de la Arena, un guerrero sin memoria sigue peleando… sin saber que las runas lo llaman.", "Far away, in the pit of the Arena, a warrior with no memory keeps fighting… unaware that the runes are calling him.")
 
 # --- misiones y objetivos ---
 t("mision_EL-01", "El camino que dejó de ser seguro", "The road that is no longer safe")
