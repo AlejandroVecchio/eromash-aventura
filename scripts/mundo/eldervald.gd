@@ -88,7 +88,8 @@ func _ready() -> void:
 	elif Juego.saltar_titulo:
 		Juego.saltar_titulo = false
 	else:
-		hud.mostrar_titulo()
+		# al abrir el juego: primero el prólogo, después la pantalla de título
+		_cine_prologo(hud.mostrar_titulo)
 
 
 # ---------- ambiente ----------
@@ -256,21 +257,26 @@ func _ubicar_heroe() -> void:
 func _empezar(nueva: bool) -> void:
 	if nueva:
 		Juego.nueva_partida()
-		# la cinemática 1 (prólogo) abre la partida; después se rearma el mundo desde el principio
-		_cine_prologo(func():
-			Juego.saltar_titulo = true
-			get_tree().reload_current_scene.call_deferred())
+		Juego.saltar_titulo = true
+		get_tree().reload_current_scene.call_deferred()
 		return
 	_estado_cambio()
 
 
-## Cinemática 1, «El susurro de las raíces»: 2.5D sobre pergamino, tapa el mundo mientras dura.
+## Cinemática 1, «El susurro de las raíces» (prólogo): 2.5D sobre pergamino, se ve al abrir el juego, antes de la
+## pantalla de título. Tapa el mundo mientras dura; `al_terminar` corre al final o al saltarla.
 func _cine_prologo(al_terminar: Callable) -> void:
 	hud.visible = false
 	heroe.bloqueado = true
+	get_tree().paused = true   # el mundo queda quieto detrás; la cinemática sigue igual
 	Sonido.ambiente(false)
 	var c := CINEMATICA_25D.new(CINE_PROLOGO.datos())
-	c.termino.connect(al_terminar)
+	c.termino.connect(func():
+		hud.visible = true
+		heroe.bloqueado = false
+		get_tree().paused = false
+		Sonido.ambiente()
+		al_terminar.call())
 	c.reproducir(self)
 
 

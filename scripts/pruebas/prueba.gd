@@ -125,7 +125,7 @@ static func preparar(mundo: Eldervald) -> void:
 		var t := mundo.get_tree()
 		var momentos: Array = [1.0, 11.3, 21.0, 21.6, 27.8, 34.0, 37.3, 40.2, 44.8, 48.6, 51.1, 54.3, 62.5, 69.6, 76.2]
 		t.create_timer(0.5).timeout.connect(func():
-			mundo._cine_prologo(func(): mundo.hud.visible = true)
+			mundo._cine_prologo(func(): pass)
 			if Captura.ver:
 				return
 			for i in momentos.size():
