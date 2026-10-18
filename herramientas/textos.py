@@ -120,7 +120,7 @@ t("cine_prologo_06", "La savia corre…", "The sap still flows…")
 t("cine_prologo_07", "…pero las piedras han olvidado su lenguaje.", "…but the stones have forgotten their tongue.")
 t("cine_prologo_08", "Nadie sabe qué las está silenciando.", "No one knows what is silencing them.")
 t("cine_prologo_09", "A muchas millas de allí, en los bosques de Eldervald, la tierra se quiebra.", "Many miles away, in the forests of Eldervald, the earth breaks open.")
-t("cine_prologo_10", "Criaturas de ceniza salen de los caminos y rondan las piedras apagadas.", "Creatures of ash crawl out of the roads and circle the darkened stones.")
+t("cine_prologo_10", "Los errantes de Helheim salen de la tierra y rondan las piedras apagadas.", "The wanderers of Helheim crawl out of the earth and circle the darkened stones.")
 t("cine_prologo_11", "Los asentamientos cierran sus puertas. Y lo que dormía bajo los caminos de los hombres… despierta.", "The settlements bar their doors. And what slept beneath the roads of men… awakens.")
 t("cine_prologo_12", "Lejos de allí, en la fosa de la Arena, un guerrero sin memoria sigue peleando… sin saber que las runas lo llaman.", "Far away, in the pit of the Arena, a warrior with no memory keeps fighting… unaware that the runes are calling him.")
 
