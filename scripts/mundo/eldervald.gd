@@ -266,8 +266,9 @@ func _empezar(nueva: bool) -> void:
 	_estado_cambio()
 
 
-## Cinemática 1, «El susurro de las raíces» (prólogo): 2.5D sobre pergamino, se ve al abrir el juego (antes de la
-## pantalla de título. Tapa el mundo mientras dura; `al_terminar` corre al final o al saltarla.
+## Cinemática 1, «El susurro de las raíces» (prólogo): 2.5D sobre pergamino. Se ve al abrir el juego (antes de la
+## pantalla de título) y otra vez al elegir «Nueva partida». Tapa el mundo mientras dura; `al_terminar` corre al
+## final o al saltarla.
 func _cine_prologo(al_terminar: Callable) -> void:
 	hud.visible = false
 	heroe.bloqueado = true
