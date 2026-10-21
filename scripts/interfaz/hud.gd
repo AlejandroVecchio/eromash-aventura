@@ -318,6 +318,15 @@ func _process(dt: float) -> void:
 		_stamina.value = move_toward(_stamina.value, _stamina_objetivo, dt * 220.0)
 		var sin_energia := heroe.stamina < minf(heroe.estadisticas.costo_esquiva, heroe.estadisticas.costo_ataque)
 		_stamina.modulate = Color(1, 0.45, 0.3) if _stamina_alerta > 0.0 else (Color(0.7, 0.7, 0.7) if sin_energia else Color.WHITE)
+		var vida_baja := heroe.salud > 0.0 and heroe.salud <= Heroe.SALUD_MAX * 0.3
+		if vida_baja:
+			var pulso := 0.55 + 0.45 * sin(Time.get_ticks_msec() * 0.009)
+			var tinte := Color(1.0, 0.38, 0.3).lerp(Color(1.0, 0.82, 0.72), pulso)
+			_salud.modulate = tinte
+			_salud_texto.modulate = tinte
+		else:
+			_salud.modulate = Color.WHITE
+			_salud_texto.modulate = Color.WHITE
 		_ayuda_combate.text = tr(_stamina_alerta_clave) if _stamina_alerta > 0.0 else tr("combate_ayuda") % [Controles.tecla("esquivar"), Controles.tecla("saltar")]
 	if en_dialogo:
 		_dlg_t += dt
