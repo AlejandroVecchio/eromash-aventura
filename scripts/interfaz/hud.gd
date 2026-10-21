@@ -651,6 +651,7 @@ func abrir_pausa() -> void:
 	_pausa.visible = true
 	en_menu = true
 	get_tree().paused = true
+	Sonido.musica_de_pausa(true)
 	(_pausa.find_child("Botones", true, false).get_child(1) as Button).grab_focus()
 
 
@@ -669,6 +670,7 @@ func _video_cerrado() -> void:
 
 
 func cerrar_pausa() -> void:
+	Sonido.musica_de_pausa(false)
 	_pausa.visible = false
 	en_menu = false
 	get_tree().paused = false
