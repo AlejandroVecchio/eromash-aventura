@@ -59,7 +59,7 @@ Todos los humanoides (Eromash, Eydis, Orm, Svanhild, trabajadores, Errantes) com
 
 ## Cinemáticas
 
-Se hacen con el motor, con los mismos modelos y la misma luz del juego (nada de video pregrabado): así el casco con la E es siempre el modelo real, los subtítulos salen de `textos.csv` y la cinemática empieza y termina dentro de la partida.
+Las que pasan en el presente se hacen con el motor, con los mismos modelos y la misma luz del juego (nada de video pregrabado): así el casco con la E es siempre el modelo real, los subtítulos salen de `textos.csv` y la cinemática empieza y termina dentro de la partida. La regla del video vale solo para esas; el mito, el pasado y la apertura del MVP van en 2.5D como clips generados con IA (tabla en `docs/historia-y-cinematicas.md`, «Cómo se hace cada una»).
 
 - Sistema: `scripts/mundo/cinematica.gd` (`Cinematica`). Una cinemática es una lista de planos (la cámara viaja de un punto a otro mirando de un punto a otro, con corte seco entre planos), subtítulos (`linea`) y sucesos en el tiempo (`al`). Pone franjas de cine, esconde el HUD, bloquea a Eromash y al final la cámara vuelve sola a la del juego.
 - Saltar: mantener «interactuar» (F / Y). Los sucesos marcados como estado (banderas, luces que quedan encendidas) se aplican igual, así saltar nunca deja la partida a medias.
@@ -68,6 +68,10 @@ Se hacen con el motor, con los mismos modelos y la misma luz del juego (nada de 
 - Para mirarlas jugando, sin llegar hasta EL-06: correr el juego con `--ver=cine_nucleo` o `--ver=cine_puente` (arma la partida en ese punto, no lee ni pisa la partida guardada). En el editor: Depurar → Personalizar instancias de ejecución → Argumentos de la ejecución principal. Desde PowerShell: `& C:/Godot/Godot_v4.7.2-stable_win64.exe --path C:/eromash-aventura -- --ver=cine_nucleo`.
 - Para revisar sin pantalla: guiones `cine_nucleo` y `cine_puente` (sacan fotos a lo largo de la cinemática). Conviene correrlos con `--fixed-fps 10` antes de `--`, para que el tiempo avance parejo aunque el render vaya lento.
 - Una cinemática nueva: una función `_cine_<nombre>()` que arma la `Cinematica` con los planos de la guía (`docs/historia-y-cinematicas.md`), con posiciones calculadas desde `escenario.puntos`, y se llama desde la interacción o el diálogo que la dispara.
+
+### Cinemáticas 2.5D (libro ilustrado)
+
+La cinemática 1 («El susurro de las raíces») y la 2 (la Arena) no usan el mundo 3D: son ilustraciones en tinta y acuarela animadas con IA de video, que Godot reproduce con subtítulos, voces y saltar. Cuándo: al abrir el juego, antes de la pantalla de título, y otra vez al elegir «Nueva partida» (después va la cinemática 2 y luego el mundo). Estado (21/10/2026): textos listos (`cine_prologo_01..12`, `cine_arena_01..09`), prompts de las 18 imágenes en `guion/prompts/` de los archivos del proyecto, hoja de Eromash aprobada; falta generar las imágenes y los clips. El reproductor en Godot se hace cuando haya clips; la primera versión (capas PNG con sombreadores) se descartó el 21/10/2026 y quedó en la rama `claude/project-thread-972rbg` por si sirve algo.
 
 ## Rendimiento y opciones de video
 

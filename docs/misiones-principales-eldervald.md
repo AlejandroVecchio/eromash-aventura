@@ -1,6 +1,6 @@
 # Eldervald — campaña principal del MVP
 
-EROMASH: El Susurro de las Runas / EROMASH: Whisper of the Runes
+EROMASH: Las Runas del Olvido / EROMASH: Whisper of the Runes
 
 Versión de diseño: 1.0 · 14 de octubre de 2026.
 
@@ -12,7 +12,7 @@ Referencias: [dirección artística](direccion-artistica.md), [mapa del bosque](
 
 El MVP empieza con Eromash llegando al Puesto de Eydis desde Hrafngard. La Arena y la audiencia real son antecedentes que puede presentar una introducción breve; no necesitan escenarios jugables en este alcance.
 
-Eromash renació sin memoria y fue mantenido como campeón cautivo. Recuerda únicamente una espada atravesando su casco. El rey conoce información sobre su existencia anterior y lo envía a investigar las señales de Yggdrasil. Eromash acepta por esas respuestas. Necesita atravesar Eldervald para seguir hacia Jarnskald.
+Eromash renació sin memoria y fue mantenido como campeón cautivo. No recuerda nada de su vida anterior, ni siquiera la espada que le entró por la sien del casco: el rey se la describe para demostrarle que conoce su pasado. El rey conoce información sobre su existencia anterior y lo envía a investigar las señales de Yggdrasil. Eromash acepta por esas respuestas. Necesita atravesar Eldervald para seguir al norte, hacia el Bastión de Hrimvard (manda la historia, `historia-y-cinematicas.md`).
 
 Información exclusiva para autores: el rey es Odín y lo aisló de las runas deliberadamente. Níðhöggr consume las raíces bajo ocultamiento místico. Nadie en Eldervald identifica aún al parásito. Las runas despiertan vestigios de Eromash sin explicar su antigua misión ni su realeza; esos descubrimientos pertenecen a etapas posteriores.
 
@@ -26,11 +26,11 @@ Conservar las ubicaciones del mapa v2. El Santuario de las Raíces está al nore
 - **Eikholt, centro:** punto de paso y refugio de la cuadrilla; misiones 2, 3 y 7. Construir plaza, acceso y fachadas; no toda una ciudad funcional.
 - **Casa de las Lindes, borde oeste de Eikholt:** Svanhild, mesa de examen y patio con inscripción; misiones 3 y 7. Una estancia pequeña y patio, sin edificio laberíntico.
 - **Refugio de las Lindes, centro-noroeste:** círculo de piedras y cobertizo; final de misión 1 y misión 2. Conectar con Eikholt por el camino central y una senda corta.
-- **Paso del Guardián, norte:** puente roto en el camino hacia Jarnskald; misiones 4 y 6. Cruza una quebrada con arroyo, no el gran río oriental. El relieve de la quebrada impide rodearlo. La salida septentrional está al otro lado.
+- **Paso del Guardián, norte:** puente roto en el camino hacia Hrimvard; misiones 4 y 6. Cruza una quebrada con arroyo, no el gran río oriental. El relieve de la quebrada impide rodearlo. La salida septentrional está al otro lado.
 - **Claro del Ciervo, noroeste:** combate de misión 5. Entrada desde la bifurcación al sur del puente, siguiendo la senda oeste del mapa. Está del mismo lado de la quebrada que Eromash: no exige cruzar el puente roto.
 - **Antigua tala y quebrada de rastreo:** microescenarios de misión 4 dentro del corredor Paso–Claro. No son el Aserradero de Orm del este ni requieren nuevas etiquetas grandes en el mapa.
 - **Aserradero de Orm, noreste junto al río:** referencia de orientación y tránsito para misión 7. Solo exterior, camino y puente oriental. No entrega una misión principal adicional.
-- **Santuario de las Raíces, noreste al otro lado del río:** exterior de misión 7. Ruta: Eikholt → puente central existente → aserradero → puente oriental existente → santuario. Ambos puentes orientales son transitables desde el inicio y no conducen a Jarnskald.
+- **Santuario de las Raíces, noreste al otro lado del río:** exterior de misión 7. Ruta: Eikholt → puente central existente → aserradero → puente oriental existente → santuario. Ambos puentes orientales son transitables desde el inicio y no conducen a Hrimvard.
 
 Recorrido obligatorio: Puesto → Refugio → Eikholt/Casa → Paso → Claro → Paso → Santuario → Casa. Para ir del Paso al Santuario se usa la red central pasando por Eikholt; no se inventa un atajo que atraviese montañas o río. Después del cierre, salida opcional por el Paso.
 
@@ -56,7 +56,7 @@ Humana mayor, alta, pelo plateado recogido, lana azul gris y dedos manchados de 
 
 ### Voces rúnicas
 
-La piedra del Refugio expresa agotamiento y reconoce su voz. La del Santuario reconoce un contacto antiguo. Hablan de aquello con lo que estuvieron vinculadas: no son narradores omniscientes. No necesitan modelos humanoides ni apariciones del antiguo rey.
+Cada piedra y cada runa es un ser aparte, con su propia esencia rúnica, y Eromash las escucha (Alejandro, 18/10/2026). No son Runa, la compañera de armas; en pantalla hablan como «Piedra rúnica». La piedra del Refugio expresa agotamiento y reconoce su voz. La del Santuario reconoce un contacto antiguo. Hablan de aquello con lo que estuvieron vinculadas: no son narradores omniscientes. No necesitan modelos humanoides ni apariciones del antiguo rey.
 
 ## 4. Misiones
 
@@ -95,10 +95,10 @@ Objetivos:
 4. Hablar con Orm al concluir el rescate y recibir el fragmento de asta.
 
 Diálogo central:
-> Runa: «Ayudame a sostenerlo.»
+> Piedra del Refugio: «Ayudame a sostenerlo.»
 > Eromash: «¿Quién está hablando?»
 > Eydis: «Yo no dije nada.»
-> Runa, al despedirse: «Conozco tu voz.»
+> Piedra del Refugio, al despedirse: «Conozco tu voz.»
 
 La evacuación es una secuencia corta segura una vez despejada la salida, no una escolta frágil. El herido no puede morir por una mala ruta de IA. Eromash ve salir al grupo; al terminar la secuencia se registra su llegada a Eikholt. Puede continuar explorando sin perseguir NPC lentamente durante todo el camino.
 
@@ -183,8 +183,13 @@ Completa al recoger el núcleo; activa EL-06. No exige matar otro jefe. Si Eroma
 Objetivos:
 1. Volver al Paso por la misma senda, ya despejada del encuentro principal.
 2. Colocar el Núcleo de la Linde en el pedestal.
-3. Contactar con la runa para estabilizar la protección.
-4. Hablar con Orm y observar la terminación del puente.
+3. Contactar con la runa para estabilizar la protección (cinemática 3, «La red enterrada», de `historia-y-cinematicas.md`).
+4. Examinar el relieve que descubre la luz al pie del pedestal.
+5. Hablar con Orm y observar la terminación del puente.
+
+Al encajar el núcleo, la astilla que Eromash trae de Hrafngard se aviva con la misma luz y la onda corre por una calzada enterrada hacia el puente y otras piedras lejanas. Al pie del pedestal queda a la vista un relieve gastado: un guerrero con el mismo casco con la E, frente a una brecha de raíces, y encima un sello real. No se dice de quién es el sello ni se explica el relieve; quedan como pista para el norte (Bastión de Hrimvard), fuera del MVP.
+
+> Eydis: «No atacan al azar. Siguen un camino trazado hace siglos… y vos ya estabas acá antes de que nadie se acordara de tu nombre.»
 
 > Eydis: «¿Va a durar?»
 > Eromash: «Está haciendo lo que puede.»
@@ -199,7 +204,7 @@ La lente distingue en el núcleo una inscripción incompleta y el signo del Sant
 
 Eromash elige averiguarlo antes de seguir al norte. La ubicación se marca si no estaba descubierta. Completa con puente reparado y conversación final; activa EL-07. Recompensas: paso restaurado, tránsito y cambio visible del entorno. El núcleo queda instalado, ya no en inventario.
 
-La salida regional puede visitarse, pero no necesita cargar Jarnskald. Antes de EL-07 no finaliza la demo: Eromash recuerda brevemente que quiere investigar la llamada. Este es un límite del contenido de la demo, no otra barrera de lore que contradiga la reparación.
+La salida regional puede visitarse, pero no necesita cargar Hrimvard. Antes de EL-07 no finaliza la demo: Eromash recuerda brevemente que quiere investigar la llamada. Este es un límite del contenido de la demo, no otra barrera de lore que contradiga la reparación.
 
 ### EL-07 — Alguien me espera
 
@@ -212,9 +217,9 @@ Objetivos:
 4. Obtener un calco del sello.
 5. Llevarlo a Svanhild y descubrir qué se necesita para entrar.
 
-> Runa: «Volviste.»
+> Piedra del Santuario: «Volviste.»
 > Eromash: «¿Estuve acá?»
-> Runa: «Tu mano… la recuerdo.»
+> Piedra del Santuario: «Tu mano… la recuerdo.»
 
 Vestigio breve: la misma mano apoyada en esa piedra en otro tiempo. No mostrar corona, Valdheim, la antigua misión, a Odín ni la causa de su muerte. Puede representarse con un cambio breve de sonido e iluminación y la mano presente; no requiere construir un flashback jugable.
 
@@ -235,7 +240,9 @@ Estado final: siete misiones completas, santuario marcado como acceso pendiente,
 
 ## 5. Objetos y dependencias
 
+- Astilla: la trae Eromash desde Hrafngard (se la dio Bera); permanente, no ocupa mochila. Reacciona en EL-06.
 - Croquis: lo entrega Eydis en EL-01; información permanente, no consumible.
+- Relieve y sello real: escenario del Paso en EL-06; se registran en el diario, sin explicación.
 - Piedra caída: objeto del Refugio en EL-02; cambia de posición, no entra a mochila.
 - Fragmento de asta: Orm en EL-02 → Svanhild en EL-03; queda en su mesa.
 - Lente del Eco y material de registro: Svanhild en EL-03; herramienta permanente. Se usa en EL-03, 04, 05, 06 y 07.
@@ -286,7 +293,7 @@ Aplicar iluminación y materiales de la guía; probar continuidad de NPC, guarda
 
 ## 8. Fuera del alcance obligatorio
 
-Interiores del Santuario y misiones 8–9; Antorcha e Hilo utilizables; barco; Valdheim; Jarnskald jugable; reconstrucción de reino; secundarias completas; Vardren y bestiario adicional. Brunvik, Skarnholt, túmulo, caravana y torre pueden comenzar como siluetas o espacios reservados sin contenido obligatorio. No representar sectores pendientes como mazmorras terminadas.
+Interiores del Santuario y misiones 8–9; Antorcha e Hilo utilizables; barco; Valdheim; Hrimvard y Jarnskald jugables; reconstrucción de reino; secundarias completas; Vardren y bestiario adicional. Brunvik, Skarnholt, túmulo, caravana y torre pueden comenzar como siluetas o espacios reservados sin contenido obligatorio. No representar sectores pendientes como mazmorras terminadas.
 
 ## 9. Criterios de aceptación del MVP narrativo
 
