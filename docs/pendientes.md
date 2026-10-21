@@ -8,10 +8,6 @@ Lo que se propuso o quedó a medio camino y espera el visto bueno de Alejandro. 
 - **Suelo pintado en Krita.** Capas PNG sobre el mapa ilustrado (alturas, tipo de suelo, densidad del bosque, agua) que reemplacen las coordenadas de `scripts/mundo/datos.gd`. Paso aparte, después de los marcadores.
 - **Identidad 3D propia** (para no parecer un juego genérico), en orden: kit modular de casas nórdicas (troncos tallados, techos de tablas o de pasto, runa en el dintel), 2–3 árboles propios del bosque, flora rúnica, familia de interactuables (cofres, palancas, puertas, pedestales), un hito por zona, enemigos con el mismo lenguaje de corrupción violeta y equipo de Eromash visible. Rocas, pasto, barriles y cajones pueden seguir siendo del kit. Antes de generar, definir una pieza de referencia por familia y una descripción de estilo fija para los prompts de Tripo.
 
-## Para elegir
-
-- **Puntero del mouse.** Cuatro opciones con su versión iluminada (para cuando se pasa sobre algo usable) en `docs/referencias/punteros/`: flecha rúnica, punta de lanza, runa Tiwaz y mira rúnica. Se dibujan con `herramientas/dibujar_punteros.py`. Al elegir: copiar a `assets/interfaz/` y conectarlo con `Input.set_custom_mouse_cursor`.
-
 ## Chicos, ofrecidos
 
 - **Núcleo de la Linde entre las astas del Ciervo** durante la pelea (el modelo de Tripo no lo trae; hoy aparece en el piso al vencerlo).

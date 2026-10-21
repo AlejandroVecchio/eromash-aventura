@@ -117,6 +117,7 @@ La piedra de las pendientes usa la textura de rocas del kit (`kit/naturaleza/Roc
 | Archivo | Para qué |
 |---|---|
 | `interfaz/mapa-eldervald.png` | Diario y minimapa |
+| `interfaz/puntero/` | Puntero del mouse: `normal`, `interactuable` (azul, sobre algo usable) y `enemigo` (círculo). PNG de 128 px recortados de los originales de Alejandro (`eromash-juego/output/UI/puntero-runico-*-v1.png`, los mismos del prototipo); `scripts/autoload/puntero.gd` |
 | `marca/logotipo.png` | Pantalla de título |
 | `marca/fuentes/` | Eromash Display y Eromash Text |
 | `audio/sfx/` | Efectos CC0 (golpes, runas, campanas, gong, ambiente); créditos en `audio/CREDITOS.md` |
