@@ -79,6 +79,8 @@ Duración en segundos. **B** = bucle. Los marcados con ✔ ya se usan.
 ## Cosas para tener en cuenta
 
 - **Caminar es un paseo lento** (0,97 m/s) y el juego camina a 2,4 m/s: se reproduce a unas 2,3× y los pasos se ven cortos y rápidos. Si molesta, la salida es bajar `VEL` en `heroe.gd` (a ~1,8 m/s) o combinar con `Jog_Fwd`; el clip `Walk_Formal` tiene la misma velocidad.
+- **No hay clips de frenar ni de girar** en el pack Standard. El frenado del héroe se arma con los pasos y una inclinación del torso (`docs/personaje-heroe.md`); si aparece un clip de parada (pack Pro de Quaternius, Mixamo «Run To Stop»), se puede usar en ese tramo final.
+- **Mezclar dos clips por partes del cuerpo**: `PiernasEnMarcha` (`scripts/personajes/piernas_en_marcha.gd`) es un `SkeletonModifier3D` que pone las piernas de un clip de paso sobre cualquier clip de cuerpo entero. Ojo: las posiciones de los clips vienen normalizadas y hay que multiplicarlas por `motion_scale` del esqueleto; y `get_bone_global_pose` fuera del modificador devuelve la pose sin modificar (leerla en la señal `skeleton_updated`).
 - **Ropa y armas** no siguen los huesos: el faldón, la capa y las armas guardadas se animan con el cuerpo del modelo, no con el clip. Si una animación mete la mano dentro de la espada guardada, mirar `_arreglar_vaina` en `heroe.gd`.
 - **Armado**: mientras el héroe tiene espada y escudo en la mano usa sus propios clips de guardia (`guardia`, `caminar_armado`, `correr_armado`, `bloqueo`); los del pack están pensados para manos libres o con espada sola.
 - Los NPC iguales comparten biblioteca (clave: ruta del modelo). Si dos modelos distintos usan el mismo esqueleto, igual se calculan por separado.

@@ -59,6 +59,25 @@ const MEMORIA_ENTRADA := 0.22
 const FIN_COMBO := 0.72
 const INVULNERABLE_DESDE := 0.06
 const INVULNERABLE_HASTA := 0.26
+## Capa de piernas (PiernasEnMarcha): al golpear avanzando las piernas caminan al ritmo real y el torso golpea.
+## La patada usa las piernas, así que se da con los pies plantados.
+## Con preload y no por nombre de clase: así funciona aunque Godot todavía no haya registrado la clase nueva.
+const PIERNAS_EN_MARCHA := preload("res://scripts/personajes/piernas_en_marcha.gd")
+const PASO_GOLPE := "caminar_armado"
+const GOLPES_PLANTADOS := ["ataque4"]
+const PIERNAS_ENTRAR := 0.06        ## s para que las piernas pasen al paso (igual que el fundido del golpe)
+const PIERNAS_SALIR := 0.2          ## s para devolverlas al clip (igual que el fundido a caminar)
+## Frenar después de correr: el cuerpo desacelera con pasos cada vez más lentos y se echa atrás; al parar,
+## se balancea un poco hacia adelante. No hay clip de frenado en el banco: es una pose sobre los pasos.
+const FRENADA := 15.0               ## m/s² de desaceleración al soltar la carrera, hasta pasar a caminar
+## Ya caminando, los últimos pasos llevan el cuerpo: frena justo cuando el ciclo llega a la fase que deja los
+## pies más cerca de la guardia, para no arrastrarlos al cambiar de clip (medido con herramientas/medir_deslizamiento).
+const VEL_PARADA := 3.2             ## m/s: el mismo corte entre correr y caminar de _animar
+## Tramo del ciclo (0..1) donde los pies quedan cerca de la guardia; si ya está adentro, para en ese paso.
+const FASE_PARADA := {"caminar_armado": [0.12, 0.38], CAMINAR_LIBRE: [0.85, 1.08]}
+const INCLINACION_FRENAR := 0.24    ## rad hacia atrás a velocidad de carrera
+const INCLINACION_ATERRIZAR := 2.6  ## rad/s de impulso hacia adelante al tocar el piso
+const ATERRIZAR_EN_MARCHA := 1.0    ## m/s: por encima, el aterrizaje sigue el paso en vez de frenar con el clip
 
 @export var camara: Camara
 @export var estadisticas: EstadisticasCombate = preload("res://assets/datos/combate_heroe.tres")
@@ -108,6 +127,12 @@ var _lente_espera := 0.0
 var _velocidad_base_equipo := 1.0
 var _pedidos_ui: Dictionary = {}
 var _guardia_ui := false
+var piernas                  ## PiernasEnMarcha (sin tipo: se carga con preload)
+var _fase_paso := 0.0         ## por dónde va el ciclo de pasos (0..1), para retomarlo sin saltos
+var _frenando := false
+var _parada := -1.0           ## desaceleración (m/s²) de los últimos pasos; < 0 mientras no empezaron
+var _inclinacion := 0.0       ## resorte del torso (rad) y su velocidad
+var _inclinacion_vel := 0.0
 
 
 func _ready() -> void:
@@ -160,6 +185,10 @@ func _cargar_modelo() -> void:
 	for n in [CAMINAR_LIBRE, CORRER_LIBRE]:
 		_pasos_natural[n] = Animaciones.velocidad_ual(String(n).get_slice("/", 1), ALTURA)
 	_arreglar_vaina(esq)
+	piernas = PIERNAS_EN_MARCHA.new()
+	piernas.name = "PiernasEnMarcha"
+	esq.add_child(piernas)
+	piernas.usar(anim.get_animation(PASO_GOLPE))
 	_armas(true)
 	anim.play("guardia")
 
@@ -326,7 +355,7 @@ func _atacar() -> void:
 	var momento: float = GOLPES[golpe].momento * anim.get_animation(golpe).length
 	var dano_del_golpe: float = GOLPES[golpe].dano * estadisticas.dano_equipo
 	var clip := "protegidos/" + golpe if con_guardia else golpe
-	_hacer(clip, 0.35, VEL_ATAQUE * estadisticas.multiplicador_ataque(), 0.06, func():
+	_hacer(clip, 0.0 if golpe in GOLPES_PLANTADOS else 0.35, VEL_ATAQUE * estadisticas.multiplicador_ataque(), 0.06, func():
 		_desde_golpe = 0.0
 		if _pedido_golpe > 0.0:
 			_pedido_golpe = 0.0
@@ -705,6 +734,7 @@ func _physics_process(dt: float) -> void:
 		_mover_esquiva(dt)
 		Juego.posicion = global_position
 		_animar(dt)
+		_capas(dt)
 		_buscar_cerca()
 		return
 
@@ -741,9 +771,37 @@ func _physics_process(dt: float) -> void:
 	if muerto or bloqueado:
 		tope = 0.0
 	var objetivo := dir.normalized() * tope * minf(1.0, fuerza * 1.2) if fuerza > 0.1 else Vector3.ZERO
-	var k := 1.0 - exp(-10.0 * dt)
-	velocity.x = lerpf(velocity.x, objetivo.x, k)
-	velocity.z = lerpf(velocity.z, objetivo.z, k)
+	var plana := Vector2(velocity.x, velocity.z)
+	if fuerza > 0.1 or not _accion.is_empty() or en_aire or muerto or bloqueado or bloqueando:
+		_frenando = false
+	elif plana.length() > VEL + 0.5 and is_on_floor():
+		_frenando = true
+	if not _frenando:
+		_parada = -1.0
+	if _frenando:
+		var paso: String = anim.current_animation
+		if plana.length() > VEL_PARADA or not FASE_PARADA.has(paso):
+			plana = plana.move_toward(Vector2.ZERO, FRENADA * dt)
+		else:
+			if _parada < 0.0:
+				# lo que falta del ciclo hasta la fase de parada, en metros, y la frenada pareja que lo cubre
+				var tramo: Array = FASE_PARADA[paso]
+				var falta := fposmod(float(tramo[0]) - _fase_paso, 1.0)
+				if fposmod(_fase_paso - float(tramo[0]), 1.0) <= float(tramo[1]) - float(tramo[0]):
+					falta = 0.0
+				var metros := falta * anim.get_animation(paso).length * float(_pasos_natural.get(paso, 1.0))
+				_parada = plana.length_squared() / (2.0 * maxf(metros, 0.15))
+			plana = plana.move_toward(Vector2.ZERO, _parada * dt)
+		velocity.x = plana.x
+		velocity.z = plana.y
+		if plana.length() < 0.02:
+			_frenando = false
+			velocity.x = 0.0
+			velocity.z = 0.0
+	else:
+		var k := 1.0 - exp(-10.0 * dt)
+		velocity.x = lerpf(velocity.x, objetivo.x, k)
+		velocity.z = lerpf(velocity.z, objetivo.z, k)
 	if fuerza > 0.1 and tope > 0.0:
 		var ang := atan2(dir.x, dir.z)
 		rotation.y = lerp_angle(rotation.y, ang, minf(1.0, GIRO * dt))
@@ -753,6 +811,10 @@ func _physics_process(dt: float) -> void:
 		if en_aire and velocity.y <= 0.0:
 			en_aire = false
 			_aterrizaje = SALTO_AMORTIGUAR
+			_inclinacion_vel += INCLINACION_ATERRIZAR
+			# avanzando, el aterrizaje sigue el paso (el clip de aterrizar tiene los pies quietos y patinaban)
+			if Vector2(velocity.x, velocity.z).length() > ATERRIZAR_EN_MARCHA:
+				_aterrizaje = 0.0
 		if pide.get("saltar", false) and _accion.is_empty() and not muerto and not bloqueado:
 			bloqueando = false
 			en_aire = true
@@ -772,6 +834,7 @@ func _physics_process(dt: float) -> void:
 		global_position = Juego.punto_seguro()
 	Juego.posicion = global_position
 	_animar(dt)
+	_capas(dt)
 	_buscar_cerca()
 
 
@@ -814,14 +877,19 @@ func _animar(dt: float) -> void:
 			_accion = {}
 		else:
 			return
-	if rapidez > 0.35:
+	if rapidez > 0.35 or _frenando:
 		_quieto = 0.0
 		_miro = false
-		var corre := rapidez >= 3.2
+		var corre := rapidez >= VEL_PARADA
 		var nombre := ("correr_armado" if corre else "caminar_armado") if armado else (CORRER_LIBRE if corre else CAMINAR_LIBRE)
 		if anim.current_animation != nombre:
-			anim.play(nombre, 0.2)
-		anim.speed_scale = clampf(rapidez / maxf(0.1, _pasos_natural.get(nombre, rapidez)), 0.6, 2.2 if armado else PASO_MAX)
+			var venia_de_paso := anim.current_animation in [CAMINAR_LIBRE, CORRER_LIBRE] or anim.current_animation in Animaciones.CAMINAN
+			anim.play(nombre, 0.2 if venia_de_paso else 0.12)
+			# retoma el ciclo de pasos donde iba (de caminar a correr, de un golpe o de un salto)
+			anim.seek(_fase_paso * anim.get_animation(nombre).length, true)
+		# al frenar los pasos se hacen lentos de verdad (hasta parar), si no los pies patinan hacia el final
+		var minimo := 0.0 if _frenando else 0.6
+		anim.speed_scale = clampf(rapidez / maxf(0.1, _pasos_natural.get(nombre, rapidez)), minimo, 2.2 if armado else PASO_MAX)
 		_descanso = ""
 	elif armado:
 		_quieto += get_physics_process_delta_time()
@@ -924,3 +992,31 @@ func _mouse_en_interfaz() -> bool:
 			return true
 		control = control.get_parent_control()
 	return false
+
+
+# ---------- capa de piernas y torso ----------
+
+## Pasos reales al golpear avanzando y el peso del cuerpo al frenar o aterrizar (PiernasEnMarcha).
+func _capas(dt: float) -> void:
+	var rapidez := Vector2(velocity.x, velocity.z).length()
+	var clip_paso := anim.current_animation
+	if clip_paso in [CAMINAR_LIBRE, CORRER_LIBRE] or clip_paso in Animaciones.CAMINAN:
+		_fase_paso = anim.current_animation_position / maxf(0.001, anim.current_animation_length)
+	var objetivo := 0.0
+	if atacando() and not muerto and is_on_floor() and _accion.get("golpe", "") not in GOLPES_PLANTADOS:
+		objetivo = smoothstep(0.15, 0.6, rapidez)
+	if objetivo > 0.0 and piernas.peso < 0.001:
+		piernas.tiempo = _fase_paso * piernas.clip().length
+	piernas.peso = move_toward(piernas.peso, objetivo, dt / (PIERNAS_ENTRAR if objetivo > piernas.peso else PIERNAS_SALIR))
+	if piernas.peso > 0.0:
+		piernas.avanzar(dt * clampf(rapidez / maxf(0.1, _pasos_natural.get(PASO_GOLPE, 1.0)), 0.4, PASO_MAX))
+		_fase_paso = piernas.tiempo / piernas.clip().length
+	# torso: atrás mientras frena (más cuanto más rápido va), resorte con un poco de rebote al parar
+	var meta := -INCLINACION_FRENAR * clampf(rapidez / VEL_SPRINT, 0.0, 1.0) if _frenando else 0.0
+	if muerto or esquivando:
+		meta = 0.0
+		_inclinacion_vel = 0.0
+	_inclinacion_vel += (120.0 * (meta - _inclinacion) - 14.0 * _inclinacion_vel) * dt
+	_inclinacion += _inclinacion_vel * dt
+	piernas.inclinacion = _inclinacion
+	piernas.eje_lateral = global_transform.basis.x

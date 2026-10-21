@@ -56,6 +56,7 @@ Excepción para entrar en combate: desenvainar para atacar/bloquear va a 2,2× y
 | Bloqueando | 0,3× de caminar |
 
 - Pasa a la animación de correr desde 3,2 m/s; por debajo de 0,35 m/s está quieto.
+- **Frenar después de correr** (no hay clip de frenado en el banco): al soltar la dirección corriendo desacelera a 15 m/s² con la carrera cada vez más lenta hasta 3,2 m/s; ya caminando, los últimos pasos llevan el cuerpo y para justo cuando el ciclo llega al tramo que deja los pies cerca de la guardia (`FASE_PARADA`), así no los arrastra al cambiar de clip. El torso se echa atrás mientras frena (hasta 0,24 rad a velocidad de carrera) y al parar se balancea un poco hacia adelante. Desde 6,5 m/s tarda unos 0,9 s. Caminando se sigue frenando como antes (amortiguado a 10).
 - Si sale por un borde más alto que 0,45 m, cae con gravedad (usa el clip de salto desde la mitad del vuelo).
 
 ## Salto
@@ -66,7 +67,7 @@ Usa el banco de animaciones (`docs/banco-animaciones.md`), igual armado que libr
 |---|---|---|
 | Despegue y ascenso | `ual/Jump_Start` | los primeros 0,5 s de vuelo (los pies ya están arriba a los 0,1 s del clip) |
 | En el aire | `ual/Jump` (bucle) | también al caer de un borde, sin despegue |
-| Aterrizaje | `ual/Jump_Land` | 0,45 s de aterrizaje recorriendo 0,8 s del clip (cadera abajo y recuperación) |
+| Aterrizaje | `ual/Jump_Land` | 0,45 s de aterrizaje recorriendo 0,8 s del clip (cadera abajo y recuperación). Solo si aterriza casi quieto: avanzando a más de 1 m/s sigue directo con el paso (el clip tiene los pies quietos y patinaban); el impacto se ve en un cabeceo del torso hacia adelante |
 
 Constantes en `heroe.gd` (`SALTO_*`). El vuelo dura `2·√(2·g·h) / g` = 0,66 s con g = 24 y h = 1,3 m.
 
@@ -74,13 +75,14 @@ Constantes en `heroe.gd` (`SALTO_*`). El vuelo dura `2·√(2·g·h) / g` = 0,66
 
 - Combo de **cuatro golpes** (`COMBO_ORDEN` en `heroe.gd`): `ataque` (tajo desde arriba, 22), `ataque2` (30), `ataque3` (estocada rápida del pack, `Sword_Attack`, 34, pega al 0,26 del clip) y `ataque4` (patada, 26, pega al 0,41). Cada uno sale si se vuelve a atacar dentro de **1,2 s** de terminar el anterior; después del último vuelve a empezar. Cada golpe tiene su variante con el escudo en alto (`protegidos/…`). El momento de impacto de un golpe nuevo se mide con `herramientas/medir_golpe.gd`.
 - Velocidad de reproducción 1,15; se puede mover a **0,35×** mientras ataca; fundido 0,06 s.
+- **Golpear avanzando**: las piernas y la cadera dejan el clip del golpe y caminan con `caminar_armado` al ritmo real del avance (capa `PiernasEnMarcha`, `scripts/personajes/piernas_en_marcha.gd`); el torso, los brazos y la espada siguen el golpe y la columna compensa el giro de la cadera para que el tajo apunte igual. Entra en 0,06 s y sale en 0,2 s (los fundidos del golpe y del paso), retomando el ciclo de pasos donde iba. Quieto, el golpe conserva su juego de pies. Cuánto patinan los pies se mide con `herramientas/medir_deslizamiento.tscn`.
 - Velocidad efectiva: `1,15 × estadisticas.velocidad_ataque`. El multiplicador se fija al comenzar cada golpe; el impacto sigue el tiempo del clip. No acelera esquiva, caminar ni interacciones.
 - Un clic tiene memoria de 0,22 s. En recuperación permite encadenar al alcanzar el 72 % del clip, sin esperar todo el final. Los clics demasiado tempranos caducan.
 - Esquivar cancela preparación y recuperación. Entre `momento − 0,06` y `momento + 0,07` del clip hay compromiso; la entrada de esquiva puede esperar hasta 0,22 s a que abra la ventana.
 - Cancelar borra eventos de daño y combo pendientes. Una pulsación nueva de bloqueo corta el ataque en cualquier fase. Atacar desde guardia sostenida conserva el escudo y completa el golpe, sin repetir levantar guardia. En un ataque normal, mantener bloqueo vuelve al escudo después de `momento + 0,01`.
 - Un golpe recibido sin bloquear interrumpe el ataque y reproduce una reacción corta de 0,42 s. Las interacciones de misión conservan sus eventos.
 - Los impactos respetan alcance, arco frontal, desnivel máximo de 2,5 m y obstáculos sólidos.
-- Patada (prueba): se mueve a 0,2×.
+- Patada (`ataque4`): usa las piernas, así que se da con los pies plantados (no avanza mientras dura).
 
 ## Bloqueo
 
