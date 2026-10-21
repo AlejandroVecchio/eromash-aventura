@@ -31,6 +31,8 @@ var _lugar_npc := {}
 var _avisado := {}
 var _reloj := 0.0
 var _luna: DirectionalLight3D
+var _luces_calidas: Array[OmniLight3D] = []
+var _espera_sombras := 0.0
 var activador: Activador   ## segundos de juego desde que se armó el mundo
 var _en_secuencia := false
 var _lugares_datos := Datos.lugares()   ## se arma una vez (antes se rearmaba el diccionario en cada cuadro)
@@ -711,8 +713,35 @@ func _process(dt: float) -> void:
 	if rueda:
 		rueda.get_node("Giro").rotation.x += dt * 0.6
 	_zonas()
+	_sombras_calidas(dt)
 	camara.foco = ciervo if ciervo.activo else null
 	_actualizar_haz(dt)
+
+
+## Los faroles y fuegos más cercanos a Eromash proyectan sombra (cuántos, según Opciones → Video → Sombras);
+## el resto no, porque cada luz puntual con sombra vuelve a dibujar lo que tiene alrededor en cada cuadro.
+## Solo cuenta la luz que alcanza a Eromash: cuando se aleja, la sombra se apaga donde la luz ya casi no llega.
+func _sombras_calidas(dt: float) -> void:
+	_espera_sombras -= dt
+	if _espera_sombras > 0.0:
+		return
+	_espera_sombras = 0.25
+	if _luces_calidas.is_empty():
+		for n in get_tree().get_nodes_in_group("luz_calida"):
+			var l := n as OmniLight3D
+			l.omni_shadow_mode = OmniLight3D.SHADOW_DUAL_PARABOLOID   # 2 pasadas en vez de 6
+			_luces_calidas.append(l)
+	var h := heroe.global_position
+	var cerca: Array[OmniLight3D] = []
+	for l in _luces_calidas:
+		if l.global_position.distance_to(h) < l.omni_range * 0.85:
+			cerca.append(l)
+	cerca.sort_custom(func(a: OmniLight3D, b: OmniLight3D) -> bool:
+		return a.global_position.distance_squared_to(h) < b.global_position.distance_squared_to(h))
+	var cupo := Calidad.sombras_calidas()
+	for l in _luces_calidas:
+		var i := cerca.find(l)
+		l.shadow_enabled = i >= 0 and i < cupo
 
 
 func _zonas() -> void:

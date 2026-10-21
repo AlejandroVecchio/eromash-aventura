@@ -113,6 +113,7 @@ Decisión de Alejandro (21/10/2026): una sombra baja la luz, no borra lo que hay
 - **La sombra se sigue leyendo:** la luna proyecta sombras con borde claro. El contraste viene de la diferencia entre zona iluminada y zona en sombra, no de dejar la sombra en negro.
 - **Oscuridad total solo con motivo:** cuevas, criptas o interiores cerrados sin aberturas al cielo, donde no entra luz de afuera. Ahí la luz ambiente baja casi a cero y lo que se ve lo ponen la antorcha, las runas o los hongos. Cuando exista el primer lugar así, se arma con su propio `Environment` (o un ajuste del ambiente al entrar) y se anota acá.
 - **Interiores con ventanas o puertas abiertas:** penumbra, no negro; la luz cálida de faroles y hogares hace el resto.
+- **Faroles y fuegos:** el farol o fuego más cercano a Eromash proyecta sombra, así la sombra del personaje y de los NPC sale para el lado contrario a esa luz y no solo según la luna. Solo el más cercano (dos o tres en Ultra), porque cada luz puntual con sombra vuelve a dibujar lo que tiene alrededor en cada cuadro; con Sombras en 3 o menos ningún farol proyecta sombra (`Calidad.sombras_calidas()`, grupo `luz_calida`). Las luces de ventanas de casas y las runas no proyectan sombra.
 - No subir la sombra bajando la opacidad de la sombra de la luna (`shadow_opacity`): se ve falso. Se sube la luz que llega a la sombra (luz ambiente), que es lo que pasa en la realidad.
 
 ## 6. Habitantes: propuesta de población
