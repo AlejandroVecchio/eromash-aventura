@@ -21,6 +21,7 @@ const ETAPAS := {
 	"sin_armas_correr": [0, [], "puesto", 2.0, -0.35],
 	"ciervo": [4, ["el01_acepto", "croquis_leido", "carro_visto", "orm_encontrado", "errantes_despejados", "piedra_puesta", "runa_refugio", "fragmento", "fragmento_entregado", "lente_prestada", "fragmento_examinado", "huella_patio", "lente", "eydis_paso", "pista_tablon", "pista_raiz", "pista_menhir", "eydis_claro"], "claro", 1.9, 0.12],
 	"opciones": [0, [], "puesto", 0.6, 0.15],
+	"titulo": [0, [], "puesto", 0.6, 0.3],
 	"camara_baja": [0, [], "puesto", 2.4, 0.2],
 	"aserradero": [6, [], "aserradero", 0.8, 0.5],
 	"santuario": [6, [], "santuario", 1.1, 0.35],
@@ -119,6 +120,24 @@ static func preparar(mundo: Eldervald) -> void:
 		t.create_timer(2.0).timeout.connect(func():
 			Calidad.poner_preset(Calidad.ALTO)
 			print("OPCIONES preset=", Calidad.preset, " niveles=", Calidad.niveles.values()))
+	if g == "titulo":
+		# el menú principal sobre la partida, y después la lista de Cargar con tres partidas inventadas
+		var ahora := int(Time.get_unix_time_from_system())
+		Juego.ranuras_prueba = {
+			1: {"mision": "EL-03", "fecha": ahora - 86400, "tiempo": 4520},
+			2: {"mision": "EL-06", "fecha": ahora - 600, "tiempo": 13900},
+		}
+		mundo.hud.mostrar_titulo()
+		var t := mundo.get_tree()
+		var base := Captura.salida.get_basename()
+		t.create_timer(3.5).timeout.connect(func(): Captura.foto(base + "_menu.png", 1))
+		t.create_timer(4.0).timeout.connect(func():
+			mundo.hud._abrir_ranuras("cargar")
+			Captura.foto(base + "_cargar.png", 3))
+		t.create_timer(6.0).timeout.connect(func():
+			mundo.hud._abrir_ranuras("nueva")
+			mundo.hud._elegir_ranura(2)   # ocupada: pide confirmar antes de reemplazarla
+			Captura.foto(base + "_reemplazar.png", 3))
 	if g == "cine_nucleo" or g == "cine_puente":
 		var t := mundo.get_tree()
 		var momentos: Array = [1.0, 3.0, 6.0, 9.5, 12.5, 16.5, 19.5, 21.0] if g == "cine_nucleo" else [0.5, 2.0, 4.5, 7.0, 9.5, 10.6]

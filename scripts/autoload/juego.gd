@@ -8,7 +8,9 @@ signal dialogo(id: String)    ## pedir que la interfaz muestre un diálogo
 signal hablante(quien: String)  ## quién dice la línea que se muestra ("" al cerrar el diálogo): el NPC gesticula
 signal fin_demo                ## se completó la cadena: mostrar la pantalla de cierre
 
-const ARCHIVO := "user://partida.json"
+const CARPETA := "user://partidas/"
+const RANURAS := 3                        ## partidas guardadas a la vez (Cargar las lista)
+const ARCHIVO_VIEJO := "user://partida.json"   ## guardado de una sola partida, de antes de las ranuras
 
 ## Cada misión: objetivos en orden. `hecho` es la bandera que lo completa; `donde`, el lugar del marcador.
 const MISIONES := [
@@ -75,10 +77,13 @@ var salud := 100.0
 var posicion := Vector3.INF
 var cargada := false
 var niebla := PackedByteArray()   ## minimapa: un byte por celda de 2 m (255 = sin explorar)
-var saltar_titulo := false     ## después de "Nueva partida" la escena se recarga sin volver al título
+var saltar_titulo := false     ## después de "Nueva partida" o "Cargar" la escena se recarga sin volver al título
+var ranura := 1                ## dónde se guarda la partida en curso (1 a RANURAS)
+var tiempo := 0.0              ## segundos jugados (no corre en pausa ni en el título)
 
 
 var de_prueba := false   ## capturas sin pantalla: no se lee ni se pisa la partida del jugador
+var ranuras_prueba := {}  ## en pruebas, partidas inventadas para ver la lista de Cargar
 
 
 func _ready() -> void:
@@ -86,7 +91,16 @@ func _ready() -> void:
 		if a.begins_with("--captura=") or a.begins_with("--ver=") or a == "--pruebas-combate" or a == "--practica-combate":
 			de_prueba = true
 	if not de_prueba:
-		cargar()
+		_mudar_guardado_viejo()
+		var r := ranura_reciente()
+		if r > 0:
+			cargar(r)
+		else:
+			ranura = primera_libre()
+
+
+func _process(dt: float) -> void:
+	tiempo += dt
 
 
 # ---------- consultas ----------
@@ -184,11 +198,31 @@ func pedir_dialogo(id: String) -> void:
 
 # ---------- guardado ----------
 
+func _archivo(n: int) -> String:
+	return CARPETA + "ranura_%d.json" % n
+
+
+func _leer(n: int) -> Dictionary:
+	if not FileAccess.file_exists(_archivo(n)):
+		return {}
+	var datos = JSON.parse_string(FileAccess.get_file_as_string(_archivo(n)))
+	return datos if typeof(datos) == TYPE_DICTIONARY else {}
+
+
+## La partida única de antes pasa a la ranura 1, así nadie pierde lo jugado.
+func _mudar_guardado_viejo() -> void:
+	DirAccess.make_dir_recursive_absolute(CARPETA)
+	if FileAccess.file_exists(ARCHIVO_VIEJO) and not FileAccess.file_exists(_archivo(1)):
+		DirAccess.rename_absolute(ProjectSettings.globalize_path(ARCHIVO_VIEJO), ProjectSettings.globalize_path(_archivo(1)))
+
+
 func guardar() -> void:
 	if de_prueba:
 		return
 	var datos := {
-		"version": 2,
+		"version": 3,
+		"fecha": Time.get_unix_time_from_system(),   # con decimales: dos guardados en el mismo segundo se ordenan bien
+		"tiempo": int(tiempo),
 		"inventario": inventario.serializar(),
 		"mision": mision,
 		"banderas": banderas,
@@ -199,17 +233,18 @@ func guardar() -> void:
 		"niebla_largo": niebla.size(),
 		"posicion": [posicion.x, posicion.y, posicion.z] if posicion != Vector3.INF else [],
 	}
-	var f := FileAccess.open(ARCHIVO, FileAccess.WRITE)
+	DirAccess.make_dir_recursive_absolute(CARPETA)
+	var f := FileAccess.open(_archivo(ranura), FileAccess.WRITE)
 	if f:
 		f.store_string(JSON.stringify(datos, "\t"))
 
 
-func cargar() -> bool:
-	if not FileAccess.file_exists(ARCHIVO):
+func cargar(n: int) -> bool:
+	var datos := _leer(n)
+	if datos.is_empty():
 		return false
-	var datos = JSON.parse_string(FileAccess.get_file_as_string(ARCHIVO))
-	if typeof(datos) != TYPE_DICTIONARY:
-		return false
+	ranura = n
+	tiempo = float(datos.get("tiempo", 0))
 	mision = int(datos.get("mision", 0))
 	banderas = datos.get("banderas", {})
 	diario = datos.get("diario", [])
@@ -226,11 +261,49 @@ func cargar() -> bool:
 	return true
 
 
+## Lo que muestra la lista de Cargar: misión, fecha y tiempo jugado. Vacío si la ranura no tiene partida.
+func resumen(n: int) -> Dictionary:
+	if de_prueba:
+		return ranuras_prueba.get(n, {})
+	var datos := _leer(n)
+	if datos.is_empty():
+		return {}
+	var m := int(datos.get("mision", 0))
+	return {
+		"mision": MISIONES[m].id if m < MISIONES.size() else "fin",
+		"fecha": float(datos.get("fecha", FileAccess.get_modified_time(_archivo(n)))),
+		"tiempo": int(datos.get("tiempo", 0)),
+	}
+
+
 func hay_partida() -> bool:
-	return FileAccess.file_exists(ARCHIVO)
+	return ranura_reciente() > 0
 
 
-func nueva_partida() -> void:
+## La ranura guardada más nueva (0 si no hay ninguna): la que retoma Continuar.
+func ranura_reciente() -> int:
+	var mejor := 0
+	var fecha := -1.0
+	for n in range(1, RANURAS + 1):
+		var r := resumen(n)
+		if not r.is_empty() and r.fecha > fecha:
+			mejor = n
+			fecha = r.fecha
+	return mejor
+
+
+## La primera ranura sin partida (0 si están todas ocupadas).
+func primera_libre() -> int:
+	for n in range(1, RANURAS + 1):
+		if resumen(n).is_empty():
+			return n
+	return 0
+
+
+## Empieza de cero en la ranura `n` (borra lo que tuviera).
+func nueva_partida(n := 1) -> void:
+	ranura = n
+	tiempo = 0.0
 	inventario.reiniciar()
 	mision = 0
 	banderas = {}
@@ -240,6 +313,6 @@ func nueva_partida() -> void:
 	niebla = PackedByteArray()
 	posicion = Vector3.INF
 	cargada = false
-	if not de_prueba and FileAccess.file_exists(ARCHIVO):
-		DirAccess.remove_absolute(ProjectSettings.globalize_path(ARCHIVO))
+	if not de_prueba and FileAccess.file_exists(_archivo(n)):
+		DirAccess.remove_absolute(ProjectSettings.globalize_path(_archivo(n)))
 	cambio_estado.emit()

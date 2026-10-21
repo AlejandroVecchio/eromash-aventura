@@ -26,7 +26,7 @@ El HUD muestra vida y resistencia, con pistas que cambian entre teclado y mando.
 
 | Qué | Dónde |
 |---|---|
-| Estado, misiones, banderas, diario, guardado (`user://partida.json`) | `scripts/autoload/juego.gd` |
+| Estado, misiones, banderas, diario, guardado en 3 ranuras (`user://partidas/ranura_N.json`) | `scripts/autoload/juego.gd` |
 | Calidad gráfica (baja/media/alta) e idioma (`user://opciones.cfg`) | `scripts/autoload/calidad.gd` |
 | Sonidos (CC0 de `assets/audio/sfx/`) | `scripts/autoload/sonido.gd` |
 | Capturas y pruebas sin pantalla | `scripts/autoload/captura.gd`, `scripts/pruebas/prueba.gd`, `herramientas/capturar.sh` |
@@ -38,8 +38,18 @@ El HUD muestra vida y resistencia, con pistas que cambian entre teclado y mando.
 | Diálogos y en qué lugar está cada NPC según la misión | `scripts/mundo/guion.gd` |
 | Héroe, cámara, NPC, enemigos, Ciervo Hueco, soportes, avisos del piso | `scripts/personajes/` |
 | Interacción, Lente del Eco y marcas reveladas | `scripts/interaccion/` |
-| Interfaz (objetivo, salud, diálogo, jefe, diario, pausa, título, cierre) | `scripts/interfaz/hud.gd` |
+| Interfaz (objetivo, salud, diálogo, jefe, diario, pausa, menú principal, cierre) | `scripts/interfaz/hud.gd` |
 | Textos ES/EN | `textos/textos.csv` (se genera con `herramientas/textos.py`) |
+
+## Menú principal y partidas guardadas
+
+El juego abre con la partida más reciente ya armada de fondo y el menú principal encima, a la izquierda; detrás, la cámara da una vuelta lenta alrededor de Eromash (`Camara.poner_de_fondo()`) y el juego queda en pausa.
+
+- **Continuar**: suelta la pausa y sigue con la partida de fondo (la más reciente). Solo aparece si hay alguna guardada.
+- **Nueva partida**: empieza en la primera ranura libre; si las tres están ocupadas, pide cuál reemplazar (hay que pulsarla dos veces). En el primer arranque usa el mundo que ya está armado; si no, lo rearma.
+- **Cargar partida**: lista las tres ranuras con misión, tiempo jugado y fecha. Elegir la que está de fondo sigue sin rearmar; otra rearma el mundo con esa.
+- Esc / B vuelve de la lista al menú. «Volver al título» desde la pausa guarda antes, así esa partida queda como la más reciente.
+- La partida de antes (`user://partida.json`) se muda sola a la ranura 1.
 
 ## Animaciones
 
@@ -99,7 +109,7 @@ herramientas/revisar.sh                    # que compilen todos los scripts
 herramientas/capturar.sh res://escenas/principal.tscn salida.png 45 1280 720 --guion=claro --calidad=1
 ```
 
-Guiones: `inicio`, `puesto`, `sin_armas` (camina sin armas, de frente), `sin_armas_correr` (lo mismo corriendo), `salto`, `cerca`, `carro`, `refugio`, `eikholt`, `casa`, `paso`, `claro`, `jefe` (pelea con el Ciervo ya empezada), `ciervo` (el Ciervo quieto, de cerca), `aserradero`, `santuario`, `opciones` (el menú de video abierto), `rendimiento` (ponen la partida en ese punto) y `recorrido` (marca la cadena entera y saca una foto por misión). Cada proceso usa unos 3 GB: correr de a uno.
+Guiones: `inicio`, `puesto`, `sin_armas` (camina sin armas, de frente), `sin_armas_correr` (lo mismo corriendo), `salto`, `cerca`, `carro`, `refugio`, `eikholt`, `casa`, `paso`, `claro`, `jefe` (pelea con el Ciervo ya empezada), `ciervo` (el Ciervo quieto, de cerca), `aserradero`, `santuario`, `opciones` (el menú de video abierto), `titulo` (menú principal, lista de Cargar y confirmación de reemplazo, con partidas inventadas), `rendimiento` (ponen la partida en ese punto) y `recorrido` (marca la cadena entera y saca una foto por misión). Cada proceso usa unos 3 GB: correr de a uno.
 
 ## UI, bolsa y equipo (16/10/2026)
 
