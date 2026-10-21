@@ -107,18 +107,18 @@ static func _material(elegido: bool) -> ShaderMaterial:
 	borde.render_priority = 2
 	mascara.next_pass = borde
 	if elegido:
-		borde.set_shader_parameter("color", Color(1, 1, 1, 0.95))
-		borde.set_shader_parameter("grosor", 3.0)
+		borde.set_shader_parameter("color", Color(1, 1, 1, 0.75))
+		borde.set_shader_parameter("grosor", 1.8)
 		borde.set_shader_parameter("latido", 1.0)
 		var brillo := ShaderMaterial.new()
 		brillo.shader = load("res://assets/sombreadores/brillo_seleccion.gdshader")
 		brillo.render_priority = 3
-		brillo.set_shader_parameter("fuerza", 0.22)
+		brillo.set_shader_parameter("fuerza", 0.08)
 		borde.next_pass = brillo
 		_mat_elegido = mascara
 	else:
-		borde.set_shader_parameter("color", Color(1, 1, 1, 0.5))
-		borde.set_shader_parameter("grosor", 1.6)
+		borde.set_shader_parameter("color", Color(1, 1, 1, 0.35))
+		borde.set_shader_parameter("grosor", 1.2)
 		borde.set_shader_parameter("latido", 0.0)
 		_mat_encima = mascara
 	return mascara

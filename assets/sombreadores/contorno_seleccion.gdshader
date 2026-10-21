@@ -19,7 +19,7 @@ void vertex() {
 	if (l > 0.0001) {
 		nc /= l;
 	}
-	float g = grosor * (1.0 + latido * 0.25 * sin(TIME * 3.0));
+	float g = grosor * (1.0 + latido * 0.15 * sin(TIME * 3.0));
 	clip.xy += nc * g * 2.0 / VIEWPORT_SIZE * clip.w;
 	POSITION = clip;
 }
