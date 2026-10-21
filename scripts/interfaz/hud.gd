@@ -286,6 +286,7 @@ func _actualizar_objetivo() -> void:
 		_objetivo_texto.text = tr(o.get("texto", ""))
 	var teclas := _objetivo_titulo.get_parent().get_node("Teclas") as Label
 	teclas.text = tr("ayuda_teclas") % [Controles.tecla("interactuar"), Controles.tecla("lente"), Controles.tecla("diario")]
+	_texto_objetivo()
 	_actualizar_recursos()
 
 
@@ -324,6 +325,7 @@ func _process(dt: float) -> void:
 		var total := tr(_dlg_lineas[_dlg_i][1]).length() if _dlg_i < _dlg_lineas.size() else 0
 		_dlg_texto.visible_characters = int(_dlg_t * 55.0) if _dlg_t * 55.0 < total else -1
 	_flecha_objetivo()
+	_texto_objetivo()
 	if _fps.visible:
 		var r := RenderingServer
 		var tri := r.get_rendering_info(RenderingServer.RENDERING_INFO_TOTAL_PRIMITIVES_IN_FRAME)
@@ -358,6 +360,28 @@ func _flecha_objetivo() -> void:
 	_flecha.position = borde - Vector2(17, 20)
 	_flecha.rotation = dir.angle()
 	_flecha.pivot_offset = Vector2(17, 20)
+
+
+## El objetivo dice a cuántos metros está. Si no tiene lugar en el mapa, queda solo el texto.
+func _texto_objetivo() -> void:
+	if _objetivo_texto == null:
+		return
+	var id := Juego.id_mision()
+	var base := tr("obj_fin") if id == "fin" else tr(Juego.objetivo_actual().get("texto", ""))
+	var metros := _metros_objetivo()
+	if metros < 0:
+		_objetivo_texto.text = base
+	else:
+		_objetivo_texto.text = "%s   ·   %s" % [base, tr("objetivo_metros") % metros]
+
+
+func _metros_objetivo() -> int:
+	if heroe == null:
+		return -1
+	var p := Juego.donde_objetivo()
+	if p == Vector3.INF:
+		return -1
+	return int(round(heroe.global_position.distance_to(p)))
 
 
 # ---------- diálogos ----------
