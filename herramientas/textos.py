@@ -108,6 +108,15 @@ t("nombre_eromash", "Eromash", "Eromash")
 t("nombre_runa", "Runa", "Rune")
 t("nombre_trabajador", "Trabajador", "Worker")
 t("nombre_ciervo", "El Ciervo Hueco", "The Hollow Stag")
+t("nombre_herido", "Trabajador herido", "Injured worker")
+
+# --- selección (recuadro del NPC elegido, docs/seleccion.md) ---
+t("rol_eydis", "Guardasendas", "Pathwarden")
+t("rol_orm", "Carpintero", "Carpenter")
+t("rol_svanhild", "Custodia de la Casa de las Lindes", "Keeper of the House of the Borders")
+t("rol_trabajador", "Cuadrilla del Paso", "Pass work crew")
+t("rol_herido", "Cuadrilla del Paso", "Pass work crew")
+t("seleccion_cerrar", "Dejar de seleccionar", "Clear selection")
 
 # --- misiones y objetivos ---
 t("mision_EL-01", "El camino que dejó de ser seguro", "The road that is no longer safe")

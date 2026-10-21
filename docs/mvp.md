@@ -11,6 +11,7 @@ Esqueleto jugable de la cadena EL-01 a EL-07 (`docs/misiones-principales-elderva
 | Esquivar (dirección de movimiento; quieto retrocede) | Alt | B |
 | Atacar / bloquear | clic izquierdo / Ctrl izquierdo | X o RT / LB o LT |
 | Interactuar / hablar | F | Y |
+| Seleccionar un NPC (borde, retrato; solo así te mira) | clic izquierdo sobre él (no ataca) o hablarle | hablarle |
 | Lente del Eco | R | RB |
 | Envainar | X | R3 |
 | Diario con el croquis | J o Tab | Back |
@@ -38,6 +39,7 @@ El HUD muestra vida y resistencia, con pistas que cambian entre teclado y mando.
 | Diálogos y en qué lugar está cada NPC según la misión | `scripts/mundo/guion.gd` |
 | Héroe, cámara, NPC, enemigos, Ciervo Hueco, soportes, avisos del piso | `scripts/personajes/` |
 | Interacción, Lente del Eco y marcas reveladas | `scripts/interaccion/` |
+| Selección de NPC (borde, mirada, recuadro con retrato) | `scripts/autoload/seleccion.gd`, `scripts/interaccion/seleccionable.gd`, `scripts/interfaz/marco_seleccion.gd` (guía en `docs/seleccion.md`) |
 | Interfaz (objetivo, salud, diálogo, jefe, diario, pausa, título, cierre) | `scripts/interfaz/hud.gd` |
 | Textos ES/EN | `textos/textos.csv` (se genera con `herramientas/textos.py`) |
 
@@ -99,7 +101,7 @@ herramientas/revisar.sh                    # que compilen todos los scripts
 herramientas/capturar.sh res://escenas/principal.tscn salida.png 45 1280 720 --guion=claro --calidad=1
 ```
 
-Guiones: `inicio`, `puesto`, `sin_armas` (camina sin armas, de frente), `sin_armas_correr` (lo mismo corriendo), `salto`, `cerca`, `carro`, `refugio`, `eikholt`, `casa`, `paso`, `claro`, `jefe` (pelea con el Ciervo ya empezada), `ciervo` (el Ciervo quieto, de cerca), `aserradero`, `santuario`, `opciones` (el menú de video abierto), `rendimiento` (ponen la partida en ese punto) y `recorrido` (marca la cadena entera y saca una foto por misión). Cada proceso usa unos 3 GB: correr de a uno.
+Guiones: `inicio`, `puesto`, `seleccion` (clic real sobre Eydis: la selecciona sin atacar, ella mira a Eromash, clic en el piso la deselecciona), `sin_armas` (camina sin armas, de frente), `sin_armas_correr` (lo mismo corriendo), `salto`, `cerca`, `carro`, `refugio`, `eikholt`, `casa`, `paso`, `claro`, `jefe` (pelea con el Ciervo ya empezada), `ciervo` (el Ciervo quieto, de cerca), `aserradero`, `santuario`, `opciones` (el menú de video abierto), `rendimiento` (ponen la partida en ese punto) y `recorrido` (marca la cadena entera y saca una foto por misión). Cada proceso usa unos 3 GB: correr de a uno.
 
 ## UI, bolsa y equipo (16/10/2026)
 

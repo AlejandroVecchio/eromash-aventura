@@ -11,7 +11,7 @@ Modo aventura de Eromash hecho en **Godot 4.7.2** (GDScript, renderer Forward+).
 ## Estructura
 
 - `escenas/` — escenas `.tscn`. La de arranque es `escenas/principal.tscn`: arma todo el MVP por código desde `scripts/mundo/eldervald.gd`.
-- `scripts/` — `autoload/` (Juego, Calidad, Controles, Sonido, Captura), `mundo/`, `personajes/`, `interaccion/`, `interfaz/`, `pruebas/`. El mapa completo de archivos, los controles y qué es provisorio están en `docs/mvp.md`.
+- `scripts/` — `autoload/` (Juego, Calidad, Controles, Sonido, Captura, Seleccion), `mundo/`, `personajes/`, `interaccion/`, `interfaz/`, `pruebas/`. El mapa completo de archivos, los controles y qué es provisorio están en `docs/mvp.md`.
 - `assets/` — `modelos/` (`.glb`; `kit/` son los MegaKit de Quaternius en glTF), `texturas/`, `audio/`, `marca/`, `sombreadores/`, `interfaz/`.
 - `textos/textos.csv` — todos los textos ES/EN (se genera con `herramientas/textos.py`).
 - `herramientas/` — scripts de ayuda que se corren desde la línea de comandos.
@@ -38,6 +38,7 @@ Nombre del juego: **EROMASH: Las Runas del Olvido** (ES) / **EROMASH: Whisper of
 | Cómo está armado el MVP (archivos, controles, animaciones compartidas, provisorios, pruebas sin pantalla) | `docs/mvp.md` |
 | Qué assets usa el mundo (árboles, rocas, muros, techos, suelos, modelos propios) y cómo sumar uno | `docs/assets.md` (actualizarlo cuando se suma o deja de usar un asset) |
 | **Animaciones humanas**: banco de 44 clips (Universal Animation Library, CC0) ya conectado, cómo pasarlos a cada esqueleto y qué clip sirve para qué | `docs/banco-animaciones.md` (**mirar acá antes de pedir o hacer una animación**) |
+| **Selección** (clic sobre NPC: borde blanco, mirada solo al seleccionar, recuadro con retrato): base para todo lo que se haga sobre «lo seleccionado» | `docs/seleccion.md` (**leer antes de sumar enemigos u objetos seleccionables**) |
 | Decisiones abiertas y trabajo propuesto que espera el visto bueno de Alejandro | `docs/pendientes.md` (leer antes de empezar algo nuevo) |
 | Mapas: mundo, Eldervald, regiones, Valdheim | `docs/mapas/` |
 | Referencias de Eromash (vistas, poses, Tripo) y de objetos a modelar | `docs/referencias/` |

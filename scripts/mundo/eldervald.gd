@@ -174,6 +174,7 @@ func _npcs() -> void:
 		var t := NPC.new()
 		t.id = "herido" if i == 3 else "trabajador"
 		t.modelo_ruta = "res://assets/modelos/npc/trabajador.glb"
+		t.retrato_ruta = "res://assets/interfaz/retratos/trabajador.png"
 		t.altura = 1.7 + i * 0.03
 		t.pose = poses[i]
 		if i == 3:

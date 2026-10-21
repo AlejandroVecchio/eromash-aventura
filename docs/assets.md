@@ -117,6 +117,7 @@ La piedra de las pendientes usa la textura de rocas del kit (`kit/naturaleza/Roc
 | Archivo | Para qué |
 |---|---|
 | `interfaz/mapa-eldervald.png` | Diario y minimapa |
+| `interfaz/retratos/` | Retratos del recuadro de selección (Eydis, Orm, Svanhild, trabajador): recortes de las hojas 2D propias de `eromash-juego/output/Personajes/NPC 2D/`; ver `docs/seleccion.md` |
 | `marca/logotipo.png` | Pantalla de título |
 | `marca/fuentes/` | Eromash Display y Eromash Text |
 | `audio/sfx/` | Efectos CC0 (golpes, runas, campanas, gong, ambiente); créditos en `audio/CREDITOS.md` |

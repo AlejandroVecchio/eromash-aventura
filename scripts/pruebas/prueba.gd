@@ -14,6 +14,7 @@ const ETAPAS := {
 	"paso": [3, ["el01_acepto", "croquis_leido", "carro_visto", "orm_encontrado", "errantes_despejados", "piedra_puesta", "runa_refugio", "fragmento", "fragmento_entregado", "lente_prestada", "fragmento_examinado", "huella_patio", "lente"], "paso_sur", 0.4, 0.4],
 	"claro": [4, ["el01_acepto", "croquis_leido", "carro_visto", "orm_encontrado", "errantes_despejados", "piedra_puesta", "runa_refugio", "fragmento", "fragmento_entregado", "lente_prestada", "fragmento_examinado", "huella_patio", "lente", "eydis_paso", "pista_tablon", "pista_raiz", "pista_menhir", "eydis_claro", "anclajes_vistos"], "claro_entrada", -1.2, 0.6],
 	"jefe": [4, ["el01_acepto", "croquis_leido", "carro_visto", "orm_encontrado", "errantes_despejados", "piedra_puesta", "runa_refugio", "fragmento", "fragmento_entregado", "lente_prestada", "fragmento_examinado", "huella_patio", "lente", "eydis_paso", "pista_tablon", "pista_raiz", "pista_menhir", "eydis_claro", "anclajes_vistos"], "claro", 0.0, 0.75],
+	"seleccion": [0, [], "eydis_puesto", 0.6, 0.15],
 	"salto": [0, [], "puesto", 0.6, 0.0],
 	"campamento": [0, [], "inicio", 0.5, 0.55],
 	"cerca": [0, [], "puesto", 0.6, -0.4],
@@ -127,6 +128,8 @@ static func preparar(mundo: Eldervald) -> void:
 			var espera := 0.0 if g == "cine_nucleo" else 0.8
 			for i in momentos.size():
 				t.create_timer(espera + momentos[i]).timeout.connect(func(): Captura.foto(Captura.salida.get_basename() + "_%d.png" % i, 1)))
+	if g == "seleccion":
+		_probar_seleccion(mundo)
 	if g == "camara_baja":
 		mundo.camara._inclinar(-90.0)
 	if g == "claro" or g == "jefe":
@@ -137,6 +140,43 @@ static func preparar(mundo: Eldervald) -> void:
 		mundo.ciervo.despertar()
 		mundo.hud.mostrar_jefe(mundo.ciervo)
 		_vigilar_jefe(mundo)
+
+
+## Selección de NPC (docs/seleccion.md): foto sin seleccionar, clic real del mouse sobre Eydis (tiene que
+## seleccionarla sin que Eromash ataque), fotos mientras lo mira y clic en el piso para deseleccionar.
+static func _probar_seleccion(mundo: Eldervald) -> void:
+	var t := mundo.get_tree()
+	var eydis: NPC = mundo.npcs.eydis
+	mundo.heroe.global_position = eydis.global_position + Vector3(3.5, 0.5, 2.0)
+	mundo.camara.global_position = mundo.heroe.global_position
+	var base := Captura.salida.get_basename()
+	var clic := func(donde: Vector2) -> void:
+		Input.warp_mouse(donde)
+		var mov := InputEventMouseMotion.new()
+		mov.position = donde
+		Input.parse_input_event(mov)
+		for apretado in [true, false]:
+			var b := InputEventMouseButton.new()
+			b.button_index = MOUSE_BUTTON_LEFT
+			b.pressed = apretado
+			b.position = donde
+			Input.parse_input_event(b)
+	t.create_timer(2.0).timeout.connect(func(): Captura.foto(base + "_0.png", 1))
+	t.create_timer(2.5).timeout.connect(func():
+		var cam := mundo.get_viewport().get_camera_3d()
+		clic.call(cam.unproject_position(eydis.global_position + Vector3(0, 1.0, 0))))
+	t.create_timer(2.8).timeout.connect(func():
+		print("SELECCION actual=", Seleccion.actual.id if Seleccion.actual else "-", " ataca=", mundo.heroe.atacando(), " giro_eydis=", snappedf(eydis.rotation.y, 0.01))
+		Captura.foto(base + "_1.png", 1))
+	t.create_timer(4.5).timeout.connect(func():
+		print("SELECCION tras mirar giro_eydis=", snappedf(eydis.rotation.y, 0.01))
+		Captura.foto(base + "_2.png", 1))
+	t.create_timer(5.5).timeout.connect(func():
+		var vp := mundo.get_viewport().get_visible_rect().size
+		clic.call(Vector2(vp.x * 0.62, vp.y * 0.5)))
+	t.create_timer(6.0).timeout.connect(func():
+		print("SELECCION tras clic en el piso actual=", Seleccion.actual.id if Seleccion.actual else "-")
+		Captura.foto(base + "_3.png", 1))
 
 
 static func _vigilar_jefe(mundo: Eldervald) -> void:

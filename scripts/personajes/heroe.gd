@@ -663,7 +663,8 @@ func _physics_process(dt: float) -> void:
 			pide[a] = Input.is_action_just_pressed(a) or _pedidos_ui.get(a, false)
 			if not _pedidos_ui.is_empty():
 				pide[a] = _pedidos_ui.get(a, false)
-			if a == "atacar" and _mouse_en_interfaz() and not _pedidos_ui.get(a, false):
+			# el clic que seleccionó a un NPC (Seleccion) o que cayó en la interfaz no es un ataque
+			if a == "atacar" and (_mouse_en_interfaz() or Seleccion.tomo_clic()) and not _pedidos_ui.get(a, false):
 				pide[a] = false
 		pide["bloquear"] = Input.is_action_pressed("bloquear") or _guardia_ui
 		pide["bloqueo_nuevo"] = Input.is_action_just_pressed("bloquear") or _pedidos_ui.get("bloquear", false)
