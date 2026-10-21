@@ -81,3 +81,10 @@ func ambiente(encender := true) -> void:
 	_ambiente.volume_db = VOLUMEN.ambiente
 	if not _ambiente.playing:
 		_ambiente.play()
+
+
+func _process(_dt: float) -> void:
+	if _ambiente == null:
+		return
+	# El autoload sigue andando en pausa: si no, el bosque tapa el menú.
+	_ambiente.stream_paused = get_tree().paused
