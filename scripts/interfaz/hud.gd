@@ -58,6 +58,7 @@ var _flecha: Label
 var _minimapa: Minimapa
 var _fps: Label
 var _video: OpcionesVideo
+var _sonido: OpcionesSonido
 var _opciones_idioma: OptionButton
 var interfaz: InterfazAventura
 
@@ -80,6 +81,8 @@ func _ready() -> void:
 	_armar_titulo(raiz)
 	_video = OpcionesVideo.new(load(FUENTE_TITULO))
 	raiz.add_child(_video)
+	_sonido = OpcionesSonido.new(load(FUENTE_TITULO))
+	raiz.add_child(_sonido)
 	_negro = ColorRect.new()
 	_negro.color = Color(0, 0, 0, 0)
 	_negro.set_anchors_preset(Control.PRESET_FULL_RECT)
@@ -98,6 +101,9 @@ func _ready() -> void:
 	interfaz = InterfazAventura.new()
 	interfaz.hud = self
 	raiz.add_child(interfaz)
+	# las opciones (y el fundido) quedan encima de la interfaz de la aventura
+	for n in [_video, _sonido, _negro]:
+		raiz.move_child(n, -1)
 
 
 func _crear_tema() -> Theme:
@@ -590,6 +596,12 @@ func _armar_pausa(raiz: Control) -> void:
 	video.set_meta("clave", "menu_video")
 	video.pressed.connect(func(): abrir_video(video))
 	opciones.add_child(video)
+	var sonido := Button.new()
+	sonido.name = "Sonido"
+	sonido.text = tr("menu_sonido")
+	sonido.set_meta("clave", "menu_sonido")
+	sonido.pressed.connect(func(): abrir_sonido(sonido))
+	opciones.add_child(sonido)
 	_opciones_idioma = OptionButton.new()
 	_opciones_idioma.add_item("Español")
 	_opciones_idioma.add_item("English")
@@ -668,6 +680,21 @@ func _video_cerrado() -> void:
 		desde.grab_focus()
 
 
+## Abre Opciones → Sonido (volumen general, música, ambiente, efectos y voces); al cerrarlo vuelve el foco al
+## botón que lo abrió.
+func abrir_sonido(desde: Control) -> void:
+	_sonido.abrir()
+	if not _sonido.cerrado.is_connected(_sonido_cerrado):
+		_sonido.cerrado.connect(_sonido_cerrado)
+	_sonido.set_meta("desde", desde)
+
+
+func _sonido_cerrado() -> void:
+	var desde: Control = _sonido.get_meta("desde", null)
+	if desde and desde.is_visible_in_tree():
+		desde.grab_focus()
+
+
 func cerrar_pausa() -> void:
 	_pausa.visible = false
 	en_menu = false
@@ -706,7 +733,7 @@ func _armar_titulo(raiz: Control) -> void:
 	var caja := CenterContainer.new()
 	caja.add_child(botones)
 	v.add_child(caja)
-	for b in [["titulo_continuar", func(): _empezar(false)], ["titulo_nueva", func(): _empezar(true)], ["menu_video", func(): abrir_video(_titulo.find_child("menu_video", true, false))], ["pausa_salir", func(): get_tree().quit()]]:
+	for b in [["titulo_continuar", func(): _empezar(false)], ["titulo_nueva", func(): _empezar(true)], ["menu_video", func(): abrir_video(_titulo.find_child("menu_video", true, false))], ["menu_sonido", func(): abrir_sonido(_titulo.find_child("menu_sonido", true, false))], ["pausa_salir", func(): get_tree().quit()]]:
 		var bt := Button.new()
 		bt.text = tr(b[0])
 		bt.set_meta("clave", b[0])
@@ -767,7 +794,7 @@ func fundido(a_negro: bool, dur := 0.6) -> Tween:
 
 
 func _unhandled_input(ev: InputEvent) -> void:
-	if _video.visible:
+	if _video.visible or _sonido.visible:
 		return
 	if en_dialogo and (ev.is_action_pressed("interactuar") or ev.is_action_pressed("atacar") or ev.is_action_pressed("saltar") or ev.is_action_pressed("ui_accept")):
 		get_viewport().set_input_as_handled()

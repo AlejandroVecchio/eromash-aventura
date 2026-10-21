@@ -66,6 +66,19 @@ video_escala,Escala de renderizado,Render scale
 video_escala_desc,Resolución a la que se dibuja el mundo; la interfaz siempre va nítida. Por debajo de 100 % se reescala con FSR y gana mucho rendimiento.,Resolution the world is drawn at; the interface stays sharp. Below 100% it is upscaled with FSR and gains a lot of performance.
 video_restablecer,Restablecer (Alto),Reset (High)
 video_volver,Volver,Back
+menu_sonido,Opciones de sonido,Sound options
+sonido_titulo,Sonido,Sound
+son_general,Volumen general,Master volume
+son_general_desc,El volumen de todo el juego junto. Las demás barras se ajustan dentro de este.,The volume of the whole game. The other sliders are mixed within it.
+son_musica,Música,Music
+son_musica_desc,La música del juego y de las cinemáticas.,Music in the game and in cutscenes.
+son_ambiente,Ambiente,Ambience
+son_ambiente_desc,"Los sonidos de fondo del mundo: el bosque, el viento, el agua.","Background sounds of the world: the forest, the wind, the water."
+son_efectos,Efectos,Effects
+son_efectos_desc,"Golpes, pasos, runas, avisos y el resto de los sonidos del juego.","Hits, footsteps, runes, alerts and the rest of the game sounds."
+son_voces,Voces,Voices
+son_voces_desc,Las voces del narrador y de los personajes en las cinemáticas.,The narrator's and characters' voices in cutscenes.
+sonido_restablecer,Restablecer,Reset
 ayuda_teclas,[%s] interactuar · [%s] Lente del Eco · [%s] diario,[%s] interact · [%s] Echo Lens · [%s] journal
 tecla_clic_izq,Clic izq.,Left click
 tecla_clic_der,Clic der.,Right click
