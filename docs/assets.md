@@ -152,6 +152,20 @@ MakeHuman (CC0), con datos y créditos en
 siguen derivando de los modelos propios existentes. Capturas vigentes de la
 reconstrucción en `docs/referencias/personaje_modular/base_nueva/`.
 
+## Ilustraciones del prólogo (18/10/2026, sin integrar)
+
+`assets/cinematicas/prologo_v1/` contiene seis diapositivas de «El susurro
+de las raíces», con tres PNG por diapositiva: `imagenN_fondo.png`,
+`imagenN_medio.png`, `imagenN_frente.png` (N = 1–6). Fondos opacos;
+medios y frentes con alfa real. Generadas con image_gen a partir del guion
+y la dirección artística. Guardián encapuchado, rostro en sombra y ojos
+destacados por pedido de Alejandro. Prompts completos en `prompts.json`;
+montaje de revisión en `vista_previa.html`, indicaciones en `MONTAJE.txt`.
+Todavía no conectadas al reproductor del juego.
+Corrección del plano 1: Yggdrasil es colosal y se contempla a extrema distancia,
+detrás de varias cordilleras; queda en fondo, con ladera boscosa en medio.
+Prompts vigentes para esas dos capas en `prompts_escala_yggdrasil.json`.
+
 ## Banco de equipo con base Tripo (16/10/2026)
 
 `escenas/prueba_equipo.tscn` usa `assets/modelos/personaje/prueba_equipo/eromash_modular.glb`:

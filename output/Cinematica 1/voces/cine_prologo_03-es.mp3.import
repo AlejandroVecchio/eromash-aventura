@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://eb7lk4qh8ctl"
+path="res://.godot/imported/cine_prologo_03-es.mp3-5e535fa5c1496ffb7daa6c8a26acf233.mp3str"
+
+[deps]
+
+source_file="res://output/Cinematica 1/voces/cine_prologo_03-es.mp3"
+dest_files=["res://.godot/imported/cine_prologo_03-es.mp3-5e535fa5c1496ffb7daa6c8a26acf233.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

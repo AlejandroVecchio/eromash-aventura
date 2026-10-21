@@ -1,0 +1,32 @@
+EROMASH — El susurro de las raíces — primera tanda
+Generadas con image_gen integrado, 18/10/2026. Sin integración al juego.
+
+SECUENCIA
+1. Yggdrasil parece sano: árbol colosal a extrema distancia, detrás de cordilleras.
+   Árbol y montañas comparten fondo; ladera boscosa en medio y ramas en frente.
+   Corrección vigente de escala en prompts_escala_yggdrasil.json.
+2. Las runas fallan: monolitos con trazos apagados.
+3. El contacto: mano del guardián sobre la inscripción quebrada.
+4. El lenguaje olvidado: guardián encapuchado, cara en sombra, ojos destacados.
+5. La tierra se abre: una mano cenicienta emerge del camino.
+6. Los primeros errantes: criaturas avanzan por un asentamiento.
+
+CAPAS
+Orden de composición: fondo, medio, frente, usando alfa normal.
+Conservar el lienzo completo; no recortar automáticamente al contenido.
+PNG panorámicos de 1672 x 941; imagen4_frente mide 1672 x 940.
+Para esa diferencia de un píxel, ajustar el frente al mismo rectángulo.
+Prompts originales y correcciones en prompts.json.
+La vista_previa.html superpone las imágenes en el mismo rectángulo.
+
+MOVIMIENTO
+Empezar con un acercamiento común de 3,5 % para ocultar bordes.
+Desplazamientos suaves orientativos: fondo 0,2 %, medio 0,5 %, frente 0,9 %.
+En plano 3, mano y piedra deben moverse juntas: no separarlas en profundidad.
+Son ilustraciones planas: evitar órbitas, giros o desplazamientos grandes.
+Comprobar el encuadre final en el reproductor antes de definir cámara.
+Los PNG no incluyen textos ni subtítulos; la locución sigue el guion del proyecto.
+
+REVISIÓN
+Verificados 18 archivos PNG y alfa real en las doce capas recortadas.
+El conjunto aún requiere aprobación artística y montaje final en Godot.
