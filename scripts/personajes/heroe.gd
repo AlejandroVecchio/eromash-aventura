@@ -18,6 +18,7 @@ const VEL_SPRINT := 6.5
 const GIRO := 12.0
 const GRAVEDAD := 24.0
 const ALTURA_SALTO := 1.3
+const CAIDA_SEGURA := 16.0   ## m/s hacia abajo. Un salto normal aterriza a ~8 m/s y no duele.
 const ESPERA_MIRAR := 6.0
 const ESPERA_ENVAINAR := 4.0
 const COMBATE := 5.0
@@ -99,6 +100,7 @@ var _esquiva_provisional := true
 var _t_aire := 0.0
 var _aterrizaje := 0.0
 var _salto_iniciado := false  ## el salto empezó con un impulso (si no, es una caída desde un borde)
+var _caida := 0.0             ## velocidad vertical más baja de esta caída, para el daño al aterrizar
 var _descanso := ""
 var _espera_variante := 0.0
 var _sin_dano := 0.0
@@ -565,6 +567,7 @@ func revivir(pos: Vector3) -> void:
 	_cancelar_combate()
 	muerto = false
 	en_aire = false
+	_caida = 0.0
 	_aterrizaje = 0.0
 	_esquiva_pausa = 0.0
 	_espera_stamina = 0.0
@@ -751,11 +754,15 @@ func _physics_process(dt: float) -> void:
 	# salto y gravedad
 	if is_on_floor():
 		if en_aire and velocity.y <= 0.0:
+			var impacto := _caida
+			_caida = 0.0
 			en_aire = false
 			_aterrizaje = SALTO_AMORTIGUAR
+			_dano_de_caida(impacto)
 		if pide.get("saltar", false) and _accion.is_empty() and not muerto and not bloqueado:
 			bloqueando = false
 			en_aire = true
+			_caida = 0.0
 			velocity.y = sqrt(2.0 * GRAVEDAD * ALTURA_SALTO)
 			_t_aire = 0.0
 			_salto_iniciado = true
@@ -767,6 +774,7 @@ func _physics_process(dt: float) -> void:
 			_salto_iniciado = false
 	if en_aire:
 		_t_aire += dt
+		_caida = minf(_caida, velocity.y)
 	move_and_slide()
 	if global_position.y < -30.0:
 		global_position = Juego.punto_seguro()
@@ -777,6 +785,13 @@ func _physics_process(dt: float) -> void:
 
 func _vuelo() -> float:
 	return 2.0 * sqrt(2.0 * GRAVEDAD * ALTURA_SALTO) / GRAVEDAD
+
+
+## Una caída larga lastima. El salto y los desniveles chicos quedan por debajo de CAIDA_SEGURA.
+func _dano_de_caida(impacto: float) -> void:
+	if muerto or impacto >= -CAIDA_SEGURA:
+		return
+	recibir_dano(8.0 + (-impacto - CAIDA_SEGURA) * 3.5, global_position + Vector3.UP)
 
 
 func _animar(dt: float) -> void:
