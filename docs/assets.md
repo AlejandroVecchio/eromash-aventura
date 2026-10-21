@@ -120,6 +120,14 @@ La piedra de las pendientes usa la textura de rocas del kit (`kit/naturaleza/Roc
 | `marca/logotipo.png` | Pantalla de título |
 | `marca/fuentes/` | Eromash Display y Eromash Text |
 | `audio/sfx/` | Efectos CC0 (golpes, runas, campanas, gong, ambiente); créditos en `audio/CREDITOS.md` |
+| `audio/voces/` | Voces de la cinemática 1 (ElevenLabs, provisorias), `cine_prologo_NN-es.mp3` / `-en.mp3`; créditos en `audio/CREDITOS.md` |
+
+## Cinemáticas 2.5D (`cinematicas/`)
+
+| Archivo | Para qué |
+|---|---|
+| `cinematicas/prologo/pNN_fondo.png`, `pNN_medio.png`, `pNN_frente.png` | Las 18 capas (6 planos) de la cinemática 1, «El susurro de las raíces»; datos en `scripts/mundo/cine_prologo.gd`, créditos en `cinematicas/CREDITOS.md` |
+| `sombreadores/cine/` | Revelado boceto → color, transiciones, pergamino, bordes aguados, bruma y luz rúnica de las cinemáticas 2.5D |
 
 ## Hecho por código (sin archivo)
 

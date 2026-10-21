@@ -6,6 +6,7 @@ extends CanvasLayer
 signal dialogo_terminado(id: String)
 signal empezar(nueva: bool)
 signal salir_al_titulo
+signal ver_cinematica   ## «Ver cinemática» en el título: el prólogo, a pedido
 
 const FUENTE_TITULO := "res://assets/marca/fuentes/EromashDisplay-Bold.woff2"
 const FUENTE_TEXTO := "res://assets/marca/fuentes/EromashText-Regular.woff2"
@@ -706,7 +707,7 @@ func _armar_titulo(raiz: Control) -> void:
 	var caja := CenterContainer.new()
 	caja.add_child(botones)
 	v.add_child(caja)
-	for b in [["titulo_continuar", func(): _empezar(false)], ["titulo_nueva", func(): _empezar(true)], ["menu_video", func(): abrir_video(_titulo.find_child("menu_video", true, false))], ["pausa_salir", func(): get_tree().quit()]]:
+	for b in [["titulo_continuar", func(): _empezar(false)], ["titulo_nueva", func(): _empezar(true)], ["titulo_cinematica", _ver_cinematica], ["menu_video", func(): abrir_video(_titulo.find_child("menu_video", true, false))], ["pausa_salir", func(): get_tree().quit()]]:
 		var bt := Button.new()
 		bt.text = tr(b[0])
 		bt.set_meta("clave", b[0])
@@ -717,6 +718,12 @@ func _armar_titulo(raiz: Control) -> void:
 	aviso.text = tr("titulo_mvp")
 	aviso.set_meta("clave", "titulo_mvp")
 	aviso.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+
+
+## «Ver cinemática»: esconde el título y avisa al mundo, que reproduce el prólogo y vuelve al título al terminar.
+func _ver_cinematica() -> void:
+	_titulo.visible = false
+	ver_cinematica.emit()
 
 
 func mostrar_titulo() -> void:
