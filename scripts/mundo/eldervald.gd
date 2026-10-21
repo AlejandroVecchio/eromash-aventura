@@ -104,8 +104,13 @@ func _ambiente() -> void:
 	sky.sky_material = cielo
 	_entorno.background_mode = Environment.BG_SKY
 	_entorno.sky = sky
+	# Al aire libre la sombra nunca es negra: la luz que rebota en el cielo y la niebla sigue llegando.
+	# El cielo de noche es muy oscuro, así que la luz ambiente mezcla el cielo con un relleno frío propio
+	# (sombra azul verdosa de la paleta, aclarada). Criterio en docs/direccion-artistica.md, sección 5c.
 	_entorno.ambient_light_source = Environment.AMBIENT_SOURCE_SKY
-	_entorno.ambient_light_energy = 0.7
+	_entorno.ambient_light_color = Color(0.46, 0.58, 0.6)
+	_entorno.ambient_light_sky_contribution = 0.35
+	_entorno.ambient_light_energy = 0.9
 	_entorno.tonemap_mode = Environment.TONE_MAPPER_ACES
 	_entorno.tonemap_exposure = 1.05
 	_entorno.glow_enabled = true
@@ -120,6 +125,8 @@ func _ambiente() -> void:
 	_entorno.volumetric_fog_albedo = Color(0.5, 0.6, 0.6)
 	_entorno.volumetric_fog_length = 60.0
 	_entorno.ssao_enabled = true
+	_entorno.ssao_intensity = 1.3
+	_entorno.ssao_power = 1.2
 	_entorno.adjustment_enabled = true
 	_entorno.adjustment_saturation = 0.92
 	we.environment = _entorno
