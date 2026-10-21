@@ -857,18 +857,28 @@ func _animar(dt: float) -> void:
 			anim.play(_descanso, 0.5)
 
 
-## El interactuable más cercano al alcance (lo muestra la interfaz).
+## Prefiere lo que Eromash está mirando si hay dos cosas al alcance. Si no mira a ninguna, queda la más cercana.
 func _buscar_cerca() -> void:
 	var mejor: Node = null
-	var dmin := INF
+	var mejor_puntaje := -INF
+	var adelante := global_transform.basis.z
 	if not bloqueado and not muerto:
 		for n in get_tree().get_nodes_in_group("interactuable"):
 			if not n.has_method("disponible") or not n.disponible():
 				continue
-			var d := (n as Node3D).global_position.distance_to(global_position)
-			if d < float(n.radio) and d < dmin:
-				dmin = d
-				mejor = n
+			var nodo := n as Node3D
+			var hacia := nodo.global_position - global_position
+			var d := hacia.length()
+			if d >= float(nodo.radio):
+				continue
+			hacia.y = 0.0
+			var frente := 0.0
+			if hacia.length() > 0.05:
+				frente = maxf(0.0, adelante.dot(hacia.normalized()))
+			var puntaje := (float(nodo.radio) - d) + frente * 0.85
+			if puntaje > mejor_puntaje:
+				mejor_puntaje = puntaje
+				mejor = nodo
 	if mejor != cerca:
 		cerca = mejor
 		cerca_cambio.emit(cerca)
