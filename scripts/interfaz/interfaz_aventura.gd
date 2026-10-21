@@ -16,6 +16,7 @@ var _plegar: Button
 var _bolsa: Button
 var _diario: Button
 var _enlaces: HBoxContainer
+var marco_seleccion: MarcoSeleccion
 
 
 func _ready() -> void:
@@ -113,6 +114,9 @@ func _ready() -> void:
 	_popup.popup_hide.connect(func():
 		if not inventario.visible:
 			_reanudar())
+	# recuadro de lo seleccionado: queda a la vista también durante el diálogo
+	marco_seleccion = MarcoSeleccion.new()
+	add_child(marco_seleccion)
 	inventario = InventarioAventura.new()
 	add_child(inventario)
 	inventario.cerrar.connect(cerrar_inventario)
@@ -167,6 +171,10 @@ func _process(dt: float) -> void:
 	if not is_instance_valid(hud):
 		return
 	_grupo_juego.visible = not hud.en_menu and not hud.en_dialogo
+	if hud.en_menu:
+		marco_seleccion.visible = false
+	elif Seleccion.actual and not marco_seleccion.visible:
+		marco_seleccion.mostrar(Seleccion.actual)
 	var salud := hud._salud.get_parent() as Control
 	salud.visible = _grupo_juego.visible
 	if not get_tree().paused and Juego.inventario.espera_pocion > 0:

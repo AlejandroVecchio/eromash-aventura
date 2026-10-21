@@ -1,7 +1,8 @@
 class_name NPC
 extends Node3D
-## Un habitante de Eldervald: modelo de Tripo con las animaciones del héroe (mismo esqueleto humano), mira a
-## Eromash cuando se acerca, habla según la etapa (Guion.dialogo_de) y puede caminar hasta un punto.
+## Un habitante de Eldervald: modelo de Tripo con las animaciones del héroe (mismo esqueleto humano), se puede
+## seleccionar (Seleccionable: borde, retrato en la interfaz), mira a Eromash solo mientras está seleccionado o le
+## habla, habla según la etapa (Guion.dialogo_de) y puede caminar hasta un punto.
 
 @export var id := "eydis"
 @export var modelo_ruta := ""
@@ -12,10 +13,13 @@ extends Node3D
 @export var arma_ruta := ""           ## arma o herramienta en la mano derecha
 @export var arma_largo := 1.0
 @export var arma_grosor := 1.0         ## < 1 afina el mango sin cambiar el largo
+@export var retrato_ruta := ""         ## imagen del recuadro al seleccionarlo ("" = assets/interfaz/retratos/<id>.png)
+@export var subtitulo_clave := ""      ## rol debajo del nombre en el recuadro ("" = rol_<id> si existe)
 
 var modelo: Node3D
 var anim: AnimationPlayer
 var charla: Interactuable
+var seleccion: Seleccionable
 var _destino := Vector3.INF
 var _al_llegar := Callable()
 var _mirar_a := 0.0
@@ -45,8 +49,11 @@ func _ready() -> void:
 		charla.texto = "accion_hablar"
 		charla.radio = 2.8
 		charla.position.y = 1.0
-		charla.accion = func(_h): Juego.pedir_dialogo(Guion.dialogo_de(id))
+		charla.accion = func(_h):
+			Seleccion.elegir(seleccion)
+			Juego.pedir_dialogo(Guion.dialogo_de(id))
 		add_child(charla)
+	_poner_seleccion()
 	_mirar_a = rotation.y
 
 
@@ -60,6 +67,21 @@ func _pose(desde_el_azar := true) -> void:
 		anim.seek(randf() * anim.current_animation_length if pose_momento < 0.0 else pose_momento, true)
 	if pose_momento >= 0.0:
 		anim.pause()
+
+
+## Lo hace seleccionable con su nombre, su rol y su retrato (Seleccionable, docs/seleccion.md).
+func _poner_seleccion() -> void:
+	seleccion = Seleccionable.new()
+	seleccion.name = "Seleccion"
+	seleccion.id = id
+	seleccion.nombre_clave = "nombre_" + id
+	var rol := subtitulo_clave if subtitulo_clave != "" else "rol_" + id
+	seleccion.subtitulo_clave = rol if tr(rol) != rol else ""
+	var ruta := retrato_ruta if retrato_ruta != "" else "res://assets/interfaz/retratos/%s.png" % id
+	if ResourceLoader.exists(ruta):
+		seleccion.retrato = load(ruta)
+	seleccion.alto = altura
+	add_child(seleccion)
 
 
 ## Gesticula mientras dice una línea del diálogo (solo el que habla, y solo si Eromash está cerca: hay varios
@@ -172,15 +194,16 @@ func _process(dt: float) -> void:
 			global_position.y = _terreno.altura(global_position.x, global_position.z)
 		rotation.y = lerp_angle(rotation.y, atan2(d.x, d.z), 1.0 - exp(-8.0 * dt))
 		return
-	# mirar a Eromash si está cerca
+	# mira a Eromash solo mientras está seleccionado o le está hablando; si no, vuelve a su giro
 	var h := get_tree().get_first_node_in_group("heroe") as Node3D
-	if h and habla:
+	var atento := h != null and (_hablando or (seleccion != null and seleccion.es_actual()))
+	if atento:
 		var v := h.global_position - global_position
 		v.y = 0.0
-		if v.length() < 6.0:
+		if v.length() > 0.3:
 			rotation.y = lerp_angle(rotation.y, atan2(v.x, v.z), 1.0 - exp(-4.0 * dt))
-		else:
-			rotation.y = lerp_angle(rotation.y, _mirar_a, 1.0 - exp(-2.0 * dt))
+	else:
+		rotation.y = lerp_angle(rotation.y, _mirar_a, 1.0 - exp(-2.0 * dt))
 
 
 func ubicar(pos: Vector3, giro: float) -> void:

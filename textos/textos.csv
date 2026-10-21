@@ -101,6 +101,13 @@ nombre_eromash,Eromash,Eromash
 nombre_runa,Runa,Rune
 nombre_trabajador,Trabajador,Worker
 nombre_ciervo,El Ciervo Hueco,The Hollow Stag
+nombre_herido,Trabajador herido,Injured worker
+rol_eydis,Guardasendas,Pathwarden
+rol_orm,Carpintero,Carpenter
+rol_svanhild,Custodia de la Casa de las Lindes,Keeper of the House of the Borders
+rol_trabajador,Cuadrilla del Paso,Pass work crew
+rol_herido,Cuadrilla del Paso,Pass work crew
+seleccion_cerrar,Dejar de seleccionar,Clear selection
 mision_EL-01,El camino que dejó de ser seguro,The road that is no longer safe
 mision_EL-02,Una voz bajo la piedra,A voice beneath the stone
 mision_EL-03,Lo que queda en el asta,What remains in the antler

@@ -22,6 +22,7 @@ Controles="*res://scripts/autoload/controles.gd"
 Juego="*res://scripts/autoload/juego.gd"
 Captura="*res://scripts/autoload/captura.gd"
 Sonido="*res://scripts/autoload/sonido.gd"
+Seleccion="*res://scripts/autoload/seleccion.gd"
 
 [display]
 
