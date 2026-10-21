@@ -115,9 +115,38 @@ func _aplicar() -> void:
 	var cerca := clampf(zoom / ZOOM_MIN, 0.0, 1.0)   # de cerca se mira al pecho, no a la cintura
 	var mira := global_position + Vector3(0, lerpf(lerpf(0.9, 1.3, cerca), 1.7, bajo), 0)
 	var deseada := mira + Vector3(sin(giro) * cos(incl), sin(incl), cos(giro) * cos(incl)) * dist
-	cam.global_position = _sin_atravesar_piso(mira, deseada)
+	cam.global_position = _sin_atravesar_mundo(mira, deseada)
 	var sacudida := Vector3(randf_range(-1, 1), randf_range(-1, 1), randf_range(-1, 1)) * temblor * 0.25
 	cam.look_at(mira + sacudida, Vector3.UP)
+
+
+## Si entre el héroe y la cámara hay piso (una loma, la orilla de la quebrada), la cámara se acerca hasta
+## quedar por encima; nunca queda debajo del terreno. Después se acerca también si hay una casa, una roca o un
+## tronco: el piso y las paredes invisibles del agua no cuentan, porque no se ven.
+func _sin_atravesar_mundo(desde: Vector3, hasta: Vector3) -> Vector3:
+	var p := _sin_atravesar_piso(desde, hasta)
+	if not is_inside_tree():
+		return p
+	var q := PhysicsRayQueryParameters3D.create(desde, p, 1)
+	q.exclude = _excluir_camara()
+	var r := get_world_3d().direct_space_state.intersect_ray(q)
+	if r.is_empty():
+		return p
+	var atras := desde - p
+	if atras.length() < 0.05:
+		return p
+	var pegada := (r.position as Vector3) + atras.normalized() * 0.45
+	if pegada.distance_to(desde) < 0.8:
+		pegada = desde.lerp(p, 0.15)
+	return _sin_atravesar_piso(desde, pegada)
+
+
+func _excluir_camara() -> Array[RID]:
+	var excl: Array[RID] = []
+	for n in get_tree().get_nodes_in_group("ignora_camara"):
+		if n is CollisionObject3D:
+			excl.append((n as CollisionObject3D).get_rid())
+	return excl
 
 
 ## Si entre el héroe y la cámara hay piso (una loma, la orilla de la quebrada), la cámara se acerca hasta
