@@ -182,6 +182,8 @@ Versión de Alejandro (22/10/2026). La escena cuenta la huida de la cuadrilla an
 - ❓ Si los faroles de las sendas son puntos de descanso y reaparición. Antes hay que decidir cómo funciona eso en toda la campaña, porque cambia el recorrido, la recuperación y lo que cuesta morir.
 - ❓ El remiendo de Sigrun necesita una pieza que se pueda remendar (capa o similar) en el equipo de Eromash.
 
+**Imagen de referencia.** `docs/referencias/eldervald/carro-volcado-v1.png` (escena, con el eco de la Lente) y `carro-volcado-detalles-v1.png` (tajos y asta, cajón con el cepillo, talla y farol, jornal bajo el carro), 22/10/2026. Para corregir: los tajos tienen que seguir la forma de la cornamenta, no parecer zarpazos; el violeta del detalle es demasiado visible; los surcos de la camilla no se tienen que confundir con rodadas de carro; las huellas del buey se tienen que distinguir de las del Ciervo; y el farol va solo en el poste.
+
 **En el juego hoy:** `carro-volcado.glb`, `Lantern_Wall` del kit, dos lobos y las dos inspecciones ("Herramientas tiradas, un eje partido." / "Marcas de arrastre… van hacia el Refugio.").
 
 **Para construirlo.** Rehacer el carro de costado con el eje contra una raíz grande, tajos de cornamenta con un brillo azul tenue, el asta incrustada, los surcos de la camilla, las huellas del buey y del Ciervo, sacos abiertos, poste de senda con farol; los objetos y textos nuevos en ES/EN.
