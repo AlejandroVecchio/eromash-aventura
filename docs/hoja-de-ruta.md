@@ -51,6 +51,7 @@ Las siete están armadas en `scripts/autoload/juego.gd` (objetivos) y `scripts/m
 | Animaciones del lobo y el Ciervo | 🟡 | Por código hasta tener clips |
 | Rendimiento (distancias, Activador, LOD, oclusión) | ✅ | Falta medir FPS en la PC; el mundo tarda ~20 s en armarse |
 | Pruebas sin pantalla (combate 118, interfaz 90) | ✅ | `docs/mvp.md`, Pruebas sin pantalla |
+| Ciudades que cargan aparte (aprobado por Alejandro el 22/10/2026), para Eikholt y todas las capitales: la ciudad es su propia escena, se carga en segundo plano al cruzar un anillo exterior (~80 m) y se descarga al alejarse más allá de él; desde afuera queda una silueta liviana; los habitantes siguen un horario y al cargar aparecen donde estarían a esa hora; el estado permanente vive en `Juego` | ⬜ | Documento "Eikholt, capital de Eldervald". Depende de decidir si hay ciclo de día y noche; falta definir qué pasa con un enemigo que persigue hasta la puerta y cómo las escenas de misión pisan el horario |
 
 ### Cinemáticas
 
