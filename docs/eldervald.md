@@ -190,10 +190,39 @@ Versión de Alejandro (22/10/2026). La escena cuenta la huida de la cuadrilla an
 
 ### Refugio de las Lindes (centro-noroeste)
 
-- **Qué es:** un círculo de mojones con un cobertizo bajo, donde la cuadrilla de Orm se protegió.
-- **Cómo se ve:** la camilla de varas, mantas y las herramientas que lograron cargar, abandonadas a medias (sin segundo carro; decisión del 22/10/2026). La luz protectora es frágil, pero el recinto se distingue. Una piedra rúnica caída de su base.
-- **Qué pasa:** final de EL-01 (Orm) y toda EL-02 (errantes, piedra, primera voz rúnica, evacuación).
-- **En el juego:** `cobertizo-refugio.glb`, `piedra-runica.glb` (la piedra caída). El segundo carro que hay hoy se quita.
+Versión de Alejandro (22/10/2026). Es el primer lugar donde el bosque reconoce a Eromash.
+
+**Qué es.** Un refugio mucho más viejo que el Puesto, levantado por los antiguos alrededor de una piedra rúnica. Siete mojones forman el círculo; cada uno lleva una runa que se enciende mientras la losa central está asentada en su pedestal. Adentro, un cobertizo bajo con techo de turba, un fogón de piedra y bancos de tronco. Los guardasendas lo usan desde siempre; nadie sabe quién lo hizo.
+
+**Cómo cayó la piedra.** Al llegar con la camilla, Eskil intentó asegurar una de las varas contra el borde del pedestal para bajar a Bror. Una cuña de piedra gastada se desprendió y la losa se deslizó de su asiento. Eskil siente que la tiró; al recolocarla se ve que la base llevaba mucho tiempo deteriorada. Su culpa tiene una causa concreta sin volverlo torpe.
+
+**Qué se ve al llegar (EL-01).**
+- **Los mojones:** quedan dos con luz, uno débil y otro que la pierde por momentos. Es una señal de urgencia, no una cuenta atrás: no se apagan en tiempo real; el estado cambia con la misión.
+- **Los errantes:** tres, separados frente a la salida hacia Eikholt (la que necesita la cuadrilla: el sur queda lejos con un herido y Eikholt tiene curandera), con posturas distintas y pequeños movimientos. Su atención sigue la piedra. Uno acerca la mano al límite y la retira: así se entiende por qué no entraron y por qué hay que despejar esa salida.
+- **El fogón:** se apagó la última noche porque se terminó la leña seca y nadie se atreve a salir a buscar más. Cenizas frías y unas ramas húmedas.
+- **Tres rayas** talladas en una viga del cobertizo cuentan las noches.
+- **El poste de tablillas** junto a la entrada: cientos, algunas casi borradas por el musgo. Las cinco de la cuadrilla son nuevas.
+- **La camilla** de varas, las mantas y las herramientas que pudieron cargar.
+
+**La cuadrilla, cada uno en su lugar** (se distinguen antes de hablar):
+- **Orm** recibe a Eromash cerca del acceso. Tiene el fragmento de asta.
+- **Bror**, el herido, marido de Sigrun, acostado bajo el cobertizo. Hace chistes con medida; alguno queda sin respuesta porque a los demás les cuesta seguirle el humor.
+- **Lif** observa el mojón más débil.
+- **Gunnar**, el mayor, casi no habla: revisa los nudos de la camilla, dobla una manta, vuelve a revisar los nudos.
+- **Eskil** permanece cerca de la base, mirando la pieza que cedió.
+
+**El momento de la voz (EL-02).** Eromash termina de asentar la piedra y escucha «Ayudame a sostenerlo». Levanta la vista hacia las personas del círculo: ninguna habló. Llega el «Yo no dije nada» de Eydis y la luz vuelve a recorrer el círculo, mojón por mojón, hasta encender los siete.
+
+**Para el jugador curioso.**
+1. **El poste de tablillas.** Al inspeccionarlo, una forma breve de reconocer las dos que importan sin leer cientos de nombres: la de Halvard, casi comida por el tiempo, y la primera de Eydis, tallada con demasiado cuidado.
+2. **Eskil.** Si Eromash le habla después de levantar la piedra, Eskil dice en voz alta lo que pasó. Sin recompensa material.
+3. **El nicho de ofrendas** en el mojón más antiguo. Los viajeros toman algo que necesitan y dejan algo para el siguiente: si Eromash deja una venda, después encuentra unas hierbas. Una costumbre sostenida por personas, no un intercambio automático ni repetible.
+
+**Segunda visita.** Los siete mojones con luz estable, las cinco tablillas del lado claro, el cobertizo ordenado y una reparación reciente y visible en la base de la piedra, hecha por Orm y Eskil antes de irse: dejan el lugar más seguro de como lo encontraron. Cierra el arco de Eskil aunque el jugador no haya tenido su conversación.
+
+**En el juego hoy:** `cobertizo-refugio.glb`, `piedra-runica.glb` (la piedra caída), tres errantes y la cuadrilla con `trabajador.glb`. El segundo carro que hay hoy se quita.
+
+**Para construirlo.** Pedestal con la cuña desprendida y la base gastada (y su versión reparada), siete mojones con runa y tres estados de luz, poste de tablillas con dos inspeccionables, fogón con cenizas, rayas en la viga, nicho de ofrendas, posiciones y acciones de los cinco, errantes con posturas propias y el gesto de la mano; la luz que recorre el círculo al asentar la piedra. Textos nuevos en ES/EN.
 
 ### Eikholt (centro)
 
@@ -282,7 +311,7 @@ Humanos de cultura forestal ("elderianos" es nombre provisorio; es una identidad
 
 ### 5.5 La cuadrilla
 
-Orm y cuatro trabajadores (cinco personas; decisión del 22/10/2026, para que cada uno pueda tener nombre y voz propios). Trabajadores de Orm (`trabajador.glb`), uno de ellos herido en la pierna. Frases: "Gracias por sacarnos. No pienso volver a ese camino sin una antorcha." / "La pierna aguanta. Más o menos." Nadie esencial puede morir fuera de una escena escrita.
+Orm y cuatro trabajadores (cinco personas; decisión del 22/10/2026): **Bror** (herido en la pierna, marido de Sigrun), **Lif**, **Gunnar** y **Eskil**. Quién es cada uno y qué hace en el Refugio, en la sección del Refugio de las Lindes. Hoy usan `trabajador.glb`. Frases: "Gracias por sacarnos. No pienso volver a ese camino sin una antorcha." / "La pierna aguanta. Más o menos." Nadie esencial puede morir fuera de una escena escrita.
 
 ### 5.6 Las voces rúnicas
 
