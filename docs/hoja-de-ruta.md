@@ -83,18 +83,47 @@ Las siete están armadas en `scripts/autoload/juego.gd` (objetivos) y `scripts/m
 
 ## 3. Juego completo
 
-⬜ Sin empezar. El orden de las regiones sale de la historia completa (`docs/historia-y-cinematicas.md`), con los nombres de `docs/mapas/`:
+⬜ Sin empezar. El recorrido está en `docs/campana-completa.md` (recuperado el 22/10/2026): 17 tramos, cinco herramientas y siete retornos obligatorios. Si choca con `docs/historia-y-cinematicas.md`, falta que Alejandro decida cuál manda (ver `docs/objetivos.md`, sección 5).
 
-1. La Arena (prólogo, cinemáticas 1 y 2).
-2. Eldervald, primera visita (el MVP, EL-01 a EL-07).
-3. Bastión de Hrimvard: Astrid, el archivero Torvald y la lista de caídos (cinemática 4).
-4. Túneles Antiguos de la Cordillera de Jarnskald (cinemática 5).
-5. Santuario de Yggdrasil: Siv y Haldor (cinemáticas 6 y 7).
-6. Havnskar y el *Cuervo Gris*, con la capitana Yrsa (cinemáticas 8 y 9).
-7. Helheim: el Puerto de los Difuntos, la Fortaleza Caída y Runa (cinemáticas 10 y 11).
-8. Las raíces de Yggdrasil, el cierre y el epílogo (cinemáticas 12 y 13).
+### Herramientas, en orden
 
-Falta el documento de la campaña con las misiones 8 y 9, las herramientas que se desbloquean (Antorcha Fatua, Hilo de Resonancia) y la vuelta a Eldervald para entrar al Santuario. Alejandro dice que ya existe; no está en este repo, en el de la arena ni en los archivos del proyecto (búsqueda del 22/10/2026). Cuando aparezca, se copia a `docs/` y se arma esta sección con su detalle.
+| Herramienta | Dónde se consigue | Qué abre |
+|---|---|---|
+| Lente del Eco | Eldervald, primera visita (✅ en el MVP) | Huellas, inscripciones y señales ocultas |
+| Antorcha Fatua | Monte Eldrakar | Quema barreras espirituales; abre el Santuario de Eldervald |
+| Hilo de Resonancia | Eldervald, dentro del Santuario | Conecta mecanismos y estaciones rúnicas |
+| Barco reconstruido | Havnskar | Skeldra, accesos costeros y, más tarde, Helheim |
+| Lente modificada | Eldrakar, al volver de Skeldra | La ruta marítima oculta a Helheim |
+
+### Recorrido
+
+| # | Región | Qué pasa | Estado del diseño |
+|---|---|---|---|
+| 1 | Arena de Hrafngard | El trato con el rey | Antecedente; no jugable en el MVP |
+| 2 | Eldervald (1.ª visita) | EL-01 a EL-07 | ✅ Fichas completas y jugable |
+| 3 | Jarnskald | Acceso inicial a Yggdrasil por la cordillera | ⬜ Sin fichas |
+| 4 | Yggdrasil | Árbol aparentemente sano; se abren dos ramas en cualquier orden | ⬜ Sin fichas |
+| 5 | Hrimvard (1.ª) | Registros de la red; mecanismo del lago Iskeld que no se puede activar | ⬜ Sin fichas; Astrid y Torvald a ajustar |
+| 6 | Monte Eldrakar | Santuarios funerarios; se consigue la Antorcha; marcas de la forja sin entender | ⬜ Sin fichas |
+| 7 | Eldervald (2.ª), misiones 8 y 9 | Se queman las zarzas, sección bajo el bosque, Hilo, estación que apunta al lago Iskeld | ⬜ Sin fichas |
+| 8 | Hrimvard (2.ª) | Con el Hilo se activa la estación; ruta bajo Jarnskald | ⬜ Sin fichas |
+| 9 | Jarnskald subterráneo | Llegada a Valdheim; el brasero encendido; los espíritus reconocen a su rey | ⬜ Sin fichas |
+| 10 | Valdheim | Refugio, reclutas, edificios, entrenamiento y fabricación (sin exigir reconstruir todo) | ⬜ Sin fichas ni sistema |
+| 11 | Yggdrasil (regreso) | Antorcha + Lente + Hilo identifican a Níðhöggr; la clave está en Skeldra | ⬜ Sin fichas |
+| 12 | Havnskar | Reparar el barco: pieza en Jarnskald (Hilo), astillero maldito de Vargstrand (Antorcha), un constructor | ⬜ Constructor y piezas sin definir; Yrsa y el *Cuervo Gris* a consolidar |
+| 13 | Islas de Skeldra | El método para ver al parásito: modificar la Lente | ⬜ Sin fichas |
+| 14 | Revelación de Odín | Eromash rompe el trato pero sigue | ⬜ Ubicación exacta sin cerrar |
+| 15 | Eldrakar (regreso) | Cámara de la forja; Lente modificada | ⬜ Sin fichas |
+| 16 | Helheim | Conseguir lo que mantiene expuesto a Níðhöggr | ⬜ Objeto, custodios y jefe sin definir |
+| 17 | Raíces de Yggdrasil | Desenlace; Eromash elige su relación con Valdheim | ⬜ Sin fichas |
+
+### Lo que falta definir antes de construir otra región
+
+- Fichas de misión de cada región, como las de Eldervald: personajes, objetos, diálogos y jefes.
+- Cómo se expone a Níðhöggr y dónde se enfrenta a Odín.
+- El sistema de Valdheim (reclutas, edificios, fabricación).
+- El tamaño de la versión 1.0: qué tramos entran y cuáles quedan para después.
+- Ubicar en el mapa del mundo Skeldra, Vargstrand y el lago Iskeld.
 
 ## 4. Ideas para sumar (propuestas, sin aprobar)
 

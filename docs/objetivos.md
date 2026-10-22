@@ -50,12 +50,12 @@ El MVP pulido como demo pública (por ejemplo para un Steam Next Fest), con la c
 
 ### Etapa 3 — Juego completo
 
-Seguir la historia por los reinos que nombra `docs/historia-y-cinematicas.md` (nombres de `docs/mapas/`): Eldervald, Bastión de Hrimvard, los Túneles Antiguos, el Santuario de Yggdrasil, Havnskar y el *Cuervo Gris*, Helheim y Valdheim, con sus 13 cinemáticas. Orden, tamaño de cada región y qué entra en la versión 1.0 están sin definir.
+Recorrido completo en `docs/campana-completa.md`: de la Arena de Hrafngard a las raíces de Yggdrasil, en 17 tramos con cinco herramientas (Lente, Antorcha Fatua, Hilo de Resonancia, barco y Lente modificada) que obligan a volver a regiones ya vistas. Valdheim aparece a mitad de campaña como hogar para reconstruir. Falta el detalle de misiones fuera de Eldervald y decidir qué entra en la versión 1.0.
 
 ## 5. Preguntas abiertas para estos objetivos
 
 - **Nombre:** el título en español ("Las Runas del Olvido") no es la traducción del inglés ("Whisper of the Runes"), que sería "El Susurro de las Runas", como dicen todavía `misiones-principales-eldervald.md` y `direccion-artistica.md` (Alejandro, 22/10/2026). Falta decidir si se unifican y hacia cuál.
-- **Salida del Paso:** el documento de misiones manda al norte, hacia Jarnskald; la historia (que manda) lleva al Bastión de Hrimvard. ¿Se cambia Jarnskald por Hrimvard en el MVP?
+- **Qué documento manda:** `docs/campana-completa.md` (la revisión con herramientas y retornos) pide no traer de `docs/historia-y-cinematicas.md` el ancla viva, a Runa matando a Eromash ni la renuncia a renacer, y manda al norte por Jarnskald. La historia, que hasta ahora mandaba sobre todo, lleva al Bastión de Hrimvard primero. ¿Cuál queda?
 - **Demo:** ¿el MVP entero o una parte?
 - **Cooperativo:** la arena tiene cooperativo de hasta 4; el documento de misiones dice "un jugador" y deja la puerta abierta. ¿La aventura es solo de un jugador?
 - **Fecha o meta de tiempo** para el MVP y para la demo, si la hay.
