@@ -71,6 +71,7 @@ func _ready() -> void:
 	hud.conectar_heroe(heroe, camara)
 	hud.dialogo_terminado.connect(_al_terminar_dialogo)
 	hud.empezar.connect(_empezar)
+	hud.ver_prologo.connect(func(): _cine_prologo(hud.mostrar_titulo))
 	hud.salir_al_titulo.connect(func(): hud.mostrar_titulo())
 	hud.mostrar_jefe(null)
 	Juego.cambio_estado.connect(_estado_cambio)
@@ -88,8 +89,7 @@ func _ready() -> void:
 	elif Juego.saltar_titulo:
 		Juego.saltar_titulo = false
 	else:
-		# al abrir el juego: primero el prólogo, después la pantalla de título
-		_cine_prologo(hud.mostrar_titulo)
+		hud.mostrar_titulo()
 
 
 # ---------- ambiente ----------
@@ -257,17 +257,14 @@ func _ubicar_heroe() -> void:
 func _empezar(nueva: bool) -> void:
 	if nueva:
 		Juego.nueva_partida()
-		# partida nueva: el prólogo de nuevo y después (cuando esté) la cinemática 2, la Arena y el trato con el rey;
-		# al terminar se rearma el mundo desde el principio
-		_cine_prologo(func():
-			Juego.saltar_titulo = true
-			get_tree().reload_current_scene.call_deferred())
+		Juego.saltar_titulo = true
+		get_tree().reload_current_scene.call_deferred()
 		return
 	_estado_cambio()
 
 
-## Cinemática 1, «El susurro de las raíces» (prólogo): 2.5D sobre pergamino. Se ve al abrir el juego (antes de la
-## pantalla de título) y otra vez al elegir «Nueva partida». Tapa el mundo mientras dura; `al_terminar` corre al
+## Cinemática 1, «El susurro de las raíces» (prólogo): 2.5D sobre pergamino. Se ve con el botón «Ver prólogo» de la
+## pantalla de título. Tapa el mundo mientras dura; `al_terminar` corre al
 ## final o al saltarla.
 func _cine_prologo(al_terminar: Callable) -> void:
 	hud.visible = false

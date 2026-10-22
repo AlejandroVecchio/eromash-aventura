@@ -6,6 +6,7 @@ extends CanvasLayer
 signal dialogo_terminado(id: String)
 signal empezar(nueva: bool)
 signal salir_al_titulo
+signal ver_prologo   ## botón «Ver prólogo» del título
 
 const FUENTE_TITULO := "res://assets/marca/fuentes/EromashDisplay-Bold.woff2"
 const FUENTE_TEXTO := "res://assets/marca/fuentes/EromashText-Regular.woff2"
@@ -706,7 +707,7 @@ func _armar_titulo(raiz: Control) -> void:
 	var caja := CenterContainer.new()
 	caja.add_child(botones)
 	v.add_child(caja)
-	for b in [["titulo_continuar", func(): _empezar(false)], ["titulo_nueva", func(): _empezar(true)], ["menu_video", func(): abrir_video(_titulo.find_child("menu_video", true, false))], ["pausa_salir", func(): get_tree().quit()]]:
+	for b in [["titulo_continuar", func(): _empezar(false)], ["titulo_nueva", func(): _empezar(true)], ["titulo_ver_prologo", func(): ver_prologo.emit()], ["menu_video", func(): abrir_video(_titulo.find_child("menu_video", true, false))], ["pausa_salir", func(): get_tree().quit()]]:
 		var bt := Button.new()
 		bt.text = tr(b[0])
 		bt.set_meta("clave", b[0])

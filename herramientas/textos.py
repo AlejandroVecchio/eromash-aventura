@@ -16,6 +16,7 @@ t("prueba_combate_velocidad", "Velocidad de ataque ×%.2f", "Attack speed ×%.2f
 t("juego_subtitulo", "Las Runas del Olvido", "Whisper of the Runes")
 t("titulo_continuar", "Continuar", "Continue")
 t("titulo_nueva", "Nueva partida", "New game")
+t("titulo_ver_prologo", "Ver prólogo", "Watch prologue")
 t("titulo_mvp", "Demo del Bosque de Eldervald · contenido en desarrollo", "Eldervald Forest demo · work in progress")
 t("pausa_titulo", "Pausa", "Paused")
 t("pausa_seguir", "Seguir", "Resume")
