@@ -124,7 +124,7 @@ Cuando Eromash llega, el Puesto está varado: el paso del norte cerró hace día
 - **Ingrid**, comerciante de Hrafngard. Iba al norte con una carreta cubierta y quedó varada. Vende parte de la carga para pagar la espera y evitar que se eche a perder. Su carreta funciona como primera tienda: pociones, vendas y algunas piezas de equipo. Regatea, remienda la lona y hace cuentas; el negocio sigue incluso mientras todos están preocupados.
 - **Arvid**, su hijo de siete años. Se aburre, inventa juegos con las marcas de las ruedas y mira a Eromash desde detrás de la carreta antes de animarse a acercarse. Le intriga el casco y le tiene un poco de miedo. Con las visitas empieza a reconocerlo y a esperar su regreso. Sus intervenciones son breves y no interrumpen conversaciones importantes.
 - **Ketil**, soldado de Hrafngard que escoltó a Eromash desde la Arena. Su misión incluye quedar como enlace en el Puesto mientras el paso esté cerrado: mantener las comunicaciones con Hrafngard, registrar la situación y coordinar la ayuda que llegue desde el sur. Ya envió un primer parte con un viajero que regresaba. Permanece porque el Puesto necesita ese enlace y porque su relevo depende de que se normalice el tránsito. Ayuda con la guardia, revisa las reparaciones de la palisada y recibe a quienes llegan. Para Eromash sigue siendo una presencia incómoda de la Arena: Ketil cumplió una escolta bajo órdenes, y todavía no está claro cuánto lo ve como una persona capaz de decidir por sí misma. Cuando el Paso vuelve a abrir, puede regresar con un informe completo y organizar el envío de suministros.
-- **Sigrun**, mujer de uno de los trabajadores desaparecidos. Vino desde Eikholt a esperar noticias porque el Puesto recibe a quienes llegan del sur y a los guardasendas que recorren las rutas. Se instala cerca del portón con una prenda de su marido para remendar. Cuando alguien entra, levanta la vista antes de que suene la campana. A veces lleva mucho tiempo con la aguja quieta. Le pone cara a lo que está en juego en EL-01 y EL-02.
+- **Sigrun**, mujer del trabajador herido en la pierna (decidido el 22/10/2026). Vino desde Eikholt a esperar noticias porque el Puesto recibe a quienes llegan del sur y a los guardasendas que recorren las rutas. Se instala cerca del portón con una prenda de su marido para remendar. Cuando alguien entra, levanta la vista antes de que suene la campana. A veces lleva mucho tiempo con la aguja quieta. Le pone cara a lo que está en juego en EL-01 y EL-02.
 - **Grima**, perra de rastreo vieja de Eydis. Duerme junto al farol y se levanta cuando alguien entra. Conoce las rutinas del Puesto y acompaña a Tove en las rondas cortas. Su edad se nota cuando se incorpora, pero todavía reconoce un olor antes que cualquiera.
 
 **Cómo está distribuido el espacio.** Un recinto de unos 45 × 35 metros, sujeto a comprobarlo desde la cámara de juego. La casa y las dependencias se agrupan alrededor de un patio compacto. La entrada desde Hrafngard queda al sudoeste; la salida hacia Eikholt, al noreste.
@@ -156,17 +156,42 @@ Cuando Eromash llega, el Puesto está varado: el paso del norte cerró hace día
 
 ### Carro volcado (camino norte)
 
-- **Qué es:** el carro de la cuadrilla, tirado en la senda hacia el Refugio.
-- **Cómo se ve:** herramientas caídas, un eje partido, marcas de arrastre, el farol del carrero en el suelo.
-- **Qué pasa:** EL-01. Eromash lo inspecciona: "Herramientas tiradas, un eje partido." / "Marcas de arrastre… van hacia el Refugio." Acá también hay un encuentro con dos lobos de zarzal (fauna desplazada que enseña combate).
-- **En el juego:** `carro-volcado.glb`, `Lantern_Wall` del kit.
+Versión de Alejandro (22/10/2026). La escena cuenta la huida de la cuadrilla antes de que hable Orm: la raíz, el eje partido, el yugo roto y el rastro hacia el Refugio se leen sin texto.
+
+**Qué pasó.** Es el carro de la cuadrilla, de bueyes, hecho por Orm y con su marca grabada en el costado. Cuando el Ciervo los atacó en el Paso, huyeron al sur con el herido arriba. El Ciervo los persiguió hasta esta curva y embistió el carro de costado: el eje quedó trabado contra una raíz enorme, el carro volcó y el buey rompió el yugo y escapó. Ahí se le quebró un trozo de asta. Orm se llevó el fragmento (lo entrega al final de EL-02, «se le quebró contra el carro»). La cuadrilla armó una camilla con dos varas largas, travesaños y una manta y siguió a pie hasta el Refugio.
+
+**Cómo se lee, en orden.**
+1. **El choque, primero.** El costado golpeado mira hacia donde llega el jugador: tablas hundidas, tres marcas que tienen la forma de la cornamenta (no tres zarpazos) y el eje trabado contra la raíz. Los tajos guardan un residuo azul muy débil, vida que perdió el guardián, y alguna hebra violeta casi imperceptible.
+2. **El asta incrustada.** Un trozo de asta sigue clavado en las tablas, con una fractura reciente donde falta la parte que recogió Orm.
+3. **Dos rastros distintos.** Del otro lado del carro salen hacia el Refugio los dos surcos de la camilla: levantaban un extremo y el otro dejaba dos marcas en el barro. Al costado van las pisadas de quienes tiraban y acompañaban al herido. Las pezuñas del buey se separan hacia el bosque. El jugador puede reconocer cuál es el de la cuadrilla.
+4. **Los lobos.** Dos lobos de zarzal flacos comen de los sacos de víveres abiertos. Es fauna que bajó del norte, como avisó Tove: el encuentro tiene una causa visible.
+5. **Dónde se detuvo el Ciervo.** Sus últimas huellas van hacia el sur y después giran hacia el norte, sin una barrera evidente. No hay runa ni explicación ahí: queda como misterio.
+
+**Qué ofrece el lugar en cada visita.** Los objetos existen sin volverse cuatro encargos a la vez: primero se ve el desastre y se sigue a los heridos; al volver, con la gente a salvo y después con la Lente, el mismo lugar ofrece otras lecturas.
+
+| Elemento | Primera visita (EL-01) | Después del rescate | Con la Lente (desde EL-03) |
+|---|---|---|---|
+| Farol del carrero | Cuelga de un poste de senda que ya está junto a la curva, apagado; se puede encender | Sigue encendido | — |
+| Cepillo de Orm | En los restos, con la marca de Orm (se reconoce antes de conocerlo) | Devolvérselo: un refuerzo sencillo de equipo, sin sistema de mejoras | — |
+| Talla para Sigrun | Se puede encontrar entre los restos | Llevársela: Sigrun la reconoce y habla de su marido; después ofrece el remiendo | — |
+| Jornal | Cofrecito atrapado debajo del carro | Orm todavía espera recuperar la paga, así el jugador sabe de quién es. Si Eromash se lo queda, Orm no lo descubre por arte de magia | — |
+| Buey | Solo las huellas | Orm dice que hay que recuperar al animal (secundaria corta). Arvid se encariña enseguida, aunque el buey sigue siendo de la cuadrilla | — |
+| Eco del choque | — | — | Breve y fragmentario: el impacto, la luz azul que se sacude entre las astas y, al fondo, una silueta estrecha inmóvil entre los troncos. Deja sospechar otra presencia; no demuestra que provocó el ataque |
+
+**Decisiones abiertas.**
+- ❓ Si los faroles de las sendas son puntos de descanso y reaparición. Antes hay que decidir cómo funciona eso en toda la campaña, porque cambia el recorrido, la recuperación y lo que cuesta morir.
+- ❓ El remiendo de Sigrun necesita una pieza que se pueda remendar (capa o similar) en el equipo de Eromash.
+
+**En el juego hoy:** `carro-volcado.glb`, `Lantern_Wall` del kit, dos lobos y las dos inspecciones ("Herramientas tiradas, un eje partido." / "Marcas de arrastre… van hacia el Refugio.").
+
+**Para construirlo.** Rehacer el carro de costado con el eje contra una raíz grande, tajos de cornamenta con un brillo azul tenue, el asta incrustada, los surcos de la camilla, las huellas del buey y del Ciervo, sacos abiertos, poste de senda con farol; los objetos y textos nuevos en ES/EN.
 
 ### Refugio de las Lindes (centro-noroeste)
 
 - **Qué es:** un círculo de mojones con un cobertizo bajo, donde la cuadrilla de Orm se protegió.
-- **Cómo se ve:** carro y pertenencias abandonadas a medias. La luz protectora es frágil, pero el recinto se distingue. Una piedra rúnica caída de su base.
+- **Cómo se ve:** la camilla de varas, mantas y las herramientas que lograron cargar, abandonadas a medias (sin segundo carro; decisión del 22/10/2026). La luz protectora es frágil, pero el recinto se distingue. Una piedra rúnica caída de su base.
 - **Qué pasa:** final de EL-01 (Orm) y toda EL-02 (errantes, piedra, primera voz rúnica, evacuación).
-- **En el juego:** `cobertizo-refugio.glb`, `piedra-runica.glb` (la piedra caída), un segundo carro.
+- **En el juego:** `cobertizo-refugio.glb`, `piedra-runica.glb` (la piedra caída). El segundo carro que hay hoy se quita.
 
 ### Eikholt (centro)
 
