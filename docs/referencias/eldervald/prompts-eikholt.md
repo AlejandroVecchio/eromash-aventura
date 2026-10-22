@@ -42,6 +42,8 @@ Lo que no puede cambiar entre imágenes (también va dentro de cada prompt, en i
 - **Azul rúnico** `#73D5DB`: lo antiguo. Aparece en pocos lugares, y por eso se lee de lejos: la cúpula rúnica y sus doce piedras, la losa del patio de la Casa de las Lindes y vetas muy finas en las raíces más viejas del Roble.
 - **Sin luz:** la piedra del Ting. Es lo desconocido.
 
+**Estandarte oficial de Eikholt** (Alejandro, 22/10/2026): la cornamenta del Ciervo en blanco hueso sobre verde oscuro, en las torres de las puertas, la Guardia y los edificios públicos.
+
 ---
 
 ## Bloques comunes
@@ -60,7 +62,7 @@ Eikholt is the forest capital, a large timber town in a wide clearing roughly 30
 
 **ARCHITECTURE AND PEOPLE**
 ```
-Architecture: dark damp timber houses on stone plinths, steep shingle roofs with moss, deep eaves and covered porches, small warm windows, geometric carvings on important beams, amber protective runes carved over doors. Older houses nestle between the Oak's roots; nothing is built in the treetops except the lookout. Smoke from many chimneys. Signs of maintenance and repair everywhere, not ruins. People: Elderians, a human forest culture of varied ages, builds and skin tones; wool, coarse linen, waxed leather, tall boots, short cloaks in muted greens, ochres and smoke blue; braided or tied-back hair; working hands. Not everyone wears furs, helmets or weapons. Visitors from other northern realms stand out by their clothing and goods.
+Architecture: dark damp timber houses on stone plinths, steep shingle roofs with moss, deep eaves and covered porches, small warm windows, geometric carvings on important beams, amber protective runes carved over doors. Older houses nestle between the Oak's roots; nothing is built in the treetops except the lookout. The official banner of Eikholt is a stylized stag's antlers in bone-white on a dark forest-green field; it hangs from the gate towers, the Guard barracks and public buildings, never on every house. Smoke from many chimneys. Signs of maintenance and repair everywhere, not ruins. People: Elderians, a human forest culture of varied ages, builds and skin tones; wool, coarse linen, waxed leather, tall boots, short cloaks in muted greens, ochres and smoke blue; braided or tied-back hair; working hands. Not everyone wears furs, helmets or weapons. Visitors from other northern realms stand out by their clothing and goods.
 ```
 
 **PROHIBIDO** (va al final de cada prompt)
