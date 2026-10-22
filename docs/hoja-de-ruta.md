@@ -73,7 +73,7 @@ Las siete están armadas en `scripts/autoload/juego.gd` (objetivos) y `scripts/m
 - ✅ Modelos 3D: Eromash, Eydis, Orm, Svanhild, armas, enemigos, Ciervo, Roble, Santuario, pedestal, piedras rúnicas (`docs/assets.md`).
 - 🔵 PR #6: sombras al aire libre que dejan ver y faroles con sombra.
 - 🔵 PR #5: pies que no patinan.
-- ⬜ Árboles propios en 3D, viejos, enormes y con musgo (referencia: `docs/referencias/eldervald/puesto-eydis-v1.png`, ver `docs/eldervald.md` 9.2).
+- ⬜ Árboles propios en 3D, viejos, enormes y con musgo (referencia: `docs/referencias/eldervald/puesto-eydis-v2.png`, ver `docs/eldervald.md` 9.2).
 - ⬜ Identidad 3D propia (casas nórdicas, árboles, interactuables, un hito por zona): propuesta en `docs/pendientes.md`.
 
 ### PRs de mejoras chicas, todos esperando revisión
