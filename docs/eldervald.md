@@ -211,7 +211,7 @@ Versión de Alejandro (22/10/2026). Es el primer lugar donde el bosque reconoce 
 - **Gunnar**, el mayor, casi no habla: revisa los nudos de la camilla, dobla una manta, vuelve a revisar los nudos.
 - **Eskil** permanece cerca de la base, mirando la pieza que cedió.
 
-**El momento de la voz (EL-02).** Eromash termina de asentar la piedra y escucha «Ayudame a sostenerlo». Levanta la vista hacia las personas del círculo: ninguna habló. Llega el «Yo no dije nada» de Eydis y la luz vuelve a recorrer el círculo, mojón por mojón, hasta encender los siete.
+**El momento de la voz (EL-02).** Eromash termina de asentar la piedra y escucha «Ayudame a sostenerlo». Levanta la vista hacia las personas del círculo: ninguna habló. Llega el «Yo no dije nada» de Eydis y la luz vuelve a recorrer el círculo, mojón por mojón, hasta encender los siete. Cada mojón suena al encenderse con un tono propio; los siete juntos dejan oír el motivo de la dirección sonora en el primer momento rúnico (aceptado por Alejandro, 22/10/2026).
 
 **Para el jugador curioso.**
 1. **El poste de tablillas.** Al inspeccionarlo, una forma breve de reconocer las dos que importan sin leer cientos de nombres: la de Halvard, casi comida por el tiempo, y la primera de Eydis, tallada con demasiado cuidado.
@@ -523,6 +523,7 @@ Valores de `scripts/personajes/enemigo.gd`; detectan al héroe a 13 m. Los encue
 
 - **Lobo de zarzal:** silueta baja, hocico largo, pelaje gris pardo con restos vegetales; acecha de costado y corre. Sin ojos mágicos.
 - **Errante de Helheim:** figura humana estrecha, ropa funeraria ajena al bosque, placas de hierro mate, rostro seco y pálido, marcha quebrada.
+- **Regla de la luz, enseñada sin texto** (Alejandro, 22/10/2026): un errante acerca la mano al límite de una luz rúnica y la retira. El gesto aparece por primera vez en el Refugio y se repite en otros lugares con runas, para que el jugador aprenda que la luz protege.
 - **Custodio de corteza:** cuerpo ancho de madera y piedra, núcleo rúnico intermitente, extremidades asimétricas, movimientos pesados. Defiende un lugar antiguo.
 - 💡 **Otros del bestiario de trabajo, fuera del MVP:** jabalí de turbera (raspa el suelo antes de cargar) e Hilandera del duelo (silueta alta con velo rasgado; la que teje las ataduras en la propuesta narrativa; primero sus rastros, después su presencia).
 
@@ -588,6 +589,7 @@ Dirección sonora aprobada por Alejandro el 21/10/2026: **el bosque recuerda una
 
 - **Ambiente** (el 70 % del tiempo): gotas, hojas, madera que cruje, insectos, río. Los tramos densos amortiguan viento y voces. Cerca de los pueblos: la rueda, el serrucho, vajilla, conversaciones.
 - **Las runas:** resonancia localizada que anticipa el contacto; cada piedra zumba en su propia nota. Nada de susurros constantes en toda la mezcla.
+- **Los siete mojones del Refugio** (EL-02): un tono por mojón cuando la luz recorre el círculo; juntos forman el motivo. Pedido al catálogo de efectos rúnicos el 22/10/2026.
 - **Música:** por momentos, con silencios largos. Re dórico para todo Eldervald. Ámbar (kantele, fiddle, tarareo) para lo humano y azul (cristal, drone, voz lejana) para lo rúnico. Motivo del yelmo: una frase de 4–5 notas que nunca se resuelve en el MVP. Adaptativa: ambiente → exploración → tensión → combate → fin.
 - **Producción:** Alejandro genera música, ambientes y efectos con ElevenLabs a partir del catálogo de prompts. Hoy suenan efectos CC0 provisorios (`assets/audio/sfx/`).
 - **Voces:** ⬜ los personajes todavía no tienen voz en el juego (💡 en la hoja de ruta: Eydis, Orm, Svanhild, Eromash y una voz distinta por piedra).
