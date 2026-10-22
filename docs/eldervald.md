@@ -110,6 +110,48 @@ Posiciones en metros desde el centro (x hacia el este, z hacia el sur) y radio d
 - **Qué pasa:** EL-01 empieza acá. Eydis da el croquis.
 - **En el juego:** cobertizo (`cobertizo-refugio.glb`), faroles, Eydis en `eydis_puesto`.
 
+#### 💡 El Puesto imaginado (propuesta del 22/10/2026, sin aprobar)
+
+**Qué es de verdad.** El último lugar de afuera y el primero de adentro. Es la casa de los guardasendas del sur: desde acá se cuidan las sendas que unen Hrafngard con Eikholt, se anota quién entra al bosque y se manda ayuda cuando alguien no vuelve. No es un fuerte ni una aldea: es una casa grande con su patio, su palisada y la gente que la mantiene. Cuando Eromash llega, el Puesto está **varado**: el norte cerró hace días, la cuadrilla no volvió y nadie sabe si seguir esperando.
+
+**Quiénes viven y quiénes esperan (siete personas y un perro).**
+
+| Quién | Qué hace | Qué le pasa ahora | Para qué sirve en el juego |
+|---|---|---|---|
+| **Eydis** | Guardasendas a cargo | Ella mandó a la cuadrilla al Paso y la culpa la tiene despierta | Da EL-01 |
+| **Halvard**, unos setenta años | Guardasendas retirado; cuida el farol, la huerta y el fuego. Ya no camina lejos | Cuenta que vio pasar al Ciervo de joven, "más alto que el portón" | Voz del pasado del bosque; prepara el recuerdo de Eydis en EL-04 |
+| **Tove**, dieciséis años | Aprendiz de guardasendas; corre las sendas cercanas | Quería ir con la cuadrilla y Eydis no la dejó. Está enojada y con ganas de probarse | Gancho de secundaria (por ejemplo, sale sola a buscar algo y hay que encontrarla) |
+| **Ingrid** | Comerciante de Hrafngard con una carreta cubierta | Iba al norte con mercadería y quedó varada; vende lo que tiene para no perderlo | Primera tienda: pociones, vendas, algo de equipo |
+| **Arvid**, siete años | Hijo de Ingrid | Se aburre; sigue a Eromash, le pregunta por el casco, le tiene un poco de miedo | Calidez; reacciona a lo que hace Eromash (lo ve volver cada vez) |
+| **Ketil** | Soldado de Hrafngard que escoltó a Eromash desde la Arena | Sus órdenes llegaban hasta acá: "Hasta el Puesto, ni un paso más". Espera para volver a dar el parte | Une la Arena con el bosque; recuerda de dónde viene Eromash sin explicar nada |
+| **Sigrun** | Mujer de uno de los trabajadores desaparecidos | Vino desde Eikholt a esperar noticias; no se va hasta saber | Le pone cara a la cuadrilla: lo que está en juego en EL-01 y EL-02 |
+| **Grima** | Perra de rastreo vieja de Eydis | Duerme junto al farol; se levanta cuando alguien entra | Avisa (ladra) y acompaña a Tove |
+
+**Cómo está distribuido el espacio** (unos 45 × 35 m, más grande que la zona actual de 14 m de radio). Se recorre en el orden en que llega el jugador, desde el camino de Hrafngard (sudoeste) hacia la salida a Eikholt (noreste):
+
+1. **El portón y el farol de entrada.** El camino de Hrafngard entra por el oeste, a través de una palisada de troncos con partes recién reparadas (madera más clara). Junto al portón, el **farol alto**: un poste tallado con un farol que, por costumbre, no se apaga mientras alguien del Puesto está afuera. Está encendido de día. Al pie, una campana de aviso.
+2. **El patio.** Tierra apisonada, charcos, huellas de ruedas. En el centro, la **carreta cubierta de Ingrid**, con la lona remendada, cajas abiertas y una manta en el piso a modo de mostrador. Un fuego de piedras con una olla donde Halvard cocina para todos.
+3. **La casa de los guardasendas.** Un solo edificio grande de madera oscura sobre zócalo de piedra, techo de paja y tablas, chimenea con humo. Al frente, un **porche con la mesa de rutas**: el mapa del sur tallado en una tabla, con clavijas que marcan quién anda por dónde, protegido de la lluvia por el alero. Acá Eydis le da el croquis a Eromash.
+4. **El tablero de las tablillas.** En la pared del porche, la costumbre del bosque hecha objeto: una tablilla de madera con el nombre de cada viajero que entró. Las doce de la cuadrilla de Orm siguen colgadas del lado oscuro. Cuando vuelven, se les da vuelta al lado claro. Es la forma de ver el rescate sin que nadie lo diga.
+5. **La atalaya.** Detrás de la casa, una torre baja de vigía, de dos pisos, con escalera de mano. Desde arriba se ven el Túmulo de los Juramentos al norte y el camino a Eikholt.
+6. **La huerta.** Al este, cercada con estacas: coles, raíces, hierbas y un rincón sombreado con troncos donde se cultivan orejas de ámbar (los hongos de luz cálida). Halvard pasa el día ahí.
+7. **La leñera y el ahumadero.** Leña apilada contra la palisada, pieles estiradas en marcos, trampas colgadas, pescado y carne ahumándose. Lanzas de repuesto en un tonel.
+8. **El cobertizo de viajeros.** Saliendo por una senda corta al noreste, un cobertizo abierto con camastros de paja donde duermen Ingrid, Arvid y Ketil. Ropa tendida, un baúl, el caballo de la carreta atado.
+9. **Afuera, al oeste.** Una **piedra rúnica que brilla violeta** (como en el mapa) a unos metros de la palisada. Nadie del Puesto se le acerca; Halvard dice que "cambió de color el invierno pasado". Con la Lente, en una visita posterior, muestra ataduras como las del Ciervo. Es un rastro chico de que lo que le pasa al bosque empezó antes, sin explicarlo.
+
+**Qué se ve, se oye y se huele.** Ámbar por todos lados: el farol, el fuego, las ventanas; el azul rúnico solo llega desde lejos y el violeta de la piedra de afuera inquieta. Humo de leña, pescado ahumado, tierra mojada. Gallinas, la campana cuando entra alguien, la perra, Arvid corriendo, Ingrid regateando, el hacha de Halvard. Las conversaciones son bajas: todos están esperando algo.
+
+**Cómo cambia con la historia.**
+
+- **Al llegar (EL-01):** tenso. Sigrun junto al portón mirando el camino norte; las doce tablillas del lado oscuro; Tove enojada en la atalaya.
+- **Después del rescate (EL-02):** Eydis se fue al Refugio y luego a Eikholt; Halvard da vuelta las tablillas una por una. Sigrun se va a Eikholt a esperar a su marido herido. El farol sigue encendido porque Eydis está afuera.
+- **Después del Paso (EL-06):** Ingrid carga la carreta para seguir al norte (se la puede volver a encontrar en el Paso); Ketil vuelve a Hrafngard con la noticia. El Puesto queda más vacío y más tranquilo.
+- **Al final:** cuando Eydis decide quedarse en el Paso, Halvard deja el farol encendido igual, "por las dudas".
+
+**Qué le aporta a los 40 minutos.** Primeros 3 a 5 minutos de juego: un lugar seguro para aprender a moverse, hablar e interactuar (la mesa de rutas, el tablero) antes del primer peligro; la primera tienda; dos o tres personajes que reaparecen; y el gancho de una secundaria (Tove) y de un misterio chico (la piedra violeta).
+
+**Lo que habría que hacer para construirlo.** Ampliar la zona del Puesto en `datos.gd`; cuatro NPC nuevos (Halvard, Tove, Ingrid con Arvid, Ketil, Sigrun) con sus diálogos ES/EN; modelos de la casa grande, la atalaya, la carreta cubierta, el tablero de tablillas y la mesa de rutas (Tripo o el kit de aldea); el farol alto ya existe como `farol-camino.glb`.
+
 ### Carro volcado (camino norte)
 
 - **Qué es:** el carro de la cuadrilla, tirado en la senda hacia el Refugio.
