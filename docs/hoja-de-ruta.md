@@ -85,9 +85,108 @@ Las siete están armadas en `scripts/autoload/juego.gd` (objetivos) y `scripts/m
 
 ⬜ Sin empezar. Primero hay que definir el orden de las regiones después de Eldervald.
 
+## 4. Ideas para sumar (propuestas, sin aprobar)
+
+Banco de ideas para elegir. Ninguna está aprobada: antes de construir una, Alejandro la confirma (regla "no adelantarse") y pasa a la sección de su etapa con ⬜. Cada una dice dónde encaja: **MVP**, **Demo** o **Completo**. Las del MVP amplían su alcance actual (`misiones-principales-eldervald.md`, sección 8, deja las secundarias afuera), así que sumarlas es también una decisión de alcance.
+
+### 4.1 Misiones menos directas
+
+Que llegar al objetivo cueste pensar y explorar, sin dejar al jugador perdido: cada paso sigue nombrando una persona, un lugar o una acción.
+
+- **Indicaciones habladas en vez de marcador exacto.** El diario y el minimapa marcan una zona ("al norte del Refugio, cerca del arroyo"), no un punto. Un ajuste de Opciones elige entre marcador exacto, zona o nada. **MVP**
+- **Rastreo de verdad en EL-04.** Las huellas del Ciervo se pierden en el agua o en roca; hay que buscar la siguiente con la Lente en un radio. Pistas falsas de otros animales que llevan a un nido o a un cofre. **MVP**
+- **Obstáculos en el camino de cada misión.** Un árbol caído obliga a rodear por la quebrada, un puente colgante roto pide buscar otro cruce, una zona de zarzas se rodea por arriba. **MVP**
+- **Acertijos rúnicos cortos.** Piedras que hay que encender en orden leyendo una inscripción con la Lente, un mecanismo que se gira hasta que las runas coinciden con el calco. Uno por misión como mucho. **MVP**
+- **Conversaciones que piden atención.** Un NPC menciona un detalle ("el carro iba con el eje flojo") que después sirve para encontrar algo; no se marca solo. **MVP**
+- **Caminos con más de una forma de resolverse.** En EL-02, despejar a los errantes peleando o encendiendo los faroles del círculo para espantarlos. **MVP**
+- **El croquis de Eydis se completa explorando.** El mapa empieza con huecos y se dibuja a medida que se recorre, con trazo de tinta. **MVP**
+
+### 4.2 Misiones secundarias
+
+Chicas, con personajes propios y algo que cuentan del bosque, nunca recados de "traeme 10". Lugares que el MVP ya reserva: Brunvik, Skarnholt, túmulo, caravana y torre.
+
+- **La caravana detenida.** Comerciantes varados por los errantes; protegerlos de noche en el campamento. Desbloquea al primer comerciante. **MVP/Demo**
+- **El túmulo que respira.** Un túmulo antiguo con una piedra que habla con su propia esencia (no Runa). Mini mazmorra corta con un jefe menor y un fragmento de historia del bosque, sin pistas del pasado de Eromash. **Demo**
+- **La torre del vigía.** Subir a la torre en ruinas, repararle el farol y desbloquear la vista del mapa de la zona. **MVP**
+- **El trabajador que falta.** Uno de la cuadrilla de Orm no volvió al Refugio: buscarlo con la Lente siguiendo rastros. Termina bien o mal según lo rápido que se lo encuentre. **MVP**
+- **Brunvik y el pozo envenenado.** Un caserío con el agua corrompida; seguir el agua hasta la raíz enferma que la contamina. **Demo**
+- **Skarnholt, los leñadores rivales.** Dos familias pelean por un claro; elegir a quién ayudar cambia qué te venden y un diálogo final. **Completo**
+- **Las piedras dormidas.** Cinco piedras rúnicas apagadas por el bosque; despertarlas una a una da una pequeña mejora permanente y una línea de su esencia. **MVP**
+- **Pedidos de los aldeanos de Eikholt.** Tablero con encargos cortos: cazar un lobo marcado, encontrar una herramienta perdida, escoltar a una niña hasta el Refugio. **MVP/Demo**
+- **El cazador de trofeos.** Enemigos élite con nombre en zonas apartadas (por ejemplo, un lobo de zarzal gigante) con botín propio. **Demo**
+- **Los pilares del Hilo.** Los dos pilares desconectados cerca de la caravana se pueden investigar con la Lente y dejan una entrada de diario que anticipa el Hilo de Resonancia. **MVP**
+
+### 4.3 Personajes y voces
+
+- **Voces para Eydis, Orm, Svanhild y Eromash** con ElevenLabs (plan pago, uso comercial), en español e inglés, en las líneas principales de cada misión. **MVP**
+- **Murmullos para el resto**: frases cortas de saludo, sorpresa y despedida en aldeanos y trabajadores, sin doblar todo. **MVP**
+- **Voz propia para cada piedra rúnica**: cada esencia suena distinto (grave, cansada, aguda), con efecto de eco. **MVP**
+- **Eromash comenta en voz alta** al descubrir lugares o al quedarse sin pistas ("Las huellas se cortan acá."). Pocas líneas, sobrias. **MVP**
+- **Charlas de fondo** entre NPC al pasar (dos trabajadores, Eydis con un guardia). **Demo**
+- **Rutinas de día y noche** de los NPC: trabajan, comen, duermen. **Completo**
+- **Animales y aldeanos con vida**: ciervos, cuervos y zorros que huyen; niños que corren en Eikholt. **Demo**
+- **Compañero opcional**: Eydis acompaña en ciertos tramos y ayuda en la pelea. **Completo**
+- **Retratos con expresiones** en el recuadro de diálogo (neutral, preocupado, enojado). **MVP**
+
+### 4.4 Combate y enemigos
+
+- **Más variedad en Eldervald**: errante arquero, lobos que atacan en manada y rodean, custodio que se cubre con corteza y hay que romperla. **MVP/Demo**
+- **Enemigos élite** con modificadores (quemadura, veneno, frío) tomados de la arena (`eromash-juego/docs/elites.md`). **Demo**
+- **Ataque cargado y golpe de remate** cuando el enemigo queda aturdido. **Demo**
+- **Parada perfecta**: bloquear justo a tiempo devuelve el golpe. **Demo**
+- **Habilidades rúnicas** que se aprenden de las piedras despertadas (empuje de luz, escudo rúnico), con recarga. **Completo**
+- **Un segundo jefe opcional** en el túmulo, con las reglas fijas de los jefes de la arena (aviso en el piso, tope del 35 %, saltar evita todo, nunca tres veces el mismo ataque). **Demo**
+- **Dificultad elegible** (Historia, Normal, Difícil). **Demo**
+
+### 4.5 Progresión y botín
+
+- **Niveles y atributos** como en la arena, adaptados a la aventura. **Demo**
+- **Botín con rarezas** (común, rara, épica, legendaria) siguiendo `eromash-juego/docs/botin.md`. **Demo**
+- **Comerciante y herrero** en Eikholt: comprar, vender, mejorar piezas. **Demo**
+- **Equipo que se ve en el cuerpo** al cambiar piezas (sigue del banco `docs/prueba-equipo.md`). **MVP/Demo**
+- **Cofres escondidos** que solo muestra la Lente, y cofres con trampa. **MVP**
+- **Coleccionables con historia**: tablillas de ruta de Eydis, páginas de registros, runas talladas; cada uno suma una entrada al diario. **MVP**
+- **Recetas de pociones** con plantas del bosque. **Completo**
+
+### 4.6 Mundo y exploración
+
+- **Ciclo de día y noche** con niebla y enemigos distintos de noche. **Demo**
+- **Clima**: lluvia, niebla espesa, viento en las copas. **Demo**
+- **Fogatas como puntos de descanso y guardado**, que reponen pociones y reaparecen enemigos comunes. **MVP**
+- **Viaje rápido** entre piedras rúnicas despertadas. **Demo**
+- **Cuevas chicas** con oscuridad total y antorcha (criterio de sombras de `direccion-artistica.md`, 5c). **Demo**
+- **Nadar o vadear** el río en tramos poco profundos. **Completo**
+- **Escalar** salientes marcados con musgo rúnico. **Completo**
+- **Pesca o caza** como pausa tranquila. **Completo**
+
+### 4.7 Historia y cinemáticas
+
+- **Prólogo jugable en la Arena**: la última pelea en la fosa como tutorial de combate, antes del bosque. **Demo**
+- **Cinemáticas cortas con el motor** para EL-01 (llegada al Puesto), EL-02 (la piedra habla), EL-05 (muerte del Ciervo) y EL-07 (la mano en el Santuario). **MVP**
+- **Diario escrito por Eromash**, con su voz, que resume cada misión. **MVP**
+- **Final de la demo** con un adelanto del Bastión de Hrimvard. **Demo**
+
+### 4.8 Interfaz y calidad de vida
+
+- **Remapeo de controles** para teclado y mando. **MVP**
+- **Accesibilidad**: tamaño de subtítulos, daltonismo para los colores rúnicos, menos sacudida de cámara. **Demo**
+- **Modo foto** con la cámara libre (aprovecha el modo admin). **Demo**
+- **Varias ranuras de guardado** y guardado automático visible. **MVP**
+- **Pantallas de carga con arte e historia** mientras se arma el mundo. **MVP**
+- **Brújula rúnica** arriba de la pantalla con los objetivos y lugares cercanos. **MVP**
+
+### 4.9 Steam y lanzamiento
+
+- **Logros** (despertar todas las piedras, vencer al Ciervo sin recibir daño, encontrar todos los coleccionables). **Demo**
+- **Nube de Steam** para la partida. **Demo**
+- **Tráiler** con escenas del juego y la música propia. **Demo**
+- **Prueba con jugadores** (amigos o la comunidad del stream) antes del Next Fest, con un formulario corto. **Demo**
+- **Localización a más idiomas** (portugués primero, por la comunidad). **Completo**
+
 ## Próximos pasos sugeridos
 
 1. Revisar y unir los PRs abiertos (14 en total), empezando por los chicos (#8–#16), que no chocan con nada.
 2. Resolver las preguntas abiertas de `docs/objetivos.md`, sección 5.
 3. Pasada jugada del MVP completo en la PC, midiendo FPS con F3 (Paso F).
 4. Cerrar los provisorios de las misiones (tabla de arriba).
+5. Elegir de la sección 4 qué ideas entran al MVP y cuáles quedan para la demo.
