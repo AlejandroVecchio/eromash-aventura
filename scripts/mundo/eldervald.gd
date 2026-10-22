@@ -72,7 +72,7 @@ func _ready() -> void:
 	hud.dialogo_terminado.connect(_al_terminar_dialogo)
 	hud.empezar.connect(_empezar)
 	hud.salir_al_titulo.connect(func(): hud.mostrar_titulo())
-	hud.ver_cinematica.connect(func(): _cine_prologo(hud.mostrar_titulo))
+	hud.ver_prologo.connect(func(): _cine_prologo(hud.mostrar_titulo))
 	hud.mostrar_jefe(null)
 	Juego.cambio_estado.connect(_estado_cambio)
 	Juego.fin_demo.connect(func(): get_tree().create_timer(1.0).timeout.connect(hud.mostrar_fin))
@@ -264,7 +264,7 @@ func _empezar(nueva: bool) -> void:
 
 
 ## Cinemática 1, «El susurro de las raíces» (prólogo): 2.5D sobre pergamino (versión provisoria con capas PNG;
-## va a reemplazarse por los clips de IA de video). No arranca sola: se ve desde «Ver cinemática» en la pantalla
+## va a reemplazarse por los clips de IA de video). No arranca sola: se ve desde «Ver prólogo» en la pantalla
 ## de título (Alejandro, 21/10/2026). Tapa el mundo mientras dura; `al_terminar` corre al final o al saltarla.
 func _cine_prologo(al_terminar: Callable) -> void:
 	hud.visible = false
