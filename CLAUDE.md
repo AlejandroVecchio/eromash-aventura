@@ -42,6 +42,7 @@ Nombre del juego: **EROMASH: Las Runas del Olvido** (ES) / **EROMASH: Whisper of
 | **Campaña completa**: recorrido de punta a punta, herramientas y retornos obligatorios. **Manda sobre la historia** (22/10/2026) | `docs/campana-completa.md` |
 | **Objetivos del juego**: qué es, plataforma, etapas (MVP, demo, juego completo) y qué cuenta como terminado | `docs/objetivos.md` |
 | **Hoja de ruta (TO-DO)**: estado de cada misión, sistema y PR, y lo que falta | `docs/hoja-de-ruta.md` (marcar lo que se cierra en el mismo commit) |
+| **Personajes recurrentes**: forasteros de otras regiones que se conocen en Eikholt y vuelven más adelante | `docs/personajes-recurrentes.md` (mirar antes de diseñar una región nueva) |
 | Decisiones abiertas y trabajo propuesto que espera el visto bueno de Alejandro | `docs/pendientes.md` (leer antes de empezar algo nuevo) |
 | Mapas: mundo, Eldervald, regiones, Valdheim | `docs/mapas/` |
 | Referencias de Eromash (vistas, poses, Tripo) y de objetos a modelar | `docs/referencias/` |

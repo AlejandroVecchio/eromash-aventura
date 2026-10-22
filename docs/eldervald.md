@@ -231,6 +231,8 @@ Versión de Alejandro (22/10/2026). Es el primer lugar donde el bosque reconoce 
 - **Qué pasa:** EL-02 (llegada de los rescatados), EL-03, EL-07, y es el centro de la red de caminos.
 - **En el juego:** `roble-eikholt.glb`, casas modulares del Medieval Village MegaKit (`casa()` en `escenario.gd`), oclusores para rendimiento.
 
+- **Capital imaginada (💡 propuesta del 22/10/2026, en revisión):** el documento "Eikholt, capital de Eldervald" (https://claude.ai/artifact/54Zi2sScz75F3g1naUdZNF) la expande como capital de los elderianos: barrios, Asamblea del Roble, 13 vecinos, seis forasteros de otras regiones (`docs/personajes-recurrentes.md`), rutinas, Noche de los Faroles y secundarias. Se pasa acá cuando Alejandro la cierre.
+
 ### Casa de las Lindes (borde oeste de Eikholt)
 
 - **Qué es:** la casa de Svanhild, custodia de registros e instrumentos.
