@@ -54,7 +54,7 @@ Seguir la historia por los reinos que nombra `docs/historia-y-cinematicas.md` (n
 
 ## 5. Preguntas abiertas para estos objetivos
 
-- **Nombre:** `misiones-principales-eldervald.md` y `direccion-artistica.md` todavía dicen "El Susurro de las Runas"; `CLAUDE.md` dice "Las Runas del Olvido". ¿Cuál queda?
+- **Nombre:** el título en español ("Las Runas del Olvido") no es la traducción del inglés ("Whisper of the Runes"), que sería "El Susurro de las Runas", como dicen todavía `misiones-principales-eldervald.md` y `direccion-artistica.md` (Alejandro, 22/10/2026). Falta decidir si se unifican y hacia cuál.
 - **Salida del Paso:** el documento de misiones manda al norte, hacia Jarnskald; la historia (que manda) lleva al Bastión de Hrimvard. ¿Se cambia Jarnskald por Hrimvard en el MVP?
 - **Demo:** ¿el MVP entero o una parte?
 - **Cooperativo:** la arena tiene cooperativo de hasta 4; el documento de misiones dice "un jugador" y deja la puerta abierta. ¿La aventura es solo de un jugador?
