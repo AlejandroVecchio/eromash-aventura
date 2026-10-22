@@ -38,6 +38,8 @@ Nombre del juego: **EROMASH: Las Runas del Olvido** (ES) / **EROMASH: Whisper of
 | Cómo está armado el MVP (archivos, controles, animaciones compartidas, provisorios, pruebas sin pantalla) | `docs/mvp.md` |
 | Qué assets usa el mundo (árboles, rocas, muros, techos, suelos, modelos propios) y cómo sumar uno | `docs/assets.md` (actualizarlo cuando se suma o deja de usar un asset) |
 | **Animaciones humanas**: banco de 44 clips (Universal Animation Library, CC0) ya conectado, cómo pasarlos a cada esqueleto y qué clip sirve para qué | `docs/banco-animaciones.md` (**mirar acá antes de pedir o hacer una animación**) |
+| **Objetivos del juego**: qué es, plataforma, etapas (MVP, demo, juego completo) y qué cuenta como terminado | `docs/objetivos.md` |
+| **Hoja de ruta (TO-DO)**: estado de cada misión, sistema y PR, y lo que falta | `docs/hoja-de-ruta.md` (marcar lo que se cierra en el mismo commit) |
 | Decisiones abiertas y trabajo propuesto que espera el visto bueno de Alejandro | `docs/pendientes.md` (leer antes de empezar algo nuevo) |
 | Mapas: mundo, Eldervald, regiones, Valdheim | `docs/mapas/` |
 | Referencias de Eromash (vistas, poses, Tripo) y de objetos a modelar | `docs/referencias/` |
