@@ -52,6 +52,12 @@ Las siete están armadas en `scripts/autoload/juego.gd` (objetivos) y `scripts/m
 | Rendimiento (distancias, Activador, LOD, oclusión) | ✅ | Falta medir FPS en la PC; el mundo tarda ~20 s en armarse |
 | Pruebas sin pantalla (combate 118, interfaz 90) | ✅ | `docs/mvp.md`, Pruebas sin pantalla |
 | Ciudades que cargan aparte (aprobado por Alejandro el 22/10/2026), para Eikholt y todas las capitales: la ciudad es su propia escena, se carga en segundo plano al cruzar un anillo exterior (~80 m) y se descarga al alejarse más allá de él; desde afuera queda una silueta liviana; los habitantes siguen un horario y al cargar aparecen donde estarían a esa hora; el estado permanente vive en `Juego` | ⬜ | Documento "Eikholt, capital de Eldervald". Depende de decidir si hay ciclo de día y noche; falta definir qué pasa con un enemigo que persigue hasta la puerta y cómo las escenas de misión pisan el horario |
+| Mundo por sectores: el bosque (y cada región) dividido en sectores que cargan y descargan según dónde está el jugador, en vez de armar todo Eldervald de una vez (aprobado por Alejandro el 22/10/2026, «toda mejora es bienvenida») | ⬜ | La mejora más grande; necesaria para sumar regiones |
+| Niveles de vida de los personajes: cerca, todo (animación, mirada, reacciones); a media distancia, animación más lenta y sin lógica; lejos, quietos o figuras simples | ⬜ | Aprobado el 22/10/2026; clave para los 25 personajes de Eikholt |
+| Luz horneada en lo que no se mueve (casas, Roble): solo los faroles cercanos con luz real | ⬜ | Aprobado el 22/10/2026; colgado de Opciones → Video donde corresponda |
+| Precompilar materiales y efectos durante la carga, para que entrar a un lugar nuevo no tenga tirones | ⬜ | Aprobado el 22/10/2026 |
+| Objetos repetidos dibujados en bloque (barriles, cintas, hongos, huertas) | ⬜ | Aprobado el 22/10/2026 |
+| Carga anticipada según hacia dónde va el jugador (un camino que solo lleva a la ciudad empieza a cargarla antes del anillo) | ⬜ | Aprobado el 22/10/2026; parte del sistema de ciudades |
 
 ### Cinemáticas
 
