@@ -93,7 +93,7 @@ Posiciones en metros desde el centro (x hacia el este, z hacia el sur) y radio d
 | Quebrada de rastreo | −152, −97 | 8 m | EL-04 | ✅ |
 | Entrada del Claro | −170, −99 | 7 m | EL-04, EL-05 | ✅ |
 | Claro del Ciervo | −199, −109 | 30 m | EL-05 | ✅ |
-| Aserradero de Orm | 101, −58 | 16 m | EL-07 (tránsito) | 🟡 rueda provisoria |
+| Aserradero de Orm | 101, −58 | 16 m | EL-07 (tránsito) | 🟡 rueda por código; el modelo 3D ya existe |
 | Santuario de las Raíces | 210, −96 | 16 m | EL-07; segunda visita | ✅ exterior |
 | Brunvik | 152, 28 | 14 m | Reservado | ⬜ silueta |
 | Ruinas de Skarnholt | −191, −21 | 14 m | Reservado | ⬜ silueta |
@@ -161,7 +161,7 @@ Posiciones en metros desde el centro (x hacia el este, z hacia el sur) y radio d
 
 - **Qué es:** el taller de Orm. Hito de orientación y tránsito hacia el Santuario; no da misión principal.
 - **Cómo se ve:** madera fresca más clara, aserrín, troncos cortados, rueda de agua y poleas. Muestra trabajo sin arrasar el bosque. Solo exterior.
-- **En el juego:** 🟡 la rueda es provisoria, hecha por código.
+- **En el juego:** 🟡 la rueda que se ve hoy está hecha por código, pero **el modelo 3D ya existe** en `C:/eromash-juego/output/Objetos/Modelos 3D/Rueda de agua del aserradero.glb` (Tripo, 14/10/2026), junto con su soporte y canaleta (`soporte y canaleta.glb`) y sus vistas 2D en `Modelos 2D/rueda-hidraulica-*`. Falta copiarlos a `assets/modelos/escenario/` y ponerlos en el aserradero.
 
 ### Santuario de las Raíces (noreste, al otro lado del río)
 
@@ -544,7 +544,7 @@ Regla de la campaña: las secundarias y los cofres aprovechan las herramientas, 
 Resumen; el detalle vive en `hoja-de-ruta.md`.
 
 - ✅ Las siete misiones, los NPC por etapa, los tres enemigos comunes, el jefe con soportes y fases, la Lente, el diario con el croquis, la pantalla de cierre, las cinemáticas de EL-06 y las opciones de video con distancias de dibujo.
-- 🟡 Provisorios: Lente en la mano, rueda del aserradero, animaciones del lobo y el Ciervo, evacuación de EL-02 como fundido, Núcleo en el piso, sonido CC0, el mundo tarda unos 20 s en armarse.
+- 🟡 Provisorios: Lente en la mano, rueda del aserradero (el modelo 3D ya existe, falta ponerlo), animaciones del lobo y el Ciervo, evacuación de EL-02 como fundido, Núcleo en el piso, sonido CC0, el mundo tarda unos 20 s en armarse.
 - ⬜ Falta: acabado de arte y luz en todos los lugares (Paso F), vestigio de la mano en el Santuario, voces, música propia, cinemática 2, pasada jugada completa en la PC, renombrar la "Runa" de las voces de las piedras.
 - ❓ **Preguntas abiertas para Eldervald:**
   - ¿Qué secundarias entran para que el bosque llegue a los 40 minutos?

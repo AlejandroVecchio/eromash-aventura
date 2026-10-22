@@ -18,7 +18,7 @@ Las siete están armadas en `scripts/autoload/juego.gd` (objetivos) y `scripts/m
 | EL-04 Las huellas del guardián | 🟡 | Arte de la tala y la quebrada |
 | EL-05 El Ciervo Hueco | 🟡 | Animaciones del Ciervo (hoy por código); el Núcleo entre las astas durante la pelea |
 | EL-06 Un camino para los vivos | ✅ | Tiene la cinemática piloto (`_cine_nucleo`, `_cine_puente`) |
-| EL-07 Alguien me espera | 🟡 | Rueda del aserradero provisoria; vestigio de la mano en el Santuario |
+| EL-07 Alguien me espera | 🟡 | Poner la rueda del aserradero en 3D (el modelo ya existe en la carpeta de Tripo, con su soporte y canaleta); vestigio de la mano en el Santuario |
 
 ### Orden de construcción (`misiones-principales-eldervald.md`, sección 7)
 
