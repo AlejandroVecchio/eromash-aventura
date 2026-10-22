@@ -54,6 +54,8 @@ Las siete están armadas en `scripts/autoload/juego.gd` (objetivos) y `scripts/m
 
 ### Cinemáticas
 
+- ⬜ Corregir la historia y el guion de las 13 cinemáticas donde chocan con la campaña completa, que manda desde el 22/10/2026 (afecta al PR #1).
+
 - ✅ Guion: las 13 reescritas para seguir la historia (🔵 PR #1).
 - 🟡 Cinemática 1, el prólogo: textos y voces de prueba listos; rumbo del 18/10: clips hechos con IA de video externa y Godot los reproduce. Faltan los clips y el reproductor.
 - ⬜ Cinemática 2 (la Arena y el trato) y las del MVP que no son la piloto.
@@ -87,7 +89,7 @@ Las siete están armadas en `scripts/autoload/juego.gd` (objetivos) y `scripts/m
 
 ## 3. Juego completo
 
-⬜ Sin empezar. El recorrido está en `docs/campana-completa.md` (recuperado el 22/10/2026): 17 tramos, cinco herramientas y siete retornos obligatorios. Si choca con `docs/historia-y-cinematicas.md`, falta que Alejandro decida cuál manda (ver `docs/objetivos.md`, sección 5).
+⬜ Sin empezar. El recorrido está en `docs/campana-completa.md` (recuperado el 22/10/2026): 17 tramos, cinco herramientas y siete retornos obligatorios. Manda sobre `docs/historia-y-cinematicas.md` (Alejandro, 22/10/2026).
 
 ### Herramientas, en orden
 

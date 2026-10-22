@@ -1,5 +1,7 @@
 # Historia y cinemáticas
 
+> **Manda la campaña completa** (`campana-completa.md`, decisión de Alejandro del 22/10/2026). Donde esta guía choque con ella (por ejemplo el ancla viva, Runa como autora de la muerte de Eromash, la renuncia a renacer o ir al Bastión de Hrimvard antes que a Jarnskald y Yggdrasil), vale la campaña y esta guía queda para corregir.
+
 > **Leer antes de usar esta guía.** Es la guía de cinemáticas original, tal cual se escribió. Desde entonces cambiaron algunas cosas y **mandan los cambios de abajo** sobre el texto de la guía:
 >
 > 1. **La astilla va a la forja; el casco queda entero, con la E.** El casco de Eromash es siempre la E oficial rotada, con las tres puntas hacia arriba (`assets/marca/casco-e.svg`), y nunca se pierde ni se deforma. Las cinemáticas 11, 12 y 13 hay que reescribirlas en ese punto: no se saca ni se mete el casco, no queda de "hierro opaco" y no hay "frente desnuda". Lo que la guía cuenta sobre la grieta del yelmo se lee como la grieta de donde Bera saca la astilla; la astilla es lo que se trabaja en la forja.

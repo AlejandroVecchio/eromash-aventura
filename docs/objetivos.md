@@ -11,7 +11,7 @@ Versión 1 · 22/10/2026.
 - **Género:** aventura de acción en tercera persona, con misiones, exploración, combate a mano y jefes justos.
 - **Tono:** fantasía nórdica sombría y pintada (referencias Diablo 3 y 4, estética animada tipo Ni no Kuni II). La oscuridad sale de la escala, el silencio y la pérdida; la calidez de los habitantes hace que importe. Detalle en `docs/direccion-artistica.md`.
 - **Firma:** la luz rúnica. Las runas emanan luz de color (azul rúnico `#73D5DB` como principal) en el mapa, el escenario, las criaturas, los objetos y la interfaz.
-- **Historia:** Eromash, sin memoria, sigue las señales de Yggdrasil a cambio de que el rey de la Arena le revele su origen. La historia completa manda sobre todo lo demás (`docs/historia-y-cinematicas.md`). Misterio sobrio: no dar más pistas de su pasado que las que da la historia.
+- **Historia:** Eromash, sin memoria, sigue las señales de Yggdrasil a cambio de que el rey de la Arena le revele su origen. Manda la campaña completa (`docs/campana-completa.md`; Alejandro, 22/10/2026); `docs/historia-y-cinematicas.md` se corrige donde choque. Misterio sobrio: no dar más pistas de su pasado que las que da la historia.
 
 ## 2. Para qué plataforma
 
@@ -57,6 +57,5 @@ Recorrido completo en `docs/campana-completa.md`: de la Arena de Hrafngard a las
 ## 5. Preguntas abiertas para estos objetivos
 
 - **Nombre:** el título en español ("Las Runas del Olvido") no es la traducción del inglés ("Whisper of the Runes"), que sería "El Susurro de las Runas", como dicen todavía `misiones-principales-eldervald.md` y `direccion-artistica.md` (Alejandro, 22/10/2026). Falta decidir si se unifican y hacia cuál.
-- **Qué documento manda:** `docs/campana-completa.md` (la revisión con herramientas y retornos) pide no traer de `docs/historia-y-cinematicas.md` el ancla viva, a Runa matando a Eromash ni la renuncia a renacer, y manda al norte por Jarnskald. La historia, que hasta ahora mandaba sobre todo, lleva al Bastión de Hrimvard primero. ¿Cuál queda?
 - **Cooperativo:** la arena tiene cooperativo de hasta 4; el documento de misiones dice "un jugador" y deja la puerta abierta. ¿La aventura es solo de un jugador?
 - **Fecha o meta de tiempo** para el MVP y para la demo, si la hay.
