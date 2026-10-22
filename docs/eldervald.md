@@ -9,7 +9,7 @@ Versión 1 · 22/10/2026.
 - **Qué manda.** La campaña completa (`campana-completa.md`) manda sobre todo lo demás (Alejandro, 22/10/2026). Para las misiones EL-01 a EL-07 manda la especificación de `misiones-principales-eldervald.md`, que la campaña reconoce como fuente. La guía de cinemáticas (`historia-y-cinematicas.md`) queda por debajo: donde cuenta otra versión del bosque (las "Ruinas del Ciervo", la astilla del casco sobre el monolito, el bajorrelieve con el yelmo, el viaje al Castillo de la Escarcha), vale lo de este archivo.
 - **Marcas de estado.** ✅ está en el juego · 🟡 está pero es provisorio o le falta algo · ⬜ diseñado y sin construir · 💡 propuesta sin aprobar.
 - **Textos.** Los diálogos y objetivos que se citan son los que el juego ya muestra (claves de `textos/textos.csv`, en español; cada uno tiene su versión en inglés).
-- **Foco actual** (Alejandro, 22/10/2026): Eldervald es la única zona en la que se trabaja. La demo será la Arena de Hrafngard (donde le dan a Eromash la misión) más este bosque.
+- **Foco actual** (Alejandro, 22/10/2026): Eldervald es la única zona en la que se trabaja. La demo será la Arena de Hrafngard (donde le dan a Eromash la misión) más este bosque, con unos 40 minutos de juego entre principal y secundarias.
 
 ## 1. La región en una mirada
 
@@ -512,7 +512,7 @@ Lo que dice la campaña completa; ⬜ todavía sin fichas de misión.
 
 ## 13. Secundarias y exploración
 
-Hoy el MVP no tiene secundarias: la especificación las deja afuera y los cinco lugares reservados son siluetas. Ideas propuestas en `hoja-de-ruta.md`, sección 4 (💡, ninguna aprobada):
+La demo apunta a **40 minutos de juego con principal y secundarias**, sin contar cofres ni coleccionables (Alejandro, 22/10/2026), así que Eldervald va a tener secundarias aunque la especificación original del MVP las dejaba afuera. Hoy no hay ninguna: los cinco lugares reservados son siluetas. Ideas propuestas en `hoja-de-ruta.md`, sección 4 (💡, ninguna aprobada):
 
 - **La caravana detenida**, **el trabajador que falta**, **la torre del vigía**, **las piedras dormidas** (cinco piedras apagadas por el bosque), **los pilares del Hilo**, **pedidos de los aldeanos de Eikholt**, **el túmulo que respira**, **Brunvik y el pozo envenenado**, **Skarnholt y los leñadores rivales**, **el cazador de trofeos**.
 - **Misiones menos directas:** indicaciones habladas en vez de marcador exacto, rastreo de verdad en EL-04 con pistas falsas, obstáculos que obligan a rodear, acertijos rúnicos cortos, conversaciones que piden atención, más de una forma de resolver, croquis que se completa explorando.
@@ -547,7 +547,7 @@ Resumen; el detalle vive en `hoja-de-ruta.md`.
 - 🟡 Provisorios: Lente en la mano, rueda del aserradero, animaciones del lobo y el Ciervo, evacuación de EL-02 como fundido, Núcleo en el piso, sonido CC0, el mundo tarda unos 20 s en armarse.
 - ⬜ Falta: acabado de arte y luz en todos los lugares (Paso F), vestigio de la mano en el Santuario, voces, música propia, cinemática 2, pasada jugada completa en la PC, renombrar la "Runa" de las voces de las piedras.
 - ❓ **Preguntas abiertas para Eldervald:**
-  - ¿Entran secundarias al MVP o quedan para la demo?
+  - ¿Qué secundarias entran para llegar a los 40 minutos de la demo?
   - ¿Cómo se juega la Arena antes del trato y cómo se pasa de ahí al Puesto?
   - ¿Qué nombre llevan en pantalla las voces de las piedras?
   - ¿Los Vardren y la Hilandera del duelo existen en este bosque?

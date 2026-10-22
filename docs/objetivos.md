@@ -50,6 +50,8 @@ La primera visita al Bosque de Eldervald: misiones EL-01 a EL-07, de la llegada 
 
 Decidido por Alejandro el 22/10/2026: la demo tiene **la Arena de Hrafngard**, donde le dan a Eromash la misión de ir al bosque, y después **el bosque de Eldervald** (el MVP). Va pulida para mostrarse en público (por ejemplo, un Steam Next Fest), con página de tienda, capturas y tráiler. Falta definir cómo se juega la Arena (qué se hace ahí antes del trato).
 
+**Duración objetivo: 40 minutos de juego** (Alejandro, 22/10/2026), sumando la misión principal y las secundarias, sin contar cofres ni coleccionables. Reparto orientativo, a medir jugando: unos 5 minutos de Arena, 20–25 de la cadena principal de Eldervald y 10–15 de secundarias (tres o cuatro cortas).
+
 ### Etapa 3 — Juego completo
 
 Recorrido completo en `docs/campana-completa.md`: de la Arena de Hrafngard a las raíces de Yggdrasil, en 17 tramos con cinco herramientas (Lente, Antorcha Fatua, Hilo de Resonancia, barco y Lente modificada) que obligan a volver a regiones ya vistas. Valdheim aparece a mitad de campaña como hogar para reconstruir. Falta el detalle de misiones fuera de Eldervald y decidir qué entra en la versión 1.0.
