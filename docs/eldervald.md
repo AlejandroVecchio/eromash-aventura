@@ -589,7 +589,7 @@ Dirección sonora aprobada por Alejandro el 21/10/2026: **el bosque recuerda una
 
 - **Ambiente** (el 70 % del tiempo): gotas, hojas, madera que cruje, insectos, río. Los tramos densos amortiguan viento y voces. Cerca de los pueblos: la rueda, el serrucho, vajilla, conversaciones.
 - **Las runas:** resonancia localizada que anticipa el contacto; cada piedra zumba en su propia nota. Nada de susurros constantes en toda la mezcla.
-- **Los siete mojones del Refugio** (EL-02): un tono por mojón cuando la luz recorre el círculo; juntos forman el motivo. Pedido al catálogo de efectos rúnicos el 22/10/2026.
+- **Los siete mojones del Refugio** (EL-02): un tono por mojón cuando la luz recorre el círculo; juntos forman el motivo. En el catálogo de efectos rúnicos: `sfx/runas/mojon-tono.ogg` (un tono que Godot afina siete veces con `pitch_scale`; provisorio re–la–sol–fa–mi hasta elegir el tema principal) y `mojones-circulo.ogg` como alternativa entera.
 - **Música:** por momentos, con silencios largos. Re dórico para todo Eldervald. Ámbar (kantele, fiddle, tarareo) para lo humano y azul (cristal, drone, voz lejana) para lo rúnico. Motivo del yelmo: una frase de 4–5 notas que nunca se resuelve en el MVP. Adaptativa: ambiente → exploración → tensión → combate → fin.
 - **Producción:** Alejandro genera música, ambientes y efectos con ElevenLabs a partir del catálogo de prompts. Hoy suenan efectos CC0 provisorios (`assets/audio/sfx/`).
 - **Voces:** ⬜ los personajes todavía no tienen voz en el juego (💡 en la hoja de ruta: Eydis, Orm, Svanhild, Eromash y una voz distinta por piedra).
