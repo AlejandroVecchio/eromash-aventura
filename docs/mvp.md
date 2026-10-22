@@ -20,6 +20,24 @@ Esqueleto jugable de la cadena EL-01 a EL-07 (`docs/misiones-principales-elderva
 
 Las acciones están en `scripts/autoload/controles.gd`; el código nunca lee teclas sueltas.
 
+## Cámara y contorno
+
+Todo está en `scripts/personajes/camara.gd`. La rueda acerca y aleja. Una casa, una roca o un tronco caído acercan la cámara para no meterse en el sólido; al despejarse espera `ESPERA` y vuelve con `VUELTA`. Un roce más corto que `UMBRAL` no la mueve. Los troncos de pie no la tiran (el follaje ya se abre). Si después de ese acercamiento se aleja con la rueda, la cámara cruza el sólido y queda apoyada afuera, del lado de allá.
+
+Si Eromash queda detrás, aparece solo el contorno del cuerpo. Tarda `ENTRADA_CONTORNO` segundos (0,45; a los 0,25 ya se nota) y se apaga en el acto cuando vuelve a verse.
+
+El dibujo se retoca en `assets/sombreadores/contorno_heroe.gdshader`:
+
+| Qué | Dónde |
+|---|---|
+| Grosor del contorno | `ancho`: el `1.25` y el piso `0.035`. Más alto, trazo más grueso |
+| Cuánto borde se descarta | el `0.25` del `if`. Más alto, menos trazo |
+| Color | `arcilla`, `runico` (`#73D5DB`) y el `0.22` de la mezcla |
+| Saturación | el `0.42` de `mix(vec3(luz), col, 0.42)`. Más bajo, más gris |
+| Brillo | `EMISSION` (`0.08`) y el `0.82` del alfa |
+
+Mientras el contorno está en pantalla, los árboles se abren menos. Eso es `fuerza_contorno` en `assets/sombreadores/vegetacion.gdshader`: `abertura` (0,85 abierto, 0,38 cerrado), `cerca` y `lejos`. Las copias del cuerpo que lo dibujan están en `poner_contorno` de `scripts/personajes/heroe.gd`.
+
 El HUD muestra vida y resistencia, con pistas que cambian entre teclado y mando. La esquiva consume resistencia y permite cancelar partes de los ataques. Estadísticas, ventanas y límites actuales: `docs/combate.md`.
 
 ## Mapa de archivos
