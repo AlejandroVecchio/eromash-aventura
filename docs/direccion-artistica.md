@@ -104,6 +104,18 @@ Reglas técnicas:
 - No reemplaza códigos de juego: un ataque, el parry o la rareza del botín no se marcan con azul rúnico.
 - Equilibrio: el azul es protagonista porque el resto es oscuro. No llenar la pantalla de azul ni encender todo a la vez; las runas débiles o apagadas también cuentan historia.
 
+## 5c. Sombras y oscuridad: cuándo se deja de ver
+
+Decisión de Alejandro (21/10/2026): una sombra baja la luz, no borra lo que hay adentro. Al aire libre siempre llega luz del cielo, de la niebla y de lo que rebota, así que bajo un alero, detrás de una casa o entre árboles se tiene que seguir reconociendo forma, material y personajes, más apagados y más fríos que al sol o a la luna.
+
+- **Aire libre (todo Eldervald):** la luz ambiente nunca baja a negro. Sale del cielo mezclado con un relleno frío propio, porque el cielo nocturno solo es demasiado oscuro para iluminar. Valores en `scripts/mundo/eldervald.gd`, `_ambiente()`: color ambiente `Color(0.46, 0.58, 0.6)` (la sombra azul verdosa de la paleta, aclarada), aporte del cielo 0,35, energía 0,9.
+- **Oclusión ambiental (SSAO):** solo oscurece rincones y contactos (donde una pared toca el suelo, bajo un tablón); intensidad 1,3. No se usa para oscurecer zonas enteras.
+- **La sombra se sigue leyendo:** la luna proyecta sombras con borde claro. El contraste viene de la diferencia entre zona iluminada y zona en sombra, no de dejar la sombra en negro.
+- **Oscuridad total solo con motivo:** cuevas, criptas o interiores cerrados sin aberturas al cielo, donde no entra luz de afuera. Ahí la luz ambiente baja casi a cero y lo que se ve lo ponen la antorcha, las runas o los hongos. Cuando exista el primer lugar así, se arma con su propio `Environment` (o un ajuste del ambiente al entrar) y se anota acá.
+- **Interiores con ventanas o puertas abiertas:** penumbra, no negro; la luz cálida de faroles y hogares hace el resto.
+- **Faroles y fuegos:** el farol o fuego más cercano a Eromash proyecta sombra, así la sombra del personaje y de los NPC sale para el lado contrario a esa luz y no solo según la luna. Solo el más cercano (dos o tres en Ultra), porque cada luz puntual con sombra vuelve a dibujar lo que tiene alrededor en cada cuadro; con Sombras en 3 o menos ningún farol proyecta sombra (`Calidad.sombras_calidas()`, grupo `luz_calida`). Las luces de ventanas de casas y las runas no proyectan sombra.
+- No subir la sombra bajando la opacidad de la sombra de la luna (`shadow_opacity`): se ve falso. Se sube la luz que llega a la sombra (luz ambiente), que es lo que pasa en la realidad.
+
 ## 6. Habitantes: propuesta de población
 
 Población principal: humanos de cultura forestal, llamados provisionalmente elderianos por pertenencia a Eldervald. Es una identidad cultural, no una especie mágica. Mantiene coherencia con Eydis, Orm y Svanhild y permite viajeros de otros reinos.

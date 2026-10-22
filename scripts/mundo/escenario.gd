@@ -221,7 +221,7 @@ func farol(p: Vector2, giro := 0.0) -> void:
 	l.light_color = LuzRunica.AMBAR
 	l.omni_range = 9.0
 	l.light_energy = 1.8
-	l.shadow_enabled = false   # las sombras de luces puntuales re-dibujan todo alrededor en cada cuadro
+	l.add_to_group("luz_calida")   # solo los más cercanos a Eromash proyectan sombra (eldervald.gd)
 	add_child(l)
 	l.global_position = n.global_position + Vector3(0, 2.6, 0)
 
@@ -361,6 +361,7 @@ func _carro() -> void:
 	lf.light_color = LuzRunica.AMBAR
 	lf.omni_range = 8.0
 	lf.light_energy = 1.4
+	lf.add_to_group("luz_calida")
 	add_child(lf)
 	lf.global_position = suelo(c + Vector2(1.2, -0.4), 0.6)
 	puntos["carro"] = suelo(c + Vector2(2, 0))
@@ -810,6 +811,7 @@ func _siluetas() -> void:
 	fogata.light_color = Color(1.0, 0.6, 0.3)
 	fogata.omni_range = 7.0
 	fogata.light_energy = 1.6
+	fogata.add_to_group("luz_calida")
 	add_child(fogata)
 	fogata.global_position = suelo(cv, 0.6)
 	# Torre del Cuervo

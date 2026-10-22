@@ -31,6 +31,8 @@ var _lugar_npc := {}
 var _avisado := {}
 var _reloj := 0.0
 var _luna: DirectionalLight3D
+var _luces_calidas: Array[OmniLight3D] = []
+var _espera_sombras := 0.0
 var activador: Activador   ## segundos de juego desde que se armó el mundo
 var _en_secuencia := false
 var _lugares_datos := Datos.lugares()   ## se arma una vez (antes se rearmaba el diccionario en cada cuadro)
@@ -104,8 +106,13 @@ func _ambiente() -> void:
 	sky.sky_material = cielo
 	_entorno.background_mode = Environment.BG_SKY
 	_entorno.sky = sky
+	# Al aire libre la sombra nunca es negra: la luz que rebota en el cielo y la niebla sigue llegando.
+	# El cielo de noche es muy oscuro, así que la luz ambiente mezcla el cielo con un relleno frío propio
+	# (sombra azul verdosa de la paleta, aclarada). Criterio en docs/direccion-artistica.md, sección 5c.
 	_entorno.ambient_light_source = Environment.AMBIENT_SOURCE_SKY
-	_entorno.ambient_light_energy = 0.7
+	_entorno.ambient_light_color = Color(0.46, 0.58, 0.6)
+	_entorno.ambient_light_sky_contribution = 0.35
+	_entorno.ambient_light_energy = 0.9
 	_entorno.tonemap_mode = Environment.TONE_MAPPER_ACES
 	_entorno.tonemap_exposure = 1.05
 	_entorno.glow_enabled = true
@@ -120,6 +127,8 @@ func _ambiente() -> void:
 	_entorno.volumetric_fog_albedo = Color(0.5, 0.6, 0.6)
 	_entorno.volumetric_fog_length = 60.0
 	_entorno.ssao_enabled = true
+	_entorno.ssao_intensity = 1.3
+	_entorno.ssao_power = 1.2
 	_entorno.adjustment_enabled = true
 	_entorno.adjustment_saturation = 0.92
 	we.environment = _entorno
@@ -704,8 +713,35 @@ func _process(dt: float) -> void:
 	if rueda:
 		rueda.get_node("Giro").rotation.x += dt * 0.6
 	_zonas()
+	_sombras_calidas(dt)
 	camara.foco = ciervo if ciervo.activo else null
 	_actualizar_haz(dt)
+
+
+## Los faroles y fuegos más cercanos a Eromash proyectan sombra (cuántos, según Opciones → Video → Sombras);
+## el resto no, porque cada luz puntual con sombra vuelve a dibujar lo que tiene alrededor en cada cuadro.
+## Solo cuenta la luz que alcanza a Eromash: cuando se aleja, la sombra se apaga donde la luz ya casi no llega.
+func _sombras_calidas(dt: float) -> void:
+	_espera_sombras -= dt
+	if _espera_sombras > 0.0:
+		return
+	_espera_sombras = 0.25
+	if _luces_calidas.is_empty():
+		for n in get_tree().get_nodes_in_group("luz_calida"):
+			var l := n as OmniLight3D
+			l.omni_shadow_mode = OmniLight3D.SHADOW_DUAL_PARABOLOID   # 2 pasadas en vez de 6
+			_luces_calidas.append(l)
+	var h := heroe.global_position
+	var cerca: Array[OmniLight3D] = []
+	for l in _luces_calidas:
+		if l.global_position.distance_to(h) < l.omni_range * 0.85:
+			cerca.append(l)
+	cerca.sort_custom(func(a: OmniLight3D, b: OmniLight3D) -> bool:
+		return a.global_position.distance_squared_to(h) < b.global_position.distance_squared_to(h))
+	var cupo := Calidad.sombras_calidas()
+	for l in _luces_calidas:
+		var i := cerca.find(l)
+		l.shadow_enabled = i >= 0 and i < cupo
 
 
 func _zonas() -> void:

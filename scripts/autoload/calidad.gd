@@ -36,6 +36,7 @@ const PASTO := [25.0, 30.0, 35.0, 40.0, 45.0, 50.0, 55.0, 65.0, 75.0, 90.0]     
 const SOMBRAS := [  # [atlas px, distancia m, suavizado 0–5]; nivel 1 = sin sombras
 	[0, 0.0, 0], [1024, 30.0, 0], [2048, 40.0, 1], [2048, 50.0, 1], [2048, 60.0, 2],
 	[4096, 70.0, 2], [4096, 80.0, 2], [4096, 100.0, 3], [8192, 120.0, 4], [8192, 150.0, 5]]
+const SOMBRAS_CALIDAS := [0, 0, 0, 1, 1, 1, 1, 2, 2, 3]   # faroles cercanos a Eromash que proyectan sombra
 const LUCES := [15.0, 20.0, 25.0, 30.0, 38.0, 46.0, 55.0, 70.0, 85.0, 100.0]      # m hasta donde se ven las luces
 const PARTICULAS := [0.0, 0.2, 0.35, 0.5, 0.65, 0.8, 1.0, 1.15, 1.3, 1.5]
 const MODELOS := [6.0, 4.5, 3.5, 2.5, 2.0, 1.5, 1.0, 0.75, 0.5, 0.25]            # px de error del LOD
@@ -170,6 +171,11 @@ func fraccion_vegetacion() -> float:
 
 func distancia_pasto() -> float:
 	return _de(PASTO, "pasto")
+
+
+## Cuántos faroles (los más cercanos a Eromash) proyectan sombra, según el ajuste de sombras.
+func sombras_calidas() -> int:
+	return _de(SOMBRAS_CALIDAS, "sombras")
 
 
 func distancia_luces() -> float:
