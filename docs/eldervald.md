@@ -132,7 +132,7 @@ Cuando Eromash llega, el Puesto está varado: el paso del norte cerró hace día
 1. **El portón y el farol de entrada.** Una palisada de troncos, con tramos reparados de madera más clara, rodea todo el recinto. Junto al portón se alza un poste tallado con un farol protegido de la lluvia. Por costumbre, no se apaga mientras alguien del Puesto esté afuera. Está encendido de día. Una campana permite avisar desde el camino.
 2. **El patio.** Tierra apisonada, charcos laterales y huellas de ruedas. Desde el portón se ve el porche y a Eydis junto a la mesa. La carreta de Ingrid queda a un costado, con cajas abiertas y una manta como mostrador, sin cortar ese recorrido. Cerca, Halvard mantiene un fuego de piedras con una olla para todos.
 3. **La casa de los guardasendas.** Madera oscura sobre zócalo de piedra, techo inclinado de tablillas, chimenea con humo y ventanas pequeñas. El porche protege la mesa de rutas: un mapa del sur tallado en una tabla, con clavijas que indican quién anda por dónde. Acá Eydis recibe a Eromash y le da el croquis. No necesita interior jugable.
-4. **El tablero de las tablillas.** Cuelga en la pared del porche. Cada viajero que entra en las sendas deja una tablilla con su nombre; cuando vuelve a un lugar seguro, se gira al lado claro. Las doce de la cuadrilla de Orm siguen mostrando el lado oscuro. El tablero queda cerca de la mesa para que el jugador pueda descubrirlo durante la primera conversación.
+4. **El tablero de las tablillas.** Cuelga en la pared del porche. Cada viajero que entra en las sendas deja una tablilla con su nombre; cuando vuelve a un lugar seguro, se gira al lado claro. La mayoría muestran el lado claro: viajeros que pasaron antes, la de Ingrid, las de las rondas de Tove. Solo cinco siguen del lado oscuro: Orm y sus cuatro trabajadores. Se lee de un vistazo quiénes faltan. El tablero queda cerca de la mesa para que el jugador pueda descubrirlo durante la primera conversación.
 5. **La atalaya.** Una torre baja de madera detrás de la casa, con plataforma cubierta y escalera de mano. Permite vigilar el camino a Eikholt y reconocer el movimiento entre los árboles. Tove sube a observar las sendas. La posibilidad de distinguir el Túmulo de los Juramentos queda pendiente de comprobar con el relieve y las copas.
 6. **La huerta.** Al este, en el sector con más claridad, cercada con estacas: coles, raíces y hierbas. Un rincón sombreado contiene troncos donde Halvard cultiva orejas de ámbar. Su luz es tenue y doméstica.
 7. **La leñera y el ahumadero.** Contra la palisada, separados del paso principal: leña apilada, herramientas mantenidas, trampas colgadas y pescado ahumándose. Hay lanzas de repuesto en un tonel. Las reparaciones muestran que el lugar sigue trabajando durante la espera.
@@ -145,8 +145,8 @@ Cuando Eromash llega, el Puesto está varado: el paso del norte cerró hace día
 
 **Cómo cambia con la historia.**
 
-- **Al llegar, EL-01.** Las doce tablillas siguen oscuras. Sigrun espera junto al portón; Tove vigila desde la atalaya. Ketil mantiene la guardia y el enlace con Hrafngard. Eydis busca una forma de mandar ayuda sin dejar desprotegido el Puesto.
-- **Después del rescate, EL-02.** Eydis acompañó a la cuadrilla desde el Refugio hasta Eikholt. Cuando llega la confirmación de que están a salvo, Halvard da vuelta las tablillas una por una. Sigrun recoge la prenda y sale hacia Eikholt para reunirse con su marido herido. El farol sigue encendido porque Eydis está afuera.
+- **Al llegar, EL-01.** Las cinco tablillas de la cuadrilla siguen oscuras. Sigrun espera junto al portón; Tove vigila desde la atalaya. Ketil mantiene la guardia y el enlace con Hrafngard. Eydis busca una forma de mandar ayuda sin dejar desprotegido el Puesto.
+- **Después del rescate, EL-02.** Eydis acompañó a la cuadrilla desde el Refugio hasta Eikholt. Cuando llega la confirmación de que están a salvo, Halvard da vuelta las cinco tablillas una por una. Sigrun recoge la prenda y sale hacia Eikholt para reunirse con su marido herido. El farol sigue encendido porque Eydis está afuera.
 - **Después de abrir el Paso, EL-06.** Ingrid prepara la carreta para seguir al norte; se la puede volver a encontrar cerca del Paso. Arvid deja de estar en el patio. Ketil regresa a Hrafngard con el informe de la reapertura y las necesidades de suministros. Quedan las rodadas recientes, el cobertizo ordenado y menos voces alrededor del fuego.
 - **Al final del arco de Eldervald.** Eydis permanece en el Paso. Halvard mantiene el farol encendido. Si Eromash comenta que ella ya tiene un lugar donde quedarse, responde: «Por las dudas».
 
@@ -253,7 +253,7 @@ Humanos de cultura forestal ("elderianos" es nombre provisorio; es una identidad
 
 ### 5.5 La cuadrilla
 
-Trabajadores de Orm (`trabajador.glb`), uno de ellos herido en la pierna. Frases: "Gracias por sacarnos. No pienso volver a ese camino sin una antorcha." / "La pierna aguanta. Más o menos." Nadie esencial puede morir fuera de una escena escrita.
+Orm y cuatro trabajadores (cinco personas; decisión del 22/10/2026, para que cada uno pueda tener nombre y voz propios). Trabajadores de Orm (`trabajador.glb`), uno de ellos herido en la pierna. Frases: "Gracias por sacarnos. No pienso volver a ese camino sin una antorcha." / "La pierna aguanta. Más o menos." Nadie esencial puede morir fuera de una escena escrita.
 
 ### 5.6 Las voces rúnicas
 
