@@ -150,7 +150,7 @@ Posiciones en metros desde el centro (x hacia el este, z hacia el sur) y radio d
 
 **Qué le aporta a los 40 minutos.** Primeros 3 a 5 minutos de juego: un lugar seguro para aprender a moverse, hablar e interactuar (la mesa de rutas, el tablero) antes del primer peligro; la primera tienda; dos o tres personajes que reaparecen; y el gancho de una secundaria (Tove) y de un misterio chico (la piedra violeta).
 
-**Lo que habría que hacer para construirlo.** Ampliar la zona del Puesto en `datos.gd`; cuatro NPC nuevos (Halvard, Tove, Ingrid con Arvid, Ketil, Sigrun) con sus diálogos ES/EN; modelos de la casa grande, la atalaya, la carreta cubierta, el tablero de tablillas y la mesa de rutas (Tripo o el kit de aldea); el farol alto ya existe como `farol-camino.glb`.
+**Lo que habría que hacer para construirlo.** Ampliar la zona del Puesto en `datos.gd`; seis NPC nuevos (Halvard, Tove, Ingrid, Arvid, Ketil y Sigrun) y la perra con sus diálogos ES/EN; modelos de la casa grande, la atalaya, la carreta cubierta, el tablero de tablillas y la mesa de rutas (Tripo o el kit de aldea); el farol alto ya existe como `farol-camino.glb`.
 
 ### Carro volcado (camino norte)
 
