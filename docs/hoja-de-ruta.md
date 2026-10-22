@@ -81,7 +81,7 @@ Las siete están armadas en `scripts/autoload/juego.gd` (objetivos) y `scripts/m
 
 ## 2. Demo para Steam
 
-⬜ Todo sin empezar. Alcance decidido (22/10/2026): la Arena de Hrafngard, donde le dan a Eromash la misión de ir al bosque, y después Eldervald. **Duración objetivo: 40 minutos de juego** (Alejandro, 22/10/2026), sumando la misión principal y las secundarias, sin contar cofres ni coleccionables.
+⬜ Todo sin empezar. Alcance decidido (22/10/2026): la Arena de Hrafngard, donde le dan a Eromash la misión de ir al bosque, y después Eldervald. **Duración objetivo: 40 minutos de juego solo en Eldervald** (Alejandro, 22/10/2026), sumando la misión principal y las secundarias, sin contar cofres ni coleccionables; la Arena se suma aparte.
 
 - ⬜ Medir cuánto dura hoy la cadena EL-01 a EL-07 jugándola en la PC.
 - ⬜ Elegir las secundarias de la demo (sección 4.2) para llegar a los 40 minutos.
