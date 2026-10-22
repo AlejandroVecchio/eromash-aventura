@@ -51,6 +51,7 @@ func _cinta(pl: PackedVector2Array, ancho: float, y: float, mat: Material) -> vo
 ## Pared invisible por el medio del cauce, cortada donde hay puentes.
 func _paredes(pl: PackedVector2Array, terreno: Terreno) -> void:
 	var cuerpo := StaticBody3D.new()
+	cuerpo.add_to_group("ignora_camara")
 	add_child(cuerpo)
 	var puentes := Datos.puentes()
 	var puntos := _subdividir(pl, 4.0)
@@ -78,6 +79,7 @@ func _paredes(pl: PackedVector2Array, terreno: Terreno) -> void:
 func _bordes_quebrada(terreno: Terreno) -> void:
 	var cuerpo := StaticBody3D.new()
 	cuerpo.name = "BordesQuebrada"
+	cuerpo.add_to_group("ignora_camara")
 	add_child(cuerpo)
 	var paso: Dictionary = Datos.puentes()[0]
 	var centro_puente: Vector2 = (paso.a + paso.b) * 0.5

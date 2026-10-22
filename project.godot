@@ -49,3 +49,7 @@ pos_camara={
 "type": "vec3",
 "value": Vector3(0, 30, 30)
 }
+fuerza_contorno={
+"type": "float",
+"value": 0.0
+}
