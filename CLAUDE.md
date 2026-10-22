@@ -32,6 +32,7 @@ Nombre del juego: **EROMASH: Las Runas del Olvido** (ES) / **EROMASH: Whisper of
 | Tema | Archivo |
 |---|---|
 | Estilo visual, paleta, luces, suelos, lugares, habitantes, enemigos | `docs/direccion-artistica.md` (leer antes de crear escenarios, iluminación, personajes o enemigos) |
+| **Eldervald, archivo de la región**: lugares, personajes, misiones con sus diálogos, enemigos, arte, sonido, segunda visita y estado | `docs/eldervald.md` (empezar acá para cualquier cosa del bosque) |
 | Misiones del MVP (cadena 1–7 de Eldervald), geografía, objetos, orden de construcción, qué queda afuera | `docs/misiones-principales-eldervald.md` (especificación, no contenido ya hecho) |
 | Historia completa y las 13 cinemáticas (por debajo de la campaña completa, que manda donde choquen) | `docs/historia-y-cinematicas.md` |
 | Cómo se mueve y se comporta el héroe, con los números del prototipo | `docs/personaje-heroe.md` |
