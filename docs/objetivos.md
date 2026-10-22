@@ -32,6 +32,8 @@ Viene del rumbo del juego de la arena (`eromash-juego/docs/rumbo.md`), que compa
 
 ## 4. Etapas
 
+**Foco actual** (Alejandro, 22/10/2026): solo la primera zona, el bosque de Eldervald. Lo demás de la campaña queda escrito pero no se construye todavía.
+
 ### Etapa 1 — MVP de Eldervald (en curso)
 
 La primera visita al Bosque de Eldervald: misiones EL-01 a EL-07, de la llegada al Puesto de Eydis hasta el Santuario de las Raíces cerrado (`docs/misiones-principales-eldervald.md`).
@@ -44,9 +46,9 @@ La primera visita al Bosque de Eldervald: misiones EL-01 a EL-07, de la llegada 
 - Interfaz completa: menú principal, opciones, HUD, bolsa y equipo, diario.
 - 60 FPS o más en Alto en una PC normal.
 
-### Etapa 2 — Demo para Steam [propuesta]
+### Etapa 2 — Demo para Steam
 
-El MVP pulido como demo pública (por ejemplo para un Steam Next Fest), con la cinemática del prólogo, página de tienda, capturas y tráiler. Falta decidir si la demo es el MVP entero o una parte más corta.
+Decidido por Alejandro el 22/10/2026: la demo tiene **la Arena de Hrafngard**, donde le dan a Eromash la misión de ir al bosque, y después **el bosque de Eldervald** (el MVP). Va pulida para mostrarse en público (por ejemplo, un Steam Next Fest), con página de tienda, capturas y tráiler. Falta definir cómo se juega la Arena (qué se hace ahí antes del trato).
 
 ### Etapa 3 — Juego completo
 
@@ -56,6 +58,5 @@ Recorrido completo en `docs/campana-completa.md`: de la Arena de Hrafngard a las
 
 - **Nombre:** el título en español ("Las Runas del Olvido") no es la traducción del inglés ("Whisper of the Runes"), que sería "El Susurro de las Runas", como dicen todavía `misiones-principales-eldervald.md` y `direccion-artistica.md` (Alejandro, 22/10/2026). Falta decidir si se unifican y hacia cuál.
 - **Qué documento manda:** `docs/campana-completa.md` (la revisión con herramientas y retornos) pide no traer de `docs/historia-y-cinematicas.md` el ancla viva, a Runa matando a Eromash ni la renuncia a renacer, y manda al norte por Jarnskald. La historia, que hasta ahora mandaba sobre todo, lleva al Bastión de Hrimvard primero. ¿Cuál queda?
-- **Demo:** ¿el MVP entero o una parte?
 - **Cooperativo:** la arena tiene cooperativo de hasta 4; el documento de misiones dice "un jugador" y deja la puerta abierta. ¿La aventura es solo de un jugador?
 - **Fecha o meta de tiempo** para el MVP y para la demo, si la hay.

@@ -2,7 +2,7 @@
 
 Estado del trabajo y lo que falta, por etapa. Las metas están en `docs/objetivos.md`; las ideas propuestas que esperan el visto bueno de Alejandro, en `docs/pendientes.md`. Al cerrar un punto, marcarlo acá en el mismo commit.
 
-Estado al 22/10/2026. Leyenda: ✅ hecho · 🟡 a medias o provisorio · ⬜ sin empezar · 🔵 hecho en un PR que espera revisión.
+Estado al 22/10/2026. **Foco actual: solo Eldervald** (y la Arena para la demo); el resto de la campaña no se construye todavía. Leyenda: ✅ hecho · 🟡 a medias o provisorio · ⬜ sin empezar · 🔵 hecho en un PR que espera revisión.
 
 ## 1. MVP de Eldervald
 
@@ -79,7 +79,11 @@ Las siete están armadas en `scripts/autoload/juego.gd` (objetivos) y `scripts/m
 
 ## 2. Demo para Steam
 
-⬜ Todo sin empezar, y la etapa misma está propuesta (`docs/objetivos.md`). Lo que haría falta: decidir el alcance, Steamworks (logros, nube, overlay), prueba en Steam Deck (1280×800, todo con mando), página de tienda con cápsulas, capturas y tráiler, voces con licencia comercial.
+⬜ Todo sin empezar. Alcance decidido (22/10/2026): la Arena de Hrafngard, donde le dan a Eromash la misión de ir al bosque, y después Eldervald.
+
+- ⬜ Arena de Hrafngard jugable hasta el trato con el rey (falta diseñar qué se juega ahí).
+- ⬜ Paso de la Arena al Puesto de Eydis (cinemática 2 o transición).
+- ⬜ Lo del lanzamiento: Steamworks (logros, nube, overlay), prueba en Steam Deck (1280×800, todo con mando), página de tienda con cápsulas, capturas y tráiler, voces con licencia comercial.
 
 ## 3. Juego completo
 
@@ -201,7 +205,7 @@ Chicas, con personajes propios y algo que cuentan del bosque, nunca recados de "
 
 ### 4.7 Historia y cinemáticas
 
-- **Prólogo jugable en la Arena**: la última pelea en la fosa como tutorial de combate, antes del bosque. **Demo**
+- **Cómo jugar la Arena**: la última pelea en la fosa como tutorial de combate, antes del trato con el rey (la Arena ya entra en la demo; esto es una idea de qué hacer en ella). **Demo**
 - **Cinemáticas cortas con el motor** para EL-01 (llegada al Puesto), EL-02 (la piedra habla), EL-05 (muerte del Ciervo) y EL-07 (la mano en el Santuario). **MVP**
 - **Diario escrito por Eromash**, con su voz, que resume cada misión. **MVP**
 - **Final de la demo** con un adelanto del Bastión de Hrimvard. **Demo**
