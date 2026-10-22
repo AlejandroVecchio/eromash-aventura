@@ -32,6 +32,7 @@ El HUD muestra vida y resistencia, con pistas que cambian entre teclado y mando.
 | Estado, misiones, banderas, diario, guardado (`user://partida.json`) | `scripts/autoload/juego.gd` |
 | Calidad gráfica (baja/media/alta) e idioma (`user://opciones.cfg`) | `scripts/autoload/calidad.gd` |
 | Sonidos (CC0 de `assets/audio/sfx/`) | `scripts/autoload/sonido.gd` |
+| Puntero del mouse: normal, iluminado sobre un interactuable disponible (NPC que habla, objetos de misión) y círculo sobre un enemigo vivo; tapado por paredes y terreno | `scripts/autoload/puntero.gd` |
 | Capturas y pruebas sin pantalla | `scripts/autoload/captura.gd`, `scripts/pruebas/prueba.gd`, `herramientas/capturar.sh` |
 | Escena principal: arma todo y conecta la lógica de cada misión | `scripts/mundo/eldervald.gd` |
 | Datos del mapa (lugares, caminos, ríos, quebrada, puentes; 1 px = 0,33 m) | `scripts/mundo/datos.gd` |

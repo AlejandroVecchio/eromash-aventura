@@ -188,6 +188,36 @@ func _comprobar(condicion: bool, descripcion: String) -> void:
 		print("OK COMBATE: ", descripcion)
 
 
+func _probar_puntero() -> void:
+	await _reiniciar()
+	var cam := get_viewport().get_camera_3d()
+	var lobo := Enemigo.new()
+	lobo.tipo = "errante"
+	lobo.position = Vector3(-2, 0.05, 3)
+	add_child(lobo)
+	var cartel := Interactuable.new()
+	cartel.position = Vector3(-2, 1, -2)
+	add_child(cartel)
+	var tapado := Interactuable.new()
+	add_child(tapado)
+	camara.global_position = heroe.global_position
+	await _cuadros(4)
+	var centro_pared := pared.global_position
+	tapado.global_position = cam.global_position + (centro_pared - cam.global_position) * 1.4 # detrás de la pared
+	var en := func(p: Vector3) -> String: return Puntero.estado_en(cam.unproject_position(p))
+	_comprobar(en.call(lobo.global_position + Vector3(0, 1, 0)) == "enemigo", "puntero de enemigo sobre un enemigo vivo")
+	_comprobar(en.call(cartel.global_position) == "interactuable", "puntero iluminado sobre un interactuable disponible")
+	cartel.condicion = func(): return false
+	_comprobar(en.call(cartel.global_position) == "normal", "puntero normal si el interactuable no está disponible")
+	_comprobar(en.call(tapado.global_position) == "normal", "una pared tapa al interactuable")
+	_comprobar(en.call(Vector3(-6, 0, -1)) == "normal", "puntero normal sobre el piso")
+	lobo._morir()
+	await _cuadros(2)
+	_comprobar(en.call(lobo.global_position + Vector3(0, 1, 0)) == "normal", "un enemigo muerto ya no cambia el puntero")
+	for n in [lobo, cartel, tapado]:
+		n.queue_free()
+
+
 func _hasta_progreso(p: float) -> void:
 	for i in 240:
 		if heroe.atacando() and heroe.progreso_ataque() >= p:
@@ -706,6 +736,7 @@ func _probar() -> void:
 	var pista_protegida := protegido.find_track(mano, Animation.TYPE_ROTATION_3D)
 	_comprobar(not original.rotation_track_interpolate(pista_original, 0.1).is_equal_approx(original.rotation_track_interpolate(pista_original, 0.7)), "el clip original conserva movimiento del brazo izquierdo")
 	_comprobar(protegido.rotation_track_interpolate(pista_protegida, 0.1).is_equal_approx(protegido.rotation_track_interpolate(pista_protegida, 0.7)), "el clip protegido mantiene el brazo del escudo")
+	await _probar_puntero()
 	print("RESULTADO COMBATE: %d comprobaciones, %d fallos" % [_comprobaciones, _fallos])
 	for canal in Sonido._canales:
 		canal.stop()
