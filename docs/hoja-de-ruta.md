@@ -83,7 +83,18 @@ Las siete están armadas en `scripts/autoload/juego.gd` (objetivos) y `scripts/m
 
 ## 3. Juego completo
 
-⬜ Sin empezar. Primero hay que definir el orden de las regiones después de Eldervald.
+⬜ Sin empezar. El orden de las regiones sale de la historia completa (`docs/historia-y-cinematicas.md`), con los nombres de `docs/mapas/`:
+
+1. La Arena (prólogo, cinemáticas 1 y 2).
+2. Eldervald, primera visita (el MVP, EL-01 a EL-07).
+3. Bastión de Hrimvard: Astrid, el archivero Torvald y la lista de caídos (cinemática 4).
+4. Túneles Antiguos de la Cordillera de Jarnskald (cinemática 5).
+5. Santuario de Yggdrasil: Siv y Haldor (cinemáticas 6 y 7).
+6. Havnskar y el *Cuervo Gris*, con la capitana Yrsa (cinemáticas 8 y 9).
+7. Helheim: el Puerto de los Difuntos, la Fortaleza Caída y Runa (cinemáticas 10 y 11).
+8. Las raíces de Yggdrasil, el cierre y el epílogo (cinemáticas 12 y 13).
+
+Falta el documento de la campaña con las misiones 8 y 9, las herramientas que se desbloquean (Antorcha Fatua, Hilo de Resonancia) y la vuelta a Eldervald para entrar al Santuario. Alejandro dice que ya existe; no está en este repo, en el de la arena ni en los archivos del proyecto (búsqueda del 22/10/2026). Cuando aparezca, se copia a `docs/` y se arma esta sección con su detalle.
 
 ## 4. Ideas para sumar (propuestas, sin aprobar)
 
