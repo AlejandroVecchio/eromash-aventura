@@ -9,7 +9,7 @@ Versión 1 · 22/10/2026.
 - **Qué manda.** La campaña completa (`campana-completa.md`) manda sobre todo lo demás (Alejandro, 22/10/2026). Para las misiones EL-01 a EL-07 manda la especificación de `misiones-principales-eldervald.md`, que la campaña reconoce como fuente. La guía de cinemáticas (`historia-y-cinematicas.md`) queda por debajo: donde cuenta otra versión del bosque (las "Ruinas del Ciervo", la astilla del casco sobre el monolito, el bajorrelieve con el yelmo, el viaje al Castillo de la Escarcha), vale lo de este archivo.
 - **Marcas de estado.** ✅ está en el juego · 🟡 está pero es provisorio o le falta algo · ⬜ diseñado y sin construir · 💡 propuesta sin aprobar.
 - **Textos.** Los diálogos y objetivos que se citan son los que el juego ya muestra (claves de `textos/textos.csv`, en español; cada uno tiene su versión en inglés).
-- **Foco actual** (Alejandro, 22/10/2026): Eldervald es la única zona en la que se trabaja. La demo será la Arena de Hrafngard (donde le dan a Eromash la misión) más este bosque. El bosque solo tiene que dar unos 40 minutos de juego entre principal y secundarias; la Arena se suma aparte.
+- **Foco actual** (Alejandro, 22/10/2026): Eldervald es la única zona en la que se trabaja. La demo será la Arena de Hrafngard (donde le dan a Eromash la misión) más este bosque. El bosque solo tiene que dar unos 40 minutos de juego entre principal y secundarias; la Arena se suma aparte. Es un piso, no un techo (Alejandro, 23/10/2026): si el contenido de valor lo alarga, puede durar más.
 
 ## 1. La región en una mirada
 
