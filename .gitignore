@@ -9,3 +9,10 @@ builds/
 .DS_Store
 Thumbs.db
 desktop.ini
+
+# respaldos automáticos de Blender
+*.blend1
+
+# herramienta de voces (ElevenLabs): la clave no se sube
+node_modules/
+.env

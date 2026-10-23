@@ -17,6 +17,9 @@ const UAL := "res://assets/modelos/animaciones/ual/UAL1_Standard.glb"
 ## un cuerpo de 1,83 m (el maniquí). `velocidad_ual()` lo escala a la altura de cada personaje.
 const UAL_VELOCIDAD := {"Walk": 0.97, "Walk_Formal": 0.97, "Jog_Fwd": 5.36, "Sprint": 8.25, "Crouch_Fwd": 0.75, "Swim_Fwd": 2.18}
 const UAL_ALTURA := 1.83
+## Variantes de un clip del pack con ajustes de postura (ver Retarget.convertir): nombre → [clip, ajustes]. Hoy vacío:
+## el `Walk` del pack se probó con ajustes de pecho, hombros y torsión, pero la caminata de Meshy lo reemplazó.
+const UAL_VARIANTES := {}
 ## Clips del pack que se pasan a cada personaje (el resto de los 44 se pide sumando su nombre; ver docs/banco-animaciones.md).
 const UAL_NPC := ["Idle", "Idle_Talking", "Walk", "Hit_Chest", "Hit_Head", "Death01", "Interact"]
 const UAL_HEROE := ["Idle", "Idle_Talking", "Walk", "Jog_Fwd", "Sprint", "Jump_Start", "Jump", "Jump_Land", "Roll", "Sword_Attack", "Sword_Idle", "Hit_Chest", "Hit_Head", "Death01", "Interact", "PickUp_Table", "Crouch_Idle", "Crouch_Fwd"]
@@ -100,8 +103,10 @@ static func biblioteca_ual(modelo: Node3D, clips: Array = UAL_NPC) -> AnimationL
 		if clave != "":
 			_ual_retargets[clave] = retarget
 	for nombre in faltan:
-		if _ual_clips.has(nombre):
-			biblioteca.add_animation(nombre, retarget.convertir(_ual_clips[nombre]))
+		var origen: String = UAL_VARIANTES[nombre][0] if UAL_VARIANTES.has(nombre) else String(nombre)
+		var ajustes: Dictionary = UAL_VARIANTES[nombre][1] if UAL_VARIANTES.has(nombre) else {}
+		if _ual_clips.has(origen):
+			biblioteca.add_animation(nombre, retarget.convertir(_ual_clips[origen], ajustes))
 		else:
 			push_warning("Animaciones: el pack UAL no tiene el clip " + String(nombre))
 	return biblioteca
@@ -116,6 +121,41 @@ static func _cargar_ual() -> void:
 	for nombre in ap.get_animation_list():
 		if nombre != "RESET":
 			_ual_clips[nombre] = ap.get_animation(nombre)
+
+
+## Caminata hecha por Meshy sobre el propio modelo de Eromash (`assets/modelos/animaciones/meshy/`). Su rig usa los
+## nombres de Mixamo y salió de nuestra malla, así que casi no hay diferencia de proporciones; igual pasa por `Retarget`.
+## Queda en la biblioteca `meshy` como "Caminar" (bucle, en el lugar).
+const MESHY_CAMINAR := "res://assets/modelos/animaciones/meshy/caminar-meshy.fbx"
+## Metros por segundo que avanza ese clip en un personaje de 1,85 m: zancada (2 × separación máxima de los pies) / duración,
+## con el método de herramientas/medir_paso.gd, calibrado contra el Walk del pack (0,97 medido con movimiento de raíz).
+const MESHY_VELOCIDAD_CAMINAR := 1.6
+static var _meshy_escena: Node
+static var _meshy_bibliotecas := {}
+
+
+static func biblioteca_meshy(modelo: Node3D) -> AnimationLibrary:
+	var clave := modelo.scene_file_path
+	if clave != "" and _meshy_bibliotecas.has(clave):
+		return _meshy_bibliotecas[clave]
+	if _meshy_escena == null:
+		_meshy_escena = load(MESHY_CAMINAR).instantiate()
+	var esq_origen: Skeleton3D = _meshy_escena.find_children("*", "Skeleton3D", true, false)[0]
+	var ap_origen: AnimationPlayer = _meshy_escena.find_children("*", "AnimationPlayer", true, false)[0]
+	var biblioteca := AnimationLibrary.new()
+	var esqs := modelo.find_children("*", "Skeleton3D", true, false)
+	if not esqs.is_empty():
+		var retarget := Retarget.crear(esq_origen, esqs[0])
+		for nombre in ap_origen.get_animation_list():
+			if nombre == "RESET":
+				continue
+			var clip := retarget.convertir(ap_origen.get_animation(nombre))
+			clip.loop_mode = Animation.LOOP_LINEAR
+			biblioteca.add_animation("Caminar", clip)
+			break   # el archivo trae un solo clip
+	if clave != "":
+		_meshy_bibliotecas[clave] = biblioteca
+	return biblioteca
 
 
 ## Pasa clips del héroe (los propios, de Mixamo) al esqueleto de otro modelo: quedan en la biblioteca `heroe`
@@ -147,20 +187,12 @@ static func agregar_heroe(ap: AnimationPlayer, modelo: Node3D, nombres: Array) -
 
 
 ## Biblioteca propia del héroe: las del héroe más los golpes nuevos del combo, sin tocar la compartida con los NPC.
-## Combo (Heroe.COMBO_ORDEN): ataque → ataque2 → ataque3 (estocada del pack) → ataque4 (patada).
+## Biblioteca propia del héroe (hoy igual a la compartida; el combo de cuatro golpes se descartó).
 static func preparar_heroe(ap: AnimationPlayer, modelo: Node3D) -> void:
 	dar_animaciones(ap, modelo, UAL_HEROE)
-	var propia := AnimationLibrary.new()
-	var compartida := biblioteca_hero()
-	for nombre in compartida.get_animation_list():
-		propia.add_animation(nombre, compartida.get_animation(nombre))
-	var golpe := (ap.get_animation_library("ual") as AnimationLibrary).get_animation("Sword_Attack").duplicate(true) as Animation
-	quitar_deriva(golpe)
-	golpe.loop_mode = Animation.LOOP_NONE
-	propia.add_animation("ataque3", golpe)
-	propia.add_animation("ataque4", compartida.get_animation("patada").duplicate(true))
-	ap.remove_animation_library("")
-	ap.add_animation_library("", propia)
+	if ap.has_animation_library("meshy"):
+		ap.remove_animation_library("meshy")
+	ap.add_animation_library("meshy", biblioteca_meshy(modelo))
 
 
 ## Metros por segundo a los que avanza un clip de paso del pack en un personaje de esa altura.
@@ -173,7 +205,7 @@ static func velocidad_ual(clip: String, altura: float) -> float:
 static func agregar_ataques_guardia(ap: AnimationPlayer) -> void:
 	var biblioteca := AnimationLibrary.new()
 	var bloqueo := ap.get_animation("bloqueo")
-	for nombre in ["ataque", "ataque2", "ataque3", "ataque4"]:
+	for nombre in ["ataque", "ataque2"]:
 		var clip := ap.get_animation(nombre).duplicate(true) as Animation
 		for pista in clip.get_track_count():
 			var ruta := clip.track_get_path(pista)

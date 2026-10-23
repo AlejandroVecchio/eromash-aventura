@@ -19,8 +19,8 @@ const NOTAS := {
 		"en": "With Esc, change the quality or the language and quit. The next time you open the game, the setting is still there. If opciones.cfg is cut off mid-write, the previous setting comes back instead of being forgotten.",
 	},
 	"mejora/camara-sin-atravesar": {
-		"es": "Acercate a una casa, una roca grande o un tronco y girá la cámara con el clic derecho para dejarla detrás. Se acerca y no atraviesa el objeto.",
-		"en": "Walk up to a house, a large rock or a fallen trunk and orbit the camera with the right mouse button so it sits behind it. The camera pulls in and does not pass through.",
+		"es": "Con la rueda alejá la cámara del otro lado de una casa, una roca o un árbol. Si Eromash queda detrás, aparece solo el contorno de su cuerpo, en arcilla con un poco de azul rúnico. Al salir, se apaga de una.",
+		"en": "Zoom the camera out past a house, a rock or a tree. If Eromash is behind it, only the outline of his body shows, clay with a little runic blue. The moment he is out, it turns off.",
 	},
 	"mejora/golpes-respetan-muros": {
 		"es": "Dejá que un lobo o un errante marque el aviso en el piso y ponete del otro lado de una casa, una roca o un tronco. El golpe no llega a través.",

@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://b1owntudvnxyq"
+path="res://.godot/imported/comparar_callum.mp3-1d614682ae49aaf5bf4191d8105cd11f.mp3str"
+
+[deps]
+
+source_file="res://output/Cinematica 1/voces/diseno/comparar_callum.mp3"
+dest_files=["res://.godot/imported/comparar_callum.mp3-1d614682ae49aaf5bf4191d8105cd11f.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

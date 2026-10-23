@@ -19,6 +19,7 @@ const ETAPAS := {
 	"cerca": [0, [], "puesto", 0.6, -0.4],
 	"sin_armas": [0, [], "puesto", 2.0, -0.35],
 	"sin_armas_correr": [0, [], "puesto", 2.0, -0.35],
+	"sin_armas_trote": [0, [], "puesto", 2.0, -0.35],
 	"ciervo": [4, ["el01_acepto", "croquis_leido", "carro_visto", "orm_encontrado", "errantes_despejados", "piedra_puesta", "runa_refugio", "fragmento", "fragmento_entregado", "lente_prestada", "fragmento_examinado", "huella_patio", "lente", "eydis_paso", "pista_tablon", "pista_raiz", "pista_menhir", "eydis_claro"], "claro", 1.9, 0.12],
 	"opciones": [0, [], "puesto", 0.6, 0.15],
 	"camara_baja": [0, [], "puesto", 2.4, 0.2],
@@ -92,11 +93,13 @@ static func preparar(mundo: Eldervald) -> void:
 		mundo.heroe.armado = false
 		mundo.heroe._armas(false)
 		mundo.get_tree().create_timer(1.5).timeout.connect(func():
+			Input.action_press("caminar")   # "/": alterna a caminar (por defecto trota)
+			mundo.get_tree().create_timer(0.1).timeout.connect(func(): Input.action_release("caminar"))
 			Input.action_press("mover_abajo")   # hacia la cámara: se ve de frente
 			for i in 12:
 				Captura.foto(Captura.salida.get_basename() + "_%d.png" % i, 4 + i * 8))
 	if g == "sin_armas_correr":
-		# lo mismo corriendo (Shift): el brazo izquierdo al correr con las armas guardadas
+		# lo mismo con sprint (Shift): carrera de verdad con las armas guardadas
 		mundo.heroe.armado = false
 		mundo.heroe._armas(false)
 		mundo.get_tree().create_timer(1.5).timeout.connect(func():
@@ -104,6 +107,14 @@ static func preparar(mundo: Eldervald) -> void:
 			Input.action_press("correr")
 			for i in 12:
 				Captura.foto(Captura.salida.get_basename() + "_%d.png" % i, 10 + i * 8))
+	if g == "sin_armas_trote":
+		# ritmo por defecto: trote activo pero relajado, con las armas guardadas
+		mundo.heroe.armado = false
+		mundo.heroe._armas(false)
+		mundo.get_tree().create_timer(1.5).timeout.connect(func():
+			Input.action_press("mover_abajo")
+			for i in 12:
+				Captura.foto(Captura.salida.get_basename() + "_%d.png" % i, 10 + i * 6))
 	if g == "ciervo":
 		# el Ciervo quieto en el Claro, visto de costado y de cerca (sin anclajes vistos: no se despierta)
 		mundo.heroe.global_position = mundo.ciervo.global_position + Vector3(7.5, 0.5, 2.0)
