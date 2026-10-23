@@ -24,6 +24,7 @@ const ETAPAS := {
 	"opciones": [0, [], "puesto", 0.6, 0.15],
 	"camara_baja": [0, [], "puesto", 2.4, 0.2],
 	"aserradero": [6, [], "aserradero", 0.8, 0.5],
+	"rueda": [6, [], "rueda", -0.6, 0.3],
 	"santuario": [6, [], "santuario", 1.1, 0.35],
 	# cinemáticas de EL-06 (fotos a lo largo de cada una)
 	"cine_nucleo": [5, ["vuelta_paso", "nucleo_puesto"], "pedestal", 0.4, 0.4],

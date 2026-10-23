@@ -700,9 +700,6 @@ func _process(dt: float) -> void:
 		Juego.registrar_lugar(id, (npcs[id] as Node3D).global_position)
 	if not ciervo.derrotado:
 		Juego.registrar_lugar("ciervo", ciervo.global_position)
-	var rueda: Node3D = escenario.nodos.get("rueda")
-	if rueda:
-		rueda.get_node("Giro").rotation.x += dt * 0.6
 	_zonas()
 	camara.foco = ciervo if ciervo.activo else null
 	_actualizar_haz(dt)

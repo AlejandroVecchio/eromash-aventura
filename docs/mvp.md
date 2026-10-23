@@ -37,6 +37,7 @@ El HUD muestra vida y resistencia, con pistas que cambian entre teclado y mando.
 | Datos del mapa (lugares, caminos, ríos, quebrada, puentes; 1 px = 0,33 m) | `scripts/mundo/datos.gd` |
 | Terreno, agua, vegetación | `scripts/mundo/terreno.gd`, `agua.gd`, `vegetacion.gd` |
 | Lugares y objetos de cada misión | `scripts/mundo/escenario.gd` |
+| Rueda de agua del aserradero (rueda, soporte y canaleta; gira cerca de Eromash) | `scripts/mundo/rueda_agua.gd` |
 | Luz rúnica (luz + motas + brillo del modelo) | `scripts/mundo/luz_runica.gd`, `assets/sombreadores/runico.gdshader` |
 | Diálogos y en qué lugar está cada NPC según la misión | `scripts/mundo/guion.gd` |
 | Héroe, cámara, NPC, enemigos, Ciervo Hueco, soportes, avisos del piso | `scripts/personajes/` |
@@ -55,7 +56,7 @@ Todos los humanoides (Eromash, Eydis, Orm, Svanhild, trabajadores, Errantes) com
 ## Qué es provisorio
 
 - **Ciervo Hueco**: modelo de Tripo (`enemigos/ciervo-hueco.glb`) con los huecos azules de la textura encendidos como luz rúnica; patas, cabeza y cola animadas por código sobre su esqueleto hasta tener animaciones.
-- **Lente del Eco** (en mano) y **rueda del aserradero**: provisorios hechos por código. La rueda ya tiene modelo 3D, con su soporte y canaleta, en `C:/eromash-juego/output/Objetos/Modelos 3D/Rueda de agua del aserradero.glb`; falta integrarlo.
+- **Lente del Eco** (en mano): provisoria, hecha por código.
 - Cinemáticas: ya hay sistema propio (ver Cinemáticas, abajo) y un piloto en EL-06; el resto de los momentos narrativos siguen siendo diálogos con fundido.
 - La esquiva ya tiene física, costo y cancelaciones; su animación usa un paso provisional hasta recibir los cuatro clips direccionales de Mixamo (`docs/combate.md`).
 - El mundo tarda en armarse (unos 20 s en una PC normal): falta optimizar el escenario y los NPC.
@@ -78,7 +79,7 @@ El juego se piensa para rendir desde el principio: de cerca se ve todo con detal
 
 - **Distancias de dibujo** (`Escenario.rango()`): lo chico se deja de dibujar a 60 m, lo mediano a 110 m y las casas a 200 m (en Alto). Los hitos (Roble, Santuario, pedestal, piedras rúnicas) se ven siempre. La niebla sube cuando baja la distancia, para que no se note el corte. Todo lo nuevo que se ponga con `poner()` entra solo en una de esas distancias según su tamaño.
 - **Vegetación por parcelas de 32 m** con su propia distancia; la chica se siembra con la cantidad de Ultra y se muestra la parte que pide el ajuste.
-- **Activador** (`scripts/mundo/activador.gd`): NPC, enemigos, el Ciervo, las zarzas y las luces rúnicas lejos de Eromash no piensan ni se animan. Todo lo nuevo que tenga vida propia (enemigos, cofres animados, criaturas) va en el grupo `despertable`; si necesita algo especial al dormirse, implementa `cercania(cerca)`, y si no puede dormirse en algún momento, `seguir_despierto()`.
+- **Activador** (`scripts/mundo/activador.gd`): NPC, enemigos, el Ciervo, las zarzas, la rueda del aserradero y las luces rúnicas lejos de Eromash no piensan ni se animan. Todo lo nuevo que tenga vida propia (enemigos, cofres animados, criaturas) va en el grupo `despertable`; si necesita algo especial al dormirse, implementa `cercania(cerca)`, y si no puede dormirse en algún momento, `seguir_despierto()`.
 - **Luces** con fundido por distancia; con sombra solo la luna.
 - **Oclusión**: las casas tapan lo que queda detrás (`OccluderInstance3D`).
 - **Modelos**: Godot genera versiones simples (LOD) al importar. Tope orientativo: objetos 3.000–5.000 triángulos, personajes y enemigos 8.000–10.000, jefes 30.000.
@@ -102,7 +103,7 @@ herramientas/revisar.sh                    # que compilen todos los scripts
 herramientas/capturar.sh res://escenas/principal.tscn salida.png 45 1280 720 --guion=claro --calidad=1
 ```
 
-Guiones: `inicio`, `puesto`, `sin_armas` (camina sin armas, de frente), `sin_armas_correr` (lo mismo corriendo), `salto`, `cerca`, `carro`, `refugio`, `eikholt`, `casa`, `paso`, `claro`, `jefe` (pelea con el Ciervo ya empezada), `ciervo` (el Ciervo quieto, de cerca), `aserradero`, `santuario`, `opciones` (el menú de video abierto), `rendimiento` (ponen la partida en ese punto) y `recorrido` (marca la cadena entera y saca una foto por misión). Cada proceso usa unos 3 GB: correr de a uno.
+Guiones: `inicio`, `puesto`, `sin_armas` (camina sin armas, de frente), `sin_armas_correr` (lo mismo corriendo), `salto`, `cerca`, `carro`, `refugio`, `eikholt`, `casa`, `paso`, `claro`, `jefe` (pelea con el Ciervo ya empezada), `ciervo` (el Ciervo quieto, de cerca), `aserradero`, `rueda` (la rueda de agua junto al río), `santuario`, `opciones` (el menú de video abierto), `rendimiento` (ponen la partida en ese punto) y `recorrido` (marca la cadena entera y saca una foto por misión). Cada proceso usa unos 3 GB: correr de a uno.
 
 ## UI, bolsa y equipo (16/10/2026)
 
