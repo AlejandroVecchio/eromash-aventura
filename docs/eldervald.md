@@ -303,8 +303,43 @@ Versión de Alejandro (23/10/2026). Es el umbral entre Eldervald y el norte.
 
 ### Antigua tala y quebrada de rastreo (corredor Paso–Claro)
 
-- **Qué son:** microescenarios del rastreo de EL-04 sobre la senda oeste. La tala no es el Aserradero de Orm.
-- **Qué pasa:** pista 2 (raíz marcada en la tala) y pista 3 (menhir a la salida de la quebrada). Un custodio de corteza ocupa un ensanchamiento del sendero.
+Propuesta aprobada por Alejandro el 23/10/2026 («a tu criterio»), con su pedido: el custodio es un semi-jefe que hay que ir a buscar, y su favor abre el camino. La historia invita a desviarse; Eldervald se juega como aventura, no como pasillo.
+
+**Qué es.** El lugar donde Eikholt cortaba madera hace generaciones, abandonado desde entonces. Es el único sitio del oeste con cielo abierto: un campo de tocones enormes con musgo y sol que entra de costado. Contrasta a propósito con la quebrada de rastreo que sigue, angosta, oscura y fría. No es el Aserradero de Orm.
+
+**Por qué se abandonó.** Los leñadores cortaron un árbol de linde, uno de esos cuyas raíces abrazaban una piedra antigua. Después el bosque se cerró sobre la tala: los tocones rebrotaron torcidos y un custodio de corteza quedó cuidando lo que quedaba. Nadie volvió a cortar ahí. En Eikholt se cuenta como advertencia.
+
+**Qué se ve.**
+1. **Los tocones**, cada uno con la marca tallada del leñador que lo cortó y una fecha. Las fechas avanzan hasta que se cortan de golpe.
+2. **Las raíces atadas** (pista 2): raíces arrancadas del suelo y amarradas a la fuerza, con residuo violeta. Por acá pasó el Ciervo arrastrando sus ataduras.
+3. **El muro de raíces.** La entrada a la quebrada de rastreo está cerrada por raíces vivas, gruesas y entrelazadas. No las hizo el Ciervo: es el bosque cerrando una herida. No se cortan; cortar la linde es justamente lo que cerró la tala.
+4. **El canal de arrastre**, una zanja vieja por donde bajaban los troncos, invadida de helechos. Lleva, fuera del camino, a la hondonada.
+5. **La hondonada del árbol de linde**: el tocón más grande, con la piedra antigua atrapada entre las raíces. Ahí vive el custodio.
+6. **La cabaña de los leñadores**, con el techo vencido, herramientas oxidadas y un cuaderno de cuentas que termina a mitad de página.
+
+**El custodio (semi-jefe).**
+- **Ir a buscarlo.** Al llegar al muro, Eydis entiende qué pasa y el objetivo cambia a buscar al que cuida la tala. Con la Lente, las raíces del muro muestran un pulso de savia que corre en una dirección: hacia la hondonada. El zumbido desafinado del custodio también guía. Si el jugador encuentra la hondonada antes del muro, el encuentro queda registrado y vale igual.
+- **Por qué pelea.** Las ataduras que arrastró el Ciervo se le prendieron al cuerpo: tres nudos violetas sobre la corteza y el núcleo titilando entre azul y violeta. Defiende la hondonada como si todo fuera una amenaza. Es una versión chica de lo que le pasa al Ciervo y enseña su mecánica antes del jefe.
+- **La pelea.** Golpe al piso con aviso en círculo; después de golpear queda expuesto unos instantes y se le pueden romper los nudos. Con el primer nudo roto, levanta raíces del suelo en línea (aviso en el piso). Con el segundo, se cubre de corteza: hay que romperla antes de llegar al último nudo. Mismas reglas de jefe que el juego de la arena: aviso exacto en el piso y nunca tres veces el mismo ataque seguido. 💡 Números para ajustar: unos 450 de vida.
+- **No muere.** Con el último nudo roto, se arrodilla y su núcleo queda azul y estable.
+- **Ganar su favor.** El custodio mira el último tocón, el del corte a medio hacer, que todavía tiene la cuña de los leñadores clavada. Eromash la saca. El tocón deja de supurar savia, el núcleo del custodio zumba afinado y el custodio camina hasta el muro: las raíces se retiran y la quebrada queda abierta. Después vuelve a la hondonada. No hay voz: es un momento físico.
+- **El favor sigue valiendo** (💡 propuesta): por Eldervald hay unos pocos pasos chicos cerrados por el mismo nudo de raíces (atajos, un cofre, la bajada a un rincón). Con el favor del custodio se abren para Eromash. Premia volver y desviarse.
+
+**La quebrada de rastreo.** Garganta angosta que baja hacia el Claro, con paredes de raíces y piedra, goteo y eco. Con la Lente se ven raspones de cornamenta en las dos paredes, a la altura de un techo: el jugador entiende el tamaño del Ciervo antes de verlo. Al final, el menhir (pista 3), una piedra de linde vieja que marca el borde del Claro; la huella sigue de largo.
+
+**Para el jugador curioso.**
+1. **El tronco de la quilla.** Un tronco enorme, cortado hace generaciones y nunca retirado, perfectamente estacionado: es el que reclaman los leñadores en «La quilla» de Sten. La quilla sale de la madera que el bosque dejó ir. Se puede llevar recién con el favor del custodio.
+2. **El cuaderno de cuentas.** La última línea anota un árbol «que no se dejaba». En el mismo cajón, una piedra de afilar.
+3. **Las fechas de los tocones.** Siguiéndolas se llega al último tocón antes de que el custodio lo señale.
+4. **Un escondite de guardasendas** en una grieta de la quebrada: vendas, una tablilla vieja de Tove y algo útil. Los guardasendas dejan provisiones en las sendas largas.
+
+**Sonido y luz.** En la tala: sol, viento en los rebrotes, pájaros. En la hondonada: el zumbido desafinado del custodio, que se afina al calmarlo. En la quebrada: frío, goteo y el eco de los pasos de Eromash.
+
+**Segunda visita.** El custodio está en la hondonada, quieto, con brotes nuevos; si Eromash se acerca, inclina la cabeza. Si se cerró la secundaria de Sten, marcas frescas de arrastre donde estaba el tronco y una ofrenda de los leñadores en el tocón del árbol de linde: la costumbre vuelve.
+
+**En el juego hoy:** el custodio es un enemigo común en el ensanchamiento del sendero (`custodio-corteza.glb`, sin esqueleto: se inclina entero). Hay que pasarlo a semi-jefe en la hondonada.
+
+**Para construirlo.** Tocones con marcas y fechas, último tocón con la cuña, raíces atadas, muro de raíces que se retira, pulso de savia para la Lente, canal de arrastre, hondonada con el tocón y la piedra, custodio con tres nudos, corteza que se rompe y ataques con aviso, escena corta del muro, cabaña con cuaderno, tronco de la quilla, quebrada con raspones, escondite y menhir. Pasos de raíces en otros lugares si se aprueba. Textos nuevos en ES/EN.
 
 ### Claro del Ciervo (noroeste)
 
@@ -468,8 +503,11 @@ Las siete están armadas en el juego. Los objetivos viven en `scripts/autoload/j
   1. Reunite con Eydis al sur del puente roto.
   2. Examiná con la lente la marca sobre el tablón.
   3. Seguí el rastro hasta la tala y examiná la raíz marcada.
-  4. Seguí la huella hasta el menhir de la quebrada.
-  5. Llegá a la entrada del Claro y hablá con Eydis.
+  4. Las raíces cierran la quebrada: buscá al que cuida la tala.
+  5. Calmá al custodio y ganate su favor.
+  6. Seguí la huella por la quebrada hasta el menhir.
+  7. Llegá a la entrada del Claro y hablá con Eydis.
+  (Objetivos 4 y 5 agregados el 23/10/2026; ver Antigua tala.)
 - **En el Paso:**
   > **Eydis:** Por acá huyó después del ataque. Rompió medio puente al pasar.
   > **Eydis:** Mirá ese tablón con la lente. Quizás muestre hacia dónde fue.
@@ -484,7 +522,10 @@ Las siete están armadas en el juego. Los objetivos viven en `scripts/autoload/j
   > **Eydis:** Mi madre me hizo quedarme despierta una noche entera para verlo pasar. Decía que, mientras él recorriera las lindes, volveríamos a casa.
   > **Eromash:** Ahora está impidiendo que vuelvan.
   > **Eydis:** Lo sé.
-- **Combate:** un custodio de corteza en un ensanchamiento del sendero.
+- **En el muro de raíces** (propuesta, 23/10/2026):
+  > **Eydis:** Esto no lo hizo el Ciervo. Es el bosque cerrando una herida.
+  > **Eydis:** Algo cuida esta tala desde hace mucho. Si te deja pasar, se abre.
+- **Combate:** el custodio de corteza como semi-jefe en la hondonada, fuera del camino; no muere y su favor abre la quebrada.
 - **Reglas:** son tres pistas de un recorrido continuo, no tres objetos para juntar. Se puede explorar sin perderlas. El norte lo bloquean la rotura y la quebrada. Eydis se queda fuera del recinto del jefe. No hace falta visitar el Santuario.
 
 ### EL-05 — El Ciervo Hueco
@@ -573,14 +614,14 @@ Tres orígenes conviven: fauna local desplazada, guardianes desestabilizados y i
 |---|---|---|---|---|---|---|---|
 | Lobo de zarzal (×2) | Fauna desplazada | Junto al carro, EL-01 | 50 | 10 | 4,2 m/s | Abanico, 0,75 s | `lobo-zarzal.glb` (🟡 animado por código) |
 | Errante de Helheim (×3) | Intruso | Salida del Refugio, solo en EL-02 | 70 | 14 | 1,9 m/s | Abanico, 0,9 s | `errante-helheim.glb` (banco de animaciones) |
-| Custodio de corteza (×1) | Guardián alterado | Sendero de la tala, EL-04 | 170 | 22 | 1,5 m/s | Círculo, 1,3 s | `custodio-corteza.glb` (sin esqueleto: se inclina entero) |
+| Custodio de corteza (×1, semi-jefe) | Guardián alterado | Hondonada de la tala, EL-04 | 170 hoy; 💡 ~450 | 22 | 1,5 m/s | Círculo, 1,3 s; raíces en línea | `custodio-corteza.glb` (sin esqueleto: se inclina entero) |
 
 Valores de `scripts/personajes/enemigo.gd`; detectan al héroe a 13 m. Los encuentros despejados no reaparecen.
 
 - **Lobo de zarzal:** silueta baja, hocico largo, pelaje gris pardo con restos vegetales; acecha de costado y corre. Sin ojos mágicos.
 - **Errante de Helheim:** figura humana estrecha, ropa funeraria ajena al bosque, placas de hierro mate, rostro seco y pálido, marcha quebrada.
 - **Regla de la luz, enseñada sin texto** (Alejandro, 22/10/2026): un errante acerca la mano al límite de una luz rúnica y la retira. El gesto aparece por primera vez en el Refugio y se repite en otros lugares con runas, para que el jugador aprenda que la luz protege.
-- **Custodio de corteza:** cuerpo ancho de madera y piedra, núcleo rúnico intermitente, extremidades asimétricas, movimientos pesados. Defiende un lugar antiguo.
+- **Custodio de corteza:** cuerpo ancho de madera y piedra, núcleo rúnico intermitente, extremidades asimétricas, movimientos pesados. Defiende un lugar antiguo. Semi-jefe desde el 23/10/2026: tres nudos de ataduras, se cubre de corteza, no muere; su favor abre la quebrada (ver Antigua tala).
 - 💡 **Otros del bestiario de trabajo, fuera del MVP:** jabalí de turbera (raspa el suelo antes de cargar) e Hilandera del duelo (silueta alta con velo rasgado; la que teje las ataduras en la propuesta narrativa; primero sus rastros, después su presencia).
 
 ### 8.2 Jefe: el Ciervo Hueco

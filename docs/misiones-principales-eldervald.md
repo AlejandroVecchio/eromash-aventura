@@ -146,7 +146,7 @@ Objetivos:
 4. Seguir la huella hasta un menhir a la salida de la quebrada.
 5. Alcanzar la entrada del Claro y hablar con Eydis.
 
-Son tres pistas distintas de un recorrido continuo, no tres objetos recolectables. El primer rastro muestra por dónde huyó el guardián; los siguientes confirman que lleva ataduras. Un custodio alterado ocupa un ensanchamiento del sendero como encuentro común. Se puede explorar sin perder las pistas registradas.
+Son tres pistas distintas de un recorrido continuo, no tres objetos recolectables. El primer rastro muestra por dónde huyó el guardián; los siguientes confirman que lleva ataduras. Un custodio alterado cierra la quebrada con raíces: es un semi-jefe que hay que ir a buscar fuera del camino, no muere y su favor abre el paso (Alejandro, 23/10/2026; detalle en `eldervald.md`). Se puede explorar sin perder las pistas registradas.
 
 > Eydis: «Mi madre me hizo quedarme despierta una noche entera para verlo pasar. Decía que, mientras él recorriera las lindes, volveríamos a casa.»
 > Eromash: «Ahora está impidiendo que vuelvan.»
