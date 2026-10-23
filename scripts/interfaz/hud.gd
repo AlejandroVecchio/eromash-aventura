@@ -506,9 +506,9 @@ func _mostrar_linea() -> void:
 	var quien: String = l[0]
 	Juego.hablante.emit(quien)
 	_dlg_nombre.text = tr("nombre_" + quien)
-	_dlg_nombre.add_theme_color_override("font_color", AZUL if quien == "runa" else AMBAR)
+	_dlg_nombre.add_theme_color_override("font_color", AZUL if quien == "piedra" else AMBAR)
 	_dlg_texto.text = tr(l[1])
-	_dlg_texto.add_theme_color_override("font_color", AZUL if quien == "runa" else CREMA)
+	_dlg_texto.add_theme_color_override("font_color", AZUL if quien == "piedra" else CREMA)
 	_dlg_t = 0.0
 	_dlg_pista.text = "[%s]  %s" % [Controles.tecla("interactuar"), tr("dialogo_seguir")]
 

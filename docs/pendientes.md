@@ -1,6 +1,6 @@
 # Pendientes y decisiones abiertas
 
-Lo que se propuso o quedó a medio camino y espera el visto bueno de Alejandro. Antes de empezar algo de esta lista, confirmarlo con él (regla "no adelantarse"). Al resolver un punto, sacarlo de acá.
+Lo que se propuso o quedó a medio camino y espera el visto bueno de Alejandro. Antes de empezar algo de esta lista, confirmarlo con él (regla "no adelantarse"). Al resolver un punto, sacarlo de acá. El estado general del trabajo está en `docs/hoja-de-ruta.md`.
 
 ## Propuesto, sin aprobar todavía
 

@@ -83,7 +83,7 @@ Todos los humanoides (Eromash, Eydis, Orm, Svanhild, trabajadores, Errantes) com
 ## Qué es provisorio
 
 - **Ciervo Hueco**: modelo de Tripo (`enemigos/ciervo-hueco.glb`) con los huecos azules de la textura encendidos como luz rúnica; patas, cabeza y cola animadas por código sobre su esqueleto hasta tener animaciones.
-- **Lente del Eco** (en mano) y **rueda del aserradero**: provisorios hechos por código.
+- **Lente del Eco** (en mano) y **rueda del aserradero**: provisorios hechos por código. La rueda ya tiene modelo 3D, con su soporte y canaleta, en `C:/eromash-juego/output/Objetos/Modelos 3D/Rueda de agua del aserradero.glb`; falta integrarlo.
 - Cinemáticas: ya hay sistema propio (ver Cinemáticas, abajo) y un piloto en EL-06; el resto de los momentos narrativos siguen siendo diálogos con fundido.
 - La esquiva ya tiene física, costo y cancelaciones; su animación usa un paso provisional hasta recibir los cuatro clips direccionales de Mixamo (`docs/combate.md`).
 - El mundo tarda en armarse (unos 20 s en una PC normal): falta optimizar el escenario y los NPC.

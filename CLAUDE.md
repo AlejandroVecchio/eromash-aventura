@@ -32,12 +32,17 @@ Nombre del juego: **EROMASH: Las Runas del Olvido** (ES) / **EROMASH: Whisper of
 | Tema | Archivo |
 |---|---|
 | Estilo visual, paleta, luces, suelos, lugares, habitantes, enemigos | `docs/direccion-artistica.md` (leer antes de crear escenarios, iluminación, personajes o enemigos) |
+| **Eldervald, archivo de la región**: lugares, personajes, misiones con sus diálogos, enemigos, arte, sonido, segunda visita y estado | `docs/eldervald.md` (empezar acá para cualquier cosa del bosque) |
 | Misiones del MVP (cadena 1–7 de Eldervald), geografía, objetos, orden de construcción, qué queda afuera | `docs/misiones-principales-eldervald.md` (especificación, no contenido ya hecho) |
-| Historia completa y las 13 cinemáticas, con los cambios que mandan arriba de todo | `docs/historia-y-cinematicas.md` |
+| Historia completa y las 13 cinemáticas (por debajo de la campaña completa, que manda donde choquen) | `docs/historia-y-cinematicas.md` |
 | Cómo se mueve y se comporta el héroe, con los números del prototipo | `docs/personaje-heroe.md` |
 | Cómo está armado el MVP (archivos, controles, animaciones compartidas, provisorios, pruebas sin pantalla) | `docs/mvp.md` |
 | Qué assets usa el mundo (árboles, rocas, muros, techos, suelos, modelos propios) y cómo sumar uno | `docs/assets.md` (actualizarlo cuando se suma o deja de usar un asset) |
 | **Animaciones humanas**: banco de 44 clips (Universal Animation Library, CC0) ya conectado, cómo pasarlos a cada esqueleto y qué clip sirve para qué | `docs/banco-animaciones.md` (**mirar acá antes de pedir o hacer una animación**) |
+| **Campaña completa**: recorrido de punta a punta, herramientas y retornos obligatorios. **Manda sobre la historia** (22/10/2026) | `docs/campana-completa.md` |
+| **Objetivos del juego**: qué es, plataforma, etapas (MVP, demo, juego completo) y qué cuenta como terminado | `docs/objetivos.md` |
+| **Hoja de ruta (TO-DO)**: estado de cada misión, sistema y PR, y lo que falta | `docs/hoja-de-ruta.md` (marcar lo que se cierra en el mismo commit) |
+| **Personajes recurrentes**: forasteros de otras regiones que se conocen en Eikholt y vuelven más adelante | `docs/personajes-recurrentes.md` (mirar antes de diseñar una región nueva) |
 | Decisiones abiertas y trabajo propuesto que espera el visto bueno de Alejandro | `docs/pendientes.md` (leer antes de empezar algo nuevo) |
 | Mapas: mundo, Eldervald, regiones, Valdheim | `docs/mapas/` |
 | Referencias de Eromash (vistas, poses, Tripo) y de objetos a modelar | `docs/referencias/` |

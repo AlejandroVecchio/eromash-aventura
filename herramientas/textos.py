@@ -117,7 +117,7 @@ t("nombre_eydis", "Eydis", "Eydis")
 t("nombre_orm", "Orm", "Orm")
 t("nombre_svanhild", "Svanhild", "Svanhild")
 t("nombre_eromash", "Eromash", "Eromash")
-t("nombre_runa", "Runa", "Rune")
+t("nombre_piedra", "Voz de la piedra", "Voice of the stone")
 t("nombre_trabajador", "Trabajador", "Worker")
 t("nombre_ciervo", "El Ciervo Hueco", "The Hollow Stag")
 
