@@ -33,7 +33,7 @@ Un bosque antiguo, húmedo y denso, con poca luz de sol, donde la gente vive alr
 |---|---|
 | Mapa de referencia | `docs/mapas/eldervald.png` (1557 × 1010 px; copia para la interfaz en `assets/interfaz/mapa-eldervald.png`) |
 | Escala | 1 px del mapa = 0,33 m |
-| Tamaño jugable | unos 514 × 333 m |
+| Tamaño jugable | unos 514 × 333 m hoy. **Se agranda lo que haga falta** (Alejandro, 23/10/2026): los lugares rediseñados ganan espacio (fondo de la quebrada, hondonada, barrios de Eikholt) y el bosque puede quedar hasta unas 5 veces más grande. Se sostiene con el mundo por sectores y las mejoras de rendimiento de `hoja-de-ruta.md`. El nuevo plano se fija junto con la vista general del bosque |
 | Orientación | el norte del mapa es −Z en Godot; el centro del mapa (778, 505 px) es el origen |
 | Borde | montañas de 26 m que no se pueden cruzar |
 | Salidas | **Sudoeste**: hacia Hrafngard (por donde llega Eromash). **Norte**: hacia Jarnskald, por el Paso del Guardián. **Sudeste**: hacia Havnskar, siguiendo el río |
