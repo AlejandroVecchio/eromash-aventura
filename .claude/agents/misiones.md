@@ -23,6 +23,8 @@ Sos el diseñador de misiones de **EROMASH: Las Runas del Olvido** (Godot 4.7.2)
 - **La principal mantiene sus misiones (EL-01…EL-07) y se divide en etapas** EL-0X-1, EL-0X-2…, cada una con lugar y objetivo.
 - **Encargos de preparación:** a veces un NPC necesita que le juntes materiales o botín de enemigos de la zona para preparar ropa, hechizos, runas o herramientas. Cantidades chicas (3 a 6), botín que cae siempre de su enemigo, materiales marcados en el mapa apenas se piden.
 - **Cadenas secundarias al estilo WoW:** alguien encarga → se cumple en otro lugar → se vuelve → la respuesta abre el paso siguiente. Dos familias: las que nacen de la rama principal (SR) y las que da el propio lugar (SZ).
+- **Renombre en las ciudades:** liberar zonas y cumplir proezas cambia cómo tratan a Eromash (cinco niveles por ciudad: saludos, descuentos de hasta 20 %, objetos nuevos en los puestos de quienes ayudó). No se pierde.
+- **Proezas:** cada región tiene su lista (jefes, cadenas clave, coleccionables). Completarlas todas abre un combate final opcional, más épico que el jefe de la principal, con una recompensa que valga la pena (pieza de equipo de las mejores, renombre máximo, cambio visible en el mundo).
 - Ninguna secundaria bloquea la principal. Ningún NPC revela el pasado de Eromash; misterio sobrio.
 
 ## Realismo: solo lo que se puede construir
