@@ -347,10 +347,42 @@ Versión de Alejandro (23/10/2026). El custodio es un semi-jefe que hay que ir a
 
 ### Claro del Ciervo (noroeste)
 
-- **Qué es:** la arena del jefe. Del mismo lado de la quebrada que Eromash: no hace falta cruzar el puente roto.
-- **Cómo se ve:** raíces y menhires en el borde, centro amplio y legible, escala majestuosa, luz fría desde arriba. Vegetación enferma localizada y ataduras que se ven con la Lente. Tres soportes pétreos separados y alcanzables. Entrada segura donde se queda Eydis. No es un templo demoníaco.
-- **Qué pasa:** EL-05.
-- **En el juego:** `soporte-petreo.glb` y `soporte-petreo-roto.glb`, textura `zona-enferma.png`, ataduras violetas hechas por código.
+Versión de Alejandro (23/10/2026). La arena del jefe, del mismo lado de la quebrada que Eromash: no hace falta cruzar el puente roto.
+
+**Qué es.** Donde el Ciervo descansaba entre una ronda de las lindes y otra, desde hace siglos. El suelo conserva sus pasos y, en el rincón más protegido, su peso dejó una hondonada cubierta de musgo.
+
+El borde está rodeado de las astas que fue mudando durante generaciones. Algunas permanecen medio enterradas; otras quedaron enlazadas por raíces y levantan arcos irregulares. Las más antiguas apenas se distinguen de la madera del bosque. Dejan huecos por donde entran animales y caminos reconocibles para el jugador.
+
+La cornamenta del estandarte de Eikholt recuerda al guardián de las lindes y los cruces. Este lugar, conocido desde lejos y visitado con respeto, conserva la forma que inspiró ese símbolo.
+
+**Qué le hicieron.** Tres menhires antiguos protegían su descanso. Las ataduras se aferraron a ellos y los convirtieron en anclajes: de cada piedra sale un haz de hilos violetas que termina en el cuerpo del Ciervo. Los hilos se estiran cuando camina y se tensan cuando intenta alejarse: le permiten moverse por el Claro, pero lo retienen dentro de él. Durante una embestida tiran de su cuerpo y hacen vibrar las piedras; esa tensión enseña cómo usar su fuerza para romper los soportes.
+
+Alrededor de cada menhir hay una mancha de vegetación enferma: pasto gris, flores vencidas y raíces sin brotes. La herida es más intensa junto a las piedras; parte del Claro conserva vida.
+
+**Cómo está dispuesto.** Los tres soportes ocupan sectores distintos del borde interior. Entre ellos quedan recorridos amplios y visibles para esquivar y orientar las embestidas. El centro tiene tierra firme, musgo bajo y pocas irregularidades; las grandes astas, raíces y piedras sueltas se concentran en el perímetro. Desde la entrada se distinguen el Ciervo, los tres menhires y las zonas de suelo enfermo. La cama de musgo queda al fondo, apartada de las líneas principales de combate. Eydis espera junto al acceso, fuera del recinto.
+
+**Cómo lo encontrás.** Está cerca de su cama, con la cabeza baja. Da un paso corto, siente el tirón y se detiene. La luz azul se le escapa lentamente por los huecos del cuerpo. Respira con esfuerzo.
+
+Desde el umbral, la Lente revela los hilos y su unión con los tres soportes; esa lectura está disponible aunque el jugador no haya visitado la loma. Una vez descubiertos, los anclajes conservan una señal visible durante el combate: no hace falta sostener la Lente mientras se esquiva. Cuando Eromash atraviesa el límite del Claro, el Ciervo levanta la cabeza. Las ataduras se tensan antes de que ataque.
+
+**El Núcleo, a la vista.** El Núcleo de la Linde está trabado entre las astas durante toda la pelea. Se reconoce por su forma y por un pulso azul más concentrado que la luz que escapa del cuerpo. Es la pieza cuyo hueco quedó vacío en el Paso. Al morir el Ciervo, se desprende y queda en un punto fijo, accesible y visible; su luz persiste cuando la del guardián se apaga.
+
+**La loma de los observadores** (desvío). Antes del umbral, una senda lateral sube a un apostadero viejo de madera. Los cazadores lo usaban para mirar los movimientos del bosque; desde ahí también esperaban ver al Guardián. Tiene un banco vencido, marcas de muchas esperas y un pequeño cofre bajo las tablas. Desde la loma se ve el Claro entero; con la Lente, las tres ataduras permiten anticipar la disposición del combate. Sirve para observar y prepararse; el enfrentamiento empieza al bajar y entrar en el Claro.
+
+**Para el jugador curioso.**
+1. **La cinta de la madre de Eydis.** Cuelga bajo uno de los arcos de astas, en un rincón protegido de la lluvia. Está descolorida, casi reducida a un hilo, pero conserva un pequeño nudo con dos cuentas de madera. Después de la pelea, Eromash puede llamar la atención de Eydis sobre ella. Eydis la toca y dice: «La atamos aquella noche. Mi madre y yo». No la retira.
+2. **El hilo que se va.** Al examinar la base de uno de los menhires con la Lente, se descubre un filamento distinto: sale de la atadura, recorre el suelo hacia el norte y desaparece bajo una fisura de roca. Es un rastro incompleto de la misma influencia vista en el Paso. Termina en una observación del diario, sin marcar un nuevo destino ni sugerir que se puede seguir más allá del Claro.
+3. **La cama de musgo.** En el rincón resguardado, una depresión ancha, musgo aplastado y algunos pelos atrapados en las raíces. Una de las astas mudadas yace cerca. Se puede descubrir antes desde la loma y examinar con calma después.
+
+**Al caer.** Con los soportes rotos, las ataduras pierden tensión y se deshacen. El Ciervo recupera la calma. Eydis entra, se acerca despacio y le toca la frente. Los huecos azules se apagan uno por uno; el último pulso ilumina su mano. Los menhires rotos dejan de emitir violeta; sus caras interiores muestran piedra antigua y surcos que estuvieron ocultos bajo las ataduras. El Núcleo queda encendido junto a la cornamenta. Hay unos instantes de quietud antes de recuperar el control y recogerlo.
+
+**Sonido y luz.** Antes del combate, una luz fría cae entre las copas. Se oyen la respiración del Ciervo, el roce de sus pezuñas y las ataduras crujiendo como sogas mojadas; cerca de los soportes, ese sonido tiene una tensión más aguda. Después, el silencio se sostiene. Primero vuelve el ruido de las hojas; más tarde, un pájaro responde desde fuera del Claro. La luz y la vegetación cambian poco en ese momento: liberar al Ciervo detuvo el daño, pero el lugar necesita tiempo.
+
+**Al volver.** Si Eromash regresa enseguida, encuentra el Claro quieto, los menhires quebrados y las señales recientes de la pelea. En una visita posterior, tras el tiempo narrativo suficiente, el lugar donde cayó está cubierto por un montículo bajo de tierra, hojas y musgo. Eydis y los guardasendas acomodaron su cornamenta junto al borde, formando el último arco. Un brote joven crece cerca, sin luz mágica ni indicios de resurrección. El pasto enfermo empieza a recuperar color desde los bordes. Unos ciervos pequeños pastan en el Claro y se retiran entre las raíces cuando Eromash se acerca. La cama antigua permanece vacía.
+
+**En el juego hoy:** `soporte-petreo.glb` y `soporte-petreo-roto.glb`, textura `zona-enferma.png`, ataduras violetas hechas por código. El Núcleo hoy aparece en el piso al vencerlo: hay que trabarlo entre las astas durante la pelea.
+
+**Para construirlo.** Arcos de astas mudadas con huecos de paso, tres menhires con haces de hilos que se estiran y tensan (y vibran en la embestida), manchas de suelo enfermo, centro despejado, cama de musgo con un asta, señal persistente de los anclajes tras usar la Lente, Núcleo entre las astas, loma con apostadero y cofre, cinta inspeccionable con la línea de Eydis, filamento al norte con nota de diario, caras interiores de los menhires rotos, montículo con la cornamenta y el brote, ciervos chicos. Textos nuevos en ES/EN.
 
 ### Aserradero de Orm (noreste, junto al río)
 
@@ -547,7 +579,7 @@ Las siete están armadas en el juego. Los objetivos viven en `scripts/autoload/j
 - **Al caer:** el Ciervo recupera la calma un instante; Eydis se acerca y le toca la frente; muere libre de las ataduras. Pérdida, no celebración.
 - **El Núcleo:** el Ciervo lo arrancó del Paso durante el ataque; se desprende de la cornamenta y se recoge en un punto fijo. Si Eromash sale antes de recogerlo, queda marcado; si vuelve después, no se duplica.
 - **Reglas:** antes de vencerlo, morir restaura sus soportes y su vida. Después, no resucita al salir o cargar. Romper los soportes no enseña a quemar zarzas ni reemplaza la Antorcha.
-- **Estado:** 🟡 el Ciervo se anima por código; el Núcleo hoy aparece en el piso al vencerlo (💡 propuesta: que se vea entre las astas durante la pelea).
+- **Estado:** 🟡 el Ciervo se anima por código; el Núcleo hoy aparece en el piso al vencerlo. Decidido (23/10/2026): se ve trabado entre las astas durante toda la pelea (ver Claro del Ciervo).
 
 ### EL-06 — Un camino para los vivos
 
