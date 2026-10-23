@@ -22,6 +22,7 @@ const ETAPAS := {
 	"sin_armas_trote": [0, [], "puesto", 2.0, -0.35],
 	"ciervo": [4, ["el01_acepto", "croquis_leido", "carro_visto", "orm_encontrado", "errantes_despejados", "piedra_puesta", "runa_refugio", "fragmento", "fragmento_entregado", "lente_prestada", "fragmento_examinado", "huella_patio", "lente", "eydis_paso", "pista_tablon", "pista_raiz", "pista_menhir", "eydis_claro"], "claro", 1.9, 0.12],
 	"opciones": [0, [], "puesto", 0.6, 0.15],
+	"sonido": [0, [], "puesto", 0.6, 0.15],
 	"titulo": [0, [], "puesto", 0.6, 0.3],
 	"camara_baja": [0, [], "puesto", 2.4, 0.2],
 	"aserradero": [6, [], "aserradero", 0.8, 0.5],
@@ -121,6 +122,19 @@ static func preparar(mundo: Eldervald) -> void:
 		mundo.heroe.global_position = mundo.ciervo.global_position + Vector3(7.5, 0.5, 2.0)
 		mundo.camara.global_position = mundo.ciervo.global_position + Vector3(3.5, 0, 1.0)
 		mundo.camara.objetivo = null
+	if g == "sonido":
+		mundo.hud.abrir_sonido(null)
+		# cambios en vivo: bajar la música, silenciar el ambiente y restablecer
+		var t := mundo.get_tree()
+		t.create_timer(0.5).timeout.connect(func(): Sonido.poner_volumen("musica", 35))
+		t.create_timer(1.0).timeout.connect(func(): Sonido.poner_volumen("ambiente", 0))
+		t.create_timer(1.5).timeout.connect(func():
+			var db := []
+			for b in Sonido.BUSES:
+				var i := AudioServer.get_bus_index(b[1])
+				db.append("%s=%.1fdB%s" % [b[1], AudioServer.get_bus_volume_db(i), " mudo" if AudioServer.is_bus_mute(i) else ""])
+			print("SONIDO ", Sonido.volumenes, " ", db))
+		t.create_timer(2.0).timeout.connect(func(): mundo.hud._sonido._sincronizar())
 	if g == "opciones":
 		mundo.hud.abrir_video(null)
 		# cambios en vivo, como los haría el jugador: un ajuste suelto (Personalizado), Ultra, Bajo y vuelta a Alto

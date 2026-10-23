@@ -49,7 +49,8 @@ El HUD muestra vida y resistencia, con pistas que cambian entre teclado y mando.
 |---|---|
 | Estado, misiones, banderas, diario, guardado en 3 ranuras (`user://partidas/ranura_N.json`) | `scripts/autoload/juego.gd` |
 | Calidad gráfica (baja/media/alta) e idioma (`user://opciones.cfg`) | `scripts/autoload/calidad.gd` |
-| Sonidos (CC0 de `assets/audio/sfx/`) | `scripts/autoload/sonido.gd` |
+| Sonidos (CC0 de `assets/audio/sfx/`) y volumen por buses (General, Música, Ambiente, Efectos, Voces; sección `[sonido]` de `user://opciones.cfg`) | `scripts/autoload/sonido.gd` |
+| Opciones → Sonido (una barra de 0 a 100 por bus; se abre desde la pausa y el título) | `scripts/interfaz/opciones_sonido.gd` |
 | Capturas y pruebas sin pantalla | `scripts/autoload/captura.gd`, `scripts/pruebas/prueba.gd`, `herramientas/capturar.sh` |
 | Escena principal: arma todo y conecta la lógica de cada misión | `scripts/mundo/eldervald.gd` |
 | Datos del mapa (lugares, caminos, ríos, quebrada, puentes; 1 px = 0,33 m) | `scripts/mundo/datos.gd` |
@@ -130,7 +131,7 @@ herramientas/revisar.sh                    # que compilen todos los scripts
 herramientas/capturar.sh res://escenas/principal.tscn salida.png 45 1280 720 --guion=claro --calidad=1
 ```
 
-Guiones: `inicio`, `puesto`, `sin_armas` (camina sin armas, de frente), `sin_armas_correr` (lo mismo corriendo), `salto`, `cerca`, `carro`, `refugio`, `eikholt`, `casa`, `paso`, `claro`, `jefe` (pelea con el Ciervo ya empezada), `ciervo` (el Ciervo quieto, de cerca), `aserradero`, `santuario`, `opciones` (el menú de video abierto), `titulo` (menú principal, lista de Cargar y confirmación de reemplazo, con partidas inventadas), `rendimiento` (ponen la partida en ese punto) y `recorrido` (marca la cadena entera y saca una foto por misión). Cada proceso usa unos 3 GB: correr de a uno.
+Guiones: `inicio`, `puesto`, `sin_armas` (camina sin armas, de frente), `sin_armas_correr` (lo mismo corriendo), `salto`, `cerca`, `carro`, `refugio`, `eikholt`, `casa`, `paso`, `claro`, `jefe` (pelea con el Ciervo ya empezada), `ciervo` (el Ciervo quieto, de cerca), `aserradero`, `santuario`, `opciones` (el menú de video abierto), `titulo` (menú principal, lista de Cargar y confirmación de reemplazo, con partidas inventadas), `sonido` (el menú de sonido abierto, bajando la música y silenciando el ambiente), `rendimiento` (ponen la partida en ese punto) y `recorrido` (marca la cadena entera y saca una foto por misión). Cada proceso usa unos 3 GB: correr de a uno.
 
 ## UI, bolsa y equipo (16/10/2026)
 

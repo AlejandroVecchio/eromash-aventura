@@ -120,6 +120,7 @@ func guardar() -> void:
 	if _de_prueba:
 		return
 	var cfg := ConfigFile.new()
+	cfg.load(ARCHIVO)   # conserva las secciones de otros (el volumen es de Sonido)
 	cfg.set_value("general", "idioma", idioma)
 	cfg.set_value("video", "preset", preset)
 	for a in AJUSTES:
