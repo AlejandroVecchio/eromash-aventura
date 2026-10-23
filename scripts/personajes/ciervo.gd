@@ -495,7 +495,7 @@ func _golpe_inicio(heroe: Heroe) -> void:
 	var cam := get_viewport().get_camera_3d()
 	if _ataque in ["pisoton", "barrido", "raices"]:
 		for a in _avisos:
-			if is_instance_valid(a) and a.contiene(heroe.global_position):
+			if is_instance_valid(a) and a.contiene(heroe.global_position) and not _hay_muro(heroe.global_position):
 				heroe.recibir_dano(minf(ATAQUES[_ataque].dano, Heroe.SALUD_MAX * 0.35), global_position, true)
 				break
 		_limpiar_avisos()
@@ -507,7 +507,7 @@ func _embestida_choques(heroe: Heroe) -> void:
 	if not _golpeo:
 		var d := heroe.global_position - global_position
 		d.y = 0.0
-		if d.length() < 2.6:
+		if d.length() < 2.6 and not _hay_muro(heroe.global_position):
 			heroe.recibir_dano(minf(ATAQUES.embestida.dano, Heroe.SALUD_MAX * 0.35), global_position)
 			_golpeo = true
 	for s in soportes:
@@ -519,6 +519,16 @@ func _embestida_choques(heroe: Heroe) -> void:
 				(cam.get_parent() as Camara).sacudir(0.9)
 			_fin_golpe(true)
 			return
+
+
+## Igual que el golpe de Eromash: una casa, una roca o un tronco de por medio anula el impacto. El suelo no.
+func _hay_muro(punto: Vector3) -> bool:
+	var excl: Array[RID] = [get_rid()]
+	var suelo := get_tree().root.find_child("ColisionSuelo", true, false)
+	if suelo is CollisionObject3D:
+		excl.append((suelo as CollisionObject3D).get_rid())
+	var q := PhysicsRayQueryParameters3D.create(global_position + Vector3(0, 1.4, 0), punto + Vector3(0, 0.9, 0), 1, excl)
+	return not get_world_3d().direct_space_state.intersect_ray(q).is_empty()
 
 
 func _fin_golpe(contra_soporte := false) -> void:

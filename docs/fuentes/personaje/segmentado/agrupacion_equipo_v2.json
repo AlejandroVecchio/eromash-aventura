@@ -1,0 +1,1854 @@
+{
+  "correccion": "Placa inferior izquierda: 48 caras reasignadas de rodillera a greba sin mover vertices.",
+  "triangulos": 46550,
+  "grupos": {
+    "01_Casco": [
+      {
+        "objeto": "01_Casco__tripo_part_11.001",
+        "segmento_original": "tripo_part_11",
+        "fragmento": "tripo_part_11.001"
+      },
+      {
+        "objeto": "01_Casco__tripo_part_67.001",
+        "segmento_original": "tripo_part_67",
+        "fragmento": "tripo_part_67.001"
+      },
+      {
+        "objeto": "01_Casco__tripo_part_22.002",
+        "segmento_original": "tripo_part_22",
+        "fragmento": "tripo_part_22.002"
+      }
+    ],
+    "03_Pechera": [
+      {
+        "objeto": "03_Pechera__tripo_part_6.001",
+        "segmento_original": "tripo_part_6",
+        "fragmento": "tripo_part_6.001"
+      },
+      {
+        "objeto": "03_Pechera__tripo_part_54.001",
+        "segmento_original": "tripo_part_54",
+        "fragmento": "tripo_part_54.001"
+      },
+      {
+        "objeto": "03_Pechera__tripo_part_58.001",
+        "segmento_original": "tripo_part_58",
+        "fragmento": "tripo_part_58.001"
+      },
+      {
+        "objeto": "03_Pechera__tripo_part_207.001",
+        "segmento_original": "tripo_part_207",
+        "fragmento": "tripo_part_207.001"
+      },
+      {
+        "objeto": "03_Pechera__tripo_part_210.001",
+        "segmento_original": "tripo_part_210",
+        "fragmento": "tripo_part_210.001"
+      },
+      {
+        "objeto": "03_Pechera__tripo_part_216.001",
+        "segmento_original": "tripo_part_216",
+        "fragmento": "tripo_part_216.001"
+      },
+      {
+        "objeto": "03_Pechera__tripo_part_217.001",
+        "segmento_original": "tripo_part_217",
+        "fragmento": "tripo_part_217.001"
+      },
+      {
+        "objeto": "03_Pechera__tripo_part_218.001",
+        "segmento_original": "tripo_part_218",
+        "fragmento": "tripo_part_218.001"
+      },
+      {
+        "objeto": "03_Pechera__tripo_part_221.001",
+        "segmento_original": "tripo_part_221",
+        "fragmento": "tripo_part_221.001"
+      },
+      {
+        "objeto": "03_Pechera__tripo_part_223.001",
+        "segmento_original": "tripo_part_223",
+        "fragmento": "tripo_part_223.001"
+      },
+      {
+        "objeto": "03_Pechera__tripo_part_227.001",
+        "segmento_original": "tripo_part_227",
+        "fragmento": "tripo_part_227.001"
+      },
+      {
+        "objeto": "03_Pechera__tripo_part_6.002",
+        "segmento_original": "tripo_part_6",
+        "fragmento": "tripo_part_6.002"
+      },
+      {
+        "objeto": "03_Pechera__tripo_part_6.003",
+        "segmento_original": "tripo_part_6",
+        "fragmento": "tripo_part_6.003"
+      },
+      {
+        "objeto": "03_Pechera__tripo_part_6.005",
+        "segmento_original": "tripo_part_6",
+        "fragmento": "tripo_part_6.005"
+      },
+      {
+        "objeto": "03_Pechera__tripo_part_6.007",
+        "segmento_original": "tripo_part_6",
+        "fragmento": "tripo_part_6.007"
+      },
+      {
+        "objeto": "03_Pechera__tripo_part_6.008",
+        "segmento_original": "tripo_part_6",
+        "fragmento": "tripo_part_6.008"
+      },
+      {
+        "objeto": "03_Pechera__tripo_part_13.002",
+        "segmento_original": "tripo_part_13",
+        "fragmento": "tripo_part_13.002"
+      },
+      {
+        "objeto": "03_Pechera__tripo_part_13.003",
+        "segmento_original": "tripo_part_13",
+        "fragmento": "tripo_part_13.003"
+      }
+    ],
+    "04_Hombrera_derecha": [
+      {
+        "objeto": "04_Hombrera_derecha__tripo_part_38.001",
+        "segmento_original": "tripo_part_38",
+        "fragmento": "tripo_part_38.001"
+      },
+      {
+        "objeto": "04_Hombrera_derecha__tripo_part_64.001",
+        "segmento_original": "tripo_part_64",
+        "fragmento": "tripo_part_64.001"
+      },
+      {
+        "objeto": "04_Hombrera_derecha__tripo_part_87.001",
+        "segmento_original": "tripo_part_87",
+        "fragmento": "tripo_part_87.001"
+      },
+      {
+        "objeto": "04_Hombrera_derecha__tripo_part_90.001",
+        "segmento_original": "tripo_part_90",
+        "fragmento": "tripo_part_90.001"
+      },
+      {
+        "objeto": "04_Hombrera_derecha__tripo_part_92.001",
+        "segmento_original": "tripo_part_92",
+        "fragmento": "tripo_part_92.001"
+      },
+      {
+        "objeto": "04_Hombrera_derecha__tripo_part_158.001",
+        "segmento_original": "tripo_part_158",
+        "fragmento": "tripo_part_158.001"
+      },
+      {
+        "objeto": "04_Hombrera_derecha__tripo_part_159.001",
+        "segmento_original": "tripo_part_159",
+        "fragmento": "tripo_part_159.001"
+      },
+      {
+        "objeto": "04_Hombrera_derecha__tripo_part_171.001",
+        "segmento_original": "tripo_part_171",
+        "fragmento": "tripo_part_171.001"
+      },
+      {
+        "objeto": "04_Hombrera_derecha__tripo_part_188.001",
+        "segmento_original": "tripo_part_188",
+        "fragmento": "tripo_part_188.001"
+      },
+      {
+        "objeto": "04_Hombrera_derecha__tripo_part_191.001",
+        "segmento_original": "tripo_part_191",
+        "fragmento": "tripo_part_191.001"
+      },
+      {
+        "objeto": "04_Hombrera_derecha__tripo_part_192.001",
+        "segmento_original": "tripo_part_192",
+        "fragmento": "tripo_part_192.001"
+      },
+      {
+        "objeto": "04_Hombrera_derecha__tripo_part_194.001",
+        "segmento_original": "tripo_part_194",
+        "fragmento": "tripo_part_194.001"
+      },
+      {
+        "objeto": "04_Hombrera_derecha__tripo_part_212.001",
+        "segmento_original": "tripo_part_212",
+        "fragmento": "tripo_part_212.001"
+      },
+      {
+        "objeto": "04_Hombrera_derecha__tripo_part_235.001",
+        "segmento_original": "tripo_part_235",
+        "fragmento": "tripo_part_235.001"
+      },
+      {
+        "objeto": "04_Hombrera_derecha__tripo_part_238.001",
+        "segmento_original": "tripo_part_238",
+        "fragmento": "tripo_part_238.001"
+      },
+      {
+        "objeto": "04_Hombrera_derecha__tripo_part_18.002",
+        "segmento_original": "tripo_part_18",
+        "fragmento": "tripo_part_18.002"
+      },
+      {
+        "objeto": "04_Hombrera_derecha__tripo_part_27.002",
+        "segmento_original": "tripo_part_27",
+        "fragmento": "tripo_part_27.002"
+      },
+      {
+        "objeto": "04_Hombrera_derecha__tripo_part_170.001",
+        "segmento_original": "tripo_part_170",
+        "fragmento": "tripo_part_170.001"
+      }
+    ],
+    "04_Hombrera_izquierda": [
+      {
+        "objeto": "04_Hombrera_izquierda__tripo_part_39.001",
+        "segmento_original": "tripo_part_39",
+        "fragmento": "tripo_part_39.001"
+      },
+      {
+        "objeto": "04_Hombrera_izquierda__tripo_part_40.001",
+        "segmento_original": "tripo_part_40",
+        "fragmento": "tripo_part_40.001"
+      },
+      {
+        "objeto": "04_Hombrera_izquierda__tripo_part_52.001",
+        "segmento_original": "tripo_part_52",
+        "fragmento": "tripo_part_52.001"
+      },
+      {
+        "objeto": "04_Hombrera_izquierda__tripo_part_66.001",
+        "segmento_original": "tripo_part_66",
+        "fragmento": "tripo_part_66.001"
+      },
+      {
+        "objeto": "04_Hombrera_izquierda__tripo_part_88.001",
+        "segmento_original": "tripo_part_88",
+        "fragmento": "tripo_part_88.001"
+      },
+      {
+        "objeto": "04_Hombrera_izquierda__tripo_part_91.001",
+        "segmento_original": "tripo_part_91",
+        "fragmento": "tripo_part_91.001"
+      },
+      {
+        "objeto": "04_Hombrera_izquierda__tripo_part_93.001",
+        "segmento_original": "tripo_part_93",
+        "fragmento": "tripo_part_93.001"
+      },
+      {
+        "objeto": "04_Hombrera_izquierda__tripo_part_152.001",
+        "segmento_original": "tripo_part_152",
+        "fragmento": "tripo_part_152.001"
+      },
+      {
+        "objeto": "04_Hombrera_izquierda__tripo_part_153.001",
+        "segmento_original": "tripo_part_153",
+        "fragmento": "tripo_part_153.001"
+      },
+      {
+        "objeto": "04_Hombrera_izquierda__tripo_part_177.001",
+        "segmento_original": "tripo_part_177",
+        "fragmento": "tripo_part_177.001"
+      },
+      {
+        "objeto": "04_Hombrera_izquierda__tripo_part_185.001",
+        "segmento_original": "tripo_part_185",
+        "fragmento": "tripo_part_185.001"
+      },
+      {
+        "objeto": "04_Hombrera_izquierda__tripo_part_199.001",
+        "segmento_original": "tripo_part_199",
+        "fragmento": "tripo_part_199.001"
+      },
+      {
+        "objeto": "04_Hombrera_izquierda__tripo_part_200.001",
+        "segmento_original": "tripo_part_200",
+        "fragmento": "tripo_part_200.001"
+      },
+      {
+        "objeto": "04_Hombrera_izquierda__tripo_part_201.001",
+        "segmento_original": "tripo_part_201",
+        "fragmento": "tripo_part_201.001"
+      },
+      {
+        "objeto": "04_Hombrera_izquierda__tripo_part_203.001",
+        "segmento_original": "tripo_part_203",
+        "fragmento": "tripo_part_203.001"
+      },
+      {
+        "objeto": "04_Hombrera_izquierda__tripo_part_244.001",
+        "segmento_original": "tripo_part_244",
+        "fragmento": "tripo_part_244.001"
+      },
+      {
+        "objeto": "04_Hombrera_izquierda__tripo_part_246.001",
+        "segmento_original": "tripo_part_246",
+        "fragmento": "tripo_part_246.001"
+      },
+      {
+        "objeto": "04_Hombrera_izquierda__tripo_part_184.001",
+        "segmento_original": "tripo_part_184",
+        "fragmento": "tripo_part_184.001"
+      }
+    ],
+    "06_Brazal_derecha": [
+      {
+        "objeto": "06_Brazal_derecha__tripo_part_1.001",
+        "segmento_original": "tripo_part_1",
+        "fragmento": "tripo_part_1.001"
+      },
+      {
+        "objeto": "06_Brazal_derecha__tripo_part_3.001",
+        "segmento_original": "tripo_part_3",
+        "fragmento": "tripo_part_3.001"
+      },
+      {
+        "objeto": "06_Brazal_derecha__tripo_part_12.001",
+        "segmento_original": "tripo_part_12",
+        "fragmento": "tripo_part_12.001"
+      },
+      {
+        "objeto": "06_Brazal_derecha__tripo_part_33.001",
+        "segmento_original": "tripo_part_33",
+        "fragmento": "tripo_part_33.001"
+      },
+      {
+        "objeto": "06_Brazal_derecha__tripo_part_34.001",
+        "segmento_original": "tripo_part_34",
+        "fragmento": "tripo_part_34.001"
+      },
+      {
+        "objeto": "06_Brazal_derecha__tripo_part_35.001",
+        "segmento_original": "tripo_part_35",
+        "fragmento": "tripo_part_35.001"
+      },
+      {
+        "objeto": "06_Brazal_derecha__tripo_part_42.001",
+        "segmento_original": "tripo_part_42",
+        "fragmento": "tripo_part_42.001"
+      },
+      {
+        "objeto": "06_Brazal_derecha__tripo_part_53.001",
+        "segmento_original": "tripo_part_53",
+        "fragmento": "tripo_part_53.001"
+      },
+      {
+        "objeto": "06_Brazal_derecha__tripo_part_72.001",
+        "segmento_original": "tripo_part_72",
+        "fragmento": "tripo_part_72.001"
+      },
+      {
+        "objeto": "06_Brazal_derecha__tripo_part_107.001",
+        "segmento_original": "tripo_part_107",
+        "fragmento": "tripo_part_107.001"
+      },
+      {
+        "objeto": "06_Brazal_derecha__tripo_part_110.001",
+        "segmento_original": "tripo_part_110",
+        "fragmento": "tripo_part_110.001"
+      },
+      {
+        "objeto": "06_Brazal_derecha__tripo_part_115.001",
+        "segmento_original": "tripo_part_115",
+        "fragmento": "tripo_part_115.001"
+      },
+      {
+        "objeto": "06_Brazal_derecha__tripo_part_121.001",
+        "segmento_original": "tripo_part_121",
+        "fragmento": "tripo_part_121.001"
+      },
+      {
+        "objeto": "06_Brazal_derecha__tripo_part_122.001",
+        "segmento_original": "tripo_part_122",
+        "fragmento": "tripo_part_122.001"
+      },
+      {
+        "objeto": "06_Brazal_derecha__tripo_part_135.001",
+        "segmento_original": "tripo_part_135",
+        "fragmento": "tripo_part_135.001"
+      },
+      {
+        "objeto": "06_Brazal_derecha__tripo_part_136.001",
+        "segmento_original": "tripo_part_136",
+        "fragmento": "tripo_part_136.001"
+      },
+      {
+        "objeto": "06_Brazal_derecha__tripo_part_140.001",
+        "segmento_original": "tripo_part_140",
+        "fragmento": "tripo_part_140.001"
+      },
+      {
+        "objeto": "06_Brazal_derecha__tripo_part_168.001",
+        "segmento_original": "tripo_part_168",
+        "fragmento": "tripo_part_168.001"
+      },
+      {
+        "objeto": "06_Brazal_derecha__tripo_part_169.001",
+        "segmento_original": "tripo_part_169",
+        "fragmento": "tripo_part_169.001"
+      },
+      {
+        "objeto": "06_Brazal_derecha__tripo_part_189.001",
+        "segmento_original": "tripo_part_189",
+        "fragmento": "tripo_part_189.001"
+      },
+      {
+        "objeto": "06_Brazal_derecha__tripo_part_190.001",
+        "segmento_original": "tripo_part_190",
+        "fragmento": "tripo_part_190.001"
+      },
+      {
+        "objeto": "06_Brazal_derecha__tripo_part_230.001",
+        "segmento_original": "tripo_part_230",
+        "fragmento": "tripo_part_230.001"
+      },
+      {
+        "objeto": "06_Brazal_derecha__tripo_part_237.001",
+        "segmento_original": "tripo_part_237",
+        "fragmento": "tripo_part_237.001"
+      },
+      {
+        "objeto": "06_Brazal_derecha__tripo_part_239.001",
+        "segmento_original": "tripo_part_239",
+        "fragmento": "tripo_part_239.001"
+      },
+      {
+        "objeto": "06_Brazal_derecha__tripo_part_240.001",
+        "segmento_original": "tripo_part_240",
+        "fragmento": "tripo_part_240.001"
+      },
+      {
+        "objeto": "06_Brazal_derecha__tripo_part_248.001",
+        "segmento_original": "tripo_part_248",
+        "fragmento": "tripo_part_248.001"
+      },
+      {
+        "objeto": "06_Brazal_derecha__tripo_part_250.001",
+        "segmento_original": "tripo_part_250",
+        "fragmento": "tripo_part_250.001"
+      },
+      {
+        "objeto": "06_Brazal_derecha__tripo_part_1.002",
+        "segmento_original": "tripo_part_1",
+        "fragmento": "tripo_part_1.002"
+      },
+      {
+        "objeto": "06_Brazal_derecha__tripo_part_1.003",
+        "segmento_original": "tripo_part_1",
+        "fragmento": "tripo_part_1.003"
+      },
+      {
+        "objeto": "06_Brazal_derecha__tripo_part_1.004",
+        "segmento_original": "tripo_part_1",
+        "fragmento": "tripo_part_1.004"
+      },
+      {
+        "objeto": "06_Brazal_derecha__tripo_part_1.005",
+        "segmento_original": "tripo_part_1",
+        "fragmento": "tripo_part_1.005"
+      },
+      {
+        "objeto": "06_Brazal_derecha__tripo_part_12.002",
+        "segmento_original": "tripo_part_12",
+        "fragmento": "tripo_part_12.002"
+      }
+    ],
+    "06_Brazal_izquierda": [
+      {
+        "objeto": "06_Brazal_izquierda__tripo_part_2.001",
+        "segmento_original": "tripo_part_2",
+        "fragmento": "tripo_part_2.001"
+      },
+      {
+        "objeto": "06_Brazal_izquierda__tripo_part_37.001",
+        "segmento_original": "tripo_part_37",
+        "fragmento": "tripo_part_37.001"
+      },
+      {
+        "objeto": "06_Brazal_izquierda__tripo_part_43.001",
+        "segmento_original": "tripo_part_43",
+        "fragmento": "tripo_part_43.001"
+      },
+      {
+        "objeto": "06_Brazal_izquierda__tripo_part_55.001",
+        "segmento_original": "tripo_part_55",
+        "fragmento": "tripo_part_55.001"
+      },
+      {
+        "objeto": "06_Brazal_izquierda__tripo_part_63.001",
+        "segmento_original": "tripo_part_63",
+        "fragmento": "tripo_part_63.001"
+      },
+      {
+        "objeto": "06_Brazal_izquierda__tripo_part_78.001",
+        "segmento_original": "tripo_part_78",
+        "fragmento": "tripo_part_78.001"
+      },
+      {
+        "objeto": "06_Brazal_izquierda__tripo_part_79.001",
+        "segmento_original": "tripo_part_79",
+        "fragmento": "tripo_part_79.001"
+      },
+      {
+        "objeto": "06_Brazal_izquierda__tripo_part_89.001",
+        "segmento_original": "tripo_part_89",
+        "fragmento": "tripo_part_89.001"
+      },
+      {
+        "objeto": "06_Brazal_izquierda__tripo_part_98.001",
+        "segmento_original": "tripo_part_98",
+        "fragmento": "tripo_part_98.001"
+      },
+      {
+        "objeto": "06_Brazal_izquierda__tripo_part_102.001",
+        "segmento_original": "tripo_part_102",
+        "fragmento": "tripo_part_102.001"
+      },
+      {
+        "objeto": "06_Brazal_izquierda__tripo_part_116.001",
+        "segmento_original": "tripo_part_116",
+        "fragmento": "tripo_part_116.001"
+      },
+      {
+        "objeto": "06_Brazal_izquierda__tripo_part_118.001",
+        "segmento_original": "tripo_part_118",
+        "fragmento": "tripo_part_118.001"
+      },
+      {
+        "objeto": "06_Brazal_izquierda__tripo_part_143.001",
+        "segmento_original": "tripo_part_143",
+        "fragmento": "tripo_part_143.001"
+      },
+      {
+        "objeto": "06_Brazal_izquierda__tripo_part_144.001",
+        "segmento_original": "tripo_part_144",
+        "fragmento": "tripo_part_144.001"
+      },
+      {
+        "objeto": "06_Brazal_izquierda__tripo_part_150.001",
+        "segmento_original": "tripo_part_150",
+        "fragmento": "tripo_part_150.001"
+      },
+      {
+        "objeto": "06_Brazal_izquierda__tripo_part_151.001",
+        "segmento_original": "tripo_part_151",
+        "fragmento": "tripo_part_151.001"
+      },
+      {
+        "objeto": "06_Brazal_izquierda__tripo_part_176.001",
+        "segmento_original": "tripo_part_176",
+        "fragmento": "tripo_part_176.001"
+      },
+      {
+        "objeto": "06_Brazal_izquierda__tripo_part_183.001",
+        "segmento_original": "tripo_part_183",
+        "fragmento": "tripo_part_183.001"
+      },
+      {
+        "objeto": "06_Brazal_izquierda__tripo_part_198.001",
+        "segmento_original": "tripo_part_198",
+        "fragmento": "tripo_part_198.001"
+      },
+      {
+        "objeto": "06_Brazal_izquierda__tripo_part_236.001",
+        "segmento_original": "tripo_part_236",
+        "fragmento": "tripo_part_236.001"
+      },
+      {
+        "objeto": "06_Brazal_izquierda__tripo_part_243.001",
+        "segmento_original": "tripo_part_243",
+        "fragmento": "tripo_part_243.001"
+      },
+      {
+        "objeto": "06_Brazal_izquierda__tripo_part_247.001",
+        "segmento_original": "tripo_part_247",
+        "fragmento": "tripo_part_247.001"
+      },
+      {
+        "objeto": "06_Brazal_izquierda__tripo_part_251.001",
+        "segmento_original": "tripo_part_251",
+        "fragmento": "tripo_part_251.001"
+      },
+      {
+        "objeto": "06_Brazal_izquierda__tripo_part_0.004",
+        "segmento_original": "tripo_part_0",
+        "fragmento": "tripo_part_0.004"
+      },
+      {
+        "objeto": "06_Brazal_izquierda__tripo_part_0.005",
+        "segmento_original": "tripo_part_0",
+        "fragmento": "tripo_part_0.005"
+      },
+      {
+        "objeto": "06_Brazal_izquierda__tripo_part_0.006",
+        "segmento_original": "tripo_part_0",
+        "fragmento": "tripo_part_0.006"
+      },
+      {
+        "objeto": "06_Brazal_izquierda__tripo_part_0.007",
+        "segmento_original": "tripo_part_0",
+        "fragmento": "tripo_part_0.007"
+      },
+      {
+        "objeto": "06_Brazal_izquierda__tripo_part_8.002",
+        "segmento_original": "tripo_part_8",
+        "fragmento": "tripo_part_8.002"
+      },
+      {
+        "objeto": "06_Brazal_izquierda__tripo_part_8.003",
+        "segmento_original": "tripo_part_8",
+        "fragmento": "tripo_part_8.003"
+      },
+      {
+        "objeto": "06_Brazal_izquierda__tripo_part_22.003",
+        "segmento_original": "tripo_part_22",
+        "fragmento": "tripo_part_22.003"
+      },
+      {
+        "objeto": "06_Brazal_izquierda__tripo_part_26.003",
+        "segmento_original": "tripo_part_26",
+        "fragmento": "tripo_part_26.003"
+      }
+    ],
+    "08_Guante_derecha": [
+      {
+        "objeto": "08_Guante_derecha__tripo_part_10.001",
+        "segmento_original": "tripo_part_10",
+        "fragmento": "tripo_part_10.001"
+      },
+      {
+        "objeto": "08_Guante_derecha__tripo_part_167.001",
+        "segmento_original": "tripo_part_167",
+        "fragmento": "tripo_part_167.001"
+      }
+    ],
+    "08_Guante_izquierda": [
+      {
+        "objeto": "08_Guante_izquierda__tripo_part_8.001",
+        "segmento_original": "tripo_part_8",
+        "fragmento": "tripo_part_8.001"
+      },
+      {
+        "objeto": "08_Guante_izquierda__tripo_part_149.001",
+        "segmento_original": "tripo_part_149",
+        "fragmento": "tripo_part_149.001"
+      }
+    ],
+    "09_Cinturon_y_bolsas": [
+      {
+        "objeto": "09_Cinturon_y_bolsas__tripo_part_22.001",
+        "segmento_original": "tripo_part_22",
+        "fragmento": "tripo_part_22.001"
+      },
+      {
+        "objeto": "09_Cinturon_y_bolsas__tripo_part_23.001",
+        "segmento_original": "tripo_part_23",
+        "fragmento": "tripo_part_23.001"
+      },
+      {
+        "objeto": "09_Cinturon_y_bolsas__tripo_part_27.001",
+        "segmento_original": "tripo_part_27",
+        "fragmento": "tripo_part_27.001"
+      },
+      {
+        "objeto": "09_Cinturon_y_bolsas__tripo_part_56.001",
+        "segmento_original": "tripo_part_56",
+        "fragmento": "tripo_part_56.001"
+      },
+      {
+        "objeto": "09_Cinturon_y_bolsas__tripo_part_61.001",
+        "segmento_original": "tripo_part_61",
+        "fragmento": "tripo_part_61.001"
+      },
+      {
+        "objeto": "09_Cinturon_y_bolsas__tripo_part_62.001",
+        "segmento_original": "tripo_part_62",
+        "fragmento": "tripo_part_62.001"
+      },
+      {
+        "objeto": "09_Cinturon_y_bolsas__tripo_part_96.001",
+        "segmento_original": "tripo_part_96",
+        "fragmento": "tripo_part_96.001"
+      },
+      {
+        "objeto": "09_Cinturon_y_bolsas__tripo_part_97.001",
+        "segmento_original": "tripo_part_97",
+        "fragmento": "tripo_part_97.001"
+      },
+      {
+        "objeto": "09_Cinturon_y_bolsas__tripo_part_99.001",
+        "segmento_original": "tripo_part_99",
+        "fragmento": "tripo_part_99.001"
+      },
+      {
+        "objeto": "09_Cinturon_y_bolsas__tripo_part_100.001",
+        "segmento_original": "tripo_part_100",
+        "fragmento": "tripo_part_100.001"
+      },
+      {
+        "objeto": "09_Cinturon_y_bolsas__tripo_part_101.001",
+        "segmento_original": "tripo_part_101",
+        "fragmento": "tripo_part_101.001"
+      },
+      {
+        "objeto": "09_Cinturon_y_bolsas__tripo_part_103.001",
+        "segmento_original": "tripo_part_103",
+        "fragmento": "tripo_part_103.001"
+      },
+      {
+        "objeto": "09_Cinturon_y_bolsas__tripo_part_104.001",
+        "segmento_original": "tripo_part_104",
+        "fragmento": "tripo_part_104.001"
+      },
+      {
+        "objeto": "09_Cinturon_y_bolsas__tripo_part_105.001",
+        "segmento_original": "tripo_part_105",
+        "fragmento": "tripo_part_105.001"
+      },
+      {
+        "objeto": "09_Cinturon_y_bolsas__tripo_part_106.001",
+        "segmento_original": "tripo_part_106",
+        "fragmento": "tripo_part_106.001"
+      },
+      {
+        "objeto": "09_Cinturon_y_bolsas__tripo_part_123.001",
+        "segmento_original": "tripo_part_123",
+        "fragmento": "tripo_part_123.001"
+      },
+      {
+        "objeto": "09_Cinturon_y_bolsas__tripo_part_124.001",
+        "segmento_original": "tripo_part_124",
+        "fragmento": "tripo_part_124.001"
+      },
+      {
+        "objeto": "09_Cinturon_y_bolsas__tripo_part_125.001",
+        "segmento_original": "tripo_part_125",
+        "fragmento": "tripo_part_125.001"
+      },
+      {
+        "objeto": "09_Cinturon_y_bolsas__tripo_part_126.001",
+        "segmento_original": "tripo_part_126",
+        "fragmento": "tripo_part_126.001"
+      },
+      {
+        "objeto": "09_Cinturon_y_bolsas__tripo_part_127.001",
+        "segmento_original": "tripo_part_127",
+        "fragmento": "tripo_part_127.001"
+      },
+      {
+        "objeto": "09_Cinturon_y_bolsas__tripo_part_128.001",
+        "segmento_original": "tripo_part_128",
+        "fragmento": "tripo_part_128.001"
+      },
+      {
+        "objeto": "09_Cinturon_y_bolsas__tripo_part_129.001",
+        "segmento_original": "tripo_part_129",
+        "fragmento": "tripo_part_129.001"
+      },
+      {
+        "objeto": "09_Cinturon_y_bolsas__tripo_part_193.001",
+        "segmento_original": "tripo_part_193",
+        "fragmento": "tripo_part_193.001"
+      },
+      {
+        "objeto": "09_Cinturon_y_bolsas__tripo_part_197.001",
+        "segmento_original": "tripo_part_197",
+        "fragmento": "tripo_part_197.001"
+      },
+      {
+        "objeto": "09_Cinturon_y_bolsas__tripo_part_204.001",
+        "segmento_original": "tripo_part_204",
+        "fragmento": "tripo_part_204.001"
+      },
+      {
+        "objeto": "09_Cinturon_y_bolsas__tripo_part_205.001",
+        "segmento_original": "tripo_part_205",
+        "fragmento": "tripo_part_205.001"
+      },
+      {
+        "objeto": "09_Cinturon_y_bolsas__tripo_part_208.001",
+        "segmento_original": "tripo_part_208",
+        "fragmento": "tripo_part_208.001"
+      },
+      {
+        "objeto": "09_Cinturon_y_bolsas__tripo_part_209.001",
+        "segmento_original": "tripo_part_209",
+        "fragmento": "tripo_part_209.001"
+      },
+      {
+        "objeto": "09_Cinturon_y_bolsas__tripo_part_228.001",
+        "segmento_original": "tripo_part_228",
+        "fragmento": "tripo_part_228.001"
+      },
+      {
+        "objeto": "09_Cinturon_y_bolsas__tripo_part_229.001",
+        "segmento_original": "tripo_part_229",
+        "fragmento": "tripo_part_229.001"
+      },
+      {
+        "objeto": "09_Cinturon_y_bolsas__tripo_part_231.001",
+        "segmento_original": "tripo_part_231",
+        "fragmento": "tripo_part_231.001"
+      },
+      {
+        "objeto": "09_Cinturon_y_bolsas__tripo_part_233.001",
+        "segmento_original": "tripo_part_233",
+        "fragmento": "tripo_part_233.001"
+      },
+      {
+        "objeto": "09_Cinturon_y_bolsas__tripo_part_234.001",
+        "segmento_original": "tripo_part_234",
+        "fragmento": "tripo_part_234.001"
+      },
+      {
+        "objeto": "09_Cinturon_y_bolsas__tripo_part_255.001",
+        "segmento_original": "tripo_part_255",
+        "fragmento": "tripo_part_255.001"
+      },
+      {
+        "objeto": "09_Cinturon_y_bolsas__tripo_part_1.007",
+        "segmento_original": "tripo_part_1",
+        "fragmento": "tripo_part_1.007"
+      },
+      {
+        "objeto": "09_Cinturon_y_bolsas__tripo_part_5.008",
+        "segmento_original": "tripo_part_5",
+        "fragmento": "tripo_part_5.008"
+      },
+      {
+        "objeto": "09_Cinturon_y_bolsas__tripo_part_6.004",
+        "segmento_original": "tripo_part_6",
+        "fragmento": "tripo_part_6.004"
+      },
+      {
+        "objeto": "09_Cinturon_y_bolsas__tripo_part_6.006",
+        "segmento_original": "tripo_part_6",
+        "fragmento": "tripo_part_6.006"
+      },
+      {
+        "objeto": "09_Cinturon_y_bolsas__tripo_part_6.009",
+        "segmento_original": "tripo_part_6",
+        "fragmento": "tripo_part_6.009"
+      },
+      {
+        "objeto": "09_Cinturon_y_bolsas__tripo_part_9.005",
+        "segmento_original": "tripo_part_9",
+        "fragmento": "tripo_part_9.005"
+      },
+      {
+        "objeto": "09_Cinturon_y_bolsas__tripo_part_13.004",
+        "segmento_original": "tripo_part_13",
+        "fragmento": "tripo_part_13.004"
+      },
+      {
+        "objeto": "09_Cinturon_y_bolsas__tripo_part_13.005",
+        "segmento_original": "tripo_part_13",
+        "fragmento": "tripo_part_13.005"
+      },
+      {
+        "objeto": "09_Cinturon_y_bolsas__tripo_part_13.006",
+        "segmento_original": "tripo_part_13",
+        "fragmento": "tripo_part_13.006"
+      },
+      {
+        "objeto": "09_Cinturon_y_bolsas__tripo_part_16.002",
+        "segmento_original": "tripo_part_16",
+        "fragmento": "tripo_part_16.002"
+      },
+      {
+        "objeto": "09_Cinturon_y_bolsas__tripo_part_16.004",
+        "segmento_original": "tripo_part_16",
+        "fragmento": "tripo_part_16.004"
+      },
+      {
+        "objeto": "09_Cinturon_y_bolsas__tripo_part_16.005",
+        "segmento_original": "tripo_part_16",
+        "fragmento": "tripo_part_16.005"
+      },
+      {
+        "objeto": "09_Cinturon_y_bolsas__tripo_part_16.006",
+        "segmento_original": "tripo_part_16",
+        "fragmento": "tripo_part_16.006"
+      },
+      {
+        "objeto": "09_Cinturon_y_bolsas__tripo_part_16.007",
+        "segmento_original": "tripo_part_16",
+        "fragmento": "tripo_part_16.007"
+      },
+      {
+        "objeto": "09_Cinturon_y_bolsas__tripo_part_16.008",
+        "segmento_original": "tripo_part_16",
+        "fragmento": "tripo_part_16.008"
+      },
+      {
+        "objeto": "09_Cinturon_y_bolsas__tripo_part_18.003",
+        "segmento_original": "tripo_part_18",
+        "fragmento": "tripo_part_18.003"
+      },
+      {
+        "objeto": "09_Cinturon_y_bolsas__tripo_part_18.005",
+        "segmento_original": "tripo_part_18",
+        "fragmento": "tripo_part_18.005"
+      },
+      {
+        "objeto": "09_Cinturon_y_bolsas__tripo_part_18.006",
+        "segmento_original": "tripo_part_18",
+        "fragmento": "tripo_part_18.006"
+      },
+      {
+        "objeto": "09_Cinturon_y_bolsas__tripo_part_18.007",
+        "segmento_original": "tripo_part_18",
+        "fragmento": "tripo_part_18.007"
+      },
+      {
+        "objeto": "09_Cinturon_y_bolsas__tripo_part_19.003",
+        "segmento_original": "tripo_part_19",
+        "fragmento": "tripo_part_19.003"
+      },
+      {
+        "objeto": "09_Cinturon_y_bolsas__tripo_part_19.004",
+        "segmento_original": "tripo_part_19",
+        "fragmento": "tripo_part_19.004"
+      },
+      {
+        "objeto": "09_Cinturon_y_bolsas__tripo_part_20.002",
+        "segmento_original": "tripo_part_20",
+        "fragmento": "tripo_part_20.002"
+      },
+      {
+        "objeto": "09_Cinturon_y_bolsas__tripo_part_20.003",
+        "segmento_original": "tripo_part_20",
+        "fragmento": "tripo_part_20.003"
+      },
+      {
+        "objeto": "09_Cinturon_y_bolsas__tripo_part_20.004",
+        "segmento_original": "tripo_part_20",
+        "fragmento": "tripo_part_20.004"
+      },
+      {
+        "objeto": "09_Cinturon_y_bolsas__tripo_part_20.005",
+        "segmento_original": "tripo_part_20",
+        "fragmento": "tripo_part_20.005"
+      },
+      {
+        "objeto": "09_Cinturon_y_bolsas__tripo_part_23.002",
+        "segmento_original": "tripo_part_23",
+        "fragmento": "tripo_part_23.002"
+      },
+      {
+        "objeto": "09_Cinturon_y_bolsas__tripo_part_23.003",
+        "segmento_original": "tripo_part_23",
+        "fragmento": "tripo_part_23.003"
+      },
+      {
+        "objeto": "09_Cinturon_y_bolsas__tripo_part_24.005",
+        "segmento_original": "tripo_part_24",
+        "fragmento": "tripo_part_24.005"
+      },
+      {
+        "objeto": "09_Cinturon_y_bolsas__tripo_part_28.002",
+        "segmento_original": "tripo_part_28",
+        "fragmento": "tripo_part_28.002"
+      },
+      {
+        "objeto": "09_Cinturon_y_bolsas__tripo_part_28.003",
+        "segmento_original": "tripo_part_28",
+        "fragmento": "tripo_part_28.003"
+      },
+      {
+        "objeto": "09_Cinturon_y_bolsas__tripo_part_30.003",
+        "segmento_original": "tripo_part_30",
+        "fragmento": "tripo_part_30.003"
+      }
+    ],
+    "10_Faldones_cuero": [
+      {
+        "objeto": "10_Faldones_cuero__tripo_part_30.001",
+        "segmento_original": "tripo_part_30",
+        "fragmento": "tripo_part_30.001"
+      },
+      {
+        "objeto": "10_Faldones_cuero__tripo_part_71.001",
+        "segmento_original": "tripo_part_71",
+        "fragmento": "tripo_part_71.001"
+      },
+      {
+        "objeto": "10_Faldones_cuero__tripo_part_73.001",
+        "segmento_original": "tripo_part_73",
+        "fragmento": "tripo_part_73.001"
+      },
+      {
+        "objeto": "10_Faldones_cuero__tripo_part_77.001",
+        "segmento_original": "tripo_part_77",
+        "fragmento": "tripo_part_77.001"
+      },
+      {
+        "objeto": "10_Faldones_cuero__tripo_part_80.001",
+        "segmento_original": "tripo_part_80",
+        "fragmento": "tripo_part_80.001"
+      },
+      {
+        "objeto": "10_Faldones_cuero__tripo_part_84.001",
+        "segmento_original": "tripo_part_84",
+        "fragmento": "tripo_part_84.001"
+      },
+      {
+        "objeto": "10_Faldones_cuero__tripo_part_139.001",
+        "segmento_original": "tripo_part_139",
+        "fragmento": "tripo_part_139.001"
+      },
+      {
+        "objeto": "10_Faldones_cuero__tripo_part_148.001",
+        "segmento_original": "tripo_part_148",
+        "fragmento": "tripo_part_148.001"
+      },
+      {
+        "objeto": "10_Faldones_cuero__tripo_part_211.001",
+        "segmento_original": "tripo_part_211",
+        "fragmento": "tripo_part_211.001"
+      },
+      {
+        "objeto": "10_Faldones_cuero__tripo_part_213.001",
+        "segmento_original": "tripo_part_213",
+        "fragmento": "tripo_part_213.001"
+      },
+      {
+        "objeto": "10_Faldones_cuero__tripo_part_18.001",
+        "segmento_original": "tripo_part_18",
+        "fragmento": "tripo_part_18.001"
+      },
+      {
+        "objeto": "10_Faldones_cuero__tripo_part_1.006",
+        "segmento_original": "tripo_part_1",
+        "fragmento": "tripo_part_1.006"
+      },
+      {
+        "objeto": "10_Faldones_cuero__tripo_part_4.005",
+        "segmento_original": "tripo_part_4",
+        "fragmento": "tripo_part_4.005"
+      },
+      {
+        "objeto": "10_Faldones_cuero__tripo_part_5.003",
+        "segmento_original": "tripo_part_5",
+        "fragmento": "tripo_part_5.003"
+      },
+      {
+        "objeto": "10_Faldones_cuero__tripo_part_5.007",
+        "segmento_original": "tripo_part_5",
+        "fragmento": "tripo_part_5.007"
+      },
+      {
+        "objeto": "10_Faldones_cuero__tripo_part_9.004",
+        "segmento_original": "tripo_part_9",
+        "fragmento": "tripo_part_9.004"
+      },
+      {
+        "objeto": "10_Faldones_cuero__tripo_part_17.003",
+        "segmento_original": "tripo_part_17",
+        "fragmento": "tripo_part_17.003"
+      },
+      {
+        "objeto": "10_Faldones_cuero__tripo_part_17.004",
+        "segmento_original": "tripo_part_17",
+        "fragmento": "tripo_part_17.004"
+      },
+      {
+        "objeto": "10_Faldones_cuero__tripo_part_18.004",
+        "segmento_original": "tripo_part_18",
+        "fragmento": "tripo_part_18.004"
+      },
+      {
+        "objeto": "10_Faldones_cuero__tripo_part_24.002",
+        "segmento_original": "tripo_part_24",
+        "fragmento": "tripo_part_24.002"
+      },
+      {
+        "objeto": "10_Faldones_cuero__tripo_part_24.004",
+        "segmento_original": "tripo_part_24",
+        "fragmento": "tripo_part_24.004"
+      },
+      {
+        "objeto": "10_Faldones_cuero__tripo_part_30.002",
+        "segmento_original": "tripo_part_30",
+        "fragmento": "tripo_part_30.002"
+      },
+      {
+        "objeto": "10_Faldones_cuero__tripo_part_31.005",
+        "segmento_original": "tripo_part_31",
+        "fragmento": "tripo_part_31.005"
+      },
+      {
+        "objeto": "10_Faldones_cuero__tripo_part_31.006",
+        "segmento_original": "tripo_part_31",
+        "fragmento": "tripo_part_31.006"
+      }
+    ],
+    "10_Tabardo": [
+      {
+        "objeto": "10_Tabardo__tripo_part_13.001",
+        "segmento_original": "tripo_part_13",
+        "fragmento": "tripo_part_13.001"
+      },
+      {
+        "objeto": "10_Tabardo__tripo_part_120.001",
+        "segmento_original": "tripo_part_120",
+        "fragmento": "tripo_part_120.001"
+      },
+      {
+        "objeto": "10_Tabardo__tripo_part_242.001",
+        "segmento_original": "tripo_part_242",
+        "fragmento": "tripo_part_242.001"
+      },
+      {
+        "objeto": "10_Tabardo__tripo_part_9.003",
+        "segmento_original": "tripo_part_9",
+        "fragmento": "tripo_part_9.003"
+      },
+      {
+        "objeto": "10_Tabardo__tripo_part_17.002",
+        "segmento_original": "tripo_part_17",
+        "fragmento": "tripo_part_17.002"
+      },
+      {
+        "objeto": "10_Tabardo__tripo_part_24.003",
+        "segmento_original": "tripo_part_24",
+        "fragmento": "tripo_part_24.003"
+      },
+      {
+        "objeto": "10_Tabardo__tripo_part_31.004",
+        "segmento_original": "tripo_part_31",
+        "fragmento": "tripo_part_31.004"
+      },
+      {
+        "objeto": "10_Tabardo__tripo_part_19.005",
+        "segmento_original": "tripo_part_19",
+        "fragmento": "tripo_part_19.005"
+      },
+      {
+        "objeto": "10_Tabardo__tripo_part_28.001",
+        "segmento_original": "tripo_part_28",
+        "fragmento": "tripo_part_28.001"
+      },
+      {
+        "objeto": "10_Tabardo__tripo_part_5.004",
+        "segmento_original": "tripo_part_5",
+        "fragmento": "tripo_part_5.004"
+      }
+    ],
+    "11_Rodillera_derecha": [
+      {
+        "objeto": "11_Rodillera_derecha__tripo_part_16.001",
+        "segmento_original": "tripo_part_16",
+        "fragmento": "tripo_part_16.001"
+      },
+      {
+        "objeto": "11_Rodillera_derecha__tripo_part_19.001",
+        "segmento_original": "tripo_part_19",
+        "fragmento": "tripo_part_19.001"
+      },
+      {
+        "objeto": "11_Rodillera_derecha__tripo_part_48.001",
+        "segmento_original": "tripo_part_48",
+        "fragmento": "tripo_part_48.001"
+      },
+      {
+        "objeto": "11_Rodillera_derecha__tripo_part_70.001",
+        "segmento_original": "tripo_part_70",
+        "fragmento": "tripo_part_70.001"
+      },
+      {
+        "objeto": "11_Rodillera_derecha__tripo_part_83.001",
+        "segmento_original": "tripo_part_83",
+        "fragmento": "tripo_part_83.001"
+      },
+      {
+        "objeto": "11_Rodillera_derecha__tripo_part_132.001",
+        "segmento_original": "tripo_part_132",
+        "fragmento": "tripo_part_132.001"
+      },
+      {
+        "objeto": "11_Rodillera_derecha__tripo_part_133.001",
+        "segmento_original": "tripo_part_133",
+        "fragmento": "tripo_part_133.001"
+      },
+      {
+        "objeto": "11_Rodillera_derecha__tripo_part_134.001",
+        "segmento_original": "tripo_part_134",
+        "fragmento": "tripo_part_134.001"
+      },
+      {
+        "objeto": "11_Rodillera_derecha__tripo_part_157.001",
+        "segmento_original": "tripo_part_157",
+        "fragmento": "tripo_part_157.001"
+      },
+      {
+        "objeto": "11_Rodillera_derecha__tripo_part_16.003",
+        "segmento_original": "tripo_part_16",
+        "fragmento": "tripo_part_16.003"
+      },
+      {
+        "objeto": "11_Rodillera_derecha__tripo_part_19.002",
+        "segmento_original": "tripo_part_19",
+        "fragmento": "tripo_part_19.002"
+      },
+      {
+        "objeto": "11_Rodillera_derecha__tripo_part_19.009",
+        "segmento_original": "tripo_part_19",
+        "fragmento": "tripo_part_19.009"
+      },
+      {
+        "objeto": "11_Rodillera_derecha__tripo_part_19.010",
+        "segmento_original": "tripo_part_19",
+        "fragmento": "tripo_part_19.010"
+      }
+    ],
+    "11_Rodillera_izquierda": [
+      {
+        "objeto": "11_Rodillera_izquierda__tripo_part_4.001",
+        "segmento_original": "tripo_part_4",
+        "fragmento": "tripo_part_4.001"
+      },
+      {
+        "objeto": "11_Rodillera_izquierda__tripo_part_49.001",
+        "segmento_original": "tripo_part_49",
+        "fragmento": "tripo_part_49.001"
+      },
+      {
+        "objeto": "11_Rodillera_izquierda__tripo_part_59.001",
+        "segmento_original": "tripo_part_59",
+        "fragmento": "tripo_part_59.001"
+      },
+      {
+        "objeto": "11_Rodillera_izquierda__tripo_part_60.001",
+        "segmento_original": "tripo_part_60",
+        "fragmento": "tripo_part_60.001"
+      },
+      {
+        "objeto": "11_Rodillera_izquierda__tripo_part_85.001",
+        "segmento_original": "tripo_part_85",
+        "fragmento": "tripo_part_85.001"
+      },
+      {
+        "objeto": "11_Rodillera_izquierda__tripo_part_94.001",
+        "segmento_original": "tripo_part_94",
+        "fragmento": "tripo_part_94.001"
+      },
+      {
+        "objeto": "11_Rodillera_izquierda__tripo_part_141.001",
+        "segmento_original": "tripo_part_141",
+        "fragmento": "tripo_part_141.001"
+      },
+      {
+        "objeto": "11_Rodillera_izquierda__tripo_part_142.001",
+        "segmento_original": "tripo_part_142",
+        "fragmento": "tripo_part_142.001"
+      },
+      {
+        "objeto": "11_Rodillera_izquierda__tripo_part_174.001",
+        "segmento_original": "tripo_part_174",
+        "fragmento": "tripo_part_174.001"
+      },
+      {
+        "objeto": "11_Rodillera_izquierda__tripo_part_175.001",
+        "segmento_original": "tripo_part_175",
+        "fragmento": "tripo_part_175.001"
+      },
+      {
+        "objeto": "11_Rodillera_izquierda__tripo_part_245.001",
+        "segmento_original": "tripo_part_245",
+        "fragmento": "tripo_part_245.001"
+      },
+      {
+        "objeto": "11_Rodillera_izquierda__tripo_part_4.002",
+        "segmento_original": "tripo_part_4",
+        "fragmento": "tripo_part_4.002"
+      },
+      {
+        "objeto": "11_Rodillera_izquierda__tripo_part_4.004",
+        "segmento_original": "tripo_part_4",
+        "fragmento": "tripo_part_4.004"
+      }
+    ],
+    "12_Greba_derecha": [
+      {
+        "objeto": "12_Greba_derecha__tripo_part_5.001",
+        "segmento_original": "tripo_part_5",
+        "fragmento": "tripo_part_5.001"
+      },
+      {
+        "objeto": "12_Greba_derecha__tripo_part_14.001",
+        "segmento_original": "tripo_part_14",
+        "fragmento": "tripo_part_14.001"
+      },
+      {
+        "objeto": "12_Greba_derecha__tripo_part_20.001",
+        "segmento_original": "tripo_part_20",
+        "fragmento": "tripo_part_20.001"
+      },
+      {
+        "objeto": "12_Greba_derecha__tripo_part_31.001",
+        "segmento_original": "tripo_part_31",
+        "fragmento": "tripo_part_31.001"
+      },
+      {
+        "objeto": "12_Greba_derecha__tripo_part_45.001",
+        "segmento_original": "tripo_part_45",
+        "fragmento": "tripo_part_45.001"
+      },
+      {
+        "objeto": "12_Greba_derecha__tripo_part_65.001",
+        "segmento_original": "tripo_part_65",
+        "fragmento": "tripo_part_65.001"
+      },
+      {
+        "objeto": "12_Greba_derecha__tripo_part_68.001",
+        "segmento_original": "tripo_part_68",
+        "fragmento": "tripo_part_68.001"
+      },
+      {
+        "objeto": "12_Greba_derecha__tripo_part_86.001",
+        "segmento_original": "tripo_part_86",
+        "fragmento": "tripo_part_86.001"
+      },
+      {
+        "objeto": "12_Greba_derecha__tripo_part_95.001",
+        "segmento_original": "tripo_part_95",
+        "fragmento": "tripo_part_95.001"
+      },
+      {
+        "objeto": "12_Greba_derecha__tripo_part_108.001",
+        "segmento_original": "tripo_part_108",
+        "fragmento": "tripo_part_108.001"
+      },
+      {
+        "objeto": "12_Greba_derecha__tripo_part_111.001",
+        "segmento_original": "tripo_part_111",
+        "fragmento": "tripo_part_111.001"
+      },
+      {
+        "objeto": "12_Greba_derecha__tripo_part_112.001",
+        "segmento_original": "tripo_part_112",
+        "fragmento": "tripo_part_112.001"
+      },
+      {
+        "objeto": "12_Greba_derecha__tripo_part_114.001",
+        "segmento_original": "tripo_part_114",
+        "fragmento": "tripo_part_114.001"
+      },
+      {
+        "objeto": "12_Greba_derecha__tripo_part_130.001",
+        "segmento_original": "tripo_part_130",
+        "fragmento": "tripo_part_130.001"
+      },
+      {
+        "objeto": "12_Greba_derecha__tripo_part_131.001",
+        "segmento_original": "tripo_part_131",
+        "fragmento": "tripo_part_131.001"
+      },
+      {
+        "objeto": "12_Greba_derecha__tripo_part_137.001",
+        "segmento_original": "tripo_part_137",
+        "fragmento": "tripo_part_137.001"
+      },
+      {
+        "objeto": "12_Greba_derecha__tripo_part_138.001",
+        "segmento_original": "tripo_part_138",
+        "fragmento": "tripo_part_138.001"
+      },
+      {
+        "objeto": "12_Greba_derecha__tripo_part_154.001",
+        "segmento_original": "tripo_part_154",
+        "fragmento": "tripo_part_154.001"
+      },
+      {
+        "objeto": "12_Greba_derecha__tripo_part_155.001",
+        "segmento_original": "tripo_part_155",
+        "fragmento": "tripo_part_155.001"
+      },
+      {
+        "objeto": "12_Greba_derecha__tripo_part_156.001",
+        "segmento_original": "tripo_part_156",
+        "fragmento": "tripo_part_156.001"
+      },
+      {
+        "objeto": "12_Greba_derecha__tripo_part_160.001",
+        "segmento_original": "tripo_part_160",
+        "fragmento": "tripo_part_160.001"
+      },
+      {
+        "objeto": "12_Greba_derecha__tripo_part_161.001",
+        "segmento_original": "tripo_part_161",
+        "fragmento": "tripo_part_161.001"
+      },
+      {
+        "objeto": "12_Greba_derecha__tripo_part_162.001",
+        "segmento_original": "tripo_part_162",
+        "fragmento": "tripo_part_162.001"
+      },
+      {
+        "objeto": "12_Greba_derecha__tripo_part_163.001",
+        "segmento_original": "tripo_part_163",
+        "fragmento": "tripo_part_163.001"
+      },
+      {
+        "objeto": "12_Greba_derecha__tripo_part_164.001",
+        "segmento_original": "tripo_part_164",
+        "fragmento": "tripo_part_164.001"
+      },
+      {
+        "objeto": "12_Greba_derecha__tripo_part_165.001",
+        "segmento_original": "tripo_part_165",
+        "fragmento": "tripo_part_165.001"
+      },
+      {
+        "objeto": "12_Greba_derecha__tripo_part_166.001",
+        "segmento_original": "tripo_part_166",
+        "fragmento": "tripo_part_166.001"
+      },
+      {
+        "objeto": "12_Greba_derecha__tripo_part_186.001",
+        "segmento_original": "tripo_part_186",
+        "fragmento": "tripo_part_186.001"
+      },
+      {
+        "objeto": "12_Greba_derecha__tripo_part_187.001",
+        "segmento_original": "tripo_part_187",
+        "fragmento": "tripo_part_187.001"
+      },
+      {
+        "objeto": "12_Greba_derecha__tripo_part_206.001",
+        "segmento_original": "tripo_part_206",
+        "fragmento": "tripo_part_206.001"
+      },
+      {
+        "objeto": "12_Greba_derecha__tripo_part_215.001",
+        "segmento_original": "tripo_part_215",
+        "fragmento": "tripo_part_215.001"
+      },
+      {
+        "objeto": "12_Greba_derecha__tripo_part_232.001",
+        "segmento_original": "tripo_part_232",
+        "fragmento": "tripo_part_232.001"
+      },
+      {
+        "objeto": "12_Greba_derecha__tripo_part_252.001",
+        "segmento_original": "tripo_part_252",
+        "fragmento": "tripo_part_252.001"
+      },
+      {
+        "objeto": "12_Greba_derecha__tripo_part_253.001",
+        "segmento_original": "tripo_part_253",
+        "fragmento": "tripo_part_253.001"
+      },
+      {
+        "objeto": "12_Greba_derecha__tripo_part_5.002",
+        "segmento_original": "tripo_part_5",
+        "fragmento": "tripo_part_5.002"
+      },
+      {
+        "objeto": "12_Greba_derecha__tripo_part_5.005",
+        "segmento_original": "tripo_part_5",
+        "fragmento": "tripo_part_5.005"
+      },
+      {
+        "objeto": "12_Greba_derecha__tripo_part_5.006",
+        "segmento_original": "tripo_part_5",
+        "fragmento": "tripo_part_5.006"
+      },
+      {
+        "objeto": "12_Greba_derecha__tripo_part_9.002",
+        "segmento_original": "tripo_part_9",
+        "fragmento": "tripo_part_9.002"
+      },
+      {
+        "objeto": "12_Greba_derecha__tripo_part_9.006",
+        "segmento_original": "tripo_part_9",
+        "fragmento": "tripo_part_9.006"
+      },
+      {
+        "objeto": "12_Greba_derecha__tripo_part_14.002",
+        "segmento_original": "tripo_part_14",
+        "fragmento": "tripo_part_14.002"
+      },
+      {
+        "objeto": "12_Greba_derecha__tripo_part_14.003",
+        "segmento_original": "tripo_part_14",
+        "fragmento": "tripo_part_14.003"
+      },
+      {
+        "objeto": "12_Greba_derecha__tripo_part_14.004",
+        "segmento_original": "tripo_part_14",
+        "fragmento": "tripo_part_14.004"
+      },
+      {
+        "objeto": "12_Greba_derecha__tripo_part_14.005",
+        "segmento_original": "tripo_part_14",
+        "fragmento": "tripo_part_14.005"
+      },
+      {
+        "objeto": "12_Greba_derecha__tripo_part_14.006",
+        "segmento_original": "tripo_part_14",
+        "fragmento": "tripo_part_14.006"
+      },
+      {
+        "objeto": "12_Greba_derecha__tripo_part_19.006",
+        "segmento_original": "tripo_part_19",
+        "fragmento": "tripo_part_19.006"
+      },
+      {
+        "objeto": "12_Greba_derecha__tripo_part_19.007",
+        "segmento_original": "tripo_part_19",
+        "fragmento": "tripo_part_19.007"
+      },
+      {
+        "objeto": "12_Greba_derecha__tripo_part_19.008",
+        "segmento_original": "tripo_part_19",
+        "fragmento": "tripo_part_19.008"
+      },
+      {
+        "objeto": "12_Greba_derecha__tripo_part_31.002",
+        "segmento_original": "tripo_part_31",
+        "fragmento": "tripo_part_31.002"
+      },
+      {
+        "objeto": "12_Greba_derecha__tripo_part_31.003",
+        "segmento_original": "tripo_part_31",
+        "fragmento": "tripo_part_31.003"
+      }
+    ],
+    "12_Greba_izquierda": [
+      {
+        "objeto": "12_Greba_izquierda__tripo_part_0.001",
+        "segmento_original": "tripo_part_0",
+        "fragmento": "tripo_part_0.001"
+      },
+      {
+        "objeto": "12_Greba_izquierda__tripo_part_26.001",
+        "segmento_original": "tripo_part_26",
+        "fragmento": "tripo_part_26.001"
+      },
+      {
+        "objeto": "12_Greba_izquierda__tripo_part_36.001",
+        "segmento_original": "tripo_part_36",
+        "fragmento": "tripo_part_36.001"
+      },
+      {
+        "objeto": "12_Greba_izquierda__tripo_part_41.001",
+        "segmento_original": "tripo_part_41",
+        "fragmento": "tripo_part_41.001"
+      },
+      {
+        "objeto": "12_Greba_izquierda__tripo_part_44.001",
+        "segmento_original": "tripo_part_44",
+        "fragmento": "tripo_part_44.001"
+      },
+      {
+        "objeto": "12_Greba_izquierda__tripo_part_46.001",
+        "segmento_original": "tripo_part_46",
+        "fragmento": "tripo_part_46.001"
+      },
+      {
+        "objeto": "12_Greba_izquierda__tripo_part_47.001",
+        "segmento_original": "tripo_part_47",
+        "fragmento": "tripo_part_47.001"
+      },
+      {
+        "objeto": "12_Greba_izquierda__tripo_part_50.001",
+        "segmento_original": "tripo_part_50",
+        "fragmento": "tripo_part_50.001"
+      },
+      {
+        "objeto": "12_Greba_izquierda__tripo_part_51.001",
+        "segmento_original": "tripo_part_51",
+        "fragmento": "tripo_part_51.001"
+      },
+      {
+        "objeto": "12_Greba_izquierda__tripo_part_69.001",
+        "segmento_original": "tripo_part_69",
+        "fragmento": "tripo_part_69.001"
+      },
+      {
+        "objeto": "12_Greba_izquierda__tripo_part_109.001",
+        "segmento_original": "tripo_part_109",
+        "fragmento": "tripo_part_109.001"
+      },
+      {
+        "objeto": "12_Greba_izquierda__tripo_part_113.001",
+        "segmento_original": "tripo_part_113",
+        "fragmento": "tripo_part_113.001"
+      },
+      {
+        "objeto": "12_Greba_izquierda__tripo_part_119.001",
+        "segmento_original": "tripo_part_119",
+        "fragmento": "tripo_part_119.001"
+      },
+      {
+        "objeto": "12_Greba_izquierda__tripo_part_145.001",
+        "segmento_original": "tripo_part_145",
+        "fragmento": "tripo_part_145.001"
+      },
+      {
+        "objeto": "12_Greba_izquierda__tripo_part_146.001",
+        "segmento_original": "tripo_part_146",
+        "fragmento": "tripo_part_146.001"
+      },
+      {
+        "objeto": "12_Greba_izquierda__tripo_part_147.001",
+        "segmento_original": "tripo_part_147",
+        "fragmento": "tripo_part_147.001"
+      },
+      {
+        "objeto": "12_Greba_izquierda__tripo_part_172.001",
+        "segmento_original": "tripo_part_172",
+        "fragmento": "tripo_part_172.001"
+      },
+      {
+        "objeto": "12_Greba_izquierda__tripo_part_173.001",
+        "segmento_original": "tripo_part_173",
+        "fragmento": "tripo_part_173.001"
+      },
+      {
+        "objeto": "12_Greba_izquierda__tripo_part_178.001",
+        "segmento_original": "tripo_part_178",
+        "fragmento": "tripo_part_178.001"
+      },
+      {
+        "objeto": "12_Greba_izquierda__tripo_part_179.001",
+        "segmento_original": "tripo_part_179",
+        "fragmento": "tripo_part_179.001"
+      },
+      {
+        "objeto": "12_Greba_izquierda__tripo_part_180.001",
+        "segmento_original": "tripo_part_180",
+        "fragmento": "tripo_part_180.001"
+      },
+      {
+        "objeto": "12_Greba_izquierda__tripo_part_181.001",
+        "segmento_original": "tripo_part_181",
+        "fragmento": "tripo_part_181.001"
+      },
+      {
+        "objeto": "12_Greba_izquierda__tripo_part_182.001",
+        "segmento_original": "tripo_part_182",
+        "fragmento": "tripo_part_182.001"
+      },
+      {
+        "objeto": "12_Greba_izquierda__tripo_part_195.001",
+        "segmento_original": "tripo_part_195",
+        "fragmento": "tripo_part_195.001"
+      },
+      {
+        "objeto": "12_Greba_izquierda__tripo_part_196.001",
+        "segmento_original": "tripo_part_196",
+        "fragmento": "tripo_part_196.001"
+      },
+      {
+        "objeto": "12_Greba_izquierda__tripo_part_202.001",
+        "segmento_original": "tripo_part_202",
+        "fragmento": "tripo_part_202.001"
+      },
+      {
+        "objeto": "12_Greba_izquierda__tripo_part_214.001",
+        "segmento_original": "tripo_part_214",
+        "fragmento": "tripo_part_214.001"
+      },
+      {
+        "objeto": "12_Greba_izquierda__tripo_part_226.001",
+        "segmento_original": "tripo_part_226",
+        "fragmento": "tripo_part_226.001"
+      },
+      {
+        "objeto": "12_Greba_izquierda__tripo_part_249.001",
+        "segmento_original": "tripo_part_249",
+        "fragmento": "tripo_part_249.001"
+      },
+      {
+        "objeto": "12_Greba_izquierda__tripo_part_254.001",
+        "segmento_original": "tripo_part_254",
+        "fragmento": "tripo_part_254.001"
+      },
+      {
+        "objeto": "12_Greba_izquierda__tripo_part_0.002",
+        "segmento_original": "tripo_part_0",
+        "fragmento": "tripo_part_0.002"
+      },
+      {
+        "objeto": "12_Greba_izquierda__tripo_part_0.003",
+        "segmento_original": "tripo_part_0",
+        "fragmento": "tripo_part_0.003"
+      },
+      {
+        "objeto": "12_Greba_izquierda__tripo_part_0.008",
+        "segmento_original": "tripo_part_0",
+        "fragmento": "tripo_part_0.008"
+      },
+      {
+        "objeto": "12_Greba_izquierda__tripo_part_0.009",
+        "segmento_original": "tripo_part_0",
+        "fragmento": "tripo_part_0.009"
+      },
+      {
+        "objeto": "12_Greba_izquierda__tripo_part_4.003",
+        "segmento_original": "tripo_part_4",
+        "fragmento": "tripo_part_4.003"
+      },
+      {
+        "objeto": "12_Greba_izquierda__tripo_part_9.007",
+        "segmento_original": "tripo_part_9",
+        "fragmento": "tripo_part_9.007"
+      },
+      {
+        "objeto": "12_Greba_izquierda__tripo_part_24.006",
+        "segmento_original": "tripo_part_24",
+        "fragmento": "tripo_part_24.006"
+      },
+      {
+        "objeto": "12_Greba_izquierda__tripo_part_24.007",
+        "segmento_original": "tripo_part_24",
+        "fragmento": "tripo_part_24.007"
+      },
+      {
+        "objeto": "12_Greba_izquierda__tripo_part_24.008",
+        "segmento_original": "tripo_part_24",
+        "fragmento": "tripo_part_24.008"
+      },
+      {
+        "objeto": "12_Greba_izquierda__tripo_part_26.002",
+        "segmento_original": "tripo_part_26",
+        "fragmento": "tripo_part_26.002"
+      },
+      {
+        "objeto": "12_Greba_izquierda__placa_superior_recuperada",
+        "segmento_original": "tripo_part_59",
+        "fragmento": "tripo_part_59_placa_inferior"
+      }
+    ],
+    "14_Bota_derecha": [
+      {
+        "objeto": "14_Bota_derecha__tripo_part_15.001",
+        "segmento_original": "tripo_part_15",
+        "fragmento": "tripo_part_15.001"
+      },
+      {
+        "objeto": "14_Bota_derecha__tripo_part_21.001",
+        "segmento_original": "tripo_part_21",
+        "fragmento": "tripo_part_21.001"
+      },
+      {
+        "objeto": "14_Bota_derecha__tripo_part_57.001",
+        "segmento_original": "tripo_part_57",
+        "fragmento": "tripo_part_57.001"
+      },
+      {
+        "objeto": "14_Bota_derecha__tripo_part_75.001",
+        "segmento_original": "tripo_part_75",
+        "fragmento": "tripo_part_75.001"
+      },
+      {
+        "objeto": "14_Bota_derecha__tripo_part_81.001",
+        "segmento_original": "tripo_part_81",
+        "fragmento": "tripo_part_81.001"
+      },
+      {
+        "objeto": "14_Bota_derecha__tripo_part_219.001",
+        "segmento_original": "tripo_part_219",
+        "fragmento": "tripo_part_219.001"
+      },
+      {
+        "objeto": "14_Bota_derecha__tripo_part_220.001",
+        "segmento_original": "tripo_part_220",
+        "fragmento": "tripo_part_220.001"
+      },
+      {
+        "objeto": "14_Bota_derecha__tripo_part_222.001",
+        "segmento_original": "tripo_part_222",
+        "fragmento": "tripo_part_222.001"
+      }
+    ],
+    "14_Bota_izquierda": [
+      {
+        "objeto": "14_Bota_izquierda__tripo_part_7.001",
+        "segmento_original": "tripo_part_7",
+        "fragmento": "tripo_part_7.001"
+      },
+      {
+        "objeto": "14_Bota_izquierda__tripo_part_29.001",
+        "segmento_original": "tripo_part_29",
+        "fragmento": "tripo_part_29.001"
+      },
+      {
+        "objeto": "14_Bota_izquierda__tripo_part_74.001",
+        "segmento_original": "tripo_part_74",
+        "fragmento": "tripo_part_74.001"
+      },
+      {
+        "objeto": "14_Bota_izquierda__tripo_part_76.001",
+        "segmento_original": "tripo_part_76",
+        "fragmento": "tripo_part_76.001"
+      },
+      {
+        "objeto": "14_Bota_izquierda__tripo_part_82.001",
+        "segmento_original": "tripo_part_82",
+        "fragmento": "tripo_part_82.001"
+      },
+      {
+        "objeto": "14_Bota_izquierda__tripo_part_117.001",
+        "segmento_original": "tripo_part_117",
+        "fragmento": "tripo_part_117.001"
+      },
+      {
+        "objeto": "14_Bota_izquierda__tripo_part_224.001",
+        "segmento_original": "tripo_part_224",
+        "fragmento": "tripo_part_224.001"
+      },
+      {
+        "objeto": "14_Bota_izquierda__tripo_part_225.001",
+        "segmento_original": "tripo_part_225",
+        "fragmento": "tripo_part_225.001"
+      },
+      {
+        "objeto": "14_Bota_izquierda__tripo_part_241.001",
+        "segmento_original": "tripo_part_241",
+        "fragmento": "tripo_part_241.001"
+      },
+      {
+        "objeto": "14_Bota_izquierda__tripo_part_12.003",
+        "segmento_original": "tripo_part_12",
+        "fragmento": "tripo_part_12.003"
+      }
+    ],
+    "16_Mangas_base": [
+      {
+        "objeto": "16_Mangas_base__tripo_part_25.001",
+        "segmento_original": "tripo_part_25",
+        "fragmento": "tripo_part_25.001"
+      },
+      {
+        "objeto": "16_Mangas_base__tripo_part_32.001",
+        "segmento_original": "tripo_part_32",
+        "fragmento": "tripo_part_32.001"
+      }
+    ],
+    "17_Pantalon_base": [
+      {
+        "objeto": "17_Pantalon_base__tripo_part_9.001",
+        "segmento_original": "tripo_part_9",
+        "fragmento": "tripo_part_9.001"
+      },
+      {
+        "objeto": "17_Pantalon_base__tripo_part_17.001",
+        "segmento_original": "tripo_part_17",
+        "fragmento": "tripo_part_17.001"
+      },
+      {
+        "objeto": "17_Pantalon_base__tripo_part_24.001",
+        "segmento_original": "tripo_part_24",
+        "fragmento": "tripo_part_24.001"
+      }
+    ]
+  }
+}

@@ -1,0 +1,60 @@
+{
+  "tool": "image_gen integrado",
+  "base": "Use case: editorial illustrated fantasy book page. Match reference image 1 ONLY for the approved Eromash interior book design: warm ivory textured parchment, elegant dark brown serif typography, delicate antique gold fine rules and botanical corner details, restrained cyan rune ornaments, luxury collector encyclopedia, substantial crisp readable Spanish text, balanced hierarchy and generous margins. Other reference images are the actual illustrations to place, preserve their exact architectural and character content, no invented buildings or new scenes. Integrate image edges softly into parchment, retain rich details and colors, avoid heavily redrawing the supplied art. Front-on FLAT print page filling canvas, NO tabletop, NO perspective mockup, no physical spine, no curled pages or heavy book gutter. Do not add Latin filler text, publisher, author, UI, invented stats or claims of implemented game mechanics. All prose Spanish, only the exact copy specified. ",
+  "style": "C:\\Users\\aleev\\.codex\\generated_images\\01a164f6-aba0-7c33-9af6-e438a90e2bca\\exec-8977288a-910b-4dd2-87c1-d225c35c7e37.png",
+  "sourceDirectory": "C:\\Users\\aleev\\.codex\\generated_images\\01a164d6-76bd-75b0-9d30-bcf4f29cfa51\\",
+  "pages": [
+    {
+      "file": "01-02_eikholt_panoramica",
+      "refs": [
+        "exec-0a500df3-02be-4242-8c0d-6a8ae9b3d1b0.png"
+      ],
+      "prompt": "LANDSCAPE DOUBLE-PAGE OPENING SPREAD, 3:2 ratio, one continuous panorama across both pages without interruption or central gutter line. Supplied city panorama occupies 85 percent of spread with entire city including floating runes and mountains visible, not cropped. Very slim ivory margins. Above art small eyebrow 'ELDERVALD · CAPITAL ELDERIANA', large tasteful title 'Eikholt', subtitle 'Bajo la sombra del Roble'. Below art only one centered sentence 'El Roble sostiene: las casas, el mercado y la memoria de un pueblo.' Footer folios 044 on left and 045 on right. Almost no text, image is the star. Do not add detail in center that changes supplied composition."
+    },
+    {
+      "file": "03_la_puerta_del_sur",
+      "refs": [
+        "exec-a7de1809-58c7-4102-a21c-3e69e4732b62.png",
+        "exec-af58e8ef-cc7e-404f-a235-2f3e40230a32.png"
+      ],
+      "prompt": "SINGLE PORTRAIT PAGE 2:3. Running header 'EIKHOLT · CAMINOS Y UMBRALES'. Title 'La Puerta del Sur'. Subtitle 'Donde el bosque vuelve a tener nombres'. Dominant upper-middle large landscape gate illustration from image2. Below it a two-column editorial layout with a smaller horizontal aerial city inset from image3, and readable prose. Exact body: 'La ruta de Hrafngard desemboca ante una palisada de grandes troncos. Faroles ámbar, torres de madera y piedras rúnicas anuncian la entrada a la capital de los elderianos.' Subheading 'EL TABLERO DE LAS SENDAS'. Text 'Svend registra a quienes cruzan la puerta y gira las tablillas del gran tablero. Sus nombres permiten saber quién ha vuelto y quién sigue ausente en los caminos de Eldervald.' Small italic quote 'La campana del Roble suena tres veces cuando alguien regresa de una senda peligrosa.' Bottom small blue-tinted note 'CUATRO RUTAS' then 'Sur: Hrafngard. Norte: el Paso y Jarnskald. Este: el Aserradero y el Santuario. Oeste: Brunvik.' Folio 046."
+    },
+    {
+      "file": "04_la_plaza_y_el_ting",
+      "refs": [
+        "exec-a004660a-4658-40cf-a94a-1ca1af467d36.png",
+        "exec-75d10aa9-a861-48cb-ba85-124fe38beb8f.png"
+      ],
+      "prompt": "SINGLE PORTRAIT PAGE 2:3. Running header 'EIKHOLT · VIDA COMÚN'. Title 'A la sombra del Roble'. Subtitle 'Mercado y Asamblea'. Two substantial landscape paintings interleaved with two short text blocks, top image market (image2), lower image assembly (image3), maintain full scenes. Exact body under first image with drop cap: 'Bajo la copa se extiende el Mercado de los Toldos. Hongos, pescado, pieles, hierbas y cerámica comparten espacio con las mercancías de los viajeros del norte.' Heading between images 'EL CÍRCULO DEL TING'. Exact body beneath assembly: 'Al norte del tronco, doce asientos de piedra rodean un menhir negro y apagado. Allí se reúne la Asamblea del Roble, presidida por Bergljot, portavoz elegida por los elderianos.' Small closing italic 'Eikholt se gobierna por las voces de sus aldeas y sus oficios.' Do not claim assembly lies south because of generated picture. Do not invent glowing central stone; preserve black. Folio 047."
+    },
+    {
+      "file": "05_el_barrio_de_los_oficios",
+      "refs": [
+        "exec-b9d220f4-15dd-4b5a-a235-e8de4bd08201.png"
+      ],
+      "prompt": "SINGLE PORTRAIT PAGE 2:3. Running header 'EIKHOLT · MANOS DEL BOSQUE'. Title 'El Barrio de los Oficios'. Subtitle 'Hierro, madera y fibra'. One large supplied landscape crafts image occupies middle half of page, original detailed art intact, beautiful soft paper edges. Lower third two open editorial columns with restrained gold dividing rule and very subtle ink sketch detail of a rope and hammer in small margin based on tools in image. Exact opening text above illustration 'Al oeste y al sudoeste del Roble, el sonido del yunque se mezcla con el serrucho y el roce de las sogas. Aquí se fabrican y reparan las cosas que mantienen unida a la ciudad.' Lower columns headings 'ÁSA · HERRERA' and 'FOLKE · CORDELERO'. Exact texts 'Ása trabaja entre el carbón y el hierro. El cierre del Paso ha interrumpido la llegada del mineral de Jarnskald, y sus reservas se agotan.' and 'Folke trenza soga mientras conversa, casi sin mirar sus manos. Su oficio depende de la fibra que llega del río.' Bottom italic 'La carpintería, la herrería y la curtiembre cuentan la vida de Eikholt a través del trabajo.' Folio 048."
+    },
+    {
+      "file": "06_la_casa_de_sanacion",
+      "refs": [
+        "exec-7bedc291-2e14-441d-ad0b-cc575a2a3e20.png"
+      ],
+      "prompt": "SINGLE PORTRAIT PAGE 2:3. Running header 'EIKHOLT · REFUGIOS'. Title 'La Casa de Sanación'. Subtitle 'El cuidado también sostiene'. Dominant supplied healing-house landscape image occupying upper-middle, retain herb garden, beds, healer and patients. Below painting spacious editorial prose with drop cap and small botanical pencil vignette of medicinal leaves as secondary detail not a new scene. Exact text 'Al noroeste del Roble, un jardín medicinal precede a las camas y a las hierbas colgadas de la Casa de Sanación. Thora recibe aquí a los heridos que vuelven de las sendas.' Subheading 'THORA Y LA CUADRILLA'. Body 'La curandera huele cada hierba antes de usarla y rara vez se sienta. Entre quienes necesitan sus cuidados está Bror, trabajador de la cuadrilla, acompañado por Sigrun, que remienda junto a su cama.' Small pale cyan note heading 'MÁS ALLÁ DE LA PALISADA' text 'Algunas de las hierbas que necesita Thora crecen cerca de Brunvik. Los cuidados de la ciudad siguen ligados a los caminos del bosque.' Bottom italic 'Bror hace chistes desde la cama. Sigrun sigue cosiendo.' Folio 049."
+    },
+    {
+      "file": "07_la_casa_de_las_lindes",
+      "refs": [
+        "exec-e7dd76e9-851f-4850-b99b-c97e5c244b28.png"
+      ],
+      "prompt": "SINGLE PORTRAIT PAGE 2:3. Running header 'EIKHOLT · MEMORIA Y RUNAS'. Title 'La Casa de las Lindes'. Subtitle 'Lo que el bosque deja escrito'. Large supplied archive house image in center-upper half retain bluegray roof, maps, scholar, rune slab. Below two asymmetrical editorial blocks with elegant negative space. Exact opening 'En el borde oeste de Eikholt, la piedra antigua sostiene una ampliación de madera. Bajo el techo azul gris se guardan los registros, instrumentos y mapas de Eldervald.' Heading 'SVANHILD, CUSTODIA DE LOS REGISTROS'. Text 'De pelo plateado y dedos manchados de tinta, Svanhild conserva la memoria escrita de la región. Su curiosidad es precisa; sus conclusiones, prudentes.' Small inset blue rule heading 'LA LOSA DEL PATIO'. Exact text 'Una pequeña losa conserva inscripciones de luz cian. Con la Lente del Eco, las huellas espirituales pueden revelar lo que una mirada corriente no distingue.' Bottom italic quote 'No todas las respuestas están a simple vista.' Folio 050. No invented portal, no huge magical ring."
+    },
+    {
+      "file": "08_el_hongo_dorado",
+      "refs": [
+        "C:\\Users\\aleev\\AppData\\Local\\Temp\\codex-clipboard-76f1a383-397a-4668-9c12-084273b7c90e.png"
+      ],
+      "absolute": true,
+      "prompt": "SINGLE PORTRAIT PAGE 2:3. Running header 'EIKHOLT · HOSPITALIDAD'. Title 'El Hongo Dorado'. Subtitle 'Un techo para quienes esperan'. Source image2 is a diptych: LEFT HALF exterior inn, RIGHT HALF interior tavern. Use BOTH halves as TWO separate editorial picture windows in this one page, not a single side-by-side screenshot: larger horizontal exterior image in upper half and a richly detailed interior vignette in lower half beside body text, sensible crops keep building and central hearth visible. Match book styling and warm amber tones. Exact opening text 'Al sudeste de la plaza, la hospedería del Hongo Dorado reúne a vecinos y viajeros. Los cuartos están arriba; abajo, el gran fogón reúne las conversaciones de la noche.' Between illustrations or alongside interior heading 'ULF, YLVA Y LAS VOCES DEL NORTE'. Text 'Ulf recuerda el nombre de cada huésped y qué bebe. Ylva lleva mesas y recados entre los barrios. Cuando cae la noche, Sølve recoge el rumor de la sala en canciones y leyendas.' Small final paragraph 'El Paso cerrado ha dejado forasteros varados. En las mesas se comparten noticias, planes y la espera de un camino que vuelva a abrirse.' Bottom italic 'Afuera, el bosque. Adentro, el fuego y las historias.' No claims of game saving, fast travel or rest buffs. Do not declare antler banners an approved city emblem; no text about heraldry. Folio 051."
+    }
+  ]
+}

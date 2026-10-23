@@ -27,6 +27,18 @@ var _o: Dictionary    ## esqueleto de origen: orden, padre, reposo global, repos
 var _d: Dictionary    ## esqueleto de destino
 var _c := {}          ## corrección por hueso del destino (Quaternion)
 var _giro := Quaternion.IDENTITY   ## giro vertical que lleva el espacio del origen al del destino
+var _off := {}          ## ajuste de postura por hueso del destino (rotación global acumulada)
+var _atenuar := {}      ## hueso del origen → cuánto se acerca a su reposo (0..1)
+var _balanceo := 1.0     ## multiplicador del vaivén de los brazos (1 = el del clip)
+var _eje_balanceo := Vector3.RIGHT
+var _adelante := Vector3.BACK
+var _brazos: Array = []   ## por brazo: [hueso del destino, dirección hacia el codo en el espacio del hueso]
+var _torsion := {}        ## ajuste de torsión del tronco al andar (ver `_preparar_ajustes`)
+var _signo_yaw := 1.0
+var _signo_roll := 1.0
+var _off_local: Array[Vector3] = []   ## posición de cada hueso del destino en el espacio de su padre (en reposo)
+var _huesos_tronco: Dictionary = {}    ## nombre → índice (Hips, Spine, Chest, UpperChest, Neck, pies, muslos)
+var _estabiliza := 0.0
 
 
 static func crear(esq_origen: Skeleton3D, esq_destino: Skeleton3D) -> Retarget:
@@ -115,13 +127,94 @@ func _calcular_correcciones() -> void:
 
 
 func _pose_origen(anim: Animation, pistas: Dictionary, i: int, t: float) -> Quaternion:
-	if pistas.has(i):
-		return anim.rotation_track_interpolate(pistas[i], t)
-	return _o.local[i]
+	var q: Quaternion = anim.rotation_track_interpolate(pistas[i], t) if pistas.has(i) else (_o.local[i] as Quaternion)
+	if _atenuar.has(i):
+		q = q.slerp(_o.local[i], float(_atenuar[i]))
+	return q
+
+
+## Ajustes de postura opcionales para `convertir` (todo en grados, en el espacio del personaje de destino):
+##   "extension": {hueso: grados}   inclina ese hueso hacia atrás (pecho arriba); se acumula hacia arriba de la cadena
+##   "hombros_atras": grados        lleva las clavículas hacia atrás
+##   "brazos_afuera": grados        separa los brazos del cuerpo
+##   "atenuar": {hueso: 0..1}       acerca el hueso a su reposo del origen (codo menos doblado)
+##   "balanceo_brazos": factor      multiplica el vaivén adelante-atrás de los brazos (2 = el doble): que acompañen el paso
+##   "torsion": {...}               movimiento del tronco al andar, sincronizado con las piernas (todo en grados):
+##       "cadera_giro"      la cadera gira hacia el lado de la pierna que avanza
+##       "cadera_inclina"   la cadera cae hacia el lado de la pierna que pasa
+##       "pecho_giro"       el pecho contragira (total, repartido entre Spine, Chest y UpperChest): acompaña al brazo que va atrás
+##       "pecho_inclina"    el tronco se curva hacia el otro lado (total)
+##       "cabeza_estabiliza" 0..1: cuánto del giro del pecho se corrige en el cuello para que la cabeza mire al frente
+## Los muslos no se tocan: la torsión no mueve las piernas ni los pies.
+func _preparar_ajustes(ajustes: Dictionary) -> void:
+	_off = {}
+	_atenuar = {}
+	_balanceo = 1.0
+	_brazos = []
+	_torsion = {}
+	if ajustes.is_empty():
+		return
+	var dn: Dictionary = _d.nombre
+	var on: Dictionary = _o.nombre
+	var arriba := Vector3.UP
+	var ang := _angulo_adelante(_d)
+	var adelante := Vector3(sin(ang), 0.0, cos(ang)) if not is_nan(ang) else Vector3.BACK
+	var izq_der := ((_d.pos[dn["LeftUpperArm"]] as Vector3) - (_d.pos[dn["RightUpperArm"]] as Vector3))
+	izq_der.y = 0.0
+	izq_der = izq_der.normalized()
+	_adelante = adelante
+	_eje_balanceo = adelante.cross(arriba).normalized()
+	_balanceo = float(ajustes.get("balanceo_brazos", 1.0))
+	_torsion = ajustes.get("torsion", {})
+	if not _torsion.is_empty():
+		_signo_yaw = 1.0 if arriba.cross(izq_der).dot(adelante) > 0.0 else -1.0
+		_signo_roll = 1.0 if adelante.cross(izq_der).dot(arriba) < 0.0 else -1.0
+		_estabiliza = float(_torsion.get("cabeza_estabiliza", 0.0))
+		_huesos_tronco = {}
+		for nombre in ["Hips", "Spine", "Chest", "UpperChest", "Neck", "LeftFoot", "RightFoot", "LeftUpperLeg", "RightUpperLeg"]:
+			if dn.has(nombre):
+				_huesos_tronco[nombre] = dn[nombre]
+		_off_local = []
+		_off_local.resize(_d.n)
+		for j in _d.n:
+			var padre: int = _d.padre[j]
+			_off_local[j] = (((_d.g[padre] as Quaternion).inverse()) * ((_d.pos[j] as Vector3) - (_d.pos[padre] as Vector3))) if padre >= 0 else Vector3.ZERO
+	if _balanceo != 1.0:
+		for lado in ["Left", "Right"]:
+			if dn.has(lado + "UpperArm") and dn.has(lado + "LowerArm"):
+				var j: int = dn[lado + "UpperArm"]
+				var hacia := ((_d.pos[dn[lado + "LowerArm"]] as Vector3) - (_d.pos[j] as Vector3)).normalized()
+				_brazos.append([j, (_d.g[j] as Quaternion).inverse() * hacia])
+	var propios := {}   ## hueso → rotación global propia
+	var ext: Dictionary = ajustes.get("extension", {})
+	for nombre in ext:
+		propios[nombre] = Quaternion(adelante.cross(arriba).normalized(), deg_to_rad(float(ext[nombre])))
+	for lado in ["Left", "Right"]:
+		var afuera := izq_der if lado == "Left" else -izq_der
+		var atras := float(ajustes.get("hombros_atras", 0.0))
+		if atras != 0.0 and dn.has(lado + "Shoulder"):
+			var signo := 1.0 if arriba.cross(afuera).dot(adelante) < 0.0 else -1.0
+			propios[lado + "Shoulder"] = Quaternion(arriba, deg_to_rad(atras) * signo)
+		var separar := float(ajustes.get("brazos_afuera", 0.0))
+		if separar != 0.0 and dn.has(lado + "UpperArm"):
+			var eje := adelante if arriba.cross(adelante).dot(afuera) > 0.0 else -adelante
+			propios[lado + "UpperArm"] = Quaternion(eje, deg_to_rad(separar))
+	for j in _d.orden:
+		var p: int = _d.padre[j]
+		var acum: Quaternion = _off[p] if p >= 0 else Quaternion.IDENTITY
+		var nombre: String = _d.esq.get_bone_name(j)
+		if propios.has(nombre):
+			acum = (propios[nombre] as Quaternion) * acum
+		_off[j] = acum
+	var aten: Dictionary = ajustes.get("atenuar", {})
+	for nombre in aten:
+		if on.has(nombre):
+			_atenuar[on[nombre]] = float(aten[nombre])
 
 
 ## Devuelve una copia del clip `origen` (del esqueleto de origen) para el esqueleto de destino.
-func convertir(origen: Animation) -> Animation:
+func convertir(origen: Animation, ajustes: Dictionary = {}) -> Animation:
+	_preparar_ajustes(ajustes)
 	var on: Dictionary = _o.nombre
 	var dn: Dictionary = _d.nombre
 	var pistas := {}              ## índice de hueso de origen → pista de rotación
@@ -151,11 +244,13 @@ func convertir(origen: Animation) -> Animation:
 	if pista_cadera >= 0 and dn.has("Hips"):
 		t_cadera = salida.add_track(Animation.TYPE_POSITION_3D)
 		salida.track_set_path(t_cadera, NodePath(RUTA + "Hips"))
-	var anterior := {}
+	# Fase 1: orientación global de cada hueso del destino en cada cuadro (sin el balanceo de brazos).
 	var ga_o: Array[Quaternion] = []
 	ga_o.resize(_o.n)
 	var ga_d: Array[Quaternion] = []
 	ga_d.resize(_d.n)
+	var cuadros: Array = []       ## por cuadro: Array[Quaternion] (copia de ga_d)
+	var tiempos: Array[float] = []
 	for paso in pasos + 1:
 		var t := minf(float(paso) / HZ, origen.length)
 		for i in _o.orden:
@@ -169,11 +264,88 @@ func convertir(origen: Animation) -> Animation:
 			if on.has(nombre):
 				var k: int = on[nombre]
 				var delta: Quaternion = _giro * (ga_o[k] * (_o.g[k] as Quaternion).inverse()) * _giro.inverse()
-				ga_d[j] = delta * (_c[j] as Quaternion) * (_d.g[j] as Quaternion)
+				ga_d[j] = (_off.get(j, Quaternion.IDENTITY) as Quaternion) * delta * (_c[j] as Quaternion) * (_d.g[j] as Quaternion)
 			else:
 				ga_d[j] = base * (_d.local[j] as Quaternion)
+		cuadros.append(ga_d.duplicate())
+		tiempos.append(t)
+	# Fase 2: balanceo de brazos. El brazo se mueve adelante y atrás alrededor de su posición media; ese vaivén se
+	# multiplica por `_balanceo` (los brazos acompañan el paso). El giro se acumula hacia el antebrazo y la mano.
+	var extra: Array = []         ## por cuadro: {hueso del destino: ángulo en radianes}
+	for f in cuadros.size():
+		extra.append({})
+	if _balanceo != 1.0:
+		for brazo in _brazos:
+			var j: int = brazo[0]
+			var local_dir: Vector3 = brazo[1]
+			var pitch: Array[float] = []
+			var media := 0.0
+			for f in cuadros.size():
+				var dir: Vector3 = (cuadros[f][j] as Quaternion) * local_dir
+				var a := atan2(dir.dot(_adelante), -dir.dot(Vector3.UP))
+				pitch.append(a)
+				media += a
+			media /= pitch.size()
+			for f in cuadros.size():
+				(extra[f] as Dictionary)[j] = Quaternion(_eje_balanceo, (_balanceo - 1.0) * (pitch[f] - media))
+	# Torsión del tronco: la fase del paso sale de las piernas (qué pie va más adelante y hacia dónde se mueve).
+	if not _torsion.is_empty() and _huesos_tronco.has("Hips") and _huesos_tronco.has("LeftFoot") and _huesos_tronco.has("RightFoot"):
+		var n_f := cuadros.size()
+		var dif_pies: Array[float] = []
+		var posf: Array[Vector3] = []
+		posf.resize(_d.n)
+		for f in n_f:
+			var gq: Array = cuadros[f]
+			for j in _d.orden:
+				var p: int = _d.padre[j]
+				posf[j] = (posf[p] + (gq[p] as Quaternion) * (_off_local[j] as Vector3)) if p >= 0 else Vector3.ZERO
+			dif_pies.append((posf[_huesos_tronco["LeftFoot"]] - posf[_huesos_tronco["RightFoot"]]).dot(_adelante))
+		var tope := 0.00001
+		for v in dif_pies:
+			tope = maxf(tope, absf(v))
+		var s: Array[float] = []     ## -1..1: +1 = pie izquierdo todo adelante
+		for v in dif_pies:
+			s.append(v / tope)
+		var ds: Array[float] = []    ## velocidad de s normalizada: + = el pie izquierdo está pasando hacia adelante
+		var tope_ds := 0.00001
+		for f in n_f:
+			var d := s[(f + 1) % n_f] - s[(f - 1 + n_f) % n_f]
+			ds.append(d)
+			tope_ds = maxf(tope_ds, absf(d))
+		var rad := PI / 180.0
+		var cadera_giro := float(_torsion.get("cadera_giro", 0.0)) * rad
+		var cadera_inclina := float(_torsion.get("cadera_inclina", 0.0)) * rad
+		var pecho_giro := float(_torsion.get("pecho_giro", 0.0)) * rad / 3.0
+		var pecho_inclina := float(_torsion.get("pecho_inclina", 0.0)) * rad / 3.0
+		for f in n_f:
+			var d: Dictionary = extra[f]
+			var inc := ds[f] / tope_ds
+			d[_huesos_tronco["Hips"]] = Quaternion(Vector3.UP, _signo_yaw * cadera_giro * s[f]) * Quaternion(_adelante, _signo_roll * cadera_inclina * inc)
+			for nombre in ["Spine", "Chest", "UpperChest"]:
+				if _huesos_tronco.has(nombre):
+					d[_huesos_tronco[nombre]] = Quaternion(Vector3.UP, -_signo_yaw * pecho_giro * s[f]) * Quaternion(_adelante, -_signo_roll * pecho_inclina * inc)
+	var anterior := {}
+	var final_d: Array[Quaternion] = []
+	final_d.resize(_d.n)
+	var acum_extra: Array[Quaternion] = []
+	acum_extra.resize(_d.n)
+	for f in cuadros.size():
+		var t: float = tiempos[f]
+		var ex: Dictionary = extra[f]
+		for j in _d.orden:
+			var p: int = _d.padre[j]
+			var acum_p: Quaternion = acum_extra[p] if p >= 0 else Quaternion.IDENTITY
+			var propio: Quaternion = ex.get(j, Quaternion.IDENTITY)
+			if not _torsion.is_empty():
+				if j == _huesos_tronco.get("LeftUpperLeg", -2) or j == _huesos_tronco.get("RightUpperLeg", -2):
+					propio = acum_p.inverse()      # los muslos no heredan la torsión de la cadera
+				elif j == _huesos_tronco.get("Neck", -2) and _estabiliza > 0.0:
+					propio = Quaternion.IDENTITY.slerp(acum_p, 1.0 - _estabiliza) * acum_p.inverse()   # la cabeza mira al frente
+			acum_extra[j] = propio * acum_p
+			final_d[j] = acum_extra[j] * (cuadros[f][j] as Quaternion)
 			if pistas_destino.has(j):
-				var local := (base.inverse() * ga_d[j]).normalized()
+				var base: Quaternion = final_d[p] if p >= 0 else Quaternion.IDENTITY
+				var local := (base.inverse() * final_d[j]).normalized()
 				if anterior.has(j) and (anterior[j] as Quaternion).dot(local) < 0.0:
 					local = -local
 				anterior[j] = local

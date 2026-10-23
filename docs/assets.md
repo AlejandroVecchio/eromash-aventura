@@ -137,3 +137,41 @@ Qué trae cada clip y cómo usarlo: `docs/banco-animaciones.md`. Créditos: `mod
 ## Interfaz de aventura (16/10/2026)
 
 assets/interfaz/equipo/ contiene miniaturas renderizadas de los seis modelos propios ya existentes (pechera, brazo, botas, capa, espada y escudo). Las genera herramientas/capturar_catalogo_interfaz.gd; no son modelos nuevos ni assets de terceros. assets/interfaz/vegvisir.svg es la reinterpretación vectorial propia de la maqueta, con su investigación en docs/referencias/interfaz-runica.html. docs/interfaz-aventura.md describe los usos y limitaciones.
+
+## Maestro modular del personaje (16/10/2026, todavía sin integrar)
+
+`docs/fuentes/personaje/Eromash-partes.blend` conserva el esqueleto y las 34
+acciones, separa la armadura por ranuras y añade ropa interior de base. Incluye
+controles para quitar/poner piezas en Blender y un respaldo del original.
+Guía, validaciones y contrato para futuras piezas: `docs/personaje-modular.md`.
+Capturas en `docs/referencias/personaje_modular/`. El juego sigue usando su GLB
+actual; aún falta exportar e integrar los cambios visuales con el inventario.
+La base anterior de rellenos fue sustituida por una base continua derivada de
+MakeHuman (CC0), con datos y créditos en
+`docs/fuentes/personaje/manos_makehuman/CREDITOS.md`. Armadura, casco y botas
+siguen derivando de los modelos propios existentes. Capturas vigentes de la
+reconstrucción en `docs/referencias/personaje_modular/base_nueva/`.
+
+## Ilustraciones del prólogo (18/10/2026, sin integrar)
+
+`assets/cinematicas/prologo_v1/` contiene seis diapositivas de «El susurro
+de las raíces», con tres PNG por diapositiva: `imagenN_fondo.png`,
+`imagenN_medio.png`, `imagenN_frente.png` (N = 1–6). Fondos opacos;
+medios y frentes con alfa real. Generadas con image_gen a partir del guion
+y la dirección artística. Guardián encapuchado, rostro en sombra y ojos
+destacados por pedido de Alejandro. Prompts completos en `prompts.json`;
+montaje de revisión en `vista_previa.html`, indicaciones en `MONTAJE.txt`.
+Todavía no conectadas al reproductor del juego.
+Corrección del plano 1: Yggdrasil es colosal y se contempla a extrema distancia,
+detrás de varias cordilleras; queda en fondo, con ladera boscosa en medio.
+Prompts vigentes para esas dos capas en `prompts_escala_yggdrasil.json`.
+
+## Banco de equipo con base Tripo (16/10/2026)
+
+`escenas/prueba_equipo.tscn` usa `assets/modelos/personaje/prueba_equipo/eromash_modular.glb`:
+equipo original separado, cuerpo Tripo aportado por Alejandro y la capa de
+`C:/eromash-juego/output/blender/capa-arena-v1/eromash-capa-arena-v4.blend`.
+Este banco sustituye los experimentos de relleno/MakeHuman para esta prueba;
+la aventura principal conserva su modelo actual. Fuente editable:
+`docs/fuentes/personaje/Eromash-prueba-equipo.blend`. Procedencia en
+`assets/modelos/personaje/prueba_equipo/CREDITOS.md` y límites en `docs/prueba-equipo.md`.

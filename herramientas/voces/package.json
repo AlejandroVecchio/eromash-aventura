@@ -1,0 +1,8 @@
+{
+  "name": "eromash-voces",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@elevenlabs/elevenlabs-js": "^2.73.0"
+  }
+}

@@ -41,6 +41,7 @@ const LEJOS_ARBOL := 190.0
 var _terreno: Terreno
 var _rng := RandomNumberGenerator.new()
 var _colision: StaticBody3D
+var _troncos: StaticBody3D
 var _cache_mallas := {}
 var _parcelas: Array[MultiMeshInstance3D] = []
 
@@ -50,8 +51,14 @@ func armar(terreno: Terreno) -> void:
 	_rng.seed = 1234
 	# pos_heroe y pos_camara están declarados en project.godot ([shader_globals]).
 	_colision = StaticBody3D.new()
-	_colision.name = "Troncos"
+	_colision.name = "Rocas"
 	add_child(_colision)
+	# Los de pie van aparte: la cámara no se acerca por el rayo que los cruza (el follaje ya se abre).
+	# Sí empuja si el punto de la cámara queda dentro del cilindro.
+	_troncos = StaticBody3D.new()
+	_troncos.name = "Troncos"
+	_troncos.add_to_group("troncos")
+	add_child(_troncos)
 	_sembrar_arboles()
 	for c in CHICOS:
 		_sembrar_chicos(c)
@@ -182,7 +189,7 @@ func _tronco(pos: Vector3, radio: float) -> void:
 	cil.height = 4.0
 	f.shape = cil
 	f.position = pos + Vector3(0, 2.0, 0)
-	_colision.add_child(f)
+	_troncos.add_child(f)
 
 
 ## Malla y materiales de un modelo del kit (las superficies con su textura).

@@ -96,3 +96,11 @@ Godot 4.7.2 corre también en Linux sin pantalla, así que un cambio visual se p
 ## Trabajo en paralelo
 
 Claude Code y Cursor trabajan en este mismo repo: no pises cambios sin commitear que no sean tuyos.
+
+## Tandas de pull requests
+
+Cuando se abren varias PR juntas para probarlas una por una, cada rama lleva una nota dentro del juego que dice qué cambio hay que mirar y cómo provocarlo. Salvo que Alejandro pida dejar alguna sin nota.
+
+La nota es `scripts/autoload/nota_de_rama.gd`, enganchada al final de `[autoload]` en `project.godot`. Lee la rama en `.git/HEAD` y solo arma el cartel si esa rama está en su lista. En `main`, en una exportación (no hay `.git`) y en cualquier otra rama no se ve nada: el juego queda igual para jugar.
+
+En una misma tanda ese archivo tiene que ser idéntico en todas las ramas: todas las notas juntas, en español y en inglés, y se elige con el idioma de la partida. Así, al unir las PR, no chocan. Los textos van en ese script y no en `textos/textos.csv`, porque el catálogo ya puede diferir entre ramas y la nota no es texto del juego. El cartel no tapa el mouse.

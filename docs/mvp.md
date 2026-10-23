@@ -6,7 +6,9 @@ Esqueleto jugable de la cadena EL-01 a EL-07 (`docs/misiones-principales-elderva
 
 | Acción | Teclado y mouse | Mando |
 |---|---|---|
-| Moverse / correr | WASD o flechas / Shift | stick izquierdo / L3 |
+| Moverse (por defecto **trota**) | WASD o flechas | stick izquierdo (palanca apenas inclinada: camina) |
+| Sprint (carrera de verdad) | mantener Shift | apretar el analógico (L3) |
+| Alternar caminar | `/` (como en WoW; por carácter, no por tecla física, así sirve en cualquier distribución de teclado) | — |
 | Saltar (esquiva todo aviso del piso) | Espacio | A |
 | Esquivar (dirección de movimiento; quieto retrocede) | Alt | B |
 | Atacar / bloquear | clic izquierdo / Ctrl izquierdo | X o RT / LB o LT |
@@ -16,9 +18,28 @@ Esqueleto jugable de la cadena EL-01 a EL-07 (`docs/misiones-principales-elderva
 | Diario con el croquis | J o Tab | Back |
 | Girar e inclinar la cámara (hasta quedar paralela al héroe) | mantener clic derecho (o la rueda) y mover el mouse; Q / E | stick derecho |
 | Contador de FPS y de lo que se dibuja | F3 | — |
+| Modo admin (volar, atravesar el mundo, sin daño; para cazar bugs) | F10. WASD se mueve, Espacio sube, Ctrl baja, Shift acelera. Apagarlo dentro de una malla empuja al héroe para salir | — |
 | Pausa (guardar, calidad, idioma) | Esc | Start |
 
 Las acciones están en `scripts/autoload/controles.gd`; el código nunca lee teclas sueltas.
+
+## Cámara y contorno
+
+Todo está en `scripts/personajes/camara.gd`. La rueda acerca y aleja. Una casa, una roca o un tronco caído acercan la cámara para no meterse en el sólido; al despejarse espera `ESPERA` y vuelve con `VUELTA`. Un roce más corto que `UMBRAL` no la mueve. Los troncos de pie no la tiran (el follaje ya se abre). Si después de ese acercamiento se aleja con la rueda, la cámara cruza el sólido y queda apoyada afuera, del lado de allá.
+
+Si Eromash queda detrás, aparece solo el contorno del cuerpo. Tarda `ENTRADA_CONTORNO` segundos (0,45; a los 0,25 ya se nota) y se apaga en el acto cuando vuelve a verse.
+
+El dibujo se retoca en `assets/sombreadores/contorno_heroe.gdshader`:
+
+| Qué | Dónde |
+|---|---|
+| Grosor del contorno | `ancho`: el `1.25` y el piso `0.035`. Más alto, trazo más grueso |
+| Cuánto borde se descarta | el `0.25` del `if`. Más alto, menos trazo |
+| Color | `arcilla`, `runico` (`#73D5DB`) y el `0.22` de la mezcla |
+| Saturación | el `0.42` de `mix(vec3(luz), col, 0.42)`. Más bajo, más gris |
+| Brillo | `EMISSION` (`0.08`) y el `0.82` del alfa |
+
+Mientras el contorno está en pantalla, los árboles se abren menos. Eso es `fuerza_contorno` en `assets/sombreadores/vegetacion.gdshader`: `abertura` (0,85 abierto, 0,38 cerrado), `cerca` y `lejos`. Las copias del cuerpo que lo dibujan están en `poner_contorno` de `scripts/personajes/heroe.gd`.
 
 El HUD muestra vida y resistencia, con pistas que cambian entre teclado y mando. La esquiva consume resistencia y permite cancelar partes de los ataques. Estadísticas, ventanas y límites actuales: `docs/combate.md`.
 
@@ -53,7 +74,7 @@ El juego abre con la partida más reciente ya armada de fondo y el menú princip
 
 ## Animaciones
 
-- **Banco de animaciones** (`docs/banco-animaciones.md`): 44 clips humanos de Quaternius (CC0) pasados al esqueleto de cada personaje con `scripts/personajes/retarget.gd` y disponibles como `ual/<Nombre>`. Eromash camina, corre, descansa y salta con ellos, el combo suma estocada y patada, los NPC descansan, caminan y gesticulan al hablar y el Errante camina, recibe golpes y muere con ellos.
+- **Banco de animaciones** (`docs/banco-animaciones.md`): 44 clips humanos de Quaternius (CC0) pasados al esqueleto de cada personaje con `scripts/personajes/retarget.gd` y disponibles como `ual/<Nombre>`. Eromash descansa y salta con ellos (camina con una caminata hecha por Meshy sobre su propio modelo, `assets/modelos/animaciones/meshy/`), el combo suma estocada y patada, los NPC descansan, caminan y gesticulan al hablar y el Errante camina, recibe golpes y muere con ellos.
 Todos los humanoides (Eromash, Eydis, Orm, Svanhild, trabajadores, Errantes) comparten esqueleto: al importar, cada `.glb` se reasigna al perfil humanoide de Godot con `assets/modelos/mapa-humano.tres`, y por eso usan las animaciones del héroe. Para sumar un pack de animaciones nuevo alcanza con importarlo con el mismo mapa de huesos y agregarlo en `Animaciones.dar_animaciones()`.
 
 - El lobo se anima por código (patas, cola, cuello) hasta que tenga sus propias animaciones; sus pesos se rehicieron en Blender (`herramientas/blender/lobo_pesos.py`).

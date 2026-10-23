@@ -22,6 +22,7 @@ Controles="*res://scripts/autoload/controles.gd"
 Juego="*res://scripts/autoload/juego.gd"
 Captura="*res://scripts/autoload/captura.gd"
 Sonido="*res://scripts/autoload/sonido.gd"
+NotaDeRama="*res://scripts/autoload/nota_de_rama.gd"
 
 [display]
 
@@ -29,15 +30,14 @@ window/size/viewport_width=1920
 window/size/viewport_height=1080
 window/size/mode=2
 
-[rendering]
-
-occlusion_culling/use_occlusion_culling=true
-
-anti_aliasing/quality/msaa_3d=1
-
 [internationalization]
 
 locale/translations=PackedStringArray("res://textos/textos.es.translation", "res://textos/textos.en.translation")
+
+[rendering]
+
+anti_aliasing/quality/msaa_3d=1
+occlusion_culling/use_occlusion_culling=true
 
 [shader_globals]
 
@@ -48,4 +48,8 @@ pos_heroe={
 pos_camara={
 "type": "vec3",
 "value": Vector3(0, 30, 30)
+}
+fuerza_contorno={
+"type": "float",
+"value": 0.0
 }

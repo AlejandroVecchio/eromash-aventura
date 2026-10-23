@@ -13,6 +13,8 @@ const FUENTE_TITULO := "res://assets/marca/fuentes/EromashDisplay-Bold.woff2"
 const FUENTE_TEXTO := "res://assets/marca/fuentes/EromashText-Regular.woff2"
 const FUENTE_TEXTO_M := "res://assets/marca/fuentes/EromashText-Medium.woff2"
 const ROJO := Color(0.78, 0.25, 0.18)
+const UMBRAL_VIDA_BAJA := 0.3
+const TICK_BORDE := 0.28
 const CREMA := Color(0.93, 0.9, 0.82)
 const AZUL := Color(0.45, 0.84, 0.86)
 const AMBAR := Color(0.91, 0.72, 0.4)
@@ -59,9 +61,13 @@ var _ranuras_modo := ""   ## "cargar" o "nueva"
 var _confirmar := 0       ## ranura ocupada que espera un segundo pulsado para reemplazarse
 var _fin: Control
 var _negro: ColorRect
+var _borde: ColorRect
+var _vida_vista := -1.0
+var _tick_borde := 0.0
 var _flecha: Label
 var _minimapa: Minimapa
 var _fps: Label
+var _admin: Label
 var _video: OpcionesVideo
 var _opciones_idioma: OptionButton
 var interfaz: InterfazAventura
@@ -173,6 +179,17 @@ func _etiqueta(padre: Node, tam := 22, color := CREMA, titulo := false) -> Label
 # ---------- en juego ----------
 
 func _armar_juego(raiz: Control) -> void:
+	_borde = ColorRect.new()
+	_borde.name = "BordeVida"
+	_borde.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_borde.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_borde.visible = false
+	var marco := ShaderMaterial.new()
+	marco.shader = load("res://assets/sombreadores/borde_vida.gdshader")
+	marco.set_shader_parameter("intensidad", 0.0)
+	marco.set_shader_parameter("golpe", 0.0)
+	_borde.material = marco
+	raiz.add_child(_borde)
 	_minimapa = Minimapa.new()
 	_minimapa.anchor_left = 1.0
 	_minimapa.anchor_right = 1.0
@@ -193,6 +210,14 @@ func _armar_juego(raiz: Control) -> void:
 	_fps.offset_bottom = -24
 	_fps.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	_fps.visible = false
+	_admin = _etiqueta(raiz, 18, AMBAR, true)
+	_admin.set_anchors_preset(Control.PRESET_CENTER_TOP)
+	_admin.offset_left = -460
+	_admin.offset_right = 460
+	_admin.offset_top = 16
+	_admin.offset_bottom = 48
+	_admin.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_admin.visible = false
 	var obj := VBoxContainer.new()
 	obj.position = Vector2(36, 30)
 	obj.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -256,7 +281,11 @@ func conectar_heroe(h: Heroe, c: Camara) -> void:
 	camara = c
 	_minimapa.heroe = h
 	_minimapa.camara = c
+	_vida_vista = h.salud
 	h.salud_cambio.connect(func(v, m):
+		if _vida_vista >= 0.0 and v < _vida_vista - 0.05:
+			_tick_borde = 1.0
+		_vida_vista = v
 		_salud.max_value = m
 		_salud.value = v
 		_salud_texto.text = tr("combate_salud") % [ceili(v), int(m)])
@@ -296,6 +325,7 @@ func _actualizar_objetivo() -> void:
 		_objetivo_texto.text = tr(o.get("texto", ""))
 	var teclas := _objetivo_titulo.get_parent().get_node("Teclas") as Label
 	teclas.text = tr("ayuda_teclas") % [Controles.tecla("interactuar"), Controles.tecla("lente"), Controles.tecla("diario")]
+	_texto_objetivo()
 	_actualizar_recursos()
 
 
@@ -305,6 +335,23 @@ func _actualizar_recursos() -> void:
 	_salud_texto.text = tr("combate_salud") % [ceili(heroe.salud), int(Heroe.SALUD_MAX)]
 	_stamina_texto.text = tr("combate_stamina") % [floori(heroe.stamina), int(heroe.estadisticas.stamina_maxima)]
 	_ayuda_combate.text = tr("combate_ayuda") % [Controles.tecla("esquivar"), Controles.tecla("saltar")]
+
+
+func _poner_borde(aliento: float, golpe: float) -> void:
+	if _borde == null:
+		return
+	var respira := clampf(aliento, 0.0, 1.0)
+	var tick := clampf(golpe, 0.0, 1.0)
+	_borde.visible = maxf(respira, tick) > 0.02
+	if not _borde.visible:
+		return
+	var mat := _borde.material as ShaderMaterial
+	var tam := _borde.size
+	if tam.x < 2.0:
+		tam = _borde.get_viewport_rect().size
+	mat.set_shader_parameter("resolucion", tam)
+	mat.set_shader_parameter("intensidad", respira)
+	mat.set_shader_parameter("golpe", tick)
 
 
 func mostrar_mensaje(texto: String, color := AMBAR) -> void:
@@ -328,12 +375,40 @@ func _process(dt: float) -> void:
 		_stamina.value = move_toward(_stamina.value, _stamina_objetivo, dt * 220.0)
 		var sin_energia := heroe.stamina < minf(heroe.estadisticas.costo_esquiva, heroe.estadisticas.costo_ataque)
 		_stamina.modulate = Color(1, 0.45, 0.3) if _stamina_alerta > 0.0 else (Color(0.7, 0.7, 0.7) if sin_energia else Color.WHITE)
+		var vida_baja := heroe.salud > 0.0 and heroe.salud <= Heroe.SALUD_MAX * UMBRAL_VIDA_BAJA
+		var pulso := 0.55 + 0.45 * sin(Time.get_ticks_msec() * 0.009)
+		if vida_baja:
+			var tinte := Color(1.0, 0.38, 0.3).lerp(Color(1.0, 0.82, 0.72), pulso)
+			_salud.modulate = tinte
+			_salud_texto.modulate = tinte
+		else:
+			_salud.modulate = Color.WHITE
+			_salud_texto.modulate = Color.WHITE
+		_tick_borde = maxf(0.0, _tick_borde - dt / TICK_BORDE)
+		# Por debajo del 30 % el borde no se apaga: queda presente y pega un latido.
+		var latido := pow(clampf(0.5 + 0.5 * sin(Time.get_ticks_msec() * 0.013), 0.0, 1.0), 1.7)
+		var aliento := (0.68 + 0.32 * latido) if vida_baja else 0.0
+		var tick := 0.0
+		if _tick_borde > 0.62:
+			tick = 1.0
+		elif _tick_borde > 0.0:
+			tick = _tick_borde / 0.62
+		_poner_borde(0.0 if en_menu else aliento, 0.0 if en_menu else tick)
 		_ayuda_combate.text = tr(_stamina_alerta_clave) if _stamina_alerta > 0.0 else tr("combate_ayuda") % [Controles.tecla("esquivar"), Controles.tecla("saltar")]
+		if heroe.admin:
+			_ayuda_combate.text = tr("admin_ayuda") % [Controles.tecla("saltar"), Controles.tecla("bloquear"), Controles.tecla("correr")]
+	else:
+		_poner_borde(0.0, 0.0)
+	if _admin:
+		_admin.visible = heroe != null and heroe.admin
+		if _admin.visible:
+			_admin.text = tr("admin_marca") % Controles.tecla("modo_admin")
 	if en_dialogo:
 		_dlg_t += dt
 		var total := tr(_dlg_lineas[_dlg_i][1]).length() if _dlg_i < _dlg_lineas.size() else 0
 		_dlg_texto.visible_characters = int(_dlg_t * 55.0) if _dlg_t * 55.0 < total else -1
 	_flecha_objetivo()
+	_texto_objetivo()
 	if _fps.visible:
 		var r := RenderingServer
 		var tri := r.get_rendering_info(RenderingServer.RENDERING_INFO_TOTAL_PRIMITIVES_IN_FRAME)
@@ -368,6 +443,28 @@ func _flecha_objetivo() -> void:
 	_flecha.position = borde - Vector2(17, 20)
 	_flecha.rotation = dir.angle()
 	_flecha.pivot_offset = Vector2(17, 20)
+
+
+## El objetivo dice a cuántos metros está. Si no tiene lugar en el mapa, queda solo el texto.
+func _texto_objetivo() -> void:
+	if _objetivo_texto == null:
+		return
+	var id := Juego.id_mision()
+	var base := tr("obj_fin") if id == "fin" else tr(Juego.objetivo_actual().get("texto", ""))
+	var metros := _metros_objetivo()
+	if metros < 0:
+		_objetivo_texto.text = base
+	else:
+		_objetivo_texto.text = "%s   ·   %s" % [base, tr("objetivo_metros") % metros]
+
+
+func _metros_objetivo() -> int:
+	if heroe == null:
+		return -1
+	var p := Juego.donde_objetivo()
+	if p == Vector3.INF:
+		return -1
+	return int(round(heroe.global_position.distance_to(p)))
 
 
 # ---------- diálogos ----------
@@ -661,6 +758,7 @@ func abrir_pausa() -> void:
 	_pausa.visible = true
 	en_menu = true
 	get_tree().paused = true
+	Sonido.musica_de_pausa(true)
 	(_pausa.find_child("Botones", true, false).get_child(1) as Button).grab_focus()
 
 
@@ -679,6 +777,7 @@ func _video_cerrado() -> void:
 
 
 func cerrar_pausa() -> void:
+	Sonido.musica_de_pausa(false)
 	_pausa.visible = false
 	en_menu = false
 	get_tree().paused = false

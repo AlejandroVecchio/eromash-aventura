@@ -1,7 +1,7 @@
 shader_type spatial;
 render_mode cull_disabled;
 // Vegetación de los kits: textura con recorte, un poco de viento en las hojas y un hueco tramado alrededor de
-// Eromash cuando un árbol queda entre él y la cámara (así nunca se lo tapa).
+// Eromash cuando un árbol queda entre él y la cámara. Si la silueta blanca está en pantalla, ese hueco se cierra un poco.
 
 uniform sampler2D textura : source_color, filter_linear_mipmap, repeat_enable;
 uniform vec4 tinte : source_color = vec4(1.0);
@@ -13,6 +13,7 @@ uniform vec3 emision : source_color = vec3(0.0);
 uniform float emision_fuerza = 0.0;
 global uniform vec3 pos_heroe;
 global uniform vec3 pos_camara;
+global uniform float fuerza_contorno;
 
 varying vec3 pos_mundo;
 
@@ -45,9 +46,12 @@ void fragment() {
 		vec3 ab = b - a;
 		float t = clamp(dot(pos_mundo - a, ab) / dot(ab, ab), 0.0, 1.0);
 		float d = length(pos_mundo - (a + ab * t));
-		// solo lo que está entre la cámara y el héroe y por encima de su cintura
-		float tapa = (1.0 - smoothstep(2.2, 4.2, d)) * step(t, 0.97) * step(pos_heroe.y + 0.8, pos_mundo.y);
-		if (tapa * 0.85 > bayer(FRAGCOORD.xy)) {
+		// Con la silueta apagada el hueco es el de siempre. Mientras el borde está en pantalla, el árbol se abre menos.
+		float abertura = mix(0.85, 0.38, fuerza_contorno);
+		float cerca = mix(2.2, 1.6, fuerza_contorno);
+		float lejos = mix(4.2, 3.0, fuerza_contorno);
+		float tapa = (1.0 - smoothstep(cerca, lejos, d)) * step(t, 0.97) * step(pos_heroe.y + 0.8, pos_mundo.y);
+		if (tapa * abertura > bayer(FRAGCOORD.xy)) {
 			discard;
 		}
 	}
