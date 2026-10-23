@@ -66,7 +66,7 @@ Puesto → Refugio → Eikholt y Casa de las Lindes → Paso → Claro → Paso 
 
 ### 3.4 La quebrada del norte
 
-Corta todo el borde norte de oeste a este. El único cruce es el puente del Paso del Guardián. Su relieve impide rodearlo: el bloqueo es físico, no una pared invisible ni un mensaje.
+Cierra el corredor hacia Jarnskald sin cortar todo Eldervald (Alejandro, 23/10/2026): dos paredes abruptas y una garganta que se pierde entre las montañas. El único cruce hacia el norte es el puente del Paso del Guardián. Su relieve impide rodearla desde ahí: el bloqueo es físico, no una pared invisible ni un mensaje.
 
 ### 3.5 Puentes
 
@@ -265,35 +265,39 @@ Plano de la vista general aprobada (`eikholt-00-vista-general-v2.png`). Detalle 
 
 ### Paso del Guardián (norte)
 
-Propuesta aprobada por Alejandro el 23/10/2026 («todo a tu criterio»). Es el umbral entre Eldervald y el norte.
+Versión de Alejandro (23/10/2026). Es el umbral entre Eldervald y el norte.
 
-**Qué es.** La quebrada corta el bosque de punta a punta. Abajo corre el arroyo entre niebla; del otro lado empieza la subida a la cordillera y a Jarnskald. El puente es obra humana apoyada sobre obra antigua: dos pilares de piedra muy viejos, con runas azules casi apagadas, sostienen un tablero de madera que la gente de Eikholt rehace cada pocos años. Es el ámbar sobre el azul. El pedestal del Núcleo forma parte de esa piedra antigua: sin el Núcleo, la quebrada «rechaza» el puente; cruje, el viento lo sacude y no aguanta una noche, como dice Orm.
+**Qué es.** La quebrada cierra el corredor hacia Jarnskald, sin cortar todo Eldervald: dos paredes abruptas y una garganta que se pierde entre las montañas hacen imposible rodearla desde este lugar. Abajo corre el arroyo entre niebla; del otro lado empieza la subida a la cordillera. El puente es obra humana apoyada sobre obra antigua: dos pilares de piedra muy viejos, con runas azules casi apagadas, sostienen un tablero de madera que la gente de Eikholt rehace cada pocos años. Es el ámbar sobre el azul.
 
-**Por qué «del Guardián».** Antes de que hubiera puente, el Ciervo cruzaba la quebrada por un arco de luz que solo él veía. De ahí el nombre del lugar y la cornamenta del estandarte de Eikholt.
+**Qué hace el Núcleo.** El pedestal forma parte de la piedra antigua. Sin protección, las ráfagas y las sacudidas fuerzan los anclajes: el tablero vibra y la niebla tapa el otro extremo. Con el Núcleo, la estructura deja de vibrar y la niebla se abre hasta dejar ver la cabecera norte. La magia sostiene algo concreto; la carpintería sigue siendo necesaria.
+
+**La tradición del Guardián.** En Eikholt se dice: «Antes del primer puente, el Guardián ya cruzaba por acá». Nadie sabe cómo; nadie conoce la forma del arco. La Lente revela después un arco tenue y confirma que el relato tenía fundamento. ❓ Que la cornamenta del estandarte de Eikholt venga de esa tradición es una propuesta de origen que se fija junto con la identidad de la ciudad.
 
 **Qué se ve en el lado sur (EL-04 y EL-05).**
 1. **La subida.** El camino norte trepa desde el carro volcado. Los árboles ralean, sube el viento y el ruido del arroyo crece antes de ver la quebrada. El último farol del camino está apagado.
 2. **El campamento de la cuadrilla:** dos lonas, un fogón chico, tablones y sogas apilados y un torno para bajar vigas. Orm tiene el puente dibujado en una tabla, con lo que falta marcado a carbón. Los materiales ya están: no hay que juntar madera.
-3. **La cabecera sur:** andamios, el pedestal vacío con el hueco en forma del Núcleo y el tablón con el golpe de asta (pista 1 de EL-04).
-4. **El puente roto.** Se puede caminar hasta el borde de la rotura. Falta el tramo del medio, cuelgan sogas sobre el vacío y abajo se ven vigas rotas en el agua. La mitad norte sigue en pie, inalcanzable.
-5. **El poste de los que cruzaron.** La costumbre de las tablillas, para el norte: quien cruza deja su marca antes de subir a la cordillera.
+3. **La cabecera sur:** andamios, el pedestal vacío con el hueco del Núcleo y el tablón con el golpe de asta (pista 1 de EL-04).
+4. **El puente roto.** Se puede caminar hasta el borde de la rotura. Falta el tramo del medio, cuelgan sogas sobre el vacío y abajo se ven vigas rotas en el agua. El tablero vibra con las ráfagas. La mitad norte sigue en pie, inalcanzable.
+5. **La cabecera norte, a la vista.** Detrás del extremo roto, entre la niebla: el tejado de la caseta del puentero, una ventana oscura y el camino que se pierde cuesta arriba.
+6. **El poste de los que cruzaron.** La costumbre de las tablillas, para el norte: quien cruza deja su marca antes de subir a la cordillera.
 
 **Para el jugador curioso.**
-1. **La tablilla de Geir.** En el poste de los que cruzaron, con fecha de antes del ataque: prueba que el hermano de Grim pasó a salvo. Cierra «La tablilla de Geir» sin inventar otro objeto (ver `personajes-recurrentes.md`).
-2. **El arco con la Lente.** Mirando la quebrada con la Lente aparece una línea de luz muy tenue donde estuvo el arco, y sobre ella huellas viejísimas del Ciervo. Del otro lado, huellas frescas bajan del norte: el Ciervo vino del norte la noche del ataque. Une con las últimas huellas del carro volcado y sigue sin explicarse.
-3. **El segundo hueco del pedestal.** Vacío desde mucho antes del ataque; nadie sabe para qué es. Gancho para el Hilo de Resonancia en la segunda visita: el Paso es una estación rúnica más. En el MVP no se promete nada ni se explica.
-4. **El momento de la voz.** Eromash toca el pedestal y escucha la esencia de la piedra (no a Runa): recuerda el peso del guardián al cruzar. Pocas líneas, sobrias, sin pistas sobre el pasado de Eromash.
-5. **El fondo de la quebrada (opcional).** Una senda de cabras baja hasta el arroyo: restos del puente, herramientas que la cuadrilla perdió (una se le devuelve a su dueño), un cofre y un par de lobos de Zarzal en la niebla. La base del pilar tiene una inscripción grande que solo muestra la Lente; suma a los calcos de Torvald. La pared norte es un acantilado: por abajo no se cruza. Es una zona chica, de una sola senda; agranda el lugar más allá de los 12 m de hoy.
+1. **La tablilla de Geir.** En el poste de los que cruzaron, con fecha de antes del ataque: prueba que el hermano de Grim pasó a salvo. Cierra «La tablilla de Geir» (ver `personajes-recurrentes.md`).
+2. **El arco con la Lente.** Mirando la quebrada aparece el arco tenue donde la tradición dice que cruzaba el Guardián. Del lado norte, una breve huella luminosa desciende por el acceso hasta el arranque del arco: se reconoce una dirección, el Ciervo vino del norte, sin tener que distinguir pisadas a través de la quebrada. Une con las últimas huellas del carro volcado y sigue sin explicarse.
+3. **La hendidura del pedestal.** Una hendidura lateral, con surcos que siguen hacia el interior de la piedra: parece una pieza antigua incompleta, no un segundo receptáculo ni una tarea pendiente. Cobra sentido cuando llegue el Hilo de Resonancia, en la segunda visita.
+4. **Contacto con el pedestal (opcional, muy breve).** Presión en la mano, sonido de pezuñas sobre piedra y una frase: «Conocía su peso». No explica el ataque ni da otra pista obligatoria. Es la esencia de la piedra, no Runa (ver 8.1).
 
-**Después de EL-06.** Los pilares se encienden en azul y la luz corre por las barandas (la cinemática `_cine_nucleo` ya lo muestra). Tablero nuevo con faroles ámbar en los postes. Del lado norte, la caseta vieja del puentero y el camino que sube hacia la nieve. Ingrid sale con su carreta, Grim se despide en el puente rumbo a Jarnskald y dos guardias de Håkon quedan de puesto fijo en la cabecera sur. La cuadrilla trabaja en los últimos detalles. Antes de EL-07, Eromash dice que el norte puede esperar.
+**Después de EL-06.** El tablero deja de vibrar, la niebla se abre y los pilares se encienden en azul; la luz corre por las barandas (`_cine_nucleo`). Tablero nuevo con faroles ámbar en los postes. En la cabecera norte, la puerta de la caseta abierta y humo en la chimenea: ese lado vuelve a estar habitado. Ingrid sale con su carreta, Grim se despide en el puente rumbo a Jarnskald y dos guardias de Håkon quedan de puesto fijo en la cabecera sur. La cuadrilla trabaja en los últimos detalles. Antes de EL-07, Eromash dice que el norte puede esperar.
 
-**Sonido y luz.** Antes: gris, viento que aúlla en la quebrada, madera que cruje y un solo fuego ámbar en el campamento. Después: el pedestal zumba en re, la nota base del bosque, como algo que vuelve a su lugar.
+**El fondo de la quebrada (después de EL-06, fuera del recorrido de pistas).** Una senda de cabras baja por la ribera sur hasta el arroyo y nunca alcanza la cabecera norte. Da escala vertical: los pilares vistos desde abajo, los restos del puente en el agua. Ahí está el pasador de hueso de Gunnar, el que usa para sus nudos; devuelto, Gunnar no dice nada y vuelve a revisar los nudos con él. Un par de lobos de Zarzal se refugian entre los restos. La base del pilar tiene una inscripción grande que solo muestra la Lente; suma a los calcos de Torvald. Agranda el lugar más allá de los 12 m de hoy.
 
-**Segunda visita.** Tránsito en el puente, el puesto de guardia con su fuego, el poste de los que cruzaron lleno de marcas nuevas. El segundo hueco del pedestal sigue vacío hasta que llega el Hilo.
+**Sonido y luz.** Antes: gris, viento que aúlla en la quebrada, madera que cruje, el tablero que vibra y un solo fuego ámbar en el campamento. Después: el pedestal zumba en re, la nota base del bosque, como algo que vuelve a su lugar.
+
+**Segunda visita.** Tránsito en el puente, el puesto de guardia con su fuego, el poste de los que cruzaron lleno de marcas nuevas. La hendidura del pedestal espera el Hilo.
 
 **En el juego hoy:** `pedestal-paso.glb`, puente en dos estados, cinemáticas `_cine_nucleo` y `_cine_puente`.
 
-**Para construirlo.** Pilares antiguos con runas en dos estados de luz, tablero roto y tablero nuevo, pedestal con dos huecos, campamento y torno, tabla con el dibujo del puente, poste de los que cruzaron con la tablilla de Geir inspeccionable, línea del arco y huellas para la Lente, senda al fondo con restos, cofre e inscripción, caseta del puentero y puesto de guardia. Textos nuevos en ES/EN.
+**Para construirlo.** Pilares antiguos con runas en dos estados de luz, tablero roto que vibra y tablero nuevo, niebla que tapa y abre el extremo norte, pedestal con el hueco del Núcleo y la hendidura lateral, campamento y torno, tabla con el dibujo del puente, poste de los que cruzaron con la tablilla de Geir inspeccionable, arco tenue y huella luminosa para la Lente, caseta del puentero en dos estados, puesto de guardia, senda al fondo por la ribera sur con restos, pasador de Gunnar, lobos e inscripción. Textos nuevos en ES/EN.
 
 ### Antigua tala y quebrada de rastreo (corredor Paso–Claro)
 
