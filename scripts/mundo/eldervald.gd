@@ -69,7 +69,9 @@ func _ready() -> void:
 	hud.conectar_heroe(heroe, camara)
 	hud.dialogo_terminado.connect(_al_terminar_dialogo)
 	hud.empezar.connect(_empezar)
-	hud.salir_al_titulo.connect(func(): hud.mostrar_titulo())
+	hud.nueva_partida.connect(_nueva_partida)
+	hud.cargar_partida.connect(_cargar_partida)
+	hud.salir_al_titulo.connect(func(): hud.mostrar_titulo(true))
 	hud.mostrar_jefe(null)
 	Juego.cambio_estado.connect(_estado_cambio)
 	Juego.fin_demo.connect(func(): get_tree().create_timer(1.0).timeout.connect(hud.mostrar_fin))
@@ -251,13 +253,31 @@ func _ubicar_heroe() -> void:
 	camara.global_position = heroe.global_position
 
 
-func _empezar(nueva: bool) -> void:
-	if nueva:
-		Juego.nueva_partida()
+## Continuar: la partida de fondo ya es la más reciente, solo se suelta la pausa.
+func _empezar(_nueva: bool) -> void:
+	_estado_cambio()
+
+
+## Nueva partida en una ranura. Si de fondo ya hay una partida sin empezar (primer arranque), se usa esa;
+## si no, se rearma el mundo desde cero.
+func _nueva_partida(ranura: int) -> void:
+	var sin_empezar := not Juego.cargada and Juego.mision == 0 and Juego.banderas.is_empty()
+	Juego.nueva_partida(ranura)
+	if sin_empezar:
+		_estado_cambio()
+		return
+	Juego.saltar_titulo = true
+	get_tree().reload_current_scene.call_deferred()
+
+
+## Cargar: si es la misma partida que está de fondo, se sigue; si no, se rearma el mundo con la elegida.
+func _cargar_partida(ranura: int) -> void:
+	if ranura == Juego.ranura and Juego.cargada:
+		_estado_cambio()
+		return
+	if Juego.cargar(ranura):
 		Juego.saltar_titulo = true
 		get_tree().reload_current_scene.call_deferred()
-		return
-	_estado_cambio()
 
 
 # ---------- interacciones de las misiones ----------

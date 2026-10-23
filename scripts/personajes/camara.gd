@@ -18,6 +18,7 @@ const SUAVE_CAMARA := 10.0
 const GIRO_TECLAS := 1.8 # rad/s
 const INCL_MIN := 2.0    # grados: casi paralela al piso, a la altura de los hombros
 const INCL_MAX := 80.0
+const VUELTA_FONDO := 0.05  # rad/s: una vuelta cada dos minutos detrás del menú principal
 const MASCARA_PISO := 8  # capa del terreno (ver Terreno)
 ## Un rayo solo, de pecho a cámara, entra y sale con cada tronco. Los de pie no cuentan para ese
 ## acercamiento (el follaje ya se abre para no tapar al héroe). Casas, rocas y troncos caídos sí.
@@ -43,6 +44,7 @@ var pausada := false
 var temblor := 0.0
 var ajuste_incl := 0.0       ## grados que el jugador sube o baja la cámara sobre la inclinación del zoom
 var ajuste_incl_obj := 0.0
+var de_fondo := false         ## detrás del menú principal: gira sola alrededor de Eromash aunque el juego esté en pausa
 var atravesar_terreno := false   ## modo admin: la cámara sigue al héroe aunque esté dentro del piso
 var _alcance := -1.0      # metros de pluma ya suavizados; -1 hasta el primer cuadro
 var _espera := 0.0
@@ -89,8 +91,17 @@ func _unhandled_input(ev: InputEvent) -> void:
 		_inclinar(r.y * 0.25)
 
 
+## Pone o saca la cámara de fondo del menú principal: da una vuelta lenta y no escucha al jugador.
+func poner_de_fondo(si: bool) -> void:
+	de_fondo = si
+	pausada = si
+	process_mode = Node.PROCESS_MODE_ALWAYS if si else Node.PROCESS_MODE_INHERIT
+
+
 func _process(dt: float) -> void:
-	if not pausada:
+	if de_fondo:
+		giro_obj += VUELTA_FONDO * dt
+	elif not pausada:
 		giro_obj += (Input.get_action_strength("camara_izquierda") - Input.get_action_strength("camara_derecha")) * GIRO_TECLAS * dt
 		_inclinar((Input.get_action_strength("camara_abajo") - Input.get_action_strength("camara_arriba")) * 70.0 * dt)
 	var kc := 1.0 - exp(-SUAVE_CAMARA * dt)

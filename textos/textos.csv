@@ -13,6 +13,13 @@ prueba_combate_velocidad,Velocidad de ataque ×%.2f,Attack speed ×%.2f
 juego_subtitulo,Las Runas del Olvido,Whisper of the Runes
 titulo_continuar,Continuar,Continue
 titulo_nueva,Nueva partida,New game
+titulo_cargar,Cargar partida,Load game
+ranuras_cargar,Cargar partida,Load game
+ranuras_nueva,¿Qué partida reemplazar?,Which save to replace?
+ranura,Partida %d,Save %d
+ranura_vacia,Vacía,Empty
+ranura_tiempo,%d h %02d min,%d h %02d min
+ranura_reemplazar,Esta partida se va a borrar. Pulsá de nuevo para empezar de cero en ella.,This save will be erased. Press again to start over in it.
 titulo_mvp,Demo del Bosque de Eldervald · contenido en desarrollo,Eldervald Forest demo · work in progress
 pausa_titulo,Pausa,Paused
 pausa_seguir,Seguir,Resume
