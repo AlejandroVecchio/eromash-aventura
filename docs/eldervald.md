@@ -237,6 +237,25 @@ Versión de Alejandro (22/10/2026). Es el primer lugar donde el bosque reconoce 
 - **Estandarte oficial** (Alejandro, 22/10/2026): la cornamenta del Ciervo en blanco hueso sobre verde oscuro. La ciudad honra al guardián que cuidaba los caminos y que ahora la ataca.
 - **Capital imaginada (💡 propuesta del 22/10/2026, en revisión):** el documento "Eikholt, capital de Eldervald" (https://claude.ai/artifact/54Zi2sScz75F3g1naUdZNF) la expande como capital de los elderianos: barrios, Asamblea del Roble, 13 vecinos, seis forasteros de otras regiones (`docs/personajes-recurrentes.md`), rutinas, Noche de los Faroles y secundarias. Se pasa acá cuando Alejandro la cierre.
 
+#### Los lugares de la capital
+
+Plano de la vista general aprobada (`eikholt-00-vista-general-v2.png`). Detalle de personajes, secundarias y rutinas en el documento de Eikholt.
+
+| Lugar | Dónde | Qué hay | Referencia |
+|---|---|---|---|
+| Empalizada y cúpula rúnica | Todo el borde y el cielo | Troncos de ~6 m con pasarela y atalayas; runas enormes del futhark flotando sobre una curva invisible, algunas apagadas o ausentes; doce piedras antiguas de anclaje en la empalizada | 00, 08, 10 |
+| Puerta del Sur | Borde sur | Puente sobre el río, dos torres, runas ámbar en el portón, dos piedras de la cúpula, casa de guardia y gran tablero de tablillas | 01 |
+| Plaza del Roble y Mercado de los Toldos | Centro, bajo la copa | El Roble con las cintas de las promesas, el pozo (Gudrun), la campana y el tablón de avisos; puestos locales y de otros reinos | 02 |
+| Círculo del Ting | Sur del tronco, en medio del mercado | Doce asientos con símbolos de oficio y la piedra negra sin luz, de runas desconocidas | 03 |
+| Barrio de los Oficios | Oeste | Herrería con chimenea de piedra (Ása, armas, la espada rúnica), carpintería con grúa, cordelería, curtiembre junto al río | 04 |
+| Casa de las Lindes | Borde oeste, cerca del río | Ver abajo | 05 |
+| Casa de Sanación | Noroeste | Camas, hierbas, jardín medicinal; Thora, Bror y Sigrun | 06 |
+| Hospedería del Hongo Dorado | Sudeste, frente a la plaza | La casa más grande; Ulf, Ylva, el skald y los forasteros | 07 |
+| Puerta del Norte, Guardia y corral de caravanas | Borde norte y nordeste | Portón con hierro entre dos piedras de la cúpula; patio de práctica de Håkon; carretas varadas con mercancía de otras tierras | 08 |
+| Barrio del río | Sudeste, fuera de la empalizada | Muelle de balsas trabado por troncos, pescadores, huertas, Puerta del Este con su puente entre torres. ❓ Se propuso que sea la gente más expuesta, fuera de la cúpula | 09 |
+| Mirador del Roble | Rama alta del lado norte | Vista del bosque, el Paso, la cordillera y, muy lejos, Yggdrasil | 10 |
+| Noche de los Faroles | Plaza, después de EL-06 | La fiesta: faroles, mesas, las cinco tablillas claras en el Roble | 11 |
+
 ### Casa de las Lindes (borde oeste de Eikholt)
 
 - **Qué es:** la casa de Svanhild, custodia de registros e instrumentos.
