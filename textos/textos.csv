@@ -20,6 +20,7 @@ pausa_guardar,Guardar,Save
 pausa_titulo_menu,Volver al título,Back to title
 pausa_salir,Salir del juego,Quit game
 partida_guardada,Partida guardada,Game saved
+partida_recuperada,Se recuperó la partida anterior,The previous save was recovered
 calidad_baja,Bajo,Low
 calidad_media,Medio,Medium
 calidad_alta,Alto,High
