@@ -22,6 +22,7 @@ Controles="*res://scripts/autoload/controles.gd"
 Juego="*res://scripts/autoload/juego.gd"
 Captura="*res://scripts/autoload/captura.gd"
 Sonido="*res://scripts/autoload/sonido.gd"
+NotaDeRama="*res://scripts/autoload/nota_de_rama.gd"
 
 [display]
 
@@ -47,4 +48,8 @@ pos_heroe={
 pos_camara={
 "type": "vec3",
 "value": Vector3(0, 30, 30)
+}
+fuerza_contorno={
+"type": "float",
+"value": 0.0
 }

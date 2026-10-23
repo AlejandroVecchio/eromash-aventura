@@ -99,6 +99,10 @@ var _guardia_agotada := false
 var _accion_id := 0
 var _modelo_posicion := Vector3.ZERO
 var _modelo_rotacion := Vector3.ZERO
+var _contorno: ShaderMaterial
+var _contorno_activo := false
+var _copias_contorno: Array[MeshInstance3D] = []
+var _fuentes_contorno: Array[MeshInstance3D] = []
 var _esquiva_provisional := true
 var _t_aire := 0.0
 var _aterrizaje := 0.0
@@ -169,6 +173,58 @@ func _cargar_modelo() -> void:
 	_arreglar_vaina(esq)
 	_armas(true)
 	anim.play("guardia")
+
+
+## La cámara lo sube de a poco (0 = apagado) cuando algo tapa el cuerpo: el borde blanco entra en menos
+## de medio segundo. Al salir pasa a 0 de una.
+## No va de recubrimiento: esa pasada solo existe donde el cuerpo ya se ve, y detrás de una roca no queda nada.
+## Cada malla tiene una copia transparente que sí se dibuja tapada; el sombreador deja solo lo que queda detrás.
+func poner_contorno(fuerza: float) -> void:
+	if modelo == null:
+		return
+	if fuerza <= 0.001:
+		if not _contorno_activo:
+			return
+		_contorno_activo = false
+		for c in _copias_contorno:
+			c.visible = false
+		return
+	if _contorno == null and not _crear_contorno():
+		return
+	_contorno.set_shader_parameter("fuerza", fuerza)
+	_contorno_activo = true
+	for i in _copias_contorno.size():
+		var orig := _fuentes_contorno[i]
+		var copia := _copias_contorno[i]
+		copia.transform = orig.transform
+		copia.visible = orig.visible
+
+
+func _crear_contorno() -> bool:
+	var sombreado := load("res://assets/sombreadores/contorno_heroe.gdshader") as Shader
+	if sombreado == null:
+		return false
+	_contorno = ShaderMaterial.new()
+	_contorno.shader = sombreado
+	for mi in modelo.find_children("*", "MeshInstance3D", true, false):
+		var orig := mi as MeshInstance3D
+		if orig.name == "Contorno" or orig.mesh == null:
+			continue
+		var copia := orig.duplicate() as MeshInstance3D
+		copia.name = "Contorno"
+		copia.material_override = _contorno
+		copia.material_overlay = null
+		copia.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		copia.gi_mode = GeometryInstance3D.GI_MODE_DISABLED
+		copia.ignore_occlusion_culling = true
+		copia.extra_cull_margin = 2.0
+		copia.visible = false
+		orig.get_parent().add_child(copia)
+		copia.skeleton = orig.skeleton
+		copia.transform = orig.transform
+		_copias_contorno.append(copia)
+		_fuentes_contorno.append(orig)
+	return not _copias_contorno.is_empty()
 
 
 ## La espada guardada viene pesada a medias entre la cadera y el muslo izquierdo, justo donde cuelga la mano:
@@ -939,18 +995,28 @@ func _animar(dt: float) -> void:
 			anim.play(_descanso, 0.5)
 
 
-## El interactuable más cercano al alcance (lo muestra la interfaz).
+## Prefiere lo que Eromash está mirando si hay dos cosas al alcance. Si no mira a ninguna, queda la más cercana.
 func _buscar_cerca() -> void:
 	var mejor: Node = null
-	var dmin := INF
+	var mejor_puntaje := -INF
+	var adelante := global_transform.basis.z
 	if not bloqueado and not muerto:
 		for n in get_tree().get_nodes_in_group("interactuable"):
 			if not n.has_method("disponible") or not n.disponible():
 				continue
-			var d := (n as Node3D).global_position.distance_to(global_position)
-			if d < float(n.radio) and d < dmin:
-				dmin = d
-				mejor = n
+			var nodo := n as Node3D
+			var hacia := nodo.global_position - global_position
+			var d := hacia.length()
+			if d >= float(nodo.radio):
+				continue
+			hacia.y = 0.0
+			var frente := 0.0
+			if hacia.length() > 0.05:
+				frente = maxf(0.0, adelante.dot(hacia.normalized()))
+			var puntaje := (float(nodo.radio) - d) + frente * 0.85
+			if puntaje > mejor_puntaje:
+				mejor_puntaje = puntaje
+				mejor = nodo
 	if mejor != cerca:
 		cerca = mejor
 		cerca_cambio.emit(cerca)
