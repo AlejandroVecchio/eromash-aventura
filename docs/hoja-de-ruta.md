@@ -15,7 +15,7 @@ Las siete están armadas en `scripts/autoload/juego.gd` (objetivos) y `scripts/m
 | EL-01 El camino que dejó de ser seguro | 🟡 | Arte final del Puesto y del carro |
 | EL-02 Una voz bajo la piedra | 🟡 | Evacuación como secuencia (hoy diálogo con fundido) |
 | EL-03 Lo que queda en el asta | 🟡 | Lente del Eco en mano es provisoria (hecha por código) |
-| EL-04 Las huellas del guardián | 🟡 | Arte de la tala y la quebrada; custodio como semi-jefe en la hondonada con muro de raíces y favor (23/10/2026) |
+| EL-04 Las huellas del guardián | 🟡 | Arte de la tala y la quebrada; custodio como semi-jefe en la hondonada con muro de raíces, la cuña y el favor; primero con la quebrada y un solo atajo (23/10/2026) |
 | EL-05 El Ciervo Hueco | 🟡 | Animaciones del Ciervo (hoy por código); el Núcleo entre las astas durante la pelea |
 | EL-06 Un camino para los vivos | ✅ | Tiene la cinemática piloto (`_cine_nucleo`, `_cine_puente`) |
 | EL-07 Alguien me espera | 🟡 | Poner la rueda del aserradero en 3D (el modelo ya existe en la carpeta de Tripo, con su soporte y canaleta); vestigio de la mano en el Santuario |
