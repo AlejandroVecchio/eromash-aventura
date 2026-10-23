@@ -250,7 +250,7 @@ Plano de la vista general aprobada (`eikholt-00-vista-general-v2.png`). Detalle 
 | Barrio de los Oficios | Oeste | Herrería con chimenea de piedra (Ása, armas, la espada rúnica), carpintería con grúa, cordelería, curtiembre junto al río | 04 |
 | Casa de las Lindes | Borde oeste, cerca del río | Ver abajo | 05 |
 | Casa de Sanación | Noroeste | Camas, hierbas, jardín medicinal; Thora, Bror y Sigrun | 06 |
-| Hospedería del Hongo Dorado | Sudeste, frente a la plaza | La casa más grande; Ulf, Ylva, el skald y los forasteros | 07 |
+| Hospedería del Hongo Dorado | Sudeste, frente a la plaza | La casa más grande; Ulf, su hija Tyra, el skald y los forasteros | 07 |
 | Puerta del Norte, Guardia y corral de caravanas | Borde norte y nordeste | Portón con hierro entre dos piedras de la cúpula; patio de práctica de Håkon; carretas varadas con mercancía de otras tierras | 08 |
 | Barrio del río | Sudeste, fuera de la empalizada | Muelle de balsas trabado por troncos, pescadores, huertas, Puerta del Este con su puente entre torres. ❓ Se propuso que sea la gente más expuesta, fuera de la cúpula | 09 |
 | Mirador del Roble | Rama alta del lado norte | Vista del bosque, el Paso, la cordillera y, muy lejos, Yggdrasil | 10 |
