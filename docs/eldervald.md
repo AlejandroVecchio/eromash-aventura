@@ -746,10 +746,10 @@ Resumen; el detalle vive en `hoja-de-ruta.md`.
 - ✅ Las siete misiones, los NPC por etapa, los tres enemigos comunes, el jefe con soportes y fases, la Lente, el diario con el croquis, la pantalla de cierre, las cinemáticas de EL-06 y las opciones de video con distancias de dibujo.
 - 🟡 Provisorios: Lente en la mano, rueda del aserradero (el modelo 3D ya existe, falta ponerlo), animaciones del lobo y el Ciervo, evacuación de EL-02 como fundido, Núcleo en el piso, sonido CC0, el mundo tarda unos 20 s en armarse.
 - ⬜ Falta: acabado de arte y luz en todos los lugares (Paso F), vestigio de la mano en el Santuario, voces, música propia, cinemática 2, pasada jugada completa en la PC.
+- ⬜ **Vista general del bosque** (pedido de Alejandro, 23/10/2026): al terminar el diseño de todos los lugares, armar una imagen de todo Eldervald como la de Eikholt (`eikholt-00-vista-general-v2.png`), con prompt estricto y el plano fijo según `datos.gd` y este archivo.
 - ❓ **Preguntas abiertas para Eldervald:**
-  - ¿Qué secundarias entran para que el bosque llegue a los 40 minutos?
+  - ¿Qué secundarias entran para que el bosque llegue al menos a los 40 minutos?
   - ¿Cómo se juega la Arena antes del trato y cómo se pasa de ahí al Puesto?
-  - ¿Qué nombre llevan en pantalla las voces de las piedras?
   - ¿Los Vardren y la Hilandera del duelo existen en este bosque?
 
 ## 16. Archivos
