@@ -355,6 +355,16 @@ El borde está rodeado de las astas que fue mudando durante generaciones. Alguna
 
 La cornamenta del estandarte de Eikholt recuerda al guardián de las lindes y los cruces. Este lugar, conocido desde lejos y visitado con respeto, conserva la forma que inspiró ese símbolo.
 
+**Escala épica** (Alejandro, 23/10/2026: «es el escenario del jefe final de la historia principal de la zona; tiene que ser más épico»).
+- **Una hondonada inmensa.** El Claro está en el fondo de una cuenca natural rodeada de paredes de roca y de los árboles más viejos de Eldervald, de 60 a 80 m, con raíces como contrafuertes. Desde arriba se lee como una catedral natural, sin construcción humana ni aspecto de templo demoníaco.
+- **La llegada.** La quebrada de rastreo desemboca en el borde alto de la cuenca. Se baja por una escalera natural de raíces, y desde el borde el Claro entero se abre de golpe abajo, con el Ciervo en el centro. 💡 Una cinemática corta con el motor: Eromash se asoma, la cámara baja hasta el Ciervo atado y Eydis se queda en el borde.
+- **Los arcos de astas, monumentales.** Las astas más viejas crecieron con las raíces de los árboles gigantes y forman una columnata alrededor del Claro. Las nuevas siguen a ras del suelo.
+- **Los menhires, altos.** De 8 a 10 m, con runas antiguas tapadas por los haces violetas. Los hilos suben hasta el Ciervo tensos como la jarcia de un barco.
+- **El Ciervo, enorme.** Unas dos veces la altura de un caballo, con una cornamenta de unos 8 m de envergadura. Su luz azul y el violeta de las ataduras son las luces principales de la cuenca.
+- **Luz.** Un solo haz de luz fría que entra por una abertura de la copa y cae sobre el centro; niebla baja al ras del suelo; el resto en penumbra verde.
+- **La arena cambia con cada soporte roto.** Al caer un menhir, sus hilos azotan el suelo, se derrumba un arco de astas cercano y la mancha enferma de esa piedra se retrae. Al romper el tercero, la niebla se levanta y el haz de luz se ensancha. La pelea se siente distinta en cada tramo sin perder lectura.
+- **Tamaño.** Piso de pelea de unos 35 m de radio despejado (hoy 30 m en total), más el anillo de astas y raíces. La loma de los observadores es una cornisa en el borde de la cuenca.
+
 **Qué le hicieron.** Tres menhires antiguos protegían su descanso. Las ataduras se aferraron a ellos y los convirtieron en anclajes: de cada piedra sale un haz de hilos violetas que termina en el cuerpo del Ciervo. Los hilos se estiran cuando camina y se tensan cuando intenta alejarse: le permiten moverse por el Claro, pero lo retienen dentro de él. Durante una embestida tiran de su cuerpo y hacen vibrar las piedras; esa tensión enseña cómo usar su fuerza para romper los soportes.
 
 Alrededor de cada menhir hay una mancha de vegetación enferma: pasto gris, flores vencidas y raíces sin brotes. La herida es más intensa junto a las piedras; parte del Claro conserva vida.
