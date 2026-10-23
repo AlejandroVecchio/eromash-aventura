@@ -12,6 +12,8 @@ const NPCS := {
 ## Con preload y no por nombre de clase: así funcionan aunque Godot todavía no haya registrado las clases nuevas.
 const CINEMATICA := preload("res://scripts/mundo/cinematica.gd")
 const ONDA_RUNICA := preload("res://scripts/mundo/onda_runica.gd")
+const CINEMATICA_25D := preload("res://scripts/mundo/cinematica_25d.gd")
+const CINE_PROLOGO := preload("res://scripts/mundo/cine_prologo.gd")
 
 var terreno: Terreno
 var escenario: Escenario
@@ -72,6 +74,7 @@ func _ready() -> void:
 	hud.nueva_partida.connect(_nueva_partida)
 	hud.cargar_partida.connect(_cargar_partida)
 	hud.salir_al_titulo.connect(func(): hud.mostrar_titulo(true))
+	hud.ver_prologo.connect(func(): _cine_prologo(hud.mostrar_titulo))
 	hud.mostrar_jefe(null)
 	Juego.cambio_estado.connect(_estado_cambio)
 	Juego.fin_demo.connect(func(): get_tree().create_timer(1.0).timeout.connect(hud.mostrar_fin))
@@ -278,6 +281,24 @@ func _cargar_partida(ranura: int) -> void:
 	if Juego.cargar(ranura):
 		Juego.saltar_titulo = true
 		get_tree().reload_current_scene.call_deferred()
+
+
+## Cinemática 1, «El susurro de las raíces» (prólogo): 2.5D sobre pergamino (versión provisoria con capas PNG;
+## va a reemplazarse por los clips de IA de video). No arranca sola: se ve desde «Ver prólogo» en la pantalla
+## de título (Alejandro, 21/10/2026). Tapa el mundo mientras dura; `al_terminar` corre al final o al saltarla.
+func _cine_prologo(al_terminar: Callable) -> void:
+	hud.visible = false
+	heroe.bloqueado = true
+	get_tree().paused = true   # el mundo queda quieto detrás; la cinemática sigue igual
+	Sonido.ambiente(false)
+	var c := CINEMATICA_25D.new(CINE_PROLOGO.datos())
+	c.termino.connect(func():
+		hud.visible = true
+		heroe.bloqueado = false
+		get_tree().paused = false
+		Sonido.ambiente()
+		al_terminar.call())
+	c.reproducir(self)
 
 
 # ---------- interacciones de las misiones ----------

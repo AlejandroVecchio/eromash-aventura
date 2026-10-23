@@ -52,7 +52,7 @@ static func caminos() -> Array:
 	return [
 		# entrada sur → Puesto de Eydis → cruce oeste de Eikholt → plaza
 		{"p": lista([[95, 960], [200, 880], [350, 795], [470, 745], [560, 690], [625, 600], [668, 560], [740, 560], [830, 560]]), "w": 4.0},
-		# camino norte: cruce oeste → carro → Paso del Guardián → salida a Jarnskald
+		# camino norte: cruce oeste → carro → Paso del Guardián → salida a Hrimvard
 		{"p": lista([[668, 560], [655, 480], [612, 400], [575, 300], [540, 230], [515, 172], [500, 110], [490, 30]]), "w": 3.6},
 		# ramal al Refugio de las Lindes
 		{"p": lista([[590, 345], [530, 330], [470, 318]]), "w": 2.8},

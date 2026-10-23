@@ -8,6 +8,7 @@ signal empezar(nueva: bool)        ## Continuar (false): seguir con la partida q
 signal nueva_partida(ranura: int)
 signal cargar_partida(ranura: int)
 signal salir_al_titulo
+signal ver_prologo   ## botón «Ver prólogo» del título
 
 const FUENTE_TITULO := "res://assets/marca/fuentes/EromashDisplay-Bold.woff2"
 const FUENTE_TEXTO := "res://assets/marca/fuentes/EromashText-Regular.woff2"
@@ -845,6 +846,7 @@ func _armar_titulo(raiz: Control) -> void:
 		["titulo_continuar", func(): _empezar(false)],
 		["titulo_nueva", func(): _pedir_nueva()],
 		["titulo_cargar", func(): _abrir_ranuras("cargar")],
+		["titulo_ver_prologo", _ver_prologo],
 		["menu_video", func(): abrir_video(_titulo.find_child("menu_video", true, false))],
 		["pausa_salir", func(): get_tree().quit()],
 	]:
@@ -859,6 +861,12 @@ func _armar_titulo(raiz: Control) -> void:
 	aviso.text = tr("titulo_mvp")
 	aviso.set_meta("clave", "titulo_mvp")
 	aviso.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+
+
+## «Ver prólogo»: sale del título y avisa al mundo, que reproduce el prólogo y vuelve al título al terminar.
+func _ver_prologo() -> void:
+	_salir_del_titulo()
+	ver_prologo.emit()
 
 
 ## Línea fina con EROMASH en runas en el medio, en azul rúnico.

@@ -31,3 +31,12 @@ Regla: **cada sonido nuevo suma su línea acá en el mismo commit** (archivo, or
 ## Música de la pausa
 
 El menú de pausa deja el bosque en silencio y, si existe el archivo, pone un tema en bucle solo mientras ese menú está abierto. El lugar para dejarlo es `musica/pausa.ogg` (también sirve `musica/pausa.mp3`). Sin ese archivo la pausa sigue en silencio. Al sumarlo, la línea de créditos va en esta tabla, en el mismo cambio.
+## Voces / Voices (`voces/`)
+
+Voces sintéticas de **ElevenLabs** (modelo `eleven_v4`, mp3 44,1 kHz 128 kbps), generadas el 18/10/2026 con `herramientas/voces/generar.mjs --prologo` a partir de la tabla de subtítulos de la cinemática 1. Voces premade de la cuenta: Narrador → «Brian» (`nPczCjzI2devNBz1zQrb`), Guardián → «Bill» (`pqHfZKP75CvOlQylNhV4`). El tratamiento (más grave, sala) lo aplica el juego en vivo con los buses `Narrador` y `Guardian`.
+
+| Archivo | Texto |
+|---|---|
+| `voces/cine_prologo_01-es.mp3` … `cine_prologo_12-en.mp3` | Líneas `cine_prologo_01` a `cine_prologo_12` de `textos/textos.csv`, en español (`-es`) y en inglés (`-en`) |
+
+**Provisorias:** se generaron con el plan gratuito de ElevenLabs, que no permite uso comercial y pide atribución. Antes de publicar el juego hay que regenerarlas con un plan pago (mismo script, mismas claves).

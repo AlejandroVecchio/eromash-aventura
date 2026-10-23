@@ -29,6 +29,8 @@ const ETAPAS := {
 	# cinemáticas de EL-06 (fotos a lo largo de cada una)
 	"cine_nucleo": [5, ["vuelta_paso", "nucleo_puesto"], "pedestal", 0.4, 0.4],
 	"cine_puente": [5, ["vuelta_paso", "nucleo_puesto", "runa_paso"], "orm_puente", 0.4, 0.4],
+	# cinemática 1 (prólogo 2.5D, la de «Nueva partida»): fotos en los planos y en cada transición
+	"cine_prologo": [0, [], "inicio", 0.0, 0.45],
 }
 
 
@@ -149,6 +151,15 @@ static func preparar(mundo: Eldervald) -> void:
 			mundo.hud._abrir_ranuras("nueva")
 			mundo.hud._elegir_ranura(2)   # ocupada: pide confirmar antes de reemplazarla
 			Captura.foto(base + "_reemplazar.png", 3))
+	if g == "cine_prologo":
+		var t := mundo.get_tree()
+		var momentos: Array = [1.0, 11.3, 21.0, 21.6, 27.8, 34.0, 37.3, 40.2, 44.8, 48.6, 51.1, 54.3, 62.5, 69.6, 76.2]
+		t.create_timer(0.5).timeout.connect(func():
+			mundo._cine_prologo(func(): pass)
+			if Captura.ver:
+				return
+			for i in momentos.size():
+				t.create_timer(momentos[i]).timeout.connect(func(): Captura.foto(Captura.salida.get_basename() + "_%02d.png" % i, 1)))
 	if g == "cine_nucleo" or g == "cine_puente":
 		var t := mundo.get_tree()
 		var momentos: Array = [1.0, 3.0, 6.0, 9.5, 12.5, 16.5, 19.5, 21.0] if g == "cine_nucleo" else [0.5, 2.0, 4.5, 7.0, 9.5, 10.6]
