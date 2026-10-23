@@ -18,7 +18,7 @@ Las siete están armadas en `scripts/autoload/juego.gd` (objetivos) y `scripts/m
 | EL-04 Las huellas del guardián | 🟡 | Arte de la tala y la quebrada |
 | EL-05 El Ciervo Hueco | 🟡 | Animaciones del Ciervo (hoy por código); el Núcleo entre las astas durante la pelea |
 | EL-06 Un camino para los vivos | ✅ | Tiene la cinemática piloto (`_cine_nucleo`, `_cine_puente`) |
-| EL-07 Alguien me espera | 🟡 | Poner la rueda del aserradero en 3D (el modelo ya existe en la carpeta de Tripo, con su soporte y canaleta); vestigio de la mano en el Santuario |
+| EL-07 Alguien me espera | 🟡 | Vestigio de la mano en el Santuario. 🔵 Rueda del aserradero en 3D, con su soporte y canaleta, girando en el río (PR de la rueda, 23/10/2026) |
 
 ### Orden de construcción (`misiones-principales-eldervald.md`, sección 7)
 
@@ -71,6 +71,7 @@ Las siete están armadas en `scripts/autoload/juego.gd` (objetivos) y `scripts/m
 ### Arte
 
 - ✅ Modelos 3D: Eromash, Eydis, Orm, Svanhild, armas, enemigos, Ciervo, Roble, Santuario, pedestal, piedras rúnicas (`docs/assets.md`).
+- 🔵 Rueda de agua del aserradero con su soporte y canaleta (reemplaza la hecha por código).
 - 🔵 PR #6: sombras al aire libre que dejan ver y faroles con sombra.
 - 🔵 PR #5: pies que no patinan.
 - ⬜ Identidad 3D propia (casas nórdicas, árboles, interactuables, un hito por zona): propuesta en `docs/pendientes.md`.

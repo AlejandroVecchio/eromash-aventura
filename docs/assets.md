@@ -75,6 +75,7 @@ Las casas se arman con módulos en `casa()` de `escenario.gd`: paredes de 2 m, e
 | `soporte-petreo.glb`, `soporte-petreo-roto.glb` | Soportes del Claro, enteros y rotos |
 | `tronco-hongos.glb` | Troncos caídos con hongos (sólidos) |
 | `santuario-entrada.glb` | Entrada del Santuario de las Raíces |
+| `rueda-aserradero.glb`, `soporte-canaleta.glb` | Rueda de agua del aserradero y su soporte con canaleta (`scripts/mundo/rueda_agua.gd`; la canaleta se sube por código para que la rueda quepa debajo) |
 
 ## Objetos propios (Tripo · `modelos/objetos/`)
 
@@ -123,7 +124,7 @@ La piedra de las pendientes usa la textura de rocas del kit (`kit/naturaleza/Roc
 
 ## Hecho por código (sin archivo)
 
-Agua de los ríos, zarzas violetas del Santuario, ataduras del Ciervo, avisos del piso, marcas de la Lente, rueda del aserradero y Lente del Eco en la mano.
+Agua de los ríos, zarzas violetas del Santuario, ataduras del Ciervo, avisos del piso, marcas de la Lente y Lente del Eco en la mano.
 
 ## Animaciones (Quaternius, Universal Animation Library · `modelos/animaciones/ual/`)
 

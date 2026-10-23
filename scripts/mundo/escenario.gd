@@ -676,42 +676,27 @@ func _aserradero() -> void:
 	poner(KIT_OBJ + "Workbench.gltf", c + Vector2(6, -2), 70.0)
 	poner(KIT_ALDEA + "Prop_Wagon.gltf", c + Vector2(-10, 6), 40.0)
 	caja_colision(suelo(c + Vector2(8, 5)), Vector3(4.5, 1.6, 6.0), 0.2)
-	# rueda de agua (provisional hasta tener el modelo) junto al río
-	var rp := Datos.m(1168, 332)
-	var rueda := _rueda()
-	add_child(rueda)
-	rueda.global_position = suelo(rp, 2.0)
-	rueda.rotation.y = deg_to_rad(80)
-	nodos["rueda"] = rueda
+	_rueda()
 	farol(c + Vector2(-6, 8))
 
 
-## Rueda hidráulica provisional armada con tablas (gira en el mundo).
-func _rueda() -> Node3D:
-	var r := Node3D.new()
-	var giro := Node3D.new()
-	giro.name = "Giro"
-	r.add_child(giro)
-	for i in 16:
-		var a := TAU * i / 16.0
-		var t := MeshInstance3D.new()
-		var b := BoxMesh.new()
-		b.size = Vector3(0.12, 0.9, 1.0)
-		t.mesh = b
-		t.material_override = _mat_madera
-		t.position = Vector3(0, sin(a) * 2.2, cos(a) * 2.2)
-		t.rotation.x = -a
-		giro.add_child(t)
-	for i in 4:
-		var t := MeshInstance3D.new()
-		var b := BoxMesh.new()
-		b.size = Vector3(0.15, 4.4, 0.18)
-		t.mesh = b
-		t.material_override = _mat_madera
-		t.rotation.x = PI * i / 4.0
-		giro.add_child(t)
-	giro.rotation.z = 0.0
-	return r
+## Rueda de agua con su soporte y canaleta, en la orilla oeste del río: el eje cruza hacia el agua, la rueda se
+## hunde un metro en la corriente y la canaleta llega desde río arriba.
+func _rueda() -> void:
+	var a := Datos.m(1190, 250)
+	var b := Datos.m(1205, 345)
+	var abajo := (b - a).normalized()       # hacia donde corre el río
+	var oeste := Vector2(-abajo.y, abajo.x)
+	var centro := a.lerp(b, (Datos.m(0, 332).y - a.y) / (b.y - a.y))
+	var p := centro + oeste * 4.0 - abajo * 7.0   # río arriba del puente oriental
+	var r := RuedaAgua.new()
+	add_child(r)
+	r.global_position = Vector3(p.x, Terreno.NIVEL_AGUA - 1.0 + RuedaAgua.DIAMETRO * 0.5, p.y)
+	r.rotation.y = atan2(abajo.x, abajo.y)   # su -Z (la canaleta) mira río arriba
+	rango(r, 200.0)
+	caja_colision(Vector3(p.x, Terreno.FONDO_RIO, p.y), Vector3(4.2, 9.0, RuedaAgua.DIAMETRO + 0.4), r.rotation.y)
+	nodos["rueda"] = r
+	puntos["rueda"] = suelo(p + oeste * 7.0 + abajo * 4.0)
 
 
 func _puentes_este() -> void:
