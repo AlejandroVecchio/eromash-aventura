@@ -233,6 +233,7 @@ Versión de Alejandro (22/10/2026). Es el primer lugar donde el bosque reconoce 
 - **Qué pasa:** EL-02 (llegada de los rescatados), EL-03, EL-07, y es el centro de la red de caminos.
 - **En el juego:** `roble-eikholt.glb`, casas modulares del Medieval Village MegaKit (`casa()` en `escenario.gd`), oclusores para rendimiento.
 
+- **Imágenes de referencia** (22–23/10/2026), en `docs/referencias/eldervald/`: `eikholt-00-vista-general-v2.png` (aprobada, manda sobre el plano), `eikholt-01-puerta-sur-v1`, `02-mercado-v1`, `03-ting-v2`, `04-oficios-v1`, `05-casa-lindes-v1`, `06-sanacion-v1`, `07-hospederia-v1`, `08-puerta-norte-v1`, `09-rio-v1`, `10-mirador-v1` y `11-noche-faroles-v1`. Prompts para regenerarlas en `prompts-eikholt-completos.md`; guía y plano en `prompts-eikholt.md`.
 - **Estandarte oficial** (Alejandro, 22/10/2026): la cornamenta del Ciervo en blanco hueso sobre verde oscuro. La ciudad honra al guardián que cuidaba los caminos y que ahora la ataca.
 - **Capital imaginada (💡 propuesta del 22/10/2026, en revisión):** el documento "Eikholt, capital de Eldervald" (https://claude.ai/artifact/54Zi2sScz75F3g1naUdZNF) la expande como capital de los elderianos: barrios, Asamblea del Roble, 13 vecinos, seis forasteros de otras regiones (`docs/personajes-recurrentes.md`), rutinas, Noche de los Faroles y secundarias. Se pasa acá cuando Alejandro la cierre.
 
