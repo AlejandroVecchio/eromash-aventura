@@ -226,9 +226,9 @@ func _mostrar_linea(l: Dictionary) -> void:
 	var quien: String = l.quien
 	_nombre.text = tr("nombre_" + quien)
 	_texto.text = tr(l.clave)
-	var runa := quien == "runa"
-	_nombre.add_theme_color_override("font_color", Hud.AZUL if runa else Hud.AMBAR)
-	_texto.add_theme_color_override("font_color", Hud.AZUL if runa else Hud.CREMA)
+	var piedra := quien == "piedra"
+	_nombre.add_theme_color_override("font_color", Hud.AZUL if piedra else Hud.AMBAR)
+	_texto.add_theme_color_override("font_color", Hud.AZUL if piedra else Hud.CREMA)
 	if Juego.has_signal("hablante"):
 		Juego.hablante.emit(quien)
 

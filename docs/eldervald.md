@@ -375,7 +375,7 @@ Cada piedra y cada runa tiene su propia esencia; **no son Runa**, la compañera 
 - **Runa del Paso:** a través de Eromash: "La runa del Paso vuelve a sostener el camino."
 - **Voz del Santuario:** reconoce un contacto antiguo. "Volviste." / "Tu mano… la recuerdo."
 
-> En el código el hablante de estas voces se llama `runa` y su nombre en pantalla es "Runa" / "Rune". Conviene cambiarlo por algo que no se confunda con el personaje de la historia (por ejemplo "Voz de la piedra"). ⬜
+> En el código el hablante de estas voces se llama `piedra` y su nombre en pantalla es "Voz de la piedra" / "Voice of the stone" (texto `nombre_piedra`), para no confundirlo con Runa, el personaje de la historia. ✅ (23/10/2026)
 
 ### 5.7 Los Vardren (💡 propuesta, fuera del MVP)
 
@@ -702,7 +702,7 @@ Resumen; el detalle vive en `hoja-de-ruta.md`.
 
 - ✅ Las siete misiones, los NPC por etapa, los tres enemigos comunes, el jefe con soportes y fases, la Lente, el diario con el croquis, la pantalla de cierre, las cinemáticas de EL-06 y las opciones de video con distancias de dibujo.
 - 🟡 Provisorios: Lente en la mano, rueda del aserradero (el modelo 3D ya existe, falta ponerlo), animaciones del lobo y el Ciervo, evacuación de EL-02 como fundido, Núcleo en el piso, sonido CC0, el mundo tarda unos 20 s en armarse.
-- ⬜ Falta: acabado de arte y luz en todos los lugares (Paso F), vestigio de la mano en el Santuario, voces, música propia, cinemática 2, pasada jugada completa en la PC, renombrar la "Runa" de las voces de las piedras.
+- ⬜ Falta: acabado de arte y luz en todos los lugares (Paso F), vestigio de la mano en el Santuario, voces, música propia, cinemática 2, pasada jugada completa en la PC.
 - ❓ **Preguntas abiertas para Eldervald:**
   - ¿Qué secundarias entran para que el bosque llegue a los 40 minutos?
   - ¿Cómo se juega la Arena antes del trato y cómo se pasa de ahí al Puesto?
