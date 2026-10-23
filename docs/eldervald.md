@@ -93,7 +93,7 @@ Posiciones en metros desde el centro (x hacia el este, z hacia el sur) y radio d
 | Quebrada de rastreo | −152, −97 | 8 m | EL-04 | ✅ |
 | Entrada del Claro | −170, −99 | 7 m | EL-04, EL-05 | ✅ |
 | Claro del Ciervo | −199, −109 | 30 m | EL-05 | ✅ |
-| Aserradero de Orm | 101, −58 | 16 m | EL-07 (tránsito) | 🟡 rueda por código; el modelo 3D ya existe |
+| Aserradero de Orm | 101, −58 | 45 m (antes 16) | EL-07 (tránsito) | 🟡 rueda por código; el modelo 3D ya existe |
 | Santuario de las Raíces | 210, −96 | 16 m | EL-07; segunda visita | ✅ exterior |
 | Brunvik | 152, 28 | 14 m | Reservado | ⬜ silueta |
 | Ruinas de Skarnholt | −191, −21 | 14 m | Reservado | ⬜ silueta |
@@ -175,7 +175,7 @@ Versión de Alejandro (22/10/2026). La escena cuenta la huida de la cuadrilla an
 | Cepillo de Orm | En los restos, con la marca de Orm (se reconoce antes de conocerlo) | Devolvérselo: un refuerzo sencillo de equipo, sin sistema de mejoras | — |
 | Talla para Sigrun | Se puede encontrar entre los restos | Llevársela: Sigrun la reconoce y habla de su marido; después ofrece el remiendo | — |
 | Jornal | Cofrecito atrapado debajo del carro | Orm todavía espera recuperar la paga, así el jugador sabe de quién es. Si Eromash se lo queda, Orm no lo descubre por arte de magia | — |
-| Buey | Solo las huellas | Orm dice que hay que recuperar al animal (secundaria corta). Arvid se encariña enseguida, aunque el buey sigue siendo de la cuadrilla | — |
+| Buey | Solo las huellas | Orm dice que hay que recuperar al animal (secundaria corta). Arvid se encariña enseguida, aunque el buey sigue siendo de la cuadrilla. Las huellas llevan a la orilla bajo el aserradero (ver Aserradero de Orm) | — |
 | Eco del choque | — | — | Breve y fragmentario: el impacto, la luz azul que se sacude entre las astas y, al fondo, una silueta estrecha inmóvil entre los troncos. Deja sospechar otra presencia; no demuestra que provocó el ataque |
 
 **Decisiones abiertas.**
@@ -331,7 +331,7 @@ Versión de Alejandro (23/10/2026). El custodio es un semi-jefe que hay que ir a
 
 **Para el jugador curioso.**
 1. **El tronco de la quilla.** Un tronco de linde abandonado hace generaciones: por fuera, musgo y madera podrida; por dentro, el corazón sano, conservado por su vínculo con la piedra. Por eso vale para la quilla que reclaman los leñadores en «La quilla» de Sten. Se puede llevar recién con el favor del custodio.
-2. **El cuaderno de cuentas.** Sobrevive en una caja protegida bajo un banco de la cabaña. Muchas hojas están ilegibles; del último asiento se conserva una parte, que habla de un árbol «que no se dejaba». En la misma caja, una piedra de afilar.
+2. **El cuaderno de cuentas.** Sobrevive en una caja protegida bajo un banco de la cabaña. Muchas hojas están ilegibles; del último asiento se conserva una parte, que habla de un árbol «que no se dejaba». En la misma caja, una piedra de afilar. Se le puede devolver a Orm: es la letra de su tatarabuelo (ver Aserradero de Orm).
 3. **Las fechas de los tocones.** Siguiéndolas se llega al gran tocón de linde antes de que el custodio lo señale.
 4. **Un escondite de guardasendas** en una grieta de la quebrada: vendas, algo útil y una tablilla reciente de Tove, gastada por la lluvia (tiene dieciséis años y está empezando sus rondas). Los guardasendas dejan provisiones en las sendas largas.
 
@@ -398,9 +398,34 @@ Desde el umbral, la Lente revela los hilos y su unión con los tres soportes; es
 
 ### Aserradero de Orm (noreste, junto al río)
 
-- **Qué es:** el taller de Orm. Hito de orientación y tránsito hacia el Santuario; no da misión principal.
-- **Cómo se ve:** madera fresca más clara, aserrín, troncos cortados, rueda de agua y poleas. Muestra trabajo sin arrasar el bosque. Solo exterior.
-- **En el juego:** 🟡 la rueda que se ve hoy está hecha por código, pero **el modelo 3D ya existe** en `C:/eromash-juego/output/Objetos/Modelos 3D/Rueda de agua del aserradero.glb` (Tripo, 14/10/2026), junto con su soporte y canaleta (`soporte y canaleta.glb`) y sus vistas 2D en `Modelos 2D/rueda-hidraulica-*`. Falta copiarlos a `assets/modelos/escenario/` y ponerlos en el aserradero.
+Diseño del 23/10/2026 (propuesta de Claude con el cierre de Alejandro).
+
+**Qué es.** El taller de la familia de Orm desde hace generaciones, sobre el río principal. Una rueda de agua mueve una sierra de marco y un torno que sube troncos desde la orilla. Es el lugar más humano del bosque fuera de Eikholt: madera clara recién cortada, aserrín flotando en el sol, faroles ámbar. Hito de orientación y tránsito hacia el Santuario; no da misión principal. En el dintel hay una regla de la familia tallada: **«Del bosque, solo lo que el bosque suelta.»** Cortan árboles caídos o muertos, nunca vivos.
+
+**Por qué esa regla.** Los leñadores que cortaron el árbol de linde en la Antigua tala eran los antepasados de Orm. Después de esa herida bajaron al río y cambiaron de oficio y de costumbre. La marca que se repite en los tocones de la tala es la misma que está grabada en el carro volcado y en el dintel. El cuaderno de cuentas de la tala se le puede devolver a Orm: reconoce la letra de su tatarabuelo y entiende lo del árbol «que no se dejaba». No lo cuenta como culpa, sino como algo que la familia ya sabía a medias. Volver a la tala después cambia lo que el jugador entiende de Orm.
+
+**Cómo está cuando llega Eromash.** Quieto. La compuerta del canal está bajada, la rueda trabada y la sierra con un tronco a medio cortar. Orm se fue con toda la cuadrilla al puente del norte. Queda **Ylva**, su hija, de unos veinte años: sola no puede alimentar la sierra, así que paró el taller. Si Eromash pasa antes de rescatar a la cuadrilla (EL-02), ella no sabe si su padre está vivo y le cuenta que salieron hacia el Paso. Después del rescate ya lo sabe y le agradece sin exagerar.
+
+**Cómo está dispuesto.** De unos 16 m pasa a unos 45 m de radio:
+
+1. **El canal y la rueda**, con la compuerta de palanca. Usa el modelo de Tripo que ya existe (rueda, soporte y canaleta).
+2. **El galpón de la sierra**, abierto de costado, con el tronco a medio cortar.
+3. **El patio de troncos**, apilados con la marca de la familia.
+4. **El torno y la rampa** para subir troncos desde el agua.
+5. **La casa de Orm**, solo por fuera: banco, leñera y corral vacío.
+6. **El puente oriental.** Tablero de madera de la familia sobre pilares de piedra mucho más viejos, con runas azules casi apagadas, como los del Paso. Dice sin palabras que el camino al Santuario es antiguo.
+
+**Desvío: el buey.** Las huellas del buey que salen del carro volcado llevan al este. El animal terminó hundido en el barro de la orilla, debajo del aserradero, con lobos rondando. Eromash espanta a los lobos, sube la compuerta para que la rueda mueva el torno y le pone el arnés que le da Ylva; el torno lo saca despacio. Cierra la secundaria corta de Orm y el buey queda en el corral. Es una de las piezas de «La quilla» de Sten (`personajes-recurrentes.md`).
+
+**Exploración y descanso.** Debajo del puente, entre los pilares, un cofre que solo muestra la Lente. Fogón y banco para descansar; punto de reaparición de EL-07.
+
+**Sonido y luz.** Antes, solo el agua y la rueda crujiendo en su traba. Con la compuerta abierta, el ritmo de la sierra: el latido humano del bosque. Luz abierta de ribera, la más cálida de Eldervald.
+
+**Segunda visita** (Alejandro). Orm volvió y la sierra trabaja durante el día. Ylva gobierna la compuerta y organiza el patio; cuando su padre quiere hacerlo todo a su manera, discuten sin dejar de trabajar. El buey recuperado descansa en el corral. En la orilla, una grada sostiene la quilla de Sten, hecha con el corazón sano del viejo tronco de linde. Cerca quedan sus partes enfermas, separadas de la madera útil. Orm pasa la mano por la quilla antes de seguir cepillando. La marca de la familia está grabada junto a la de Sten. Queda como gancho para el barco de la campaña.
+
+**En el juego hoy:** 🟡 la rueda que se ve es provisoria, hecha por código, pero **el modelo 3D ya existe** en `C:/eromash-juego/output/Objetos/Modelos 3D/Rueda de agua del aserradero.glb` (Tripo, 14/10/2026), junto con su soporte y canaleta (`soporte y canaleta.glb`) y sus vistas 2D en `Modelos 2D/rueda-hidraulica-*`. Falta copiarlos a `assets/modelos/escenario/` y ponerlos en el aserradero.
+
+**Para construirlo.** Rueda, soporte y canaleta de Tripo con la compuerta de palanca (abierta: la rueda gira y mueve la sierra y el torno), galpón con sierra de marco y tronco a medio cortar, patio de troncos con la marca, torno con rampa, casa con banco, leñera y corral, dintel tallado, pilares antiguos con runas tenues bajo el tablero del puente, orilla de barro con el buey y lobos, cofre bajo el puente, fogón. Ylva (modelo nuevo). Segunda visita: grada con la quilla, partes enfermas apartadas, Orm cepillando. Textos nuevos en ES/EN.
 
 ### Santuario de las Raíces (noreste, al otro lado del río)
 
@@ -439,8 +464,8 @@ Humanos de cultura forestal ("elderianos" es nombre provisorio; es una identidad
 ### 5.3 Orm, carpintero
 
 - **Aspecto:** humano de unos cincuenta, corpulento, barba rojiza entrecana, delantal de cuero, hacha de trabajo (`hacha-orm.glb`). Dos dedos rígidos por una lesión vieja. Gestos amplios.
-- **Carácter:** humor seco y cansado, leal a su cuadrilla. Su aserradero está al este, pero lo contrataron para el puente del norte.
-- **Dónde está:** Refugio (EL-01 y EL-02) → descanso en Eikholt (EL-03) → campamento al sur del Paso (EL-04 y EL-05) → trabajando en el puente (EL-06 en adelante). Los materiales ya están en el Paso: no hay que juntar madera.
+- **Carácter:** humor seco y cansado, leal a su cuadrilla. Su aserradero está al este, pero lo contrataron para el puente del norte. Desciende de los leñadores de la Antigua tala; su familia vive con la regla «Del bosque, solo lo que el bosque suelta». Su hija **Ylva** (unos veinte años) cuida el aserradero mientras él está afuera.
+- **Dónde está:** Refugio (EL-01 y EL-02) → descanso en Eikholt (EL-03) → campamento al sur del Paso (EL-04 y EL-05) → trabajando en el puente (EL-06 en adelante) → de vuelta en el aserradero (segunda visita). Los materiales ya están en el Paso: no hay que juntar madera.
 
 ### 5.4 Svanhild, custodia de la Casa de las Lindes
 
