@@ -9,6 +9,7 @@ signal hablante(quien: String)  ## quién dice la línea que se muestra ("" al c
 signal fin_demo                ## se completó la cadena: mostrar la pantalla de cierre
 
 const ARCHIVO := "user://partida.json"
+const AUTOGUARDADO := 30.0
 
 ## Cada misión: objetivos en orden. `hecho` es la bandera que lo completa; `donde`, el lugar del marcador.
 const MISIONES := [
@@ -79,6 +80,7 @@ var saltar_titulo := false     ## después de "Nueva partida" la escena se recar
 
 
 var de_prueba := false   ## capturas sin pantalla: no se lee ni se pisa la partida del jugador
+var _autosave := 0.0
 
 
 func _ready() -> void:
@@ -87,6 +89,21 @@ func _ready() -> void:
 			de_prueba = true
 	if not de_prueba:
 		cargar()
+
+
+func _process(dt: float) -> void:
+	if de_prueba or not _conviene_guardar():
+		return
+	_autosave += dt
+	if _autosave < AUTOGUARDADO:
+		return
+	_autosave = 0.0
+	guardar()
+
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_WM_CLOSE_REQUEST:
+		guardar()
 
 
 # ---------- consultas ----------
@@ -185,7 +202,7 @@ func pedir_dialogo(id: String) -> void:
 # ---------- guardado ----------
 
 func guardar() -> void:
-	if de_prueba:
+	if de_prueba or not _conviene_guardar():
 		return
 	var datos := {
 		"version": 2,
@@ -199,15 +216,55 @@ func guardar() -> void:
 		"niebla_largo": niebla.size(),
 		"posicion": [posicion.x, posicion.y, posicion.z] if posicion != Vector3.INF else [],
 	}
-	var f := FileAccess.open(ARCHIVO, FileAccess.WRITE)
-	if f:
-		f.store_string(JSON.stringify(datos, "\t"))
+	var texto := JSON.stringify(datos, "\t")
+	if texto == "" or not _escribir_atomico(texto):
+		return
+	_autosave = 0.0
 
 
 func cargar() -> bool:
-	if not FileAccess.file_exists(ARCHIVO):
+	for ruta in [ARCHIVO, ARCHIVO + ".bak", ARCHIVO + ".tmp"]:
+		if not _cargar_archivo(ruta):
+			continue
+		if ruta != ARCHIVO:
+			guardar()
+			mensaje.emit.call_deferred("partida_recuperada")
+		return true
+	return false
+
+
+func hay_partida() -> bool:
+	for ruta in [ARCHIVO, ARCHIVO + ".bak", ARCHIVO + ".tmp"]:
+		if FileAccess.file_exists(ruta) and _archivo_json(ruta):
+			return true
+	return false
+
+
+func nueva_partida() -> void:
+	inventario.reiniciar()
+	mision = 0
+	banderas = {}
+	diario = []
+	lugares_vistos = []
+	salud = 100.0
+	niebla = PackedByteArray()
+	posicion = Vector3.INF
+	cargada = false
+	_autosave = 0.0
+	if not de_prueba:
+		_borrar_archivos_partida()
+	cambio_estado.emit()
+
+
+## Hay algo que perder: una partida ya leída, progreso, o a Eromash ya ubicado en el mundo.
+func _conviene_guardar() -> bool:
+	return cargada or mision > 0 or not banderas.is_empty() or not diario.is_empty() or salud < 100.0 or posicion != Vector3.INF or not niebla.is_empty()
+
+
+func _cargar_archivo(ruta: String) -> bool:
+	if not FileAccess.file_exists(ruta):
 		return false
-	var datos = JSON.parse_string(FileAccess.get_file_as_string(ARCHIVO))
+	var datos = JSON.parse_string(FileAccess.get_file_as_string(ruta))
 	if typeof(datos) != TYPE_DICTIONARY:
 		return false
 	mision = int(datos.get("mision", 0))
@@ -226,20 +283,37 @@ func cargar() -> bool:
 	return true
 
 
-func hay_partida() -> bool:
-	return FileAccess.file_exists(ARCHIVO)
+## Escribe al lado y recién después reemplaza. La copia anterior queda en .bak si el archivo actual es válido.
+func _escribir_atomico(texto: String) -> bool:
+	var dir := DirAccess.open("user://")
+	if dir == null:
+		return false
+	var temporal := "partida.json.tmp"
+	var f := FileAccess.open("user://" + temporal, FileAccess.WRITE)
+	if f == null:
+		return false
+	f.store_string(texto)
+	f.close()
+	if not _archivo_json("user://" + temporal):
+		dir.remove(temporal)
+		return false
+	if FileAccess.file_exists(ARCHIVO) and _archivo_json(ARCHIVO):
+		dir.remove("partida.json.bak")
+		dir.copy("partida.json", "partida.json.bak")
+	if FileAccess.file_exists(ARCHIVO):
+		dir.remove("partida.json")
+	if dir.rename(temporal, "partida.json") == OK:
+		return true
+	return dir.copy(temporal, "partida.json") == OK
 
 
-func nueva_partida() -> void:
-	inventario.reiniciar()
-	mision = 0
-	banderas = {}
-	diario = []
-	lugares_vistos = []
-	salud = 100.0
-	niebla = PackedByteArray()
-	posicion = Vector3.INF
-	cargada = false
-	if not de_prueba and FileAccess.file_exists(ARCHIVO):
-		DirAccess.remove_absolute(ProjectSettings.globalize_path(ARCHIVO))
-	cambio_estado.emit()
+func _archivo_json(ruta: String) -> bool:
+	return typeof(JSON.parse_string(FileAccess.get_file_as_string(ruta))) == TYPE_DICTIONARY
+
+
+func _borrar_archivos_partida() -> void:
+	var dir := DirAccess.open("user://")
+	if dir == null:
+		return
+	for nombre in ["partida.json", "partida.json.bak", "partida.json.tmp"]:
+		dir.remove(nombre)

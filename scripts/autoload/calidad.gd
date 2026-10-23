@@ -60,20 +60,8 @@ func _ready() -> void:
 			_de_prueba = true
 	_poner_todos(PRESET_NIVEL[ALTO])
 	idioma = _idioma_sistema()
-	var cfg := ConfigFile.new()
-	if not _de_prueba and cfg.load(ARCHIVO) == OK:
-		idioma = str(cfg.get_value("general", "idioma", idioma))
-		if cfg.has_section_key("video", "preset"):
-			preset = int(cfg.get_value("video", "preset", ALTO))
-			for a in AJUSTES:
-				niveles[a[0]] = clampi(int(cfg.get_value("video", a[0], niveles[a[0]])), 1, 10)
-		elif cfg.has_section_key("video", "calidad"):
-			preset = clampi(int(cfg.get_value("video", "calidad", 2)), BAJO, ALTO)   # opciones viejas (3 niveles)
-			_poner_todos(PRESET_NIVEL[preset])
-		modo_ventana = int(cfg.get_value("pantalla", "modo", 0))
-		vsync = bool(cfg.get_value("pantalla", "vsync", true))
-		limite_fps = int(cfg.get_value("pantalla", "limite_fps", 0))
-		escala = int(cfg.get_value("pantalla", "escala", 100))
+	if not _de_prueba:
+		_leer_archivo()
 	TranslationServer.set_locale(idioma)
 	_aplicar_pantalla()
 	_aplicar_vista.call_deferred()
@@ -141,7 +129,54 @@ func guardar() -> void:
 	cfg.set_value("pantalla", "vsync", vsync)
 	cfg.set_value("pantalla", "limite_fps", limite_fps)
 	cfg.set_value("pantalla", "escala", escala)
-	cfg.save(ARCHIVO)
+	_escribir_atomico(cfg)
+
+
+## Lee el archivo principal y, si está cortado, la copia anterior.
+func _leer_archivo() -> void:
+	if _aplicar_archivo(ARCHIVO):
+		return
+	_aplicar_archivo("user://opciones.cfg.bak")
+
+
+func _aplicar_archivo(ruta: String) -> bool:
+	var cfg := ConfigFile.new()
+	if cfg.load(ruta) != OK:
+		return false
+	idioma = str(cfg.get_value("general", "idioma", idioma))
+	if cfg.has_section_key("video", "preset"):
+		preset = int(cfg.get_value("video", "preset", ALTO))
+		for a in AJUSTES:
+			niveles[a[0]] = clampi(int(cfg.get_value("video", a[0], niveles[a[0]])), 1, 10)
+	elif cfg.has_section_key("video", "calidad"):
+		preset = clampi(int(cfg.get_value("video", "calidad", 2)), BAJO, ALTO)   # opciones viejas (3 niveles)
+		_poner_todos(PRESET_NIVEL[preset])
+	modo_ventana = int(cfg.get_value("pantalla", "modo", 0))
+	vsync = bool(cfg.get_value("pantalla", "vsync", true))
+	limite_fps = int(cfg.get_value("pantalla", "limite_fps", 0))
+	escala = int(cfg.get_value("pantalla", "escala", 100))
+	return true
+
+
+## No pisa opciones.cfg hasta que el temporal se leyó bien. La copia anterior queda en .bak.
+func _escribir_atomico(cfg: ConfigFile) -> void:
+	var dir := DirAccess.open("user://")
+	if dir == null:
+		return
+	if cfg.save("user://opciones.cfg.tmp") != OK:
+		return
+	var escrito := ConfigFile.new()
+	if escrito.load("user://opciones.cfg.tmp") != OK:
+		dir.remove("opciones.cfg.tmp")
+		return
+	var anterior := ConfigFile.new()
+	if FileAccess.file_exists(ARCHIVO) and anterior.load(ARCHIVO) == OK:
+		dir.remove("opciones.cfg.bak")
+		dir.copy("opciones.cfg", "opciones.cfg.bak")
+	if FileAccess.file_exists(ARCHIVO):
+		dir.remove("opciones.cfg")
+	if dir.rename("opciones.cfg.tmp", "opciones.cfg") != OK:
+		dir.copy("opciones.cfg.tmp", "opciones.cfg")
 
 
 # ---------- lo que lee el mundo ----------

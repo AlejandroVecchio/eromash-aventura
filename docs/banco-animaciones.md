@@ -36,9 +36,9 @@ anim.play("ual/Idle")                                             # se piden com
 
 | Quién | Qué | Clip |
 |---|---|---|
-| Eromash sin armas | caminar, correr, reposo | `Walk`, `Jog_Fwd`, `Idle` (cada 8–14 s hace uno de sus `descanso` largos y vuelve) |
+| Eromash sin armas | caminar, reposo | **`meshy/Caminar`** (Meshy, 1,04 s, ~1,6 m/s naturales: se reproduce a ~1,5×), reposo: sus `descanso`/`descanso2` de siempre (el `ual/Idle` queda solo para NPC). **Trote** (ritmo por defecto): su `correr` propio de siempre. **Sprint**: `ual/Sprint` (0,67 s, 8,25 m/s naturales en 1,83 m). Controles y velocidades: `docs/personaje-heroe.md` |
 | Eromash | salto completo | `Jump_Start` (despegue y ascenso) → `Jump` (en el aire, también al caer de un borde) → `Jump_Land` (aterrizaje, 0,45 s) |
-| Eromash | combo de cuatro golpes | tajo (`ataque`) → `ataque2` → **estocada** (`Sword_Attack`, ataque3) → **patada** (`patada`, ataque4) |
+| Eromash | combo | sigue siendo el de dos golpes de siempre (`ataque`, `ataque2`); se probó una estocada (`Sword_Attack`) y una patada y se descartaron |
 | NPC | reposo, caminar, hablar | `Idle`, `Walk` a 1,6 m/s, `Idle_Talking` mientras dicen su línea del diálogo (señal `Juego.hablante`) |
 | Trabajadores | cuatro puestos distintos | `Idle`, `Idle_Talking`, `mecanismo` y `levantar` (propios del héroe, pasados a su esqueleto) |
 | Errante | reposo, caminar, golpe recibido, muerte | `Idle`, `Walk` (al ritmo de su velocidad), `Hit_Chest`/`Hit_Head`, `Death01`; el golpe sigue siendo el `ataque` del héroe pasado a su esqueleto (cae justo al terminar el aviso en el piso) |
@@ -60,7 +60,7 @@ Duración en segundos. **B** = bucle. Los marcados con ✔ ya se usan.
 | `Crouch_Idle`, `Crouch_Fwd` | 2,93 / 2,0 | B | sigilo, pasar bajo algo, mazmorras |
 | `Jump_Start`, `Jump`, `Jump_Land` | 1,33 / 2,5 / 1,27 | B (`Jump`) ✔ | salto |
 | `Roll` | 1,47 | | esquiva rodando hacia adelante; con avance de 5 m en la versión `_RM` |
-| `Sword_Attack` | 1,53 | ✔ | estocada rápida (golpe de 0,26 del clip) |
+| `Sword_Attack` | 1,53 | | estocada rápida (probada como tercer golpe del combo y descartada; el golpe cae a los 0,26 del clip) |
 | `Punch_Cross`, `Punch_Jab` | 1,0 / 0,87 | | pelea sin armas, brutos, borrachos de taberna |
 | `Hit_Chest`, `Hit_Head` | 0,33 / 0,43 | ✔ | reacción corta a un golpe |
 | `Death01` | 2,4 | ✔ | caer y quedar tendido |
@@ -78,8 +78,20 @@ Duración en segundos. **B** = bucle. Los marcados con ✔ ya se usan.
 
 ## Cosas para tener en cuenta
 
+- **Postura del `Walk` del pack**: va con el torso caído y los codos muy doblados (se lee enojado o triste), y casi no mueve cadera ni hombros. Se probaron ajustes de postura, balanceo de brazos y torsión del tronco (están en `Retarget.convertir(clip, ajustes)`, documentados en `retarget.gd`, y `Animaciones.UAL_VARIANTES` es donde se darían de alta), pero Alejandro eligió reemplazar la caminata por la de Meshy, que ya trae todo eso hecho. Hoy no se usa ninguna variante.
 - **Caminar es un paseo lento** (0,97 m/s) y el juego camina a 2,4 m/s: se reproduce a unas 2,3× y los pasos se ven cortos y rápidos. Si molesta, la salida es bajar `VEL` en `heroe.gd` (a ~1,8 m/s) o combinar con `Jog_Fwd`; el clip `Walk_Formal` tiene la misma velocidad.
 - **Ropa y armas** no siguen los huesos: el faldón, la capa y las armas guardadas se animan con el cuerpo del modelo, no con el clip. Si una animación mete la mano dentro de la espada guardada, mirar `_arreglar_vaina` en `heroe.gd`.
 - **Armado**: mientras el héroe tiene espada y escudo en la mano usa sus propios clips de guardia (`guardia`, `caminar_armado`, `correr_armado`, `bloqueo`); los del pack están pensados para manos libres o con espada sola.
 - Los NPC iguales comparten biblioteca (clave: ruta del modelo). Si dos modelos distintos usan el mismo esqueleto, igual se calculan por separado.
 - El pack **Pro** o más grandes de Quaternius (si Alejandro los consigue) se importan igual: `assets/modelos/animaciones/<pack>/`, con el mismo `mapa-ual.tres` (`herramientas/crear_mapa_ual.gd` lo genera) y el mismo `Retarget`.
+
+## Caminata de Meshy
+
+Meshy (Animate) genera animaciones para un modelo que se le sube y devuelve el modelo con su rig. Para Eromash se subió `docs/referencias/meshy/eromash-para-meshy-sin-armas.glb` (una sola malla, 1,85 m, sin rig ni animaciones, mirando al frente) y se descargó la caminata *Walking* como FBX *con piel*.
+
+- Archivo: `assets/modelos/animaciones/meshy/caminar-meshy.fbx` (créditos y licencia pendiente en el `CREDITOS.md` de esa carpeta).
+- Su rig usa los **nombres de hueso de Mixamo** (`mixamorig_*`), los mismos que el héroe, así que se importa con el mismo `assets/modelos/mapa-humano.tres` (ver el `.fbx.import`). `Animaciones.biblioteca_meshy()` lo pasa al esqueleto del héroe con `Retarget` y queda como **`meshy/Caminar`**.
+- **Velocidad natural 1,6 m/s** (`Animaciones.MESHY_VELOCIDAD_CAMINAR`), medida con `herramientas/medir_paso.gd` (zancada de 0,83 m por paso, calibrado contra el `Walk` del pack: 0,97 m/s).
+- Coordinación medida: manos en contrafase (−1,0), cada mano opuesta al pie de su lado (−0,92 a −0,95), cadera 5,2° en fase con las piernas (+0,97), hombros 12,8° en contrafase (−0,99).
+- **Para sumar otro clip de Meshy** (idle, correr, etc.): descargarlo igual (FBX con piel o sin piel, 30 fps), copiarlo a esa carpeta, darle el mismo `.fbx.import` (mapa humano, ruta `PATH:target_character/Skeleton3D`) y agregarlo en `biblioteca_meshy()`.
+- Meshy exporta el clip con piel y pesa unos 11 MB; el clip en sí es liviano.

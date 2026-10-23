@@ -23,6 +23,9 @@ const POR_DEFECTO := {"general": 100, "musica": 80, "ambiente": 80, "efectos": 1
 const BUSES_DE_VOZ := ["Narrador", "Guardian"]
 
 const SFX := "res://assets/audio/sfx/"
+## Tema del menú de pausa. Se deja el archivo en esa ruta; si no está, la pausa sigue en silencio.
+const MUSICA_PAUSA := "res://assets/audio/musica/pausa.ogg"
+const MUSICA_PAUSA_MP3 := "res://assets/audio/musica/pausa.mp3"
 const EFECTOS := {
 	"esquiva": ["aire-corto"],
 	"golpe": ["hoja", "metal"],
@@ -39,13 +42,14 @@ const EFECTOS := {
 	"trueno": ["trueno"],
 	"muerte": ["grietas"],
 }
-const VOLUMEN := {"ambiente": -14.0, "golpe": -6.0, "mision": -8.0, "jefe": -4.0, "trueno": -6.0}
+const VOLUMEN := {"ambiente": -14.0, "golpe": -6.0, "mision": -8.0, "jefe": -4.0, "trueno": -6.0, "pausa": -12.0}
 
 var _cache := {}
 var _canales: Array[AudioStreamPlayer] = []
 var _ambiente: AudioStreamPlayer
 var volumenes := POR_DEFECTO.duplicate()   ## clave → 0..100
 var _de_prueba := false                     ## capturas sin pantalla: no se guarda
+var _musica_pausa: AudioStreamPlayer
 
 
 func _ready() -> void:
@@ -67,6 +71,10 @@ func _ready() -> void:
 	_ambiente = AudioStreamPlayer.new()
 	_ambiente.bus = "Ambiente"
 	add_child(_ambiente)
+	_musica_pausa = AudioStreamPlayer.new()
+	_musica_pausa.name = "MusicaPausa"
+	_musica_pausa.bus = "Musica"
+	add_child(_musica_pausa)
 	Juego.mensaje.connect(func(clave: String):
 		if clave == "mision_nueva":
 			tocar("mision")
@@ -183,3 +191,43 @@ func guardar() -> void:
 	for b in BUSES:
 		cfg.set_value("sonido", b[0], volumenes[b[0]])
 	cfg.save(Calidad.ARCHIVO)
+
+
+func _process(_dt: float) -> void:
+	if _ambiente == null:
+		return
+	# El autoload sigue andando en pausa: si no, el bosque tapa el menú.
+	_ambiente.stream_paused = get_tree().paused
+
+
+## Suena solo con el menú de pausa abierto. El archivo se deja en `assets/audio/musica/pausa.ogg` (o `.mp3`).
+func musica_de_pausa(encender: bool) -> void:
+	if _musica_pausa == null:
+		return
+	if not encender:
+		_musica_pausa.stop()
+		return
+	if _musica_pausa.stream == null and not _cargar_musica_pausa():
+		return
+	if not _musica_pausa.playing:
+		_musica_pausa.play()
+
+
+func _cargar_musica_pausa() -> bool:
+	var ruta := ""
+	if ResourceLoader.exists(MUSICA_PAUSA):
+		ruta = MUSICA_PAUSA
+	elif ResourceLoader.exists(MUSICA_PAUSA_MP3):
+		ruta = MUSICA_PAUSA_MP3
+	if ruta == "":
+		return false
+	var s := load(ruta) as AudioStream
+	if s == null:
+		return false
+	if s is AudioStreamOggVorbis:
+		(s as AudioStreamOggVorbis).loop = true
+	elif s is AudioStreamMP3:
+		(s as AudioStreamMP3).loop = true
+	_musica_pausa.stream = s
+	_musica_pausa.volume_db = VOLUMEN.pausa
+	return true

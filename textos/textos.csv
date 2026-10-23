@@ -20,6 +20,7 @@ pausa_guardar,Guardar,Save
 pausa_titulo_menu,Volver al título,Back to title
 pausa_salir,Salir del juego,Quit game
 partida_guardada,Partida guardada,Game saved
+partida_recuperada,Se recuperó la partida anterior,The previous save was recovered
 calidad_baja,Bajo,Low
 calidad_media,Medio,Medium
 calidad_alta,Alto,High
@@ -83,6 +84,10 @@ ayuda_teclas,[%s] interactuar · [%s] Lente del Eco · [%s] diario,[%s] interact
 tecla_clic_izq,Clic izq.,Left click
 tecla_clic_der,Clic der.,Right click
 minimapa_norte,N,N
+admin_on,"Modo admin: volás, no recibís daño y atravesás el mundo. Apagalo en un lugar libre.","Admin mode: you fly, take no damage and pass through the world. Turn it off in a clear spot."
+admin_off,Modo admin apagado,Admin mode off
+admin_marca,ADMIN · %s para salir,ADMIN · %s to exit
+admin_ayuda,[%s] subir · [%s] bajar · [%s] más rápido,[%s] up · [%s] down · [%s] faster
 fps,%d FPS · %.1f ms,%d FPS · %.1f ms
 fps_detalle,%d llamadas · %d objetos · %s triángulos · %d despiertos,%d draw calls · %d objects · %s triangles · %d awake
 dialogo_seguir,seguir,continue
@@ -121,6 +126,7 @@ mision_EL-04,Las huellas del guardián,The guardian's tracks
 mision_EL-05,El Ciervo Hueco,The Hollow Stag
 mision_EL-06,Un camino para los vivos,A road for the living
 mision_EL-07,Alguien me espera,Someone is waiting for me
+objetivo_metros,%d m,%d m
 obj_el01_1,Hablá con Eydis en su puesto,Talk to Eydis at her outpost
 obj_el01_2,Abrí el diario y mirá el croquis de rutas,Open the journal and check the route sketch
 obj_el01_3,Inspeccioná el carro volcado en la senda del Refugio,Inspect the overturned cart on the path to the Shelter

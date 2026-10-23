@@ -27,3 +27,7 @@ Sin modificar salvo el nombre / Unmodified except for the file name.
 El resto del audio del modo arena (pasos, tela, desenvainar, música RPG Orchestral Essentials, etc.) está en el repo del juego de la arena, `juego/audio/`, con sus créditos en `juego/audio/CREDITOS.md`. Se trae acá solo lo que se use, con su línea en esta tabla.
 
 Regla: **cada sonido nuevo suma su línea acá en el mismo commit** (archivo, original, paquete, autor, licencia y si se modificó).
+
+## Música de la pausa
+
+El menú de pausa deja el bosque en silencio y, si existe el archivo, pone un tema en bucle solo mientras ese menú está abierto. El lugar para dejarlo es `musica/pausa.ogg` (también sirve `musica/pausa.mp3`). Sin ese archivo la pausa sigue en silencio. Al sumarlo, la línea de créditos va en esta tabla, en el mismo cambio.
