@@ -94,7 +94,7 @@ Posiciones en metros desde el centro (x hacia el este, z hacia el sur) y radio d
 | Entrada del Claro | −170, −99 | 7 m | EL-04, EL-05 | ✅ |
 | Claro del Ciervo | −199, −109 | 30 m | EL-05 | ✅ |
 | Aserradero de Orm | 101, −58 | 45 m (antes 16) | EL-07 (tránsito) | 🟡 rueda por código; el modelo 3D ya existe |
-| Santuario de las Raíces | 210, −96 | 16 m | EL-07; segunda visita | ✅ exterior |
+| Santuario de las Raíces | 210, −96 | 60 m (antes 16) | EL-07; segunda visita | ✅ exterior |
 | Brunvik | 152, 28 | 14 m | Reservado | ⬜ silueta |
 | Ruinas de Skarnholt | −191, −21 | 14 m | Reservado | ⬜ silueta |
 | Túmulo de los Juramentos | −171, 61 | 10 m | Reservado | ⬜ silueta |
@@ -431,10 +431,31 @@ Diseño del 23/10/2026 (propuesta de Claude con el cierre de Alejandro).
 
 ### Santuario de las Raíces (noreste, al otro lado del río)
 
-- **Qué es:** una puerta antigua bajo el bosque. Lo que hay detrás pertenece a la segunda visita.
-- **Cómo se ve:** piedra antigua abrazada por raíces, zarzas espectrales entrelazadas, luz desde el umbral, un sello visible entre las zarzas. Bloqueado por materia sobrenatural visible, no por una pared invisible. En la primera visita solo se ve la entrada; no se exhibe el Hilo.
-- **Qué pasa:** EL-07. Antes de esa misión, visitarlo revela la puerta cerrada y la marca en el mapa, sin el diálogo de reconocimiento.
-- **En el juego:** `santuario-entrada.glb`, zarzas violetas hechas por código. Si se las golpea: "No ceden. Ni un poco."
+Diseño del 23/10/2026 (propuesta de Claude con los ajustes de Alejandro).
+
+**Qué es.** Una puerta de piedra más vieja que Eikholt, en la ladera al otro lado del río. Los elderianos la llaman Santuario; nadie recuerda haberla visto abierta. Lo que hay detrás pertenece a la segunda visita. Se llama «de las Raíces» porque las raíces del bosque convergen ahí: con la Lente se ven vetas de luz azul muy tenue que corren por el suelo entre la puerta y el resto del bosque. **Queda ambiguo si esa luz nace en el Santuario o llega hasta él.** El vínculo con el árbol enfermo se insinúa, sin explicarlo.
+
+**La subida.** Del puente oriental sale un sendero que sube la ladera por escalones de piedra comidos por las raíces. A los costados hay estelas antiguas, como los mojones del Refugio pero mucho más viejas. Cuando Eromash pasa, **dos o tres** de ellas encienden apenas sus runas y se apagan detrás de él; el resto sigue apagado. Nadie lo comenta. Es lo único que adelanta el «Volviste».
+
+**La puerta.** Un portal de piedra de unos 7 m, encajado en la base de un árbol colosal cuyas raíces abrazan el dintel y bajan como columnas. Por las rendijas se escapa una luz azul fina: la luz desde el umbral. Se oye un zumbido grave y lento, como una respiración detrás de la piedra. Bloqueado por materia sobrenatural visible, no por una pared invisible.
+
+**Las zarzas sobre los muertos.** Svanhild dice que crecen sobre lo que quedó de los muertos, y eso se ve: al pie de la puerta hay restos muy antiguos medio enterrados (lanzas, un escudo, huesos). De ellos brotan las zarzas espectrales, violeta grisáceo y traslúcidas, que tejen una red sobre el portal. **No se confirma quiénes eran ni si defendían la puerta.** Si se las golpea: «No ceden. Ni un poco.» Responden con una ondulación espectral y no ceden ni a golpes ni a fuego común.
+
+**El sello.** En el centro, entre las zarzas y al alcance de la mano, un círculo de piedra con el signo que estaba en el Núcleo. En el medio, una **concavidad gastada**, pulida como por una mano apoyada muchas veces; no es una huella exacta del guantelete. Cuando Eromash apoya la mano, llega el vestigio: el sonido se apaga, la luz cambia apenas y por un instante se ve su misma mano sobre la misma piedra, en otro tiempo. Después la voz: «Volviste.» / «¿Estuve acá?» / «Tu mano… la recuerdo.» Eromash hace **el calco del signo** con el papel y el carboncillo que vinieron con la Lente.
+
+**Desvío: el mirador.** Una senda sale de la explanada hacia una **elevación lateral**, separada de la puerta. Desde arriba se ve todo el bosque: el río bajando hacia Havnskar, el humo del aserradero, Eikholt y, a lo lejos, el Paso. Arriba hay un cofre envuelto por un anillo chico de zarzas: hoy no se puede abrir y queda marcado en el diario. Es el primer retorno con la Antorcha; el jugador lo ve antes de saber que existe.
+
+**Sin enemigos.** El único lugar del bosque donde nada ataca: silencio, viento en las copas y la respiración detrás de la puerta. El contraste con el Claro es a propósito.
+
+**Escala.** De 16 m pasa a una ladera entera de unos 60 m: la subida con las estelas, la explanada de la puerta y la elevación del mirador.
+
+**Qué pasa.** EL-07. Antes de esa misión, visitarlo revela la puerta cerrada y la marca en el mapa, sin el diálogo de reconocimiento. En la primera visita solo se ve la entrada; no se exhibe el Hilo.
+
+**Segunda visita (solo el gancho).** La Antorcha quema las zarzas con una **llama blanca de borde verde pálido**, el color de la Antorcha Fatua. Quedan ceniza y los restos libres; Svanhild pide enterrarlos. La puerta se abre hacia una bajada entre raíces. El interior se diseña con las misiones 8 y 9.
+
+**En el juego hoy:** `santuario-entrada.glb`, zarzas violetas hechas por código. Falta la subida con las estelas, los restos, el sello con la concavidad, el vestigio y el mirador.
+
+**Para construirlo.** Sendero con escalones y raíces, estelas antiguas (dos o tres que se encienden al pasar), árbol colosal con el portal y luz por las rendijas, restos medio enterrados con zarzas que brotan de ellos, sello con el signo del Núcleo y la concavidad, vetas tenues para la Lente, elevación lateral con el mirador y el cofre de zarzas, sonido de respiración. Textos nuevos en ES/EN.
 
 ### Lugares reservados
 
@@ -649,7 +670,7 @@ Las siete están armadas en el juego. Los objetivos viven en `scripts/autoload/j
   1. Llegá al Santuario de las Raíces por los puentes del este.
   2. Usá la lente sobre el sello entre las zarzas.
   3. Tocá el sello.
-  4. Hacé un calco del sello.
+  4. Hacé un calco del signo del sello.
   5. Llevale el calco a Svanhild.
 - **En el Santuario:**
   > **Voz del Santuario:** Volviste.
@@ -778,7 +799,7 @@ Dirección sonora aprobada por Alejandro el 21/10/2026: **el bosque recuerda una
 Lo que dice la campaña completa; ⬜ todavía sin fichas de misión.
 
 - **Cuándo:** después de conseguir la Antorcha Fatua en el Monte Eldrakar (tramo 6). La Antorcha permite cumplir la promesa de EL-07.
-- **Misión 8:** quemar las zarzas del Santuario con la Antorcha y entrar a una sección nueva bajo el bosque. La runa de adentro conserva un vínculo antiguo con Eromash, sin contarle toda su vida ni revelar que fue rey.
+- **Misión 8:** quemar las zarzas del Santuario con la Antorcha (llama blanca de borde verde pálido) y entrar a una sección nueva bajo el bosque. La runa de adentro conserva un vínculo antiguo con Eromash, sin contarle toda su vida ni revelar que fue rey.
 - **Misión 9:** recuperar el **Hilo de Resonancia** y usarlo para reactivar la estación del Santuario. La conexión señala otra estación, bajo el lago Iskeld (en Hrimvard). Se estabilizan algunas protecciones locales; el árbol sigue enfermo.
 - **Svanhild** guardó el calco: "Cuando vuelvas de Eldrakar, lo abrimos juntos." Es el gancho natural para empezar.
 - **Retornos que salen de acá:** Eldrakar → Eldervald (la Antorcha abre el Santuario); Eldervald → Hrimvard (el Hilo abre la estación del lago).
