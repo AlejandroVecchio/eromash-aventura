@@ -209,11 +209,21 @@ func _empezar_aviso() -> void:
 
 
 func _golpe(heroe: Heroe) -> void:
-	if is_instance_valid(_aviso) and _aviso.contiene(heroe.global_position) and not heroe.muerto:
+	if is_instance_valid(_aviso) and _aviso.contiene(heroe.global_position) and not heroe.muerto and not _hay_muro(heroe.global_position):
 		heroe.recibir_dano(datos.dano, global_position, true)
 	_quitar_aviso()
 	_estado = "expuesto"
 	_t = 0.0
+
+
+## El aviso del piso no atraviesa una casa, una roca o un tronco. El suelo en sí no cuenta: si no, en una loma el golpe no llegaría nunca.
+func _hay_muro(punto: Vector3) -> bool:
+	var excl: Array[RID] = [get_rid()]
+	var suelo := get_tree().root.find_child("ColisionSuelo", true, false)
+	if suelo is CollisionObject3D:
+		excl.append((suelo as CollisionObject3D).get_rid())
+	var q := PhysicsRayQueryParameters3D.create(global_position + Vector3(0, 0.9, 0), punto + Vector3(0, 0.9, 0), 1, excl)
+	return not get_world_3d().direct_space_state.intersect_ray(q).is_empty()
 
 
 # ---------- animación ----------

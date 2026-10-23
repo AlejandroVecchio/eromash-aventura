@@ -8,7 +8,10 @@ signal dialogo(id: String)    ## pedir que la interfaz muestre un diálogo
 signal hablante(quien: String)  ## quién dice la línea que se muestra ("" al cerrar el diálogo): el NPC gesticula
 signal fin_demo                ## se completó la cadena: mostrar la pantalla de cierre
 
-const ARCHIVO := "user://partida.json"
+const CARPETA := "user://partidas/"
+const RANURAS := 3                        ## partidas guardadas a la vez (Cargar las lista)
+const ARCHIVO_VIEJO := "user://partida.json"   ## guardado de una sola partida, de antes de las ranuras
+const AUTOGUARDADO := 30.0
 
 ## Cada misión: objetivos en orden. `hecho` es la bandera que lo completa; `donde`, el lugar del marcador.
 const MISIONES := [
@@ -75,10 +78,14 @@ var salud := 100.0
 var posicion := Vector3.INF
 var cargada := false
 var niebla := PackedByteArray()   ## minimapa: un byte por celda de 2 m (255 = sin explorar)
-var saltar_titulo := false     ## después de "Nueva partida" la escena se recarga sin volver al título
+var saltar_titulo := false     ## después de "Nueva partida" o "Cargar" la escena se recarga sin volver al título
+var ranura := 1                ## dónde se guarda la partida en curso (1 a RANURAS)
+var tiempo := 0.0              ## segundos jugados (no corre en pausa ni en el título)
 
 
 var de_prueba := false   ## capturas sin pantalla: no se lee ni se pisa la partida del jugador
+var ranuras_prueba := {}  ## en pruebas, partidas inventadas para ver la lista de Cargar
+var _autosave := 0.0
 
 
 func _ready() -> void:
@@ -86,7 +93,28 @@ func _ready() -> void:
 		if a.begins_with("--captura=") or a.begins_with("--ver=") or a == "--pruebas-combate" or a == "--practica-combate":
 			de_prueba = true
 	if not de_prueba:
-		cargar()
+		_mudar_guardado_viejo()
+		var r := ranura_reciente()
+		if r > 0:
+			cargar(r)
+		else:
+			ranura = primera_libre()
+
+
+func _process(dt: float) -> void:
+	tiempo += dt
+	if de_prueba or not _conviene_guardar():
+		return
+	_autosave += dt
+	if _autosave < AUTOGUARDADO:
+		return
+	_autosave = 0.0
+	guardar()
+
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_WM_CLOSE_REQUEST:
+		guardar()
 
 
 # ---------- consultas ----------
@@ -184,11 +212,44 @@ func pedir_dialogo(id: String) -> void:
 
 # ---------- guardado ----------
 
+func _archivo(n: int) -> String:
+	return CARPETA + "ranura_%d.json" % n
+
+
+## La partida de la ranura: el archivo, o si está roto su copia anterior (.bak) o la escritura a medias (.tmp).
+## Devuelve los datos y de cuál salieron; vacío si no hay ninguno válido.
+func _leer(n: int) -> Dictionary:
+	for ruta in [_archivo(n), _archivo(n) + ".bak", _archivo(n) + ".tmp"]:
+		if not FileAccess.file_exists(ruta):
+			continue
+		var datos = JSON.parse_string(FileAccess.get_file_as_string(ruta))
+		if typeof(datos) == TYPE_DICTIONARY:
+			return {"datos": datos, "ruta": ruta}
+	return {}
+
+
+## La partida única de antes (o su copia) pasa a la ranura 1, así nadie pierde lo jugado.
+func _mudar_guardado_viejo() -> void:
+	DirAccess.make_dir_recursive_absolute(CARPETA)
+	var viejos := [ARCHIVO_VIEJO, ARCHIVO_VIEJO + ".bak", ARCHIVO_VIEJO + ".tmp"]
+	if not _leer(1).is_empty():
+		return
+	for ruta in viejos:
+		if FileAccess.file_exists(ruta) and _archivo_json(ruta):
+			DirAccess.copy_absolute(ProjectSettings.globalize_path(ruta), ProjectSettings.globalize_path(_archivo(1)))
+			break
+	if _archivo_json(_archivo(1)):
+		for ruta in viejos:
+			DirAccess.remove_absolute(ProjectSettings.globalize_path(ruta))
+
+
 func guardar() -> void:
-	if de_prueba:
+	if de_prueba or not _conviene_guardar():
 		return
 	var datos := {
-		"version": 2,
+		"version": 3,
+		"fecha": Time.get_unix_time_from_system(),   # con decimales: dos guardados en el mismo segundo se ordenan bien
+		"tiempo": int(tiempo),
 		"inventario": inventario.serializar(),
 		"mision": mision,
 		"banderas": banderas,
@@ -199,17 +260,19 @@ func guardar() -> void:
 		"niebla_largo": niebla.size(),
 		"posicion": [posicion.x, posicion.y, posicion.z] if posicion != Vector3.INF else [],
 	}
-	var f := FileAccess.open(ARCHIVO, FileAccess.WRITE)
-	if f:
-		f.store_string(JSON.stringify(datos, "\t"))
+	var texto := JSON.stringify(datos, "\t")
+	if texto == "" or not _escribir_atomico(_archivo(ranura), texto):
+		return
+	_autosave = 0.0
 
 
-func cargar() -> bool:
-	if not FileAccess.file_exists(ARCHIVO):
+func cargar(n: int) -> bool:
+	var leido := _leer(n)
+	if leido.is_empty():
 		return false
-	var datos = JSON.parse_string(FileAccess.get_file_as_string(ARCHIVO))
-	if typeof(datos) != TYPE_DICTIONARY:
-		return false
+	var datos: Dictionary = leido.datos
+	ranura = n
+	tiempo = float(datos.get("tiempo", 0))
 	mision = int(datos.get("mision", 0))
 	banderas = datos.get("banderas", {})
 	diario = datos.get("diario", [])
@@ -223,14 +286,57 @@ func cargar() -> bool:
 	var equipo_guardado: Variant = datos.get("inventario", {})
 	inventario.cargar(equipo_guardado if equipo_guardado is Dictionary else {})
 	cargada = true
+	_autosave = 0.0
+	if leido.ruta != _archivo(n):
+		guardar()
+		mensaje.emit.call_deferred("partida_recuperada")
 	return true
 
 
+## Lo que muestra la lista de Cargar: misión, fecha y tiempo jugado. Vacío si la ranura no tiene partida.
+func resumen(n: int) -> Dictionary:
+	if de_prueba:
+		return ranuras_prueba.get(n, {})
+	var leido := _leer(n)
+	if leido.is_empty():
+		return {}
+	var datos: Dictionary = leido.datos
+	var m := int(datos.get("mision", 0))
+	return {
+		"mision": MISIONES[m].id if m < MISIONES.size() else "fin",
+		"fecha": float(datos.get("fecha", FileAccess.get_modified_time(_archivo(n)))),
+		"tiempo": int(datos.get("tiempo", 0)),
+	}
+
+
 func hay_partida() -> bool:
-	return FileAccess.file_exists(ARCHIVO)
+	return ranura_reciente() > 0
 
 
-func nueva_partida() -> void:
+## La ranura guardada más nueva (0 si no hay ninguna): la que retoma Continuar.
+func ranura_reciente() -> int:
+	var mejor := 0
+	var fecha := -1.0
+	for n in range(1, RANURAS + 1):
+		var r := resumen(n)
+		if not r.is_empty() and r.fecha > fecha:
+			mejor = n
+			fecha = r.fecha
+	return mejor
+
+
+## La primera ranura sin partida (0 si están todas ocupadas).
+func primera_libre() -> int:
+	for n in range(1, RANURAS + 1):
+		if resumen(n).is_empty():
+			return n
+	return 0
+
+
+## Empieza de cero en la ranura `n` (borra lo que tuviera).
+func nueva_partida(n := 1) -> void:
+	ranura = n
+	tiempo = 0.0
 	inventario.reiniciar()
 	mision = 0
 	banderas = {}
@@ -240,6 +346,41 @@ func nueva_partida() -> void:
 	niebla = PackedByteArray()
 	posicion = Vector3.INF
 	cargada = false
-	if not de_prueba and FileAccess.file_exists(ARCHIVO):
-		DirAccess.remove_absolute(ProjectSettings.globalize_path(ARCHIVO))
+	_autosave = 0.0
+	if not de_prueba:
+		for ruta in [_archivo(n), _archivo(n) + ".bak", _archivo(n) + ".tmp"]:
+			DirAccess.remove_absolute(ProjectSettings.globalize_path(ruta))
 	cambio_estado.emit()
+
+
+## Hay algo que perder: una partida ya leída, progreso, o a Eromash ya ubicado en el mundo.
+func _conviene_guardar() -> bool:
+	return cargada or mision > 0 or not banderas.is_empty() or not diario.is_empty() or salud < 100.0 or posicion != Vector3.INF or not niebla.is_empty()
+
+
+## Escribe al lado y recién después reemplaza. La copia anterior queda en .bak si el archivo actual es válido.
+func _escribir_atomico(ruta: String, texto: String) -> bool:
+	DirAccess.make_dir_recursive_absolute(CARPETA)
+	var final := ProjectSettings.globalize_path(ruta)
+	var temporal := final + ".tmp"
+	var copia := final + ".bak"
+	var f := FileAccess.open(temporal, FileAccess.WRITE)
+	if f == null:
+		return false
+	f.store_string(texto)
+	f.close()
+	if not _archivo_json(temporal):
+		DirAccess.remove_absolute(temporal)
+		return false
+	if FileAccess.file_exists(final) and _archivo_json(final):
+		DirAccess.remove_absolute(copia)
+		DirAccess.copy_absolute(final, copia)
+	if FileAccess.file_exists(final):
+		DirAccess.remove_absolute(final)
+	if DirAccess.rename_absolute(temporal, final) == OK:
+		return true
+	return DirAccess.copy_absolute(temporal, final) == OK
+
+
+func _archivo_json(ruta: String) -> bool:
+	return FileAccess.file_exists(ruta) and typeof(JSON.parse_string(FileAccess.get_file_as_string(ruta))) == TYPE_DICTIONARY

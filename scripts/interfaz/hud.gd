@@ -4,7 +4,9 @@ extends CanvasLayer
 ## diario (J) con el croquis de Eldervald, pausa (Esc), título y cierre del MVP. Todo con textos ES/EN.
 
 signal dialogo_terminado(id: String)
-signal empezar(nueva: bool)
+signal empezar(nueva: bool)        ## Continuar (false): seguir con la partida que está de fondo
+signal nueva_partida(ranura: int)
+signal cargar_partida(ranura: int)
 signal salir_al_titulo
 signal ver_prologo   ## botón «Ver prólogo» del título
 
@@ -12,6 +14,8 @@ const FUENTE_TITULO := "res://assets/marca/fuentes/EromashDisplay-Bold.woff2"
 const FUENTE_TEXTO := "res://assets/marca/fuentes/EromashText-Regular.woff2"
 const FUENTE_TEXTO_M := "res://assets/marca/fuentes/EromashText-Medium.woff2"
 const ROJO := Color(0.78, 0.25, 0.18)
+const UMBRAL_VIDA_BAJA := 0.3
+const TICK_BORDE := 0.28
 const CREMA := Color(0.93, 0.9, 0.82)
 const AZUL := Color(0.45, 0.84, 0.86)
 const AMBAR := Color(0.91, 0.72, 0.4)
@@ -53,11 +57,18 @@ var _diario_mapa: TextureRect
 var _marcas_mapa: Control
 var _pausa: Control
 var _titulo: Control
+var _ranuras: VBoxContainer
+var _ranuras_modo := ""   ## "cargar" o "nueva"
+var _confirmar := 0       ## ranura ocupada que espera un segundo pulsado para reemplazarse
 var _fin: Control
 var _negro: ColorRect
+var _borde: ColorRect
+var _vida_vista := -1.0
+var _tick_borde := 0.0
 var _flecha: Label
 var _minimapa: Minimapa
 var _fps: Label
+var _admin: Label
 var _video: OpcionesVideo
 var _opciones_idioma: OptionButton
 var interfaz: InterfazAventura
@@ -139,6 +150,11 @@ func _crear_tema() -> Theme:
 	t.set_stylebox("hover", "Button", boton_h)
 	t.set_stylebox("focus", "Button", boton_h)
 	t.set_stylebox("pressed", "Button", boton_h)
+	var boton_d := boton.duplicate() as StyleBoxFlat
+	boton_d.bg_color = Color(0.08, 0.11, 0.1, 0.7)
+	boton_d.border_color = Color(AMBAR, 0.2)
+	t.set_stylebox("disabled", "Button", boton_d)
+	t.set_color("font_disabled_color", "Button", Color(CREMA, 0.4))
 	t.set_color("font_color", "Button", CREMA)
 	t.set_color("font_hover_color", "Button", AZUL)
 	t.set_color("font_focus_color", "Button", AZUL)
@@ -164,6 +180,17 @@ func _etiqueta(padre: Node, tam := 22, color := CREMA, titulo := false) -> Label
 # ---------- en juego ----------
 
 func _armar_juego(raiz: Control) -> void:
+	_borde = ColorRect.new()
+	_borde.name = "BordeVida"
+	_borde.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_borde.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_borde.visible = false
+	var marco := ShaderMaterial.new()
+	marco.shader = load("res://assets/sombreadores/borde_vida.gdshader")
+	marco.set_shader_parameter("intensidad", 0.0)
+	marco.set_shader_parameter("golpe", 0.0)
+	_borde.material = marco
+	raiz.add_child(_borde)
 	_minimapa = Minimapa.new()
 	_minimapa.anchor_left = 1.0
 	_minimapa.anchor_right = 1.0
@@ -184,6 +211,14 @@ func _armar_juego(raiz: Control) -> void:
 	_fps.offset_bottom = -24
 	_fps.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	_fps.visible = false
+	_admin = _etiqueta(raiz, 18, AMBAR, true)
+	_admin.set_anchors_preset(Control.PRESET_CENTER_TOP)
+	_admin.offset_left = -460
+	_admin.offset_right = 460
+	_admin.offset_top = 16
+	_admin.offset_bottom = 48
+	_admin.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_admin.visible = false
 	var obj := VBoxContainer.new()
 	obj.position = Vector2(36, 30)
 	obj.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -247,7 +282,11 @@ func conectar_heroe(h: Heroe, c: Camara) -> void:
 	camara = c
 	_minimapa.heroe = h
 	_minimapa.camara = c
+	_vida_vista = h.salud
 	h.salud_cambio.connect(func(v, m):
+		if _vida_vista >= 0.0 and v < _vida_vista - 0.05:
+			_tick_borde = 1.0
+		_vida_vista = v
 		_salud.max_value = m
 		_salud.value = v
 		_salud_texto.text = tr("combate_salud") % [ceili(v), int(m)])
@@ -287,6 +326,7 @@ func _actualizar_objetivo() -> void:
 		_objetivo_texto.text = tr(o.get("texto", ""))
 	var teclas := _objetivo_titulo.get_parent().get_node("Teclas") as Label
 	teclas.text = tr("ayuda_teclas") % [Controles.tecla("interactuar"), Controles.tecla("lente"), Controles.tecla("diario")]
+	_texto_objetivo()
 	_actualizar_recursos()
 
 
@@ -296,6 +336,23 @@ func _actualizar_recursos() -> void:
 	_salud_texto.text = tr("combate_salud") % [ceili(heroe.salud), int(Heroe.SALUD_MAX)]
 	_stamina_texto.text = tr("combate_stamina") % [floori(heroe.stamina), int(heroe.estadisticas.stamina_maxima)]
 	_ayuda_combate.text = tr("combate_ayuda") % [Controles.tecla("esquivar"), Controles.tecla("saltar")]
+
+
+func _poner_borde(aliento: float, golpe: float) -> void:
+	if _borde == null:
+		return
+	var respira := clampf(aliento, 0.0, 1.0)
+	var tick := clampf(golpe, 0.0, 1.0)
+	_borde.visible = maxf(respira, tick) > 0.02
+	if not _borde.visible:
+		return
+	var mat := _borde.material as ShaderMaterial
+	var tam := _borde.size
+	if tam.x < 2.0:
+		tam = _borde.get_viewport_rect().size
+	mat.set_shader_parameter("resolucion", tam)
+	mat.set_shader_parameter("intensidad", respira)
+	mat.set_shader_parameter("golpe", tick)
 
 
 func mostrar_mensaje(texto: String, color := AMBAR) -> void:
@@ -319,12 +376,40 @@ func _process(dt: float) -> void:
 		_stamina.value = move_toward(_stamina.value, _stamina_objetivo, dt * 220.0)
 		var sin_energia := heroe.stamina < minf(heroe.estadisticas.costo_esquiva, heroe.estadisticas.costo_ataque)
 		_stamina.modulate = Color(1, 0.45, 0.3) if _stamina_alerta > 0.0 else (Color(0.7, 0.7, 0.7) if sin_energia else Color.WHITE)
+		var vida_baja := heroe.salud > 0.0 and heroe.salud <= Heroe.SALUD_MAX * UMBRAL_VIDA_BAJA
+		var pulso := 0.55 + 0.45 * sin(Time.get_ticks_msec() * 0.009)
+		if vida_baja:
+			var tinte := Color(1.0, 0.38, 0.3).lerp(Color(1.0, 0.82, 0.72), pulso)
+			_salud.modulate = tinte
+			_salud_texto.modulate = tinte
+		else:
+			_salud.modulate = Color.WHITE
+			_salud_texto.modulate = Color.WHITE
+		_tick_borde = maxf(0.0, _tick_borde - dt / TICK_BORDE)
+		# Por debajo del 30 % el borde no se apaga: queda presente y pega un latido.
+		var latido := pow(clampf(0.5 + 0.5 * sin(Time.get_ticks_msec() * 0.013), 0.0, 1.0), 1.7)
+		var aliento := (0.68 + 0.32 * latido) if vida_baja else 0.0
+		var tick := 0.0
+		if _tick_borde > 0.62:
+			tick = 1.0
+		elif _tick_borde > 0.0:
+			tick = _tick_borde / 0.62
+		_poner_borde(0.0 if en_menu else aliento, 0.0 if en_menu else tick)
 		_ayuda_combate.text = tr(_stamina_alerta_clave) if _stamina_alerta > 0.0 else tr("combate_ayuda") % [Controles.tecla("esquivar"), Controles.tecla("saltar")]
+		if heroe.admin:
+			_ayuda_combate.text = tr("admin_ayuda") % [Controles.tecla("saltar"), Controles.tecla("bloquear"), Controles.tecla("correr")]
+	else:
+		_poner_borde(0.0, 0.0)
+	if _admin:
+		_admin.visible = heroe != null and heroe.admin
+		if _admin.visible:
+			_admin.text = tr("admin_marca") % Controles.tecla("modo_admin")
 	if en_dialogo:
 		_dlg_t += dt
 		var total := tr(_dlg_lineas[_dlg_i][1]).length() if _dlg_i < _dlg_lineas.size() else 0
 		_dlg_texto.visible_characters = int(_dlg_t * 55.0) if _dlg_t * 55.0 < total else -1
 	_flecha_objetivo()
+	_texto_objetivo()
 	if _fps.visible:
 		var r := RenderingServer
 		var tri := r.get_rendering_info(RenderingServer.RENDERING_INFO_TOTAL_PRIMITIVES_IN_FRAME)
@@ -359,6 +444,28 @@ func _flecha_objetivo() -> void:
 	_flecha.position = borde - Vector2(17, 20)
 	_flecha.rotation = dir.angle()
 	_flecha.pivot_offset = Vector2(17, 20)
+
+
+## El objetivo dice a cuántos metros está. Si no tiene lugar en el mapa, queda solo el texto.
+func _texto_objetivo() -> void:
+	if _objetivo_texto == null:
+		return
+	var id := Juego.id_mision()
+	var base := tr("obj_fin") if id == "fin" else tr(Juego.objetivo_actual().get("texto", ""))
+	var metros := _metros_objetivo()
+	if metros < 0:
+		_objetivo_texto.text = base
+	else:
+		_objetivo_texto.text = "%s   ·   %s" % [base, tr("objetivo_metros") % metros]
+
+
+func _metros_objetivo() -> int:
+	if heroe == null:
+		return -1
+	var p := Juego.donde_objetivo()
+	if p == Vector3.INF:
+		return -1
+	return int(round(heroe.global_position.distance_to(p)))
 
 
 # ---------- diálogos ----------
@@ -652,6 +759,7 @@ func abrir_pausa() -> void:
 	_pausa.visible = true
 	en_menu = true
 	get_tree().paused = true
+	Sonido.musica_de_pausa(true)
 	(_pausa.find_child("Botones", true, false).get_child(1) as Button).grab_focus()
 
 
@@ -670,6 +778,7 @@ func _video_cerrado() -> void:
 
 
 func cerrar_pausa() -> void:
+	Sonido.musica_de_pausa(false)
 	_pausa.visible = false
 	en_menu = false
 	get_tree().paused = false
@@ -677,68 +786,237 @@ func cerrar_pausa() -> void:
 
 # ---------- título y cierre ----------
 
+## Menú principal sobre la partida: el bosque sigue a la vista detrás, con la cámara girando despacio alrededor
+## de Eromash. Continuar retoma la partida más reciente, Nueva partida empieza en una ranura libre (o pide cuál
+## reemplazar) y Cargar lista las ranuras guardadas.
 func _armar_titulo(raiz: Control) -> void:
-	_titulo = ColorRect.new()
-	(_titulo as ColorRect).color = Color(0.03, 0.05, 0.05, 0.92)
+	_titulo = Control.new()
 	_titulo.set_anchors_preset(Control.PRESET_FULL_RECT)
 	_titulo.visible = false
 	raiz.add_child(_titulo)
-	var centro := CenterContainer.new()
-	centro.set_anchors_preset(Control.PRESET_FULL_RECT)
-	_titulo.add_child(centro)
+	# sombra solo a la izquierda: el menú se lee y la partida se sigue viendo
+	var g := Gradient.new()
+	g.set_color(0, Color(0.02, 0.04, 0.04, 0.92))
+	g.set_color(1, Color(0.02, 0.04, 0.04, 0.0))
+	g.add_point(0.5, Color(0.02, 0.04, 0.04, 0.7))
+	var gt := GradientTexture2D.new()
+	gt.gradient = g
+	gt.width = 256
+	gt.height = 4
+	var sombra := TextureRect.new()
+	sombra.texture = gt
+	sombra.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	sombra.stretch_mode = TextureRect.STRETCH_SCALE
+	sombra.anchor_right = 0.66
+	sombra.anchor_bottom = 1.0
+	sombra.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_titulo.add_child(sombra)
+	var margen := MarginContainer.new()
+	margen.anchor_bottom = 1.0
+	margen.add_theme_constant_override("margin_left", 90)
+	margen.add_theme_constant_override("margin_top", 56)
+	margen.add_theme_constant_override("margin_bottom", 40)
+	_titulo.add_child(margen)
 	var v := VBoxContainer.new()
-	v.add_theme_constant_override("separation", 16)
-	v.alignment = BoxContainer.ALIGNMENT_CENTER
-	centro.add_child(v)
+	v.custom_minimum_size.x = 600
+	v.add_theme_constant_override("separation", 14)
+	margen.add_child(v)
 	var logo := TextureRect.new()
 	logo.texture = load("res://assets/marca/logotipo.png")
 	logo.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	logo.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	logo.custom_minimum_size = Vector2(840, 376)
+	logo.custom_minimum_size = Vector2(600, 268)
 	v.add_child(logo)
-	var sub := _etiqueta(v, 34, AZUL, true)
+	var sub := _etiqueta(v, 32, AZUL, true)
 	sub.text = tr("juego_subtitulo")
 	sub.set_meta("clave", "juego_subtitulo")
 	sub.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	v.add_child(_trazo_runico())
+	var caja := CenterContainer.new()
+	caja.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	v.add_child(caja)
+	var pila := VBoxContainer.new()
+	caja.add_child(pila)
 	var botones := VBoxContainer.new()
 	botones.name = "BotonesTitulo"
 	botones.custom_minimum_size.x = 420
 	botones.add_theme_constant_override("separation", 10)
-	var caja := CenterContainer.new()
-	caja.add_child(botones)
-	v.add_child(caja)
-	for b in [["titulo_continuar", func(): _empezar(false)], ["titulo_nueva", func(): _empezar(true)], ["titulo_ver_prologo", _ver_prologo], ["menu_video", func(): abrir_video(_titulo.find_child("menu_video", true, false))], ["pausa_salir", func(): get_tree().quit()]]:
+	pila.add_child(botones)
+	for b in [
+		["titulo_continuar", func(): _empezar(false)],
+		["titulo_nueva", func(): _pedir_nueva()],
+		["titulo_cargar", func(): _abrir_ranuras("cargar")],
+		["titulo_ver_prologo", _ver_prologo],
+		["menu_video", func(): abrir_video(_titulo.find_child("menu_video", true, false))],
+		["pausa_salir", func(): get_tree().quit()],
+	]:
 		var bt := Button.new()
 		bt.text = tr(b[0])
 		bt.set_meta("clave", b[0])
 		bt.name = b[0]
 		bt.pressed.connect(b[1])
 		botones.add_child(bt)
+	_armar_ranuras(pila)
 	var aviso := _etiqueta(v, 16, Color(CREMA, 0.5))
 	aviso.text = tr("titulo_mvp")
 	aviso.set_meta("clave", "titulo_mvp")
 	aviso.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 
 
-## «Ver prólogo»: esconde el título y avisa al mundo, que reproduce el prólogo y vuelve al título al terminar.
+## «Ver prólogo»: sale del título y avisa al mundo, que reproduce el prólogo y vuelve al título al terminar.
 func _ver_prologo() -> void:
-	_titulo.visible = false
+	_salir_del_titulo()
 	ver_prologo.emit()
 
 
-func mostrar_titulo() -> void:
+## Línea fina con EROMASH en runas en el medio, en azul rúnico.
+func _trazo_runico() -> Control:
+	var h := HBoxContainer.new()
+	h.add_theme_constant_override("separation", 14)
+	h.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	for lado in 2:
+		var linea := ColorRect.new()
+		linea.color = Color(AZUL, 0.45)
+		linea.custom_minimum_size = Vector2(0, 1)
+		linea.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		linea.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+		linea.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		h.add_child(linea)
+		if lado == 0:
+			var runas := _etiqueta(h, 18, AZUL)
+			runas.text = "ᛖ ᚱ ᛟ ᛗ ᚨ ᛋ ᚺ"
+	return h
+
+
+## Lista de ranuras: sirve para Cargar y para elegir cuál reemplazar con Nueva partida.
+func _armar_ranuras(padre: Control) -> void:
+	_ranuras = VBoxContainer.new()
+	_ranuras.custom_minimum_size.x = 520
+	_ranuras.add_theme_constant_override("separation", 10)
+	_ranuras.visible = false
+	padre.add_child(_ranuras)
+	var t := _etiqueta(_ranuras, 26, AMBAR, true)
+	t.name = "Encabezado"
+	t.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	for n in range(1, Juego.RANURAS + 1):
+		var bt := Button.new()
+		bt.name = "Ranura%d" % n
+		bt.alignment = HORIZONTAL_ALIGNMENT_LEFT
+		bt.add_theme_font_size_override("font_size", 20)
+		bt.pressed.connect(_elegir_ranura.bind(n))
+		bt.focus_exited.connect(func():
+			if _confirmar == n:
+				_confirmar = 0
+				_llenar_ranuras())
+		_ranuras.add_child(bt)
+	var aviso := _etiqueta(_ranuras, 16, Color(CREMA, 0.7))
+	aviso.name = "Aviso"
+	aviso.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	aviso.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	var volver := Button.new()
+	volver.name = "Volver"
+	volver.text = tr("video_volver")
+	volver.set_meta("clave", "video_volver")
+	volver.pressed.connect(_cerrar_ranuras)
+	_ranuras.add_child(volver)
+
+
+func _abrir_ranuras(modo: String) -> void:
+	_ranuras_modo = modo
+	_confirmar = 0
+	_llenar_ranuras()
+	_titulo.find_child("BotonesTitulo", true, false).visible = false
+	_ranuras.visible = true
+	for n in range(1, Juego.RANURAS + 1):
+		var bt := _ranuras.get_node("Ranura%d" % n) as Button
+		if not bt.disabled:
+			bt.grab_focus()
+			return
+	(_ranuras.get_node("Volver") as Button).grab_focus()
+
+
+func _cerrar_ranuras() -> void:
+	_ranuras.visible = false
+	_titulo.find_child("BotonesTitulo", true, false).visible = true
+	(_titulo.find_child("titulo_cargar" if _ranuras_modo == "cargar" else "titulo_nueva", true, false) as Button).grab_focus()
+
+
+func _llenar_ranuras() -> void:
+	(_ranuras.get_node("Encabezado") as Label).text = tr("ranuras_cargar" if _ranuras_modo == "cargar" else "ranuras_nueva")
+	var aviso := _ranuras.get_node("Aviso") as Label
+	aviso.text = tr("ranura_reemplazar") if _confirmar > 0 else ""
+	aviso.visible = _confirmar > 0
+	for n in range(1, Juego.RANURAS + 1):
+		var bt := _ranuras.get_node("Ranura%d" % n) as Button
+		var r := Juego.resumen(n)
+		var detalle := tr("ranura_vacia")
+		if not r.is_empty():
+			var mision := tr("mision_fin") if r.mision == "fin" else "%s · %s" % [r.mision, tr("mision_" + r.mision)]
+			var f := Time.get_datetime_dict_from_unix_time(int(r.fecha) + Time.get_time_zone_from_system().bias * 60)
+			detalle = "%s\n%s · %s" % [mision, tr("ranura_tiempo") % [r.tiempo / 3600, r.tiempo / 60 % 60],
+				"%d-%02d-%02d %02d:%02d" % [f.year, f.month, f.day, f.hour, f.minute]]
+		bt.text = "%s   %s" % [tr("ranura") % n, detalle]
+		bt.disabled = _ranuras_modo == "cargar" and r.is_empty()
+		bt.modulate = AMBAR if _confirmar == n else Color.WHITE
+
+
+func _elegir_ranura(n: int) -> void:
+	if _ranuras_modo == "cargar":
+		_salir_del_titulo()
+		cargar_partida.emit(n)
+		return
+	if not Juego.resumen(n).is_empty() and _confirmar != n:
+		_confirmar = n
+		_llenar_ranuras()
+		return
+	_salir_del_titulo()
+	nueva_partida.emit(n)
+
+
+## Nueva partida va a la primera ranura libre; si están todas ocupadas, pregunta cuál reemplazar.
+func _pedir_nueva() -> void:
+	var libre := Juego.primera_libre()
+	if libre == 0:
+		_abrir_ranuras("nueva")
+		return
+	_salir_del_titulo()
+	nueva_partida.emit(libre)
+
+
+func mostrar_titulo(desde_partida := false) -> void:
+	if desde_partida:
+		Juego.guardar()   # al volver desde la pausa, lo jugado queda como la partida más reciente
 	_titulo.visible = true
+	_ranuras.visible = false
+	_titulo.find_child("BotonesTitulo", true, false).visible = true
 	en_menu = true
 	get_tree().paused = true
+	_ui_juego(false)
+	if camara:
+		camara.poner_de_fondo(true)
 	var cont := _titulo.find_child("titulo_continuar", true, false) as Button
 	cont.visible = Juego.hay_partida()
+	(_titulo.find_child("titulo_cargar", true, false) as Button).disabled = not Juego.hay_partida()
 	(cont if cont.visible else _titulo.find_child("titulo_nueva", true, false) as Button).grab_focus()
 
 
-func _empezar(nueva: bool) -> void:
+## Objetivo y minimapa se esconden mientras el menú principal está arriba de la partida.
+func _ui_juego(si: bool) -> void:
+	_objetivo_titulo.get_parent().visible = si
+	_minimapa.visible = si
+
+
+func _salir_del_titulo() -> void:
 	_titulo.visible = false
 	en_menu = false
 	get_tree().paused = false
+	_ui_juego(true)
+	if camara:
+		camara.poner_de_fondo(false)
+
+
+func _empezar(nueva: bool) -> void:
+	_salir_del_titulo()
 	empezar.emit(nueva)
 
 
@@ -783,6 +1061,11 @@ func _unhandled_input(ev: InputEvent) -> void:
 	if ev.is_action_pressed("ver_fps"):
 		_fps.visible = not _fps.visible
 		get_viewport().set_input_as_handled()
+		return
+	if _titulo.visible:
+		if _ranuras.visible and (ev.is_action_pressed("pausa") or ev.is_action_pressed("ui_cancel")):
+			_cerrar_ranuras()
+			get_viewport().set_input_as_handled()
 		return
 	if ev.is_action_pressed("pausa"):
 		if _pausa.visible:

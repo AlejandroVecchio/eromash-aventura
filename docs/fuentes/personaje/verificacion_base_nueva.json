@@ -1,0 +1,179 @@
+{
+  "componentes_cuerpo": 1,
+  "bordes_fuera_cuello_tobillos": 0,
+  "aristas_no_manifold_interiores": 0,
+  "suma_pesos_min": 0.9999999180436134,
+  "suma_pesos_max": 1.000000074505806,
+  "clips": [
+    {
+      "nombre": "abrir_cofre",
+      "cuadros": 5,
+      "coordenadas_finitas": true
+    },
+    {
+      "nombre": "abrir_puerta",
+      "cuadros": 5,
+      "coordenadas_finitas": true
+    },
+    {
+      "nombre": "ataque",
+      "cuadros": 5,
+      "coordenadas_finitas": true
+    },
+    {
+      "nombre": "ataque2",
+      "cuadros": 5,
+      "coordenadas_finitas": true
+    },
+    {
+      "nombre": "beber",
+      "cuadros": 5,
+      "coordenadas_finitas": true
+    },
+    {
+      "nombre": "bloquear",
+      "cuadros": 5,
+      "coordenadas_finitas": true
+    },
+    {
+      "nombre": "bloqueo",
+      "cuadros": 5,
+      "coordenadas_finitas": true
+    },
+    {
+      "nombre": "caminar",
+      "cuadros": 5,
+      "coordenadas_finitas": true
+    },
+    {
+      "nombre": "caminar_armado",
+      "cuadros": 5,
+      "coordenadas_finitas": true
+    },
+    {
+      "nombre": "correr",
+      "cuadros": 5,
+      "coordenadas_finitas": true
+    },
+    {
+      "nombre": "correr_armado",
+      "cuadros": 5,
+      "coordenadas_finitas": true
+    },
+    {
+      "nombre": "descanso",
+      "cuadros": 5,
+      "coordenadas_finitas": true
+    },
+    {
+      "nombre": "descanso2",
+      "cuadros": 5,
+      "coordenadas_finitas": true
+    },
+    {
+      "nombre": "desenvainar",
+      "cuadros": 5,
+      "coordenadas_finitas": true
+    },
+    {
+      "nombre": "envainar",
+      "cuadros": 5,
+      "coordenadas_finitas": true
+    },
+    {
+      "nombre": "golpe",
+      "cuadros": 5,
+      "coordenadas_finitas": true
+    },
+    {
+      "nombre": "golpe2",
+      "cuadros": 5,
+      "coordenadas_finitas": true
+    },
+    {
+      "nombre": "golpe3",
+      "cuadros": 5,
+      "coordenadas_finitas": true
+    },
+    {
+      "nombre": "grito",
+      "cuadros": 5,
+      "coordenadas_finitas": true
+    },
+    {
+      "nombre": "guardia",
+      "cuadros": 5,
+      "coordenadas_finitas": true
+    },
+    {
+      "nombre": "guardia_mirar",
+      "cuadros": 5,
+      "coordenadas_finitas": true
+    },
+    {
+      "nombre": "guardia_mirar2",
+      "cuadros": 5,
+      "coordenadas_finitas": true
+    },
+    {
+      "nombre": "hechizo",
+      "cuadros": 5,
+      "coordenadas_finitas": true
+    },
+    {
+      "nombre": "levantar",
+      "cuadros": 5,
+      "coordenadas_finitas": true
+    },
+    {
+      "nombre": "levantar_armado",
+      "cuadros": 5,
+      "coordenadas_finitas": true
+    },
+    {
+      "nombre": "mecanismo",
+      "cuadros": 5,
+      "coordenadas_finitas": true
+    },
+    {
+      "nombre": "morir",
+      "cuadros": 5,
+      "coordenadas_finitas": true
+    },
+    {
+      "nombre": "palanca",
+      "cuadros": 5,
+      "coordenadas_finitas": true
+    },
+    {
+      "nombre": "patada",
+      "cuadros": 5,
+      "coordenadas_finitas": true
+    },
+    {
+      "nombre": "salto_armado",
+      "cuadros": 5,
+      "coordenadas_finitas": true
+    },
+    {
+      "nombre": "salto_libre",
+      "cuadros": 5,
+      "coordenadas_finitas": true
+    },
+    {
+      "nombre": "soltar_bloqueo",
+      "cuadros": 5,
+      "coordenadas_finitas": true
+    },
+    {
+      "nombre": "tomar",
+      "cuadros": 5,
+      "coordenadas_finitas": true
+    },
+    {
+      "nombre": "trepar",
+      "cuadros": 5,
+      "coordenadas_finitas": true
+    }
+  ]
+}

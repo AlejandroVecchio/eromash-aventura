@@ -33,6 +33,7 @@ const TECLAS := {
 	"camara_derecha": [KEY_E],
 	"pausa": [KEY_ESCAPE],
 	"ver_fps": [KEY_F3],
+	"modo_admin": [KEY_F10],
 }
 
 const BOTONES_MANDO := {
@@ -66,6 +67,7 @@ const EJES_MANDO := [
 
 
 func _ready() -> void:
+	_asegurar("caminar")   # alternar caminar: se dispara con el carácter "/" (ver _input), sin tecla física fija
 	for accion in TECLAS:
 		_asegurar(accion)
 		for tecla in TECLAS[accion]:
@@ -101,6 +103,8 @@ func _boton_mouse(accion: String, boton: MouseButton) -> void:
 
 ## Texto corto de la tecla de una acción para los carteles ("F", "R"…).
 func tecla(accion: String) -> String:
+	if accion == "caminar" and not usando_mando:
+		return "/"
 	if usando_mando:
 		for ev in InputMap.action_get_events(accion):
 			if ev is InputEventJoypadButton:
@@ -114,6 +118,11 @@ func tecla(accion: String) -> String:
 
 
 func _input(ev: InputEvent) -> void:
+	# "/" alterna caminar. Se reconoce por el carácter y no por la tecla física: en teclados latinoamericanos y españoles
+	# es Shift+7 y en los ingleses una tecla propia; el "/" del teclado numérico produce el mismo carácter.
+	if ev is InputEventKey and (ev as InputEventKey).pressed and not (ev as InputEventKey).echo and (ev as InputEventKey).unicode == 47:
+		Input.action_press("caminar")
+		get_tree().create_timer(0.1).timeout.connect(func(): Input.action_release("caminar"))
 	var mando := usando_mando
 	if ev is InputEventJoypadButton or (ev is InputEventJoypadMotion and absf((ev as InputEventJoypadMotion).axis_value) > 0.3):
 		mando = true

@@ -1,0 +1,12 @@
+{
+  "duration_seconds": 10,
+  "fps": 30,
+  "frames": 300,
+  "resolution": [
+    1920,
+    1080
+  ],
+  "audio": false,
+  "reference": "https://www.youtube.com/watch?v=yJwmZgE9hrs",
+  "technique": "Planos de imagen, recorte de personaje y rocas, c\u00e1mara con parallax, m\u00e1scaras temporales separadas para tinta y pigmento."
+}

@@ -1,0 +1,17 @@
+keys,es,en
+pe_titulo,Prueba de equipo,Equipment test
+pe_casco,Casco fijo · Eromash,Fixed helmet · Eromash
+pe_pechera,Pechera,Chest armor
+pe_cinturon,Cinturón y tabardo,Belt and tabard
+pe_hombros,Hombreras,Shoulder armor
+pe_brazales,Brazales y mangas,Arm armor and sleeves
+pe_guantes,Guantes,Gloves
+pe_piernas,Protección de piernas,Leg armor
+pe_botas,Botas,Boots
+pe_capa,Capa,Cape
+pe_espada,Espada,Sword
+pe_escudo,Escudo,Shield
+pe_todo,Equipar todo,Equip all
+pe_nada,Quitar todo,Unequip all
+pe_contraste,Contraste de la base,Base contrast
+pe_ayuda,"WASD: mover · Shift: correr\nEspacio: saltar · X: armas\nClic: atacar · Ctrl: bloquear\nQ/E o arrastre derecho: girar\nRueda: acercar y alejar","WASD: move · Shift: run\nSpace: jump · X: weapons\nClick: attack · Ctrl: block\nQ/E or right drag: orbit\nWheel: zoom"

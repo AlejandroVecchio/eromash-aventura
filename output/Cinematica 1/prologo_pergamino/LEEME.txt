@@ -1,0 +1,8 @@
+18 PNG editados con image_gen integrado; originales conservados en originales/.
+Seis escenas, cada una con fondo opaco, medio y frente con canal alfa.
+Prompt base y pautas por capa en prompt.txt.
+Se pidio conservar contenido, composicion, siluetas y posiciones. El redibujado generativo presenta variaciones finas de trazos, rasgos, detalles y bordes; no es una copia geometrica exacta.
+17 archivos conservan las dimensiones originales: 1672 x 941.
+imagen4_frente.png generado mide 1672 x 941; el original mide 1672 x 940. La herramienta no mantuvo esa altura tras un segundo intento.
+Las luces magicas azules se reinterpretaron en ambar segun el estilo solicitado. El farol de imagen6_frente se conserva apagado.
+No se integraron estas versiones en el juego.

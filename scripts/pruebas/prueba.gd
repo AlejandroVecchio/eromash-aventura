@@ -19,8 +19,10 @@ const ETAPAS := {
 	"cerca": [0, [], "puesto", 0.6, -0.4],
 	"sin_armas": [0, [], "puesto", 2.0, -0.35],
 	"sin_armas_correr": [0, [], "puesto", 2.0, -0.35],
+	"sin_armas_trote": [0, [], "puesto", 2.0, -0.35],
 	"ciervo": [4, ["el01_acepto", "croquis_leido", "carro_visto", "orm_encontrado", "errantes_despejados", "piedra_puesta", "runa_refugio", "fragmento", "fragmento_entregado", "lente_prestada", "fragmento_examinado", "huella_patio", "lente", "eydis_paso", "pista_tablon", "pista_raiz", "pista_menhir", "eydis_claro"], "claro", 1.9, 0.12],
 	"opciones": [0, [], "puesto", 0.6, 0.15],
+	"titulo": [0, [], "puesto", 0.6, 0.3],
 	"camara_baja": [0, [], "puesto", 2.4, 0.2],
 	"aserradero": [6, [], "aserradero", 0.8, 0.5],
 	"santuario": [6, [], "santuario", 1.1, 0.35],
@@ -94,11 +96,13 @@ static func preparar(mundo: Eldervald) -> void:
 		mundo.heroe.armado = false
 		mundo.heroe._armas(false)
 		mundo.get_tree().create_timer(1.5).timeout.connect(func():
+			Input.action_press("caminar")   # "/": alterna a caminar (por defecto trota)
+			mundo.get_tree().create_timer(0.1).timeout.connect(func(): Input.action_release("caminar"))
 			Input.action_press("mover_abajo")   # hacia la cámara: se ve de frente
 			for i in 12:
 				Captura.foto(Captura.salida.get_basename() + "_%d.png" % i, 4 + i * 8))
 	if g == "sin_armas_correr":
-		# lo mismo corriendo (Shift): el brazo izquierdo al correr con las armas guardadas
+		# lo mismo con sprint (Shift): carrera de verdad con las armas guardadas
 		mundo.heroe.armado = false
 		mundo.heroe._armas(false)
 		mundo.get_tree().create_timer(1.5).timeout.connect(func():
@@ -106,6 +110,14 @@ static func preparar(mundo: Eldervald) -> void:
 			Input.action_press("correr")
 			for i in 12:
 				Captura.foto(Captura.salida.get_basename() + "_%d.png" % i, 10 + i * 8))
+	if g == "sin_armas_trote":
+		# ritmo por defecto: trote activo pero relajado, con las armas guardadas
+		mundo.heroe.armado = false
+		mundo.heroe._armas(false)
+		mundo.get_tree().create_timer(1.5).timeout.connect(func():
+			Input.action_press("mover_abajo")
+			for i in 12:
+				Captura.foto(Captura.salida.get_basename() + "_%d.png" % i, 10 + i * 6))
 	if g == "ciervo":
 		# el Ciervo quieto en el Claro, visto de costado y de cerca (sin anclajes vistos: no se despierta)
 		mundo.heroe.global_position = mundo.ciervo.global_position + Vector3(7.5, 0.5, 2.0)
@@ -121,6 +133,24 @@ static func preparar(mundo: Eldervald) -> void:
 		t.create_timer(2.0).timeout.connect(func():
 			Calidad.poner_preset(Calidad.ALTO)
 			print("OPCIONES preset=", Calidad.preset, " niveles=", Calidad.niveles.values()))
+	if g == "titulo":
+		# el menú principal sobre la partida, y después la lista de Cargar con tres partidas inventadas
+		var ahora := int(Time.get_unix_time_from_system())
+		Juego.ranuras_prueba = {
+			1: {"mision": "EL-03", "fecha": ahora - 86400, "tiempo": 4520},
+			2: {"mision": "EL-06", "fecha": ahora - 600, "tiempo": 13900},
+		}
+		mundo.hud.mostrar_titulo()
+		var t := mundo.get_tree()
+		var base := Captura.salida.get_basename()
+		t.create_timer(3.5).timeout.connect(func(): Captura.foto(base + "_menu.png", 1))
+		t.create_timer(4.0).timeout.connect(func():
+			mundo.hud._abrir_ranuras("cargar")
+			Captura.foto(base + "_cargar.png", 3))
+		t.create_timer(6.0).timeout.connect(func():
+			mundo.hud._abrir_ranuras("nueva")
+			mundo.hud._elegir_ranura(2)   # ocupada: pide confirmar antes de reemplazarla
+			Captura.foto(base + "_reemplazar.png", 3))
 	if g == "cine_prologo":
 		var t := mundo.get_tree()
 		var momentos: Array = [1.0, 11.3, 21.0, 21.6, 27.8, 34.0, 37.3, 40.2, 44.8, 48.6, 51.1, 54.3, 62.5, 69.6, 76.2]

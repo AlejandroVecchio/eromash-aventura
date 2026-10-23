@@ -1,0 +1,18 @@
+{
+  "revision": [
+    {
+      "objeto": "16_Mangas_base__tripo_part_25.001",
+      "caras": 987,
+      "aristas_mas_de_dos_caras": 0,
+      "caras_degeneradas": 0
+    },
+    {
+      "objeto": "16_Mangas_base__tripo_part_32.001",
+      "caras": 981,
+      "aristas_mas_de_dos_caras": 0,
+      "caras_degeneradas": 0
+    }
+  ],
+  "limites": "Hombrera antes del codo; brazal incluye codo a muneca; manga continua permanece independiente.",
+  "estado": "Sin rig; validacion estatica, pendiente animacion."
+}

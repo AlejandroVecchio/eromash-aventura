@@ -55,6 +55,8 @@ func _correr() -> void:
 	var ap := Animaciones.reproductor(modelo)
 	if cual != "ual":
 		Animaciones.dar_animaciones(ap)
+		if cual == "heroe" and OS.get_cmdline_user_args().has("juego"):
+			Animaciones.preparar_heroe(ap, modelo)   # igual que Heroe._cargar_modelo
 	var ual: Node = load(UAL).instantiate()
 	var ap_ual: AnimationPlayer = ual.find_children("*", "AnimationPlayer", true, false)[0]
 	var bib := AnimationLibrary.new()
@@ -65,7 +67,11 @@ func _correr() -> void:
 	for nombre in ap_ual.get_animation_list():
 		var clip_ual := ap_ual.get_animation(nombre)
 		bib.add_animation(nombre, clip_ual if directo else retarget.convertir(clip_ual))
+	for v in Animaciones.UAL_VARIANTES:
+		bib.add_animation(v, retarget.convertir(ap_ual.get_animation(Animaciones.UAL_VARIANTES[v][0]), Animaciones.UAL_VARIANTES[v][1])) if retarget else null
 	ap.add_animation_library("ual", bib)
+	if cual == "heroe":
+		ap.add_animation_library("meshy", Animaciones.biblioteca_meshy(modelo))
 
 	var cam := Camera3D.new()
 	cam.fov = 38

@@ -1,0 +1,6 @@
+Música del menú de pausa.
+
+Dejá el tema en esta carpeta con el nombre pausa.ogg (también vale pausa.mp3).
+Mientras la pausa está abierta, el bosque queda en silencio y, si el archivo está, este tema suena en bucle.
+Si no hay archivo, la pausa sigue en silencio.
+Al sumar un tema de terceros, anotá su línea en ../CREDITOS.md en el mismo cambio.

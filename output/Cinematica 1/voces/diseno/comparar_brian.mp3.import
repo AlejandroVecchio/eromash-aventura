@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://bmlwrqdcrgsm0"
+path="res://.godot/imported/comparar_brian.mp3-c576c52891515203898aef3decb2c834.mp3str"
+
+[deps]
+
+source_file="res://output/Cinematica 1/voces/diseno/comparar_brian.mp3"
+dest_files=["res://.godot/imported/comparar_brian.mp3-c576c52891515203898aef3decb2c834.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

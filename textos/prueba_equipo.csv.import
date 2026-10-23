@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://in883gs22gf8"
+
+[deps]
+
+files=["res://textos/prueba_equipo.es.translation", "res://textos/prueba_equipo.en.translation"]
+
+source_file="res://textos/prueba_equipo.csv"
+dest_files=["res://textos/prueba_equipo.es.translation", "res://textos/prueba_equipo.en.translation"]
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true
