@@ -30,6 +30,9 @@ var _entorno: Environment
 var _lugar_npc := {}
 var _avisado := {}
 var _reloj := 0.0
+const VOLVER_TRAS := 60.0   ## segundos afuera de un lugar para que al volver salga el cartel «Al volver»
+var _dentro_de := {}        ## lugar -> si Eromash está adentro ahora
+var _salio_de := {}         ## lugar -> _reloj cuando salió
 var _luna: DirectionalLight3D
 var activador: Activador   ## segundos de juego desde que se armó el mundo
 var _en_secuencia := false
@@ -758,11 +761,26 @@ func _zonas() -> void:
 		elif not _avisado.has("fin_norte"):
 			_avisado["fin_norte"] = true
 			hud.mostrar_fin()
-	# lugares descubiertos
+	# lugares: cartel la primera vez que se entra y otro más chico al volver después de un rato afuera
+	# primero la región (tierra nueva), así su cartel sale antes que el del lugar donde se arranca
+	if _reloj < 1.5:
+		return
+	if not _avisado.has("region_eldervald"):
+		_avisado["region_eldervald"] = true
+		Juego.descubrir("region_eldervald")
 	for k in ["puesto", "refugio", "eikholt", "casa_lindes", "paso", "claro", "aserradero", "santuario", "brunvik", "skarnholt", "tumulo", "caravana", "torre"]:
 		var L: Dictionary = _lugares_datos[k]
-		if Vector2(h.x, h.z).distance_to(L.p) < L.r + 6.0:
-			Juego.descubrir(k)
+		var d := Vector2(h.x, h.z).distance_to(L.p)
+		var dentro: bool = _dentro_de.get(k, false)
+		if not dentro and d < L.r + 6.0:
+			_dentro_de[k] = true
+			if not k in Juego.lugares_vistos:
+				Juego.descubrir(k)
+			elif _reloj - float(_salio_de.get(k, -INF)) >= VOLVER_TRAS:
+				Juego.volver_a(k)
+		elif dentro and d > L.r + 12.0:   # un margen, para no entrar y salir en el borde
+			_dentro_de[k] = false
+			_salio_de[k] = _reloj
 
 
 func _avisar_una_vez(clave: String) -> void:

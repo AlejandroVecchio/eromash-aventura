@@ -94,6 +94,7 @@ func _ready() -> void:
 	raiz.add_child(_video)
 	_sonido = OpcionesSonido.new(load(FUENTE_TITULO))
 	raiz.add_child(_sonido)
+	_armar_cartel_lugar(raiz)
 	_negro = ColorRect.new()
 	_negro.color = Color(0, 0, 0, 0)
 	_negro.set_anchors_preset(Control.PRESET_FULL_RECT)
@@ -106,6 +107,7 @@ func _ready() -> void:
 		else:
 			mostrar_mensaje(tr(c)))
 	Juego.dialogo.connect(abrir_dialogo)
+	Juego.lugar_entrado.connect(_pedir_cartel)
 	Calidad.cambio.connect(_actualizar_objetivo)
 	Controles.dispositivo_cambio.connect(_actualizar_objetivo)
 	_actualizar_objetivo()
@@ -375,7 +377,47 @@ func mostrar_mensaje(texto: String, color := AMBAR) -> void:
 	t.tween_callback(l.queue_free)
 
 
+# ---------- cartel de lugar ----------
+
+const CARTEL_LUGAR := preload("res://scripts/interfaz/cartel_lugar.gd")
+const CAPITALES := ["eikholt"]   ## lugares que se anuncian con su estandarte (CartelLugar.CAPITALES)
+var _cartel_lugar: CARTEL_LUGAR
+var _carteles: Array = []        ## [[id, primera]] en espera: salen de a uno
+
+
+func _armar_cartel_lugar(raiz: Control) -> void:
+	_cartel_lugar = CARTEL_LUGAR.new()
+	_cartel_lugar.process_mode = Node.PROCESS_MODE_PAUSABLE   # se congela con la pausa y los menús
+	raiz.add_child(_cartel_lugar)
+
+
+func _pedir_cartel(id: String, primera: bool) -> void:
+	if Captura.activo() and not Captura.guion.begins_with("cartel_"):
+		return   # las capturas de otras etapas no lo muestran
+	for c in _carteles:
+		if c[0] == id:
+			return
+	_carteles.append([id, primera])
+
+
+func _siguiente_cartel() -> void:
+	if _carteles.is_empty() or _cartel_lugar.visible or en_menu or en_dialogo or get_tree().paused:
+		return
+	var c: Array = _carteles.pop_front()
+	var id: String = c[0]
+	if id.begins_with("region_"):
+		var region := id.trim_prefix("region_")
+		_cartel_lugar.mostrar_tierra(tr(id), region)
+	elif not c[1]:
+		_cartel_lugar.mostrar_regreso(tr("lugar_" + id))
+	elif id in CAPITALES:
+		_cartel_lugar.mostrar_capital(tr("lugar_" + id), id)
+	else:
+		_cartel_lugar.mostrar_lugar(tr("lugar_" + id))
+
+
 func _process(dt: float) -> void:
+	_siguiente_cartel()
 	if heroe and not get_tree().paused:
 		_stamina_alerta = maxf(0.0, _stamina_alerta - dt)
 		_stamina.value = move_toward(_stamina.value, _stamina_objetivo, dt * 220.0)

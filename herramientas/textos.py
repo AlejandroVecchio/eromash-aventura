@@ -208,6 +208,7 @@ for k, es, en in [("puesto", "Puesto de Eydis", "Eydis's Outpost"), ("refugio", 
                   ("tumulo", "Túmulo de los Juramentos", "Barrow of Oaths"), ("caravana", "Caravana de Skeld", "Skeld's Caravan"),
                   ("torre", "Torre del Cuervo", "Raven Tower")]:
     t("lugar_" + k, es, en)
+t("region_eldervald", "Eldervald", "Eldervald")
 
 # --- diario ---
 t("diario_croquis", "Croquis de Eydis: el último tramo conocido de la cuadrilla va por la senda del Refugio de las Lindes, pasando el carro.", "Eydis's sketch: the crew's last known stretch runs along the path to the Shelter of the Borders, past the cart.")

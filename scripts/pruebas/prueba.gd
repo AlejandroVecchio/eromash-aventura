@@ -27,6 +27,8 @@ const ETAPAS := {
 	"camara_baja": [0, [], "puesto", 2.4, 0.2],
 	"aserradero": [6, [], "aserradero", 0.8, 0.5],
 	"santuario": [6, [], "santuario", 1.1, 0.35],
+	# cartel de lugar en el juego: tierra nueva (Eldervald) y después capital descubierta (Eikholt)
+	"cartel_eikholt": [2, ["el01_acepto", "croquis_leido", "carro_visto", "orm_encontrado", "errantes_despejados", "piedra_puesta", "runa_refugio", "fragmento"], "eikholt", 0.0, 0.55],
 	# cinemáticas de EL-06 (fotos a lo largo de cada una)
 	"cine_nucleo": [5, ["vuelta_paso", "nucleo_puesto"], "pedestal", 0.4, 0.4],
 	"cine_puente": [5, ["vuelta_paso", "nucleo_puesto", "runa_paso"], "orm_puente", 0.4, 0.4],
@@ -78,6 +80,10 @@ static func preparar(mundo: Eldervald) -> void:
 	mundo.camara.giro_obj = e[3]
 	mundo.camara.zoom = e[4]
 	mundo.camara.zoom_obj = e[4]
+	if g.begins_with("cartel_"):
+		# fotos cada 1,5 s (pensado para --fixed-fps 10): sale la región y después el lugar
+		for i in 22:
+			Captura.foto(Captura.salida.get_basename() + "_%02d.png" % i, int((2.0 + i * 1.5) * 10))
 	if g == "salto":
 		# un salto, con fotos en distintos momentos (despegue, arriba, bajando, aterrizaje)
 		mundo.get_tree().create_timer(2.0).timeout.connect(func():

@@ -6,6 +6,7 @@ signal cambio_estado          ## cambió la misión, el objetivo o una bandera
 signal mensaje(clave: String) ## un aviso corto en pantalla
 signal dialogo(id: String)    ## pedir que la interfaz muestre un diálogo
 signal hablante(quien: String)  ## quién dice la línea que se muestra ("" al cerrar el diálogo): el NPC gesticula
+signal lugar_entrado(id: String, primera: bool)  ## Eromash entró a un lugar con nombre (o a una región): cartel
 signal fin_demo                ## se completó la cadena: mostrar la pantalla de cierre
 
 const CARPETA := "user://partidas/"
@@ -202,8 +203,13 @@ func descubrir(lugar: String) -> void:
 	if lugar in lugares_vistos:
 		return
 	lugares_vistos.append(lugar)
-	mensaje.emit("lugar_" + lugar)
+	lugar_entrado.emit(lugar, true)
 	guardar()
+
+
+## Volvió a un lugar ya descubierto después de un rato afuera: cartel «Al volver».
+func volver_a(lugar: String) -> void:
+	lugar_entrado.emit(lugar, false)
 
 
 func pedir_dialogo(id: String) -> void:
