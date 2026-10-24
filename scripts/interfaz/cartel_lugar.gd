@@ -36,7 +36,8 @@ enum Entrada {
 ## Un bloque por tipo de cartel. Tamaños en píxeles para una pantalla de 1080 de alto (se escalan solos).
 ##   entrada    cómo se descubre el nombre (ver Entrada arriba)
 ##   texto      clave de textos.csv del texto de abajo ("" = sin texto: solo la línea corta con un rombo)
-##   posicion   "arriba" (debajo del borde superior) o "centro" (en la mitad de la pantalla)
+##   posicion   "arriba" (debajo del borde superior), "centro" (en la mitad de la pantalla) o "alto" (más arriba
+##              que el centro, para que el estandarte de una capital entre entero debajo del título)
 ##   runas, nombre, sub   tamaño de letra de cada renglón
 ##   linea      ancho total del renglón de abajo (líneas + rombos + texto)
 ##   velocidad  multiplica la duración de toda la entrada (1 = como se aprobó; más = más lento)
@@ -61,7 +62,7 @@ const CONFIG := {
 		"velocidad": 0.65, "quieto": 1.2, "salida": 0.65, "pulso": 1.0, "dibujo": "",
 	},
 	Tipo.CAPITAL: {
-		"entrada": Entrada.AFUERA_CENTRO, "texto": "cartel_capital_descubierta", "posicion": "centro",
+		"entrada": Entrada.AFUERA_CENTRO, "texto": "cartel_capital_descubierta", "posicion": "alto",
 		"runas": 33.0, "nombre": 85.0, "sub": 22.0, "linea": 686.0,
 		"velocidad": 1.25, "quieto": 2.2, "salida": 1.0, "pulso": 1.6, "dibujo": "estandarte",
 	},
@@ -73,14 +74,15 @@ const AGIL := 0.75
 const ESPACIO_RUNAS := 0.47   ## × tamaño de las runas
 const ESPACIO_NOMBRE := 0.085 ## × tamaño del nombre
 const ESPACIO_SUB := 0.42     ## × tamaño del texto de abajo
-## Arriba: a qué altura queda el cartel (fracción de la pantalla).
+## A qué altura queda lo alto del cartel (fracción de la pantalla) en "arriba" y en "alto".
 const ALTO_ARRIBA := 0.09
+const ALTO_CAPITAL := 0.13
 
 ## Dibujo de fondo (tierra nueva y capital)
 const DIBUJO_DURA := 7.0        ## segundos que tarda en dibujarse
 const DIBUJO_PULSO := 2.0       ## pulso de luz al terminar el dibujo
 const DIBUJO_ANCHO := 1152.0    ## ancho del paisaje de una región (píxeles a 1080)
-const ESTANDARTE_ALTO := 760.0  ## alto del estandarte de una capital (píxeles a 1080)
+const ESTANDARTE_ALTO := 760.0  ## alto del estandarte de una capital (píxeles a 1080); cuelga desde lo alto de las runas
 
 ## Regiones: nombre de la función que arma su paisaje (una por región; ver _paisaje_eldervald()).
 const REGIONES := {"eldervald": "_paisaje_eldervald"}
@@ -329,10 +331,14 @@ func _y_bloque() -> Dictionary:
 	var r: float = _c.runas * e
 	var n: float = _c.nombre * e
 	var s: float = _c.sub * e
-	var gap := (14.0 if _c.posicion == "centro" else 8.0) * e
+	var gap := (8.0 if _c.posicion == "arriba" else 14.0) * e
 	var extra := 22.0 * e if not _dib.is_empty() and _c.dibujo == "region" else 0.0
 	var alto := r + gap + n + gap + extra + s
-	var top := size.y * ALTO_ARRIBA if _c.posicion == "arriba" else size.y * 0.5 - alto * 0.5
+	var top := size.y * 0.5 - alto * 0.5
+	if _c.posicion == "arriba":
+		top = size.y * ALTO_ARRIBA
+	elif _c.posicion == "alto":
+		top = size.y * ALTO_CAPITAL
 	var y_r := top + r
 	var y_n := y_r + gap + n * 0.92
 	var y_p := y_n + gap + extra + s * 0.55
@@ -375,7 +381,7 @@ func _draw() -> void:
 	var cx := size.x * 0.5
 	var sal := _salida()
 	# sombra detrás de los carteles grandes
-	if _c.posicion == "centro":
+	if _c.posicion != "arriba":
 		var a := _suave(_tramo(_t, 0.0, 0.6)) * sal
 		var w: float = _c.linea * e * 1.25
 		var h: float = y.alto * 2.6
@@ -487,7 +493,7 @@ func _dibujo_fondo(e: float, y: Dictionary, sal: float) -> void:
 		origen = Vector2(size.x * 0.5 - u.x * esc * 0.5, suelo - 280.0 * esc)
 	else:
 		esc = ESTANDARTE_ALTO * e / u.y
-		origen = Vector2(size.x * 0.5, y.top + y.alto * 0.5 - u.y * esc * 0.47)
+		origen = Vector2(size.x * 0.5, y.top - _c.runas * e * 0.35 - 10.0 * esc)   # la vara a la altura de lo alto de las runas
 	var M := func(p: Vector2) -> Vector2: return origen + p * esc
 	var t := _tramo(_t, 0.0, DIBUJO_DURA)
 	var avance := _avance_dibujo()
@@ -751,7 +757,7 @@ func _paisaje_eldervald() -> Dictionary:
 
 
 ## Estandarte de una capital: la tela colgada de su vara, dibujada desde arriba al centro por los dos lados hasta
-## la punta de abajo, y la insignia de la capital calcada adentro (lienzo de 400 × 620, centrado en x = 0).
+## la punta de abajo, y la insignia de la capital calcada adentro (lienzo de 400 × 620, centrado en x = 0; la vara en y = 10).
 func _estandarte(insignia: Texture2D) -> Dictionary:
 	var p := Pluma.new()
 	p.mover(0, 22)
