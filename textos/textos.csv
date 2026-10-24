@@ -99,6 +99,14 @@ fps,%d FPS · %.1f ms,%d FPS · %.1f ms
 fps_detalle,%d llamadas · %d objetos · %s triángulos · %d despiertos,%d draw calls · %d objects · %s triangles · %d awake
 dialogo_seguir,seguir,continue
 cine_saltar,Mantené [%s] para saltar,Hold [%s] to skip
+cartel_lugar_descubierto,Lugar descubierto,Place discovered
+cartel_tierra_nueva,Tierra nueva,New land
+cartel_capital_descubierta,Capital descubierta,Capital discovered
+prueba_cartel_ayuda,[%s] siguiente cartel · %s,[%s] next banner · %s
+prueba_cartel_lugar,Lugar descubierto,Place discovered
+prueba_cartel_tierra,Tierra nueva,New land
+prueba_cartel_regreso,Al volver,On return
+prueba_cartel_capital,Capital descubierta,Capital discovered
 diario_titulo,Diario,Journal
 diario_entradas,Anotado,Notes
 diario_nuevo,Diario actualizado,Journal updated

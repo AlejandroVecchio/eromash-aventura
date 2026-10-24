@@ -39,3 +39,7 @@ $env:APPDATA = 'C:/eromash-aventura/.godot/perfil-pruebas'
 ```
 
 `herramientas/capturar_ui_juego.gd` registra el HUD, la bolsa y el visor ampliado en Eldervald con Vulkan/Forward+. Las capturas están en `docs/referencias/*-integrado.png`. Revisado a 1920×1080; el HUD reduce su escala horizontal por debajo de 1440 y la bolsa ajusta toda su composición al viewport. Las entradas de mando se apoyan en el InputMap y el foco de Godot; falta la valoración con un mando físico. Godot emite avisos de recursos del render al terminar los procesos de prueba; las baterías salen con código 0.
+
+## Cartel de lugar
+
+`scripts/interfaz/cartel_lugar.gd` (`CartelLugar`): el cartel dorado aprobado en el artefacto «Cartel de lugar animado» (opción Chispa). Cuatro tipos: lugar descubierto (nombre de izquierda a derecha), tierra nueva (de afuera hacia adentro, con el paisaje de la región dibujado detrás), al volver (izquierda a derecha, sin texto abajo) y capital descubierta (como tierra nueva, con el estandarte y la insignia de la capital). Todo lo editable está en `CONFIG` y las constantes de arriba del archivo; cada región suma su paisaje en `REGIONES` y cada capital su insignia (PNG blanco sobre transparente) en `CAPITALES` (`assets/interfaz/insignias/`). Para mirarlo: `escenas/prueba_cartel.tscn` + F6 («interactuar» pasa al siguiente). Todavía no está enganchado a la llegada a los lugares.
