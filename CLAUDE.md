@@ -63,6 +63,7 @@ Nombre del juego: **EROMASH: Las Runas del Olvido** (ES) / **EROMASH: Whisper of
 - Todo efecto caro (partículas, niebla, muchas luces con sombra) tiene que colgarse de un ajuste de Opciones → Video (`scripts/autoload/calidad.gd`, 1 a 10).
 - **Rendimiento desde el principio**: todo lo que se agrega al mundo entra en una distancia de dibujo y, si tiene vida propia (enemigos, criaturas, cofres animados), en el grupo `despertable` del Activador. Reglas y topes de triángulos en `docs/mvp.md`, sección Rendimiento.
 - Lo que se entrega para mirar (capturas, comparaciones) va como imagen o página HTML cuando corresponde.
+- **Insignia de Eikholt** (Alejandro, 24/10/2026): la cornamenta de `docs/referencias/eikholt/insignia-eikholt.png` es la única válida, en blanco hueso (`#F3EBEA`) sobre verde oscuro. Dos astas simétricas que se abren arriba en varias puntas y bajan hasta juntarse en un solo pie en punta, con dos pares de púas que salen hacia los costados. Va igual en estandartes, escudos, interfaz, modelos y prompts; no se redibuja ni se reemplaza por la cornamenta o la runa con forma de asta que salieron en las imágenes generadas.
 
 ## El juego de la arena como referencia
 
